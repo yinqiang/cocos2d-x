@@ -4,6 +4,7 @@ local MenuScene = class("MenuScene", function()
 end)
 
 function MenuScene:ctor()
+	cc.uiloader:load("Test_1.ExportJson")
 end
 
 function MenuScene:onEnter()

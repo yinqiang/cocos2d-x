@@ -1,0 +1,148 @@
+{
+  "version": "1.0.0.0",
+  "designWidth": 960,
+  "designHeight": 640,
+  "dataScale": 1.0,
+  "textures": [
+    "Test0.plist"
+  ],
+  "texturesPng": [
+    "Test0.png"
+  ],
+  "nodeTree": {
+    "options": {
+      "$type": "EditorCommon.JsonModel.Component.GUI.RootGUISurrogate, EditorCommon",
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "visible": true,
+      "width": 0.0,
+      "height": 0.0,
+      "frameEvent": null,
+      "name": "Node",
+      "classname": "Node"
+    },
+    "children": [
+      {
+        "options": {
+          "$type": "EditorCommon.JsonModel.Component.GUI.SpriteSurrogate, EditorCommon",
+          "fileName": "gun.png",
+          "fileNameData": {
+            "resourceType": 1,
+            "path": "gun.png",
+            "plistFile": ""
+          },
+          "x": 492.0,
+          "y": 421.0,
+          "scaleX": -1.0,
+          "scaleY": 1.0,
+          "rotation": 90.0,
+          "flipX": false,
+          "flipY": false,
+          "colorR": 255,
+          "colorG": 255,
+          "colorB": 255,
+          "opacity": 255,
+          "visible": true,
+          "ZOrder": 0,
+          "classType": "Sprite",
+          "width": 0.0,
+          "height": 0.0,
+          "actionTag": 219630910,
+          "tag": 48,
+          "anchorPointX": 0.5,
+          "anchorPointY": 0.5,
+          "frameEvent": "",
+          "name": "Sprite_4",
+          "classname": "Sprite"
+        },
+        "children": [
+          {
+            "options": {
+              "$type": "EditorCommon.JsonModel.Component.GUI.SpriteSurrogate, EditorCommon",
+              "fileName": "hat.png",
+              "fileNameData": {
+                "resourceType": 1,
+                "path": "hat.png",
+                "plistFile": ""
+              },
+              "x": 69.0,
+              "y": 295.0,
+              "scaleX": 0.3,
+              "scaleY": 0.3,
+              "rotation": 180.0,
+              "flipX": false,
+              "flipY": false,
+              "colorR": 255,
+              "colorG": 255,
+              "colorB": 255,
+              "opacity": 255,
+              "visible": true,
+              "ZOrder": 0,
+              "classType": "Sprite",
+              "width": 0.0,
+              "height": 0.0,
+              "actionTag": 968349682,
+              "tag": 49,
+              "anchorPointX": 0.5,
+              "anchorPointY": 0.5,
+              "frameEvent": "",
+              "name": "Sprite_5",
+              "classname": "Sprite"
+            },
+            "children": [],
+            "name": null,
+            "classname": "Sprite"
+          }
+        ],
+        "name": null,
+        "classname": "Sprite"
+      },
+      {
+        "options": {
+          "$type": "EditorCommon.JsonModel.Component.GUI.SpriteSurrogate, EditorCommon",
+          "fileName": "hat01.png",
+          "fileNameData": {
+            "resourceType": 1,
+            "path": "hat01.png",
+            "plistFile": ""
+          },
+          "x": 245.0,
+          "y": 187.0,
+          "scaleX": 0.5,
+          "scaleY": 0.5,
+          "rotation": 0.0,
+          "flipX": false,
+          "flipY": false,
+          "colorR": 255,
+          "colorG": 255,
+          "colorB": 255,
+          "opacity": 255,
+          "visible": true,
+          "ZOrder": 0,
+          "classType": "Sprite",
+          "width": 0.0,
+          "height": 0.0,
+          "actionTag": 445125311,
+          "tag": 50,
+          "anchorPointX": 0.5,
+          "anchorPointY": 0.5,
+          "frameEvent": "",
+          "name": "Sprite_6",
+          "classname": "Sprite"
+        },
+        "children": [],
+        "name": null,
+        "classname": "Sprite"
+      }
+    ],
+    "name": null,
+    "classname": "Node"
+  },
+  "action": {
+    "duration": 0,
+    "speed": 1.0,
+    "timelines": []
+  },
+  "name": null,
+  "classname": null
+}

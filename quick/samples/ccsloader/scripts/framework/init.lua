@@ -102,7 +102,7 @@ local CURRENT_MODULE_NAME = ...
 
 cc = cc or {}
 cc.PACKAGE_NAME = string.sub(CURRENT_MODULE_NAME, 1, -6)
-cc.VERSION = "2.2.3"
+cc.VERSION = "3.1"
 cc.FRAMEWORK_NAME = "quick-cocos2d-x"
 
 if LOAD_DEPRECATED_API then
@@ -128,7 +128,7 @@ audio      = require(cc.PACKAGE_NAME .. ".audio")
 ui         = require(cc.PACKAGE_NAME .. ".ui")
 network    = require(cc.PACKAGE_NAME .. ".network")
 crypto     = require(cc.PACKAGE_NAME .. ".crypto")
--- json       = require(cc.PACKAGE_NAME .. ".json")
+json       = require(cc.PACKAGE_NAME .. ".json")
 
 if device.platform == "android" then
     require(cc.PACKAGE_NAME .. ".platform.android")

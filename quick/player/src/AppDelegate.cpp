@@ -129,11 +129,12 @@ void StartupCall::startup()
     }
     
     // load framework
-    if (projectConfig.isLoadPrecompiledFramework())
-    {
-        const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
-        pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
-    }
+    // if (projectConfig.isLoadPrecompiledFramework())
+    // {
+    //     CCLOG("htl load framework");
+    //     const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
+    //     pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
+    // }
     
     // set default scene
     Scene *scene = Scene::create();
