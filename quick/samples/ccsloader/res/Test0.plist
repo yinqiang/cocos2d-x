@@ -4,16 +4,16 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>gun.png</key>
+			<key>Button01.png</key>
 			<dict>
 				<key>width</key>
-				<integer>247</integer>
+				<integer>88</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>78</integer>
 				<key>originalWidth</key>
-				<integer>247</integer>
+				<integer>88</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>78</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -23,18 +23,18 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>hat.png</key>
+			<key>Button02.png</key>
 			<dict>
 				<key>width</key>
-				<integer>452</integer>
+				<integer>88</integer>
 				<key>height</key>
-				<integer>458</integer>
+				<integer>78</integer>
 				<key>originalWidth</key>
-				<integer>452</integer>
+				<integer>88</integer>
 				<key>originalHeight</key>
-				<integer>458</integer>
+				<integer>78</integer>
 				<key>x</key>
-				<integer>249</integer>
+				<integer>90</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -42,20 +42,39 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>hat01.png</key>
+			<key>Button02Pressed.png</key>
 			<dict>
 				<key>width</key>
-				<integer>452</integer>
+				<integer>88</integer>
 				<key>height</key>
-				<integer>458</integer>
+				<integer>78</integer>
 				<key>originalWidth</key>
-				<integer>452</integer>
+				<integer>88</integer>
 				<key>originalHeight</key>
-				<integer>458</integer>
+				<integer>78</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>180</integer>
 				<key>y</key>
-				<integer>481</integer>
+				<integer>0</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>Button02Disabled.png</key>
+			<dict>
+				<key>width</key>
+				<integer>88</integer>
+				<key>height</key>
+				<integer>78</integer>
+				<key>originalWidth</key>
+				<integer>88</integer>
+				<key>originalHeight</key>
+				<integer>78</integer>
+				<key>x</key>
+				<integer>270</integer>
+				<key>y</key>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>

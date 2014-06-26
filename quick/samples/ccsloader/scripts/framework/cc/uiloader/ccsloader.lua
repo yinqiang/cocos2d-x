@@ -28,19 +28,36 @@ function ccsloader:generateUINode(jsonNode)
 		return
 	end
 
-	uiNode.name = jsonNode.name
-	uiNode:setPositionX(jsonNode.x or 0)
-	uiNode:setPositionY(jsonNode.y or 0)
-	uiNode:setScaleX(jsonNode.scaleX or 1)
-	uiNode:setScaleY(jsonNode.scaleY or 1)
+	dump(options, "options:")
+	uiNode.name = options.name or "unknow node"
+
+	if options.fileName then
+		uiNode:setSpriteFrame(options.fileName)
+	end
+
+	if options.flipX then
+		uiNode:setFlippedX(options.flipX)
+	end
+	if options.flipY then
+		uiNode:setFlippedY(options.flipY)
+	end
+	uiNode:setRotation(options.rotation or 0)
+
+	uiNode:setPositionX(options.x or 0)
+	uiNode:setPositionY(options.y or 0)
+	print("htl scale x:", options.scaleX)
+	uiNode:setScaleX(options.scaleX or 1)
+	print("htl scale y:", options.scaleY)
+	uiNode:setScaleY(options.scaleY or 1)
 	uiNode:setVisible(options.visible or true)
-	uiNode:setLocalZOrder(jsonNode.ZOrder or 0)
+	uiNode:setLocalZOrder(options.ZOrder or 0)
 	if 0 ~= options.width and 0 ~= options.height then
+		print("htl set content size")
 		uiNode:setContentSize(cc.size(options.width, options.height))
 	end
-	uiNode:setTag(jsonNode.tag or 0)
+	uiNode:setTag(options.tag or 0)
 	uiNode:setAnchorPoint(
-		cc.p(jsonNode.anchorPointX or 0.5, jsonNode.anchorPointY or 0.5))
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
 
 	local children = jsonNode.children
 	for i,v in ipairs(children) do
@@ -58,10 +75,11 @@ function ccsloader:createUINode(clsName)
 
 	local node
 
+	printInfo("create node:" .. clsName)
 	if clsName == "Node" then
 		node = cc.Node:create()
 	elseif clsName == "Sprite" or clsName == "Scale9Sprite" then
-		node = cc.Scale9Sprite:create()
+		node = cc.Sprite:create()
 	else
 		printError("ccsloader not support node:" .. clsName)
 	end
