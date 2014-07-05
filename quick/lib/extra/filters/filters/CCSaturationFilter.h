@@ -6,16 +6,16 @@
 NS_CC_EXT_BEGIN
 
 
-//================== CCSaturationFilter
+//================== SaturationFilter
 
-class CCSaturationFilter : public CCSingleFloatParamFilter
+class SaturationFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCSaturationFilter* create();
-	static CCSaturationFilter* create(float $param);
+	static SaturationFilter* create();
+	static SaturationFilter* create(float $param);
 
-	CCSaturationFilter();
+	SaturationFilter();
 
 	virtual void setParameter(float $param);
 protected:

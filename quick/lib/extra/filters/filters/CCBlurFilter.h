@@ -7,11 +7,11 @@ NS_CC_EXT_BEGIN
 
 //================== CCBlurFilter
 
-class CCBlurBaseFilter : public CCSingleFloatParamFilter
+class BlurBaseFilter : public SingleFloatParamFilter
 {
 
 public:
-	CCBlurBaseFilter();
+	BlurBaseFilter();
 	virtual void setParameter(float $param);
 protected:
 	virtual void setAttributes(CCGLProgram* $glp);
@@ -19,36 +19,36 @@ protected:
 	float _param;
 };
 
-class CCHBlurFilter : public CCBlurBaseFilter
+class HBlurFilter : public BlurBaseFilter
 {
 public:
-	static CCHBlurFilter* create();
-	static CCHBlurFilter* create(float $param);
+	static HBlurFilter* create();
+	static HBlurFilter* create(float $param);
 
-	CCHBlurFilter();
+	HBlurFilter();
 protected:
 	virtual CCGLProgram* loadShader();
 
 };
 
-class CCVBlurFilter : public CCBlurBaseFilter
+class VBlurFilter : public BlurBaseFilter
 {
 public:
-	static CCVBlurFilter* create();
-	static CCVBlurFilter* create(float $param);
+	static VBlurFilter* create();
+	static VBlurFilter* create(float $param);
 
-	CCVBlurFilter();
+	VBlurFilter();
 protected:
 	virtual CCGLProgram* loadShader();
 };
 
-class CCGaussianHBlurFilter : public CCBlurBaseFilter
+class GaussianHBlurFilter : public BlurBaseFilter
 {
 public:
-	static CCGaussianHBlurFilter* create();
-	static CCGaussianHBlurFilter* create(float $param);
+	static GaussianHBlurFilter* create();
+	static GaussianHBlurFilter* create(float $param);
 
-	CCGaussianHBlurFilter();
+	GaussianHBlurFilter();
 	virtual void initSprite(CCFilteredSprite* $sprite);
 protected:
 	virtual CCGLProgram* loadShader();
@@ -57,13 +57,13 @@ private:
 	float _resolation;
 };
 
-class CCGaussianVBlurFilter : public CCBlurBaseFilter
+class GaussianVBlurFilter : public BlurBaseFilter
 {
 public:
-	static CCGaussianVBlurFilter* create();
-	static CCGaussianVBlurFilter* create(float $param);
+	static GaussianVBlurFilter* create();
+	static GaussianVBlurFilter* create(float $param);
 
-	CCGaussianVBlurFilter();
+	GaussianVBlurFilter();
 	virtual void initSprite(CCFilteredSprite* $sprite);
 protected:
 	virtual CCGLProgram* loadShader();
@@ -72,16 +72,16 @@ private:
 	float _resolation;
 };
 
-//================== CCZoomBlurFilter
+//================== ZoomBlurFilter
 
-class CCZoomBlurFilter : public CCFilter
+class ZoomBlurFilter : public Filter
 {
 
 public:
-	static CCZoomBlurFilter* create();
-	static CCZoomBlurFilter* create(float $blurSize, float $centerX, float $centerY);
+	static ZoomBlurFilter* create();
+	static ZoomBlurFilter* create(float $blurSize, float $centerX, float $centerY);
 
-	CCZoomBlurFilter();
+	ZoomBlurFilter();
 
 	void setParameter(float $blurSize, float $centerX, float $centerY);
 protected:
@@ -93,16 +93,16 @@ protected:
 	float _centerY;
 };
 
-//================== CCMotionBlurFilter
+//================== MotionBlurFilter
 
-class CCMotionBlurFilter : public CCFilter
+class MotionBlurFilter : public Filter
 {
 
 public:
-	static CCMotionBlurFilter* create();
-	static CCMotionBlurFilter* create(float $blurSize, float $blurAngle);
+	static MotionBlurFilter* create();
+	static MotionBlurFilter* create(float $blurSize, float $blurAngle);
 
-	CCMotionBlurFilter();
+	MotionBlurFilter();
 
 	void setParameter(float $blurSize, float $blurAngle);
 	virtual void initSprite(CCFilteredSprite* $sprite);

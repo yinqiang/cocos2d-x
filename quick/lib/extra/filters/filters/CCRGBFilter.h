@@ -6,16 +6,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCRGBFilter
+//================== RGBFilter
 
-class CCRGBFilter : public CCFilter
+class RGBFilter : public Filter
 {
 
 public:
-	static CCRGBFilter* create();
-	static CCRGBFilter* create(float $redAdj, float $greenAdj, float $blueAdj);
+	static RGBFilter* create();
+	static RGBFilter* create(float $redAdj, float $greenAdj, float $blueAdj);
 
-	CCRGBFilter();
+	RGBFilter();
 
 	void setParameter(float $redAdj, float $greenAdj, float $blueAdj);
 protected:

@@ -30,33 +30,33 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCFilter
+//================== Filter
 
-CCFilter::CCFilter()
+Filter::Filter()
 : shaderName(NULL)
 , _pProgram(NULL)
 {
 }
 
 
-CCFilter::~CCFilter()
+Filter::~Filter()
 {
 	CC_SAFE_RELEASE(_pProgram);
 }
 
-CCGLProgram* CCFilter::getProgram()
+CCGLProgram* Filter::getProgram()
 {
 	return _pProgram;
 }
 
-void CCFilter::initProgram()
+void Filter::initProgram()
 {
 	CCGLProgram* __pProgram = CCShaderCache::sharedShaderCache()->programForKey(shaderName);
-	//CCLOG("CCFilter::initProgram %s, program:%d", shaderName, __pProgram);
+	//CCLOG("Filter::initProgram %s, program:%d", shaderName, __pProgram);
 	if (!__pProgram)
 	{
 		__pProgram = loadShader();
-		//CCLOG("CCFilter::initProgram %s, after loadShader program:%d", shaderName, __pProgram);
+		//CCLOG("Filter::initProgram %s, after loadShader program:%d", shaderName, __pProgram);
 		this->setAttributes(__pProgram);
 		CHECK_GL_ERROR_DEBUG();
 
@@ -71,9 +71,9 @@ void CCFilter::initProgram()
 
 		CCShaderCache::sharedShaderCache()->addProgram(__pProgram, this->shaderName);
 		__pProgram->release();
-		//CCLOG("CCFilter::getProgram %d", __pProgram);
+		//CCLOG("Filter::getProgram %d", __pProgram);
 	}
-	//CCLOG("CCFilter::getProgram2 %d", __pProgram);
+	//CCLOG("Filter::getProgram2 %d", __pProgram);
 	if (!_pProgram)
 	{
 		_pProgram = __pProgram;
@@ -81,38 +81,38 @@ void CCFilter::initProgram()
 	}
 }
 
-void CCFilter::initSprite(CCFilteredSprite* $sprite)
+void Filter::initSprite(CCFilteredSprite* $sprite)
 {
 }
 
-void CCFilter::draw()
+void Filter::draw()
 {
 	setUniforms(getProgram());
 }
 
-CCGLProgram* CCFilter::loadShader()
+CCGLProgram* Filter::loadShader()
 {
-	//CCLOG("CCFilter::loadShader");
+	//CCLOG("Filter::loadShader");
 	return NULL;
 }
 
-void CCFilter::setAttributes(CCGLProgram* $glp)
+void Filter::setAttributes(CCGLProgram* $glp)
 {
 }
 
-void CCFilter::setUniforms(CCGLProgram* $glp)
+void Filter::setUniforms(CCGLProgram* $glp)
 {
 }
 
-//================== CCSingleFloatParamFilter
+//================== SingleFloatParamFilter
 
-CCSingleFloatParamFilter::CCSingleFloatParamFilter()
+SingleFloatParamFilter::SingleFloatParamFilter()
 : _param(0.f)
 {
 }
 
 
-void CCSingleFloatParamFilter::setParameter(float $param)
+void SingleFloatParamFilter::setParameter(float $param)
 {
 	_param = $param;
 	initProgram();

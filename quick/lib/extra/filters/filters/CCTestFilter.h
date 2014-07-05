@@ -7,16 +7,16 @@
 NS_CC_EXT_BEGIN
 
 
-//================== CCTestFilter
+//================== TestFilter
 
-class CCTestFilter : public CCFilter
+class TestFilter : public Filter
 {
 
 public:
-	static CCTestFilter* create();
-	static CCTestFilter* create(float $resolation);
+	static TestFilter* create();
+	static TestFilter* create(float $resolation);
 
-	CCTestFilter();
+	TestFilter();
 
 	void setParameter(float $resolation);
 	virtual void initSprite(CCFilteredSprite* $sprite);

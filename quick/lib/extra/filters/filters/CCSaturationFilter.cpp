@@ -29,55 +29,55 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCSaturationFilter
+//================== SaturationFilter
 
-CCSaturationFilter* CCSaturationFilter::create()
+SaturationFilter* SaturationFilter::create()
 {
-	CCSaturationFilter* __filter = new CCSaturationFilter();
+	SaturationFilter* __filter = new SaturationFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCSaturationFilter* CCSaturationFilter::create(float $brightness)
+SaturationFilter* SaturationFilter::create(float $brightness)
 {
-	CCSaturationFilter* __filter = CCSaturationFilter::create();
+	SaturationFilter* __filter = SaturationFilter::create();
 	__filter->setParameter($brightness);
 	return __filter;
 }
 
-CCSaturationFilter::CCSaturationFilter()
+SaturationFilter::SaturationFilter()
 {
 	this->shaderName = kCCFilterShader_saturation;
 	_param = 1.f;
 }
 
-CCGLProgram* CCSaturationFilter::loadShader()
+CCGLProgram* SaturationFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCSaturationFilter::loadShader, program:%d", __p);
+	//CCLOG("SaturationFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_saturation_frag);
 	return __p;
 }
 
-void CCSaturationFilter::setParameter(float $param)
+void SaturationFilter::setParameter(float $param)
 {
 	_param = MIN(2.f, MAX($param, 0.f));
 	initProgram();
 }
 
-void CCSaturationFilter::setAttributes(CCGLProgram* $cgp)
+void SaturationFilter::setAttributes(CCGLProgram* $cgp)
 {
-	//CCLOG("CCSaturationFilter::setAttributes");
+	//CCLOG("SaturationFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 }
 
-void CCSaturationFilter::setUniforms(CCGLProgram* $cgp)
+void SaturationFilter::setUniforms(CCGLProgram* $cgp)
 {
 	int __param = $cgp->getUniformLocationForName("u_saturation");
-	//CCLOG("CCSaturationFilter::setUniforms %d", __param);
+	//CCLOG("SaturationFilter::setUniforms %d", __param);
 	$cgp->setUniformLocationWith1f(__param, _param);
-	//CCLOG("CCSaturationFilter::setUniforms _param:%.2f", _param);
+	//CCLOG("SaturationFilter::setUniforms _param:%.2f", _param);
 }
 
 

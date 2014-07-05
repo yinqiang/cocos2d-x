@@ -12,13 +12,13 @@ NS_CC_EXT_BEGIN
 
 class CCFilteredSprite;
 
-//================== CCFilter
+//================== Filter
 
-class CCFilter : public CCObject
+class Filter : public CCObject
 {
 public:
-	CCFilter();
-	~CCFilter();
+	Filter();
+	~Filter();
 
 	virtual void initSprite(CCFilteredSprite* $sprite);
 	virtual void draw();
@@ -33,10 +33,10 @@ protected:
 	virtual void setUniforms(CCGLProgram* $glp);
 };
 
-class CCSingleFloatParamFilter : public CCFilter
+class SingleFloatParamFilter : public Filter
 {
 public:
-	CCSingleFloatParamFilter();
+	SingleFloatParamFilter();
 
 	virtual void setParameter(float $param);
 protected:

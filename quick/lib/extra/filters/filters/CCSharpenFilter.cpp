@@ -30,30 +30,30 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCSharpenFilter
+//================== SharpenFilter
 
-CCSharpenFilter* CCSharpenFilter::create()
+SharpenFilter* SharpenFilter::create()
 {
-	CCSharpenFilter* __filter = new CCSharpenFilter();
+	SharpenFilter* __filter = new SharpenFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCSharpenFilter* CCSharpenFilter::create(float $sharpness, float $widthFactor, float $heightFactor)
+SharpenFilter* SharpenFilter::create(float $sharpness, float $widthFactor, float $heightFactor)
 {
-	CCSharpenFilter* __filter = CCSharpenFilter::create();
+	SharpenFilter* __filter = SharpenFilter::create();
 	__filter->setParameter($sharpness, $widthFactor, $heightFactor);
 	return __filter;
 }
 
-CCSharpenFilter* CCSharpenFilter::create(float $sharpness, int $amount)
+SharpenFilter* SharpenFilter::create(float $sharpness, int $amount)
 {
-	CCSharpenFilter* __filter = CCSharpenFilter::create();
+	SharpenFilter* __filter = SharpenFilter::create();
 	__filter->setParameter($sharpness, $amount);
 	return __filter;
 }
 
-CCSharpenFilter::CCSharpenFilter()
+SharpenFilter::SharpenFilter()
 : _sharpness(0.f)
 , _widthFactor(0.f)
 , _heightFactor(0.f)
@@ -62,15 +62,15 @@ CCSharpenFilter::CCSharpenFilter()
 	this->shaderName = kCCFilterShader_sharpen;
 }
 
-CCGLProgram* CCSharpenFilter::loadShader()
+CCGLProgram* SharpenFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCSharpenFilter::loadShader, program:%d", __p);
+	//CCLOG("SharpenFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
 	return __p;
 }
 
-void CCSharpenFilter::setParameter(float $sharpness, float $widthFactor, float $heightFactor)
+void SharpenFilter::setParameter(float $sharpness, float $widthFactor, float $heightFactor)
 {
 	_sharpness = $sharpness;
 	_widthFactor = $widthFactor;
@@ -78,14 +78,14 @@ void CCSharpenFilter::setParameter(float $sharpness, float $widthFactor, float $
 	//The initProgram() will perform in initSprite()
 }
 
-void CCSharpenFilter::setParameter(float $sharpness, int $amount)
+void SharpenFilter::setParameter(float $sharpness, int $amount)
 {
 	_sharpness = $sharpness;
 	_amount = $amount;
 	//The initProgram() will perform in initSprite()
 }
 
-void CCSharpenFilter::initSprite(CCFilteredSprite* $sprite)
+void SharpenFilter::initSprite(CCFilteredSprite* $sprite)
 {
 	// If _amount is not 0, then calculate the value of the widthFactor and the heightFactor.
 	if (_amount != 0)
@@ -97,24 +97,24 @@ void CCSharpenFilter::initSprite(CCFilteredSprite* $sprite)
 	initProgram();
 }
 
-void CCSharpenFilter::setAttributes(CCGLProgram* $cgp)
+void SharpenFilter::setAttributes(CCGLProgram* $cgp)
 {
-	//CCLOG("CCSharpenFilter::setAttributes");
+	//CCLOG("SharpenFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 }
 
-void CCSharpenFilter::setUniforms(CCGLProgram* $cgp)
+void SharpenFilter::setUniforms(CCGLProgram* $cgp)
 {
 	int u_sharpness = $cgp->getUniformLocationForName("u_sharpness");
 	int u_widthFactor = $cgp->getUniformLocationForName("u_widthFactor");
 	int u_heightFactor = $cgp->getUniformLocationForName("u_heightFactor");
-	//CCLOG("CCSharpenFilter::setUniforms %d, %d, %d", u_sharpness, u_widthFactor, u_heightFactor);
+	//CCLOG("SharpenFilter::setUniforms %d, %d, %d", u_sharpness, u_widthFactor, u_heightFactor);
 	$cgp->setUniformLocationWith1f(u_sharpness, _sharpness);
 	$cgp->setUniformLocationWith1f(u_widthFactor, _widthFactor);
 	$cgp->setUniformLocationWith1f(u_heightFactor, _heightFactor);
-	//CCLOG("CCSharpenFilter::setUniforms u_sharpness:%.2f, u_widthFactor:%.5f, u_heightFctor:%.5f",_sharpness, _widthFactor, _heightFactor);
+	//CCLOG("SharpenFilter::setUniforms u_sharpness:%.2f, u_widthFactor:%.5f, u_heightFctor:%.5f",_sharpness, _widthFactor, _heightFactor);
 }
 
 NS_CC_EXT_END

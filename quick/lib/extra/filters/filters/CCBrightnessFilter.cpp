@@ -29,54 +29,54 @@ THE SOFTWARE.
 #include "filters/nodes/CCFilteredSprite.h"
 
 NS_CC_EXT_BEGIN
-//================== CCBrightnessFilter
+//================== BrightnessFilter
 
-CCBrightnessFilter* CCBrightnessFilter::create()
+BrightnessFilter* BrightnessFilter::create()
 {
-	CCBrightnessFilter* __filter = new CCBrightnessFilter();
+	BrightnessFilter* __filter = new BrightnessFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCBrightnessFilter* CCBrightnessFilter::create(float $brightness)
+BrightnessFilter* BrightnessFilter::create(float $brightness)
 {
-	CCBrightnessFilter* __filter = CCBrightnessFilter::create();
+	BrightnessFilter* __filter = BrightnessFilter::create();
 	__filter->setParameter($brightness);
 	return __filter;
 }
 
-CCBrightnessFilter::CCBrightnessFilter()
+BrightnessFilter::BrightnessFilter()
 {
 	this->shaderName = kCCFilterShader_brightness;
 	_param = 0.f;
 }
 
-CCGLProgram* CCBrightnessFilter::loadShader()
+CCGLProgram* BrightnessFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCBrightnessFilter::loadShader, program:%d", __p);
+	//CCLOG("BrightnessFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_brightness_frag);
 	return __p;
 }
 
-void CCBrightnessFilter::setParameter(float $brightness)
+void BrightnessFilter::setParameter(float $brightness)
 {
 	_param = MIN(1.f, MAX($brightness, -1.f));
 	initProgram();
 }
 
-void CCBrightnessFilter::setAttributes(CCGLProgram* $cgp)
+void BrightnessFilter::setAttributes(CCGLProgram* $cgp)
 {
 	//CCLOG("CCRGBFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 }
 
-void CCBrightnessFilter::setUniforms(CCGLProgram* $cgp)
+void BrightnessFilter::setUniforms(CCGLProgram* $cgp)
 {
 	int u_brightness = $cgp->getUniformLocationForName("u_brightness");
-	//CCLOG("CCBrightnessFilter::setUniforms %d", u_brightness);
+	//CCLOG("BrightnessFilter::setUniforms %d", u_brightness);
 	$cgp->setUniformLocationWith1f(u_brightness, _param);
-	//CCLOG("CCBrightnessFilter::setUniforms _param:%.2f", _param);
+	//CCLOG("BrightnessFilter::setUniforms _param:%.2f", _param);
 }
 NS_CC_EXT_END

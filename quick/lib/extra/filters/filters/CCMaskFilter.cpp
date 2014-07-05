@@ -30,47 +30,47 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCMaskFilter
+//================== MaskFilter
 
-CCMaskFilter* CCMaskFilter::create()
+MaskFilter* MaskFilter::create()
 {
-	CCMaskFilter* __filter = new CCMaskFilter();
+	MaskFilter* __filter = new MaskFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCMaskFilter* CCMaskFilter::create(CCString* $maskImage)
+MaskFilter* MaskFilter::create(CCString* $maskImage)
 {
-	CCMaskFilter* __filter = CCMaskFilter::create();
+	MaskFilter* __filter = MaskFilter::create();
 	__filter->setParameter($maskImage);
 	__filter->setIsSpriteFrame(false);
 	return __filter;
 }
 
-CCMaskFilter* CCMaskFilter::createWithSpriteFrameName(CCString* $maskImage)
+MaskFilter* MaskFilter::createWithSpriteFrameName(CCString* $maskImage)
 {
-	CCMaskFilter* __filter = CCMaskFilter::create();
+	MaskFilter* __filter = MaskFilter::create();
 	__filter->setParameter($maskImage);
 	__filter->setIsSpriteFrame(true);
 	return __filter;
 }
 
-CCMaskFilter::CCMaskFilter()
+MaskFilter::MaskFilter()
 : _param(NULL)
 , _isSpriteFrame(false)
 {
 	this->shaderName = NULL;
 }
 
-void CCMaskFilter::initProgram()
+void MaskFilter::initProgram()
 {
-	//Do nothing in CCMaskFilter
-	//CCLOG("CCMaskFilter initProgram");
+	//Do nothing in MaskFilter
+	//CCLOG("MaskFilter initProgram");
 }
 
-void CCMaskFilter::initSprite(CCFilteredSprite* $sprite)
+void MaskFilter::initSprite(CCFilteredSprite* $sprite)
 {
-	//CCLOG("CCMaskFilter initSprite maskImage:%s", _param->getCString());
+	//CCLOG("MaskFilter initSprite maskImage:%s", _param->getCString());
 	ccBlendFunc __maskBF = { GL_ONE, GL_ZERO };
 	ccBlendFunc __imgBF = { GL_DST_ALPHA, GL_ZERO };
 
@@ -100,7 +100,7 @@ void CCMaskFilter::initSprite(CCFilteredSprite* $sprite)
 	$sprite->setTexture(__pTex);
 }
 
-void CCMaskFilter::setParameter(CCString* $maskImage)
+void MaskFilter::setParameter(CCString* $maskImage)
 {
 	_param = $maskImage;
 }

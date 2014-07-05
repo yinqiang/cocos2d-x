@@ -5,17 +5,17 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCSharpenFilter
+//================== SharpenFilter
 
-class CCSharpenFilter : public CCFilter
+class SharpenFilter : public Filter
 {
 
 public:
-	static CCSharpenFilter* create();
-	static CCSharpenFilter* create(float $sharpness, float $widthFactor, float $heightFactor);
-	static CCSharpenFilter* create(float $sharpness, int $amount);
+	static SharpenFilter* create();
+	static SharpenFilter* create(float $sharpness, float $widthFactor, float $heightFactor);
+	static SharpenFilter* create(float $sharpness, int $amount);
 
-	CCSharpenFilter();
+	SharpenFilter();
 
 	void setParameter(float $sharpness, float $widthFactor, float $heightFactor);
 	void setParameter(float $sharpness, int $amount);

@@ -30,42 +30,42 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCDropShadowFilter
+//================== DropShadowFilter
 
-CCDropShadowFilter* CCDropShadowFilter::create()
+DropShadowFilter* DropShadowFilter::create()
 {
-	CCDropShadowFilter* __filter = new CCDropShadowFilter();
+	DropShadowFilter* __filter = new DropShadowFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCDropShadowFilter* CCDropShadowFilter::create(float $resolation)
+DropShadowFilter* DropShadowFilter::create(float $resolation)
 {
-	CCDropShadowFilter* __filter = CCDropShadowFilter::create();
+	DropShadowFilter* __filter = DropShadowFilter::create();
 	__filter->setParameter($resolation);
 	return __filter;
 }
 
-CCDropShadowFilter::CCDropShadowFilter()
+DropShadowFilter::DropShadowFilter()
 {
 	this->shaderName = kCCFilterShader_drop_shadow;
 }
 
-CCGLProgram* CCDropShadowFilter::loadShader()
+CCGLProgram* DropShadowFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCDropShadowFilter::loadShader, program:%d", __p);
+	//CCLOG("DropShadowFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccFilterShader_drop_shadow_vert, 
 		ccFilterShader_drop_shadow_frag);
 	return __p;
 }
 
-void CCDropShadowFilter::setParameter(float $resolation)
+void DropShadowFilter::setParameter(float $resolation)
 {
 	//The initProgram() will perform in initSprite()
 }
 
-void CCDropShadowFilter::initSprite(CCFilteredSprite* $sprite)
+void DropShadowFilter::initSprite(CCFilteredSprite* $sprite)
 {
 	float __aspectRatio = 1.0f;
 	CCSize __size = $sprite->getContentSize();
@@ -76,20 +76,20 @@ void CCDropShadowFilter::initSprite(CCFilteredSprite* $sprite)
 	initProgram();
 }
 
-void CCDropShadowFilter::setAttributes(CCGLProgram* $cgp)
+void DropShadowFilter::setAttributes(CCGLProgram* $cgp)
 {
-	//CCLOG("CCDropShadowFilter::setAttributes");
+	//CCLOG("DropShadowFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
 }
 
-void CCDropShadowFilter::setUniforms(CCGLProgram* $cgp)
+void DropShadowFilter::setUniforms(CCGLProgram* $cgp)
 {
 	int u_resolution = $cgp->getUniformLocationForName("u_resolution");
-	//CCLOG("CCDropShadowFilter::setUniforms %d", u_resolution);
+	//CCLOG("DropShadowFilter::setUniforms %d", u_resolution);
 	$cgp->setUniformLocationWith2f(u_resolution, _textureWidth, _textureHeight);
-	//CCLOG("CCDropShadowFilter::setUniforms _textureWidth:%.5f,_textureHeight:%.5f",_textureWidth, _textureHeight);
+	//CCLOG("DropShadowFilter::setUniforms _textureWidth:%.5f,_textureHeight:%.5f",_textureWidth, _textureHeight);
 }
 
 NS_CC_EXT_END

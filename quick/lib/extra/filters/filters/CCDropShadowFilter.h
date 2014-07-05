@@ -6,16 +6,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCDropShadowFilter
+//================== DropShadowFilter
 
-class CCDropShadowFilter : public CCFilter
+class DropShadowFilter : public Filter
 {
 
 public:
-	static CCDropShadowFilter* create();
-	static CCDropShadowFilter* create(float $resolation);
+	static DropShadowFilter* create();
+	static DropShadowFilter* create(float $resolation);
 
-	CCDropShadowFilter();
+	DropShadowFilter();
 
 	void setParameter(float $resolation);
 	virtual void initSprite(CCFilteredSprite* $sprite);

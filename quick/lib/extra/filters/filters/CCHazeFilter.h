@@ -6,16 +6,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCHazeFilter
+//================== HazeFilter
 
-class CCHazeFilter : public CCFilter
+class HazeFilter : public Filter
 {
 
 public:
-	static CCHazeFilter* create();
-	static CCHazeFilter* create(float $hazeDistance, float $slope);
+	static HazeFilter* create();
+	static HazeFilter* create(float $hazeDistance, float $slope);
 
-	CCHazeFilter();
+	HazeFilter();
 
 	void setParameter(float $hazeDistance, float $slope);
 protected:

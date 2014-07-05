@@ -29,50 +29,50 @@ THE SOFTWARE.
 #include "filters/nodes/CCFilteredSprite.h"
 
 NS_CC_EXT_BEGIN
-//================== CCSepiaFilter
+//================== SepiaFilter
 
-CCSepiaFilter* CCSepiaFilter::create()
+SepiaFilter* SepiaFilter::create()
 {
-	CCSepiaFilter* __filter = new CCSepiaFilter();
+	SepiaFilter* __filter = new SepiaFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCSepiaFilter* CCSepiaFilter::create(float $resolation)
+SepiaFilter* SepiaFilter::create(float $resolation)
 {
-	CCSepiaFilter* __filter = CCSepiaFilter::create();
+	SepiaFilter* __filter = SepiaFilter::create();
 	__filter->setParameter();
 	return __filter;
 }
 
-CCSepiaFilter::CCSepiaFilter()
+SepiaFilter::SepiaFilter()
 {
 	this->shaderName = kCCFilterShader_sepia;
 }
 
-CCGLProgram* CCSepiaFilter::loadShader()
+CCGLProgram* SepiaFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCSepiaFilter::loadShader, program:%d", __p);
+	//CCLOG("SepiaFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccPositionTextureColor_vert,
 		ccFilterShader_sepia_frag);
 	return __p;
 }
 
-void CCSepiaFilter::setParameter()
+void SepiaFilter::setParameter()
 {
 	initProgram();
 }
 
-void CCSepiaFilter::setAttributes(CCGLProgram* $cgp)
+void SepiaFilter::setAttributes(CCGLProgram* $cgp)
 {
-	//CCLOG("CCSepiaFilter::setAttributes");
+	//CCLOG("SepiaFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
 }
 
-void CCSepiaFilter::setUniforms(CCGLProgram* $cgp)
+void SepiaFilter::setUniforms(CCGLProgram* $cgp)
 {
 
 }

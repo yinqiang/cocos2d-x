@@ -6,16 +6,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCSepiaFilter
+//================== SepiaFilter
 
-class CCSepiaFilter : public CCFilter
+class SepiaFilter : public Filter
 {
 
 public:
-	static CCSepiaFilter* create();
-	static CCSepiaFilter* create(float $resolation);
+	static SepiaFilter* create();
+	static SepiaFilter* create(float $resolation);
 
-	CCSepiaFilter();
+	SepiaFilter();
 
 	void setParameter();
 protected:

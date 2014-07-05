@@ -5,16 +5,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCExposureFilter
+//================== ExposureFilter
 
-class CCExposureFilter : public CCSingleFloatParamFilter
+class ExposureFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCExposureFilter* create();
-	static CCExposureFilter* create(float $param);
+	static ExposureFilter* create();
+	static ExposureFilter* create(float $param);
 
-	CCExposureFilter();
+	ExposureFilter();
 
 	virtual void setParameter(float $param);
 protected:

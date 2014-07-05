@@ -5,16 +5,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCGrayFilter
+//================== GrayFilter
 
-class CCGrayFilter : public CCFilter
+class GrayFilter : public Filter
 {
 public:
-	static CCGrayFilter* create();
-	static CCGrayFilter* create(ccColor4F $param);
-	static CCGrayFilter* create(float $r, float $g, float $b, float $a=0.f);
+	static GrayFilter* create();
+	static GrayFilter* create(ccColor4F $param);
+	static GrayFilter* create(float $r, float $g, float $b, float $a=0.f);
 
-	CCGrayFilter();
+	GrayFilter();
 	void setParameter(ccColor4F $param);
 	void setParameter(float $r, float $g, float $b, float $a=0.f);
 

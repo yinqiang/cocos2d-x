@@ -5,16 +5,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCContrastFilter
+//================== ContrastFilter
 
-class CCContrastFilter : public CCSingleFloatParamFilter
+class ContrastFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCContrastFilter* create();
-	static CCContrastFilter* create(float $param);
+	static ContrastFilter* create();
+	static ContrastFilter* create(float $param);
 
-	CCContrastFilter();
+	ContrastFilter();
 
 	virtual void setParameter(float $param);
 protected:

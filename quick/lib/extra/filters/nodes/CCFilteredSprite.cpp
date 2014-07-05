@@ -76,13 +76,13 @@ void CCFilteredSprite::draw()
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
-CCFilter* CCFilteredSprite::getFilter(unsigned int $index)
+Filter* CCFilteredSprite::getFilter(unsigned int $index)
 {
 	if (!_pFilters || _pFilters->count() == 0 || $index >= _pFilters->count())
 	{
 		return NULL;
 	}
-	return static_cast<CCFilter*>(_pFilters->objectAtIndex($index));
+	return static_cast<Filter*>(_pFilters->objectAtIndex($index));
 }
 
 CCArray* CCFilteredSprite::getFilters()
@@ -206,12 +206,12 @@ CCFilteredSpriteWithOne* CCFilteredSpriteWithOne::createWithSpriteFrameName(cons
 	return createWithSpriteFrame(pFrame);
 }
 
-CCFilter* CCFilteredSpriteWithOne::getFilter(unsigned int $index)
+Filter* CCFilteredSpriteWithOne::getFilter(unsigned int $index)
 {
 	return CCFilteredSprite::getFilter(0);
 }
 
-void CCFilteredSpriteWithOne::setFilter(CCFilter* $pFilter)
+void CCFilteredSpriteWithOne::setFilter(Filter* $pFilter)
 {
 	CCArray* __pFilters = CCArray::create($pFilter, NULL);
 	CCFilteredSprite::setFilters(__pFilters);
@@ -234,18 +234,18 @@ void CCFilteredSpriteWithOne::drawFilter()
 	// show custom filter
 	if (_pFilters && _pFilters->count() == 1)
 	{
-		static_cast<CCFilter*>(_pFilters->objectAtIndex(0))->draw();
+		static_cast<Filter*>(_pFilters->objectAtIndex(0))->draw();
 	}
 }
 
 bool CCFilteredSpriteWithOne::updateFilters()
 {
-	CCAssert(_pFilters || _pFilters->count() != 1, "Invalid CCFilter!");
+	CCAssert(_pFilters || _pFilters->count() != 1, "Invalid Filter!");
 	do
 	{
 		unsigned int __count = _pFilters->count();
 		CC_BREAK_IF(__count == 0);
-		CCFilter* __filter = static_cast<CCFilter*>(_pFilters->objectAtIndex(0));
+		Filter* __filter = static_cast<Filter*>(_pFilters->objectAtIndex(0));
 		__filter->initSprite(this);
 		if (__filter->getProgram())
 		{
@@ -368,7 +368,7 @@ void CCFilteredSpriteWithMulti::setTSRect(const CCRect& $rect)
 	_rect = $rect;
 }
 
-void CCFilteredSpriteWithMulti::setFilter(CCFilter* $pFilter)
+void CCFilteredSpriteWithMulti::setFilter(Filter* $pFilter)
 {
 	CCAssert(false, "setFilter on CCFilteredSpriteWithMulti is forbidden!");
 }
@@ -390,7 +390,7 @@ void CCFilteredSpriteWithMulti::clearFilter()
 
 bool CCFilteredSpriteWithMulti::updateFilters()
 {
-	CCAssert(_pFilters || _pFilters->count()>1, "Invalid CCFilter!");
+	CCAssert(_pFilters || _pFilters->count()>1, "Invalid Filter!");
 	do
 	{
 		CCFilteredSprite* __sp = NULL;
@@ -417,7 +417,7 @@ bool CCFilteredSpriteWithMulti::updateFilters()
 			//CCLOG("CCFilteredSpriteWithMulti render %d", i);
 			
 			__canva->begin();
-			CCFilter* __filter = static_cast<CCFilter*>(_pFilters->objectAtIndex(i));
+			Filter* __filter = static_cast<Filter*>(_pFilters->objectAtIndex(i));
 			if (i == 0)
 			{
 				__sp = _pTexture ?

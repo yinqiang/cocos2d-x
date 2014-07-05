@@ -4,16 +4,16 @@
 #include "CCFilter.h"
 
 NS_CC_EXT_BEGIN
-//================== CCBrightnessFilter
+//================== BrightnessFilter
 
-class CCBrightnessFilter : public CCSingleFloatParamFilter
+class BrightnessFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCBrightnessFilter* create();
-	static CCBrightnessFilter* create(float $brightness);
+	static BrightnessFilter* create();
+	static BrightnessFilter* create(float $brightness);
 
-	CCBrightnessFilter();
+	BrightnessFilter();
 
 	virtual void setParameter(float $brightness);
 protected:

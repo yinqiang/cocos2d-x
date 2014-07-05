@@ -29,55 +29,55 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-//================== CCExposureFilter
+//================== ExposureFilter
 
-CCExposureFilter* CCExposureFilter::create()
+ExposureFilter* ExposureFilter::create()
 {
-	CCExposureFilter* __filter = new CCExposureFilter();
+	ExposureFilter* __filter = new ExposureFilter();
 	__filter->autorelease();
 	return __filter;
 }
 
-CCExposureFilter* CCExposureFilter::create(float $brightness)
+ExposureFilter* ExposureFilter::create(float $brightness)
 {
-	CCExposureFilter* __filter = CCExposureFilter::create();
+	ExposureFilter* __filter = ExposureFilter::create();
 	__filter->setParameter($brightness);
 	return __filter;
 }
 
-CCExposureFilter::CCExposureFilter()
+ExposureFilter::ExposureFilter()
 {
 	this->shaderName = kCCFilterShader_exposure;
 	_param = 0.f;
 }
 
-CCGLProgram* CCExposureFilter::loadShader()
+CCGLProgram* ExposureFilter::loadShader()
 {
 	CCGLProgram* __p = new CCGLProgram();
-	//CCLOG("CCExposureFilter::loadShader, program:%d", __p);
+	//CCLOG("ExposureFilter::loadShader, program:%d", __p);
 	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_exposure_frag);
 	return __p;
 }
 
-void CCExposureFilter::setParameter(float $param)
+void ExposureFilter::setParameter(float $param)
 {
 	_param = MIN(10.f, MAX($param, -10.f));
 	initProgram();
 }
 
-void CCExposureFilter::setAttributes(CCGLProgram* $cgp)
+void ExposureFilter::setAttributes(CCGLProgram* $cgp)
 {
-	//CCLOG("CCExposureFilter::setAttributes");
+	//CCLOG("ExposureFilter::setAttributes");
 	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
 	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 }
 
-void CCExposureFilter::setUniforms(CCGLProgram* $cgp)
+void ExposureFilter::setUniforms(CCGLProgram* $cgp)
 {
 	int __param = $cgp->getUniformLocationForName("u_exposure");
-	//CCLOG("CCExposureFilter::setUniforms %d", __param);
+	//CCLOG("ExposureFilter::setUniforms %d", __param);
 	$cgp->setUniformLocationWith1f(__param, _param);
-	//CCLOG("CCExposureFilter::setUniforms _param:%.2f", _param);
+	//CCLOG("ExposureFilter::setUniforms _param:%.2f", _param);
 }
 
 NS_CC_EXT_END

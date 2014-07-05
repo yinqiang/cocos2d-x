@@ -44,8 +44,8 @@ public:
 
 	virtual void draw(void);
 
-	virtual CCFilter* getFilter(unsigned int $index = 0);
-	virtual void setFilter(CCFilter* $pFilter)=0;
+	virtual Filter* getFilter(unsigned int $index = 0);
+	virtual void setFilter(Filter* $pFilter)=0;
 
 	virtual CCArray* getFilters();
 	virtual void setFilters(CCArray* $pFilters);
@@ -72,9 +72,9 @@ public:
 
 	static CCFilteredSpriteWithOne* createWithSpriteFrameName(const char* $pszSpriteFrameName);
 
-	virtual CCFilter* getFilter(unsigned int $index = 0);
+	virtual Filter* getFilter(unsigned int $index = 0);
 	virtual void setFilters(CCArray* $pFilters);
-	virtual void setFilter(CCFilter* $pFilter);
+	virtual void setFilter(Filter* $pFilter);
     virtual void clearFilter();
 
 protected:
@@ -96,7 +96,7 @@ public:
 
 	static CCFilteredSpriteWithMulti* createWithSpriteFrameName(const char* $pszSpriteFrameName);
 
-	virtual void setFilter(CCFilter* $pFilter);
+	virtual void setFilter(Filter* $pFilter);
     virtual void clearFilter();
 
 	CCFilteredSpriteWithMulti();

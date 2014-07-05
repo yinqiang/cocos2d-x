@@ -5,16 +5,16 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCGammaFilter
+//================== GammaFilter
 
-class CCGammaFilter : public CCSingleFloatParamFilter
+class GammaFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCGammaFilter* create();
-	static CCGammaFilter* create(float $param);
+	static GammaFilter* create();
+	static GammaFilter* create(float $param);
 
-	CCGammaFilter();
+	GammaFilter();
 
 	virtual void setParameter(float $param);
 protected:

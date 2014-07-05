@@ -7,16 +7,16 @@
 NS_CC_EXT_BEGIN
 
 
-//================== CCHueFilter
+//================== HueFilter
 
-class CCHueFilter : public CCSingleFloatParamFilter
+class HueFilter : public SingleFloatParamFilter
 {
 
 public:
-	static CCHueFilter* create();
-	static CCHueFilter* create(float $param);
+	static HueFilter* create();
+	static HueFilter* create(float $param);
 
-	CCHueFilter();
+	HueFilter();
 
 	void setParameter(float $param);
 protected:

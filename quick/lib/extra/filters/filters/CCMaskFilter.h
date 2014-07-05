@@ -5,17 +5,17 @@
 
 NS_CC_EXT_BEGIN
 
-//================== CCMaskFilter
+//================== MaskFilter
 
-class CCMaskFilter : public CCFilter
+class MaskFilter : public Filter
 {
 
 public:
-	static CCMaskFilter* create();
-	static CCMaskFilter* create(CCString* $maskImage);
-	static CCMaskFilter* createWithSpriteFrameName(CCString* $maskImage);
+	static MaskFilter* create();
+	static MaskFilter* create(CCString* $maskImage);
+	static MaskFilter* createWithSpriteFrameName(CCString* $maskImage);
 
-	CCMaskFilter();
+	MaskFilter();
 
 	void setParameter(CCString* $param);
 	virtual void initSprite(CCFilteredSprite* $sprite);
