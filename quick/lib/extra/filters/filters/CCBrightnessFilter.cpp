@@ -51,11 +51,11 @@ BrightnessFilter::BrightnessFilter()
 	_param = 0.f;
 }
 
-CCGLProgram* BrightnessFilter::loadShader()
+GLProgram* BrightnessFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("BrightnessFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_brightness_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_brightness_frag);
 	return __p;
 }
 
@@ -65,14 +65,14 @@ void BrightnessFilter::setParameter(float $brightness)
 	initProgram();
 }
 
-void BrightnessFilter::setAttributes(CCGLProgram* $cgp)
+void BrightnessFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("CCRGBFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void BrightnessFilter::setUniforms(CCGLProgram* $cgp)
+void BrightnessFilter::setUniforms(GLProgram* $cgp)
 {
 	int u_brightness = $cgp->getUniformLocationForName("u_brightness");
 	//CCLOG("BrightnessFilter::setUniforms %d", u_brightness);

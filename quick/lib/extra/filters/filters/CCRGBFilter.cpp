@@ -54,11 +54,11 @@ RGBFilter::RGBFilter()
 	this->shaderName = kCCFilterShader_rgb;
 }
 
-CCGLProgram* RGBFilter::loadShader()
+GLProgram* RGBFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("RGBFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_rgb_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_rgb_frag);
 	return __p;
 }
 
@@ -70,14 +70,14 @@ void RGBFilter::setParameter(float $redAdj, float $greenAdj, float $blueAdj)
 	initProgram();
 }
 
-void RGBFilter::setAttributes(CCGLProgram* $cgp)
+void RGBFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("RGBFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void RGBFilter::setUniforms(CCGLProgram* $cgp)
+void RGBFilter::setUniforms(GLProgram* $cgp)
 {
 	int __redAdj = $cgp->getUniformLocationForName("u_redAdj");
 	int __greenAdj = $cgp->getUniformLocationForName("u_greenAdj");

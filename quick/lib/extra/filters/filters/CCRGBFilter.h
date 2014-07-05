@@ -19,9 +19,9 @@ public:
 
 	void setParameter(float $redAdj, float $greenAdj, float $blueAdj);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _redAdj;
 	float _greenAdj;
 	float _blueAdj;

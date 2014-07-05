@@ -37,15 +37,15 @@ BlurBaseFilter::BlurBaseFilter()
 {
 }
 
-void BlurBaseFilter::setAttributes(CCGLProgram* $cgp)
+void BlurBaseFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("BlurBaseFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
 }
 
-void BlurBaseFilter::setUniforms(CCGLProgram* $cgp)
+void BlurBaseFilter::setUniforms(GLProgram* $cgp)
 {
 	int __radius = $cgp->getUniformLocationForName("u_radius");
 	//CCLOG("CCFilter::getProgram %d", $cgp);
@@ -81,10 +81,10 @@ HBlurFilter::HBlurFilter()
 	this->shaderName = kCCFilterShader_hblur;
 }
 
-CCGLProgram* HBlurFilter::loadShader()
+GLProgram* HBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
-	__p->initWithVertexShaderByteArray(ccFilterShader_hblur_vert, ccFilterShader_blur_frag);
+	GLProgram* __p = new GLProgram();
+	__p->initWithByteArrays(ccFilterShader_hblur_vert, ccFilterShader_blur_frag);
 	//CCLOG("HBlurFilter::loadShader %f", _param);
 	return __p;
 }
@@ -110,10 +110,10 @@ VBlurFilter::VBlurFilter()
 	this->shaderName = kCCFilterShader_vblur;
 }
 
-CCGLProgram* VBlurFilter::loadShader()
+GLProgram* VBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
-	__p->initWithVertexShaderByteArray(ccFilterShader_vblur_vert, ccFilterShader_blur_frag);
+	GLProgram* __p = new GLProgram();
+	__p->initWithByteArrays(ccFilterShader_vblur_vert, ccFilterShader_blur_frag);
 	//CCLOG("VBlurFilter::loadShader %f", _param);
 	return __p;
 }
@@ -140,16 +140,16 @@ GaussianHBlurFilter::GaussianHBlurFilter()
 	this->shaderName = kCCFilterShader_gaussian_hblur;
 }
 
-CCGLProgram* GaussianHBlurFilter::loadShader()
+GLProgram* GaussianHBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("GaussianHBlurFilter::loadShader %f, program:%d", _param, __p);
-	__p->initWithVertexShaderByteArray(ccPositionTextureColor_vert,
+	__p->initWithByteArrays(ccPositionTextureColor_vert,
 		ccFilterShader_gaussian_hblur_frag);
 	return __p;
 }
 
-void GaussianHBlurFilter::setUniforms(CCGLProgram* $cgp)
+void GaussianHBlurFilter::setUniforms(GLProgram* $cgp)
 {
 	BlurBaseFilter::setUniforms($cgp);
 
@@ -158,7 +158,7 @@ void GaussianHBlurFilter::setUniforms(CCGLProgram* $cgp)
 	//CCLOG("GaussianHBlurFilter::setUniforms u_resolution:%f", _resolation);
 }
 
-void GaussianHBlurFilter::initSprite(CCFilteredSprite* $sprite)
+void GaussianHBlurFilter::initSprite(FilteredSprite* $sprite)
 {
 	//_resolation = $sprite->getContentSize().width;
 	_resolation = 1024;
@@ -187,16 +187,16 @@ GaussianVBlurFilter::GaussianVBlurFilter()
 	this->shaderName = kCCFilterShader_gaussian_vblur;
 }
 
-CCGLProgram* GaussianVBlurFilter::loadShader()
+GLProgram* GaussianVBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("GaussianVBlurFilter::loadShader %f, program:%d", _param, __p);
-	__p->initWithVertexShaderByteArray(ccPositionTextureColor_vert,
+	__p->initWithByteArrays(ccPositionTextureColor_vert,
 		ccFilterShader_gaussian_vblur_frag);
 	return __p;
 }
 
-void GaussianVBlurFilter::setUniforms(CCGLProgram* $cgp)
+void GaussianVBlurFilter::setUniforms(GLProgram* $cgp)
 {
 	BlurBaseFilter::setUniforms($cgp);
 
@@ -205,7 +205,7 @@ void GaussianVBlurFilter::setUniforms(CCGLProgram* $cgp)
 	//CCLOG("GaussianVBlurFilter::setUniforms u_resolution:%f", _resolation);
 }
 
-void GaussianVBlurFilter::initSprite(CCFilteredSprite* $sprite)
+void GaussianVBlurFilter::initSprite(FilteredSprite* $sprite)
 {
 	//_resolation = $sprite->getContentSize().height;
 	_resolation = 1024;
@@ -236,11 +236,11 @@ ZoomBlurFilter::ZoomBlurFilter()
 	this->shaderName = kCCFilterShader_zoom_blur;
 }
 
-CCGLProgram* ZoomBlurFilter::loadShader()
+GLProgram* ZoomBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("ZoomBlurFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_zoom_blur_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_zoom_blur_frag);
 	return __p;
 }
 
@@ -256,14 +256,14 @@ void ZoomBlurFilter::setParameter(float $blurSize, float $centerX, float $center
 	initProgram();
 }
 
-void ZoomBlurFilter::setAttributes(CCGLProgram* $cgp)
+void ZoomBlurFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("ZoomBlurFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void ZoomBlurFilter::setUniforms(CCGLProgram* $cgp)
+void ZoomBlurFilter::setUniforms(GLProgram* $cgp)
 {
 	int __blurSize = $cgp->getUniformLocationForName("u_blurSize");
 	int __blurCenter = $cgp->getUniformLocationForName("u_blurCenter");
@@ -298,11 +298,11 @@ MotionBlurFilter::MotionBlurFilter()
 	this->shaderName = kCCFilterShader_motion_blur;
 }
 
-CCGLProgram* MotionBlurFilter::loadShader()
+GLProgram* MotionBlurFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("MotionBlurFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccFilterShader_motion_blur_vert, ccFilterShader_motion_blur_frag);
+	__p->initWithByteArrays(ccFilterShader_motion_blur_vert, ccFilterShader_motion_blur_frag);
 	return __p;
 }
 
@@ -313,24 +313,24 @@ void MotionBlurFilter::setParameter(float $blurSize, float $blurAngle)
 	//The initProgram() will perform in initSprite()
 }
 
-void MotionBlurFilter::initSprite(CCFilteredSprite* $sprite)
+void MotionBlurFilter::initSprite(FilteredSprite* $sprite)
 {
 	float __aspectRatio = 1.0f;
-	CCSize __size = $sprite->getContentSize();
+	Size __size = $sprite->getContentSize();
 	__aspectRatio = __size.height / __size.width;
 	_texelOffsetX = _blurSize*cos(_blurAngle*M_PI / 180.0f) / __size.width;
 	_texelOffsetY = _blurSize*sin(_blurAngle*M_PI / 180.0f) / __size.width;
 	initProgram();
 }
 
-void MotionBlurFilter::setAttributes(CCGLProgram* $cgp)
+void MotionBlurFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("MotionBlurFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void MotionBlurFilter::setUniforms(CCGLProgram* $cgp)
+void MotionBlurFilter::setUniforms(GLProgram* $cgp)
 {
 	int __directionalTexelStep = $cgp->getUniformLocationForName("u_directionalTexelStep");
 	//CCLOG("MotionBlurFilter::setUniforms %d", __directionalTexelStep);

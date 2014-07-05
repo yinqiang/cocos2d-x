@@ -51,11 +51,11 @@ GammaFilter::GammaFilter()
 	_param = 1.f;
 }
 
-CCGLProgram* GammaFilter::loadShader()
+GLProgram* GammaFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("GammaFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_gamma_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_gamma_frag);
 	return __p;
 }
 
@@ -65,14 +65,14 @@ void GammaFilter::setParameter(float $param)
 	initProgram();
 }
 
-void GammaFilter::setAttributes(CCGLProgram* $cgp)
+void GammaFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("GammaFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void GammaFilter::setUniforms(CCGLProgram* $cgp)
+void GammaFilter::setUniforms(GLProgram* $cgp)
 {
 	int __param = $cgp->getUniformLocationForName("u_gamma");
 	//CCLOG("GammaFilter::setUniforms %d", __param);

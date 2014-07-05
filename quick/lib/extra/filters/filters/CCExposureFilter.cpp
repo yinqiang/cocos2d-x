@@ -51,11 +51,11 @@ ExposureFilter::ExposureFilter()
 	_param = 0.f;
 }
 
-CCGLProgram* ExposureFilter::loadShader()
+GLProgram* ExposureFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("ExposureFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_exposure_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_exposure_frag);
 	return __p;
 }
 
@@ -65,14 +65,14 @@ void ExposureFilter::setParameter(float $param)
 	initProgram();
 }
 
-void ExposureFilter::setAttributes(CCGLProgram* $cgp)
+void ExposureFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("ExposureFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void ExposureFilter::setUniforms(CCGLProgram* $cgp)
+void ExposureFilter::setUniforms(GLProgram* $cgp)
 {
 	int __param = $cgp->getUniformLocationForName("u_exposure");
 	//CCLOG("ExposureFilter::setUniforms %d", __param);

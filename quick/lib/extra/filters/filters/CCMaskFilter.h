@@ -12,17 +12,17 @@ class MaskFilter : public Filter
 
 public:
 	static MaskFilter* create();
-	static MaskFilter* create(CCString* $maskImage);
-	static MaskFilter* createWithSpriteFrameName(CCString* $maskImage);
+	static MaskFilter* create(std::string* $maskImage);
+	static MaskFilter* createWithSpriteFrameName(std::string* $maskImage);
 
 	MaskFilter();
 
-	void setParameter(CCString* $param);
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	void setParameter(std::string* $param);
+	virtual void initSprite(FilteredSprite* $sprite);
 	inline void setIsSpriteFrame(bool $isSpriteFrame){ _isSpriteFrame = $isSpriteFrame; };
 protected:
 	void initProgram();
-	CCString* _param;
+	std::string* _param;
 	bool _isSpriteFrame;
 
 };

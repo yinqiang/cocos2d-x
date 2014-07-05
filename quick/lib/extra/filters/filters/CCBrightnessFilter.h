@@ -17,9 +17,9 @@ public:
 
 	virtual void setParameter(float $brightness);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 };
 
 NS_CC_EXT_END

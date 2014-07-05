@@ -10,27 +10,27 @@ USING_NS_CC;
 
 NS_CC_EXT_BEGIN
 
-class CCFilteredSprite;
+class FilteredSprite;
 
 //================== Filter
 
-class Filter : public CCObject
+class Filter : public Ref
 {
 public:
 	Filter();
 	~Filter();
 
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 	virtual void draw();
-	CCGLProgram* getProgram();
+	GLProgram* getProgram();
 
 	const char* shaderName;
 protected:
-	CCGLProgram* _pProgram;
+	GLProgram* _pProgram;
 	void initProgram();
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 };
 
 class SingleFloatParamFilter : public Filter

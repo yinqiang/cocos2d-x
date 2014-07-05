@@ -25,11 +25,11 @@ HazeFilter::HazeFilter()
 	this->shaderName = kCCFilterShader_haze;
 }
 
-CCGLProgram* HazeFilter::loadShader()
+GLProgram* HazeFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("HazeFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_haze_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_haze_frag);
 	return __p;
 }
 
@@ -40,14 +40,14 @@ void HazeFilter::setParameter(float $hazeDistance, float $slope)
 	initProgram();
 }
 
-void HazeFilter::setAttributes(CCGLProgram* $cgp)
+void HazeFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("HazeFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void HazeFilter::setUniforms(CCGLProgram* $cgp)
+void HazeFilter::setUniforms(GLProgram* $cgp)
 {
 	int __hazeDistance = $cgp->getUniformLocationForName("u_hazeDistance");
 	int __slope = $cgp->getUniformLocationForName("u_slope");

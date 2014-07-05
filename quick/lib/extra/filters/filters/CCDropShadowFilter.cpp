@@ -51,11 +51,11 @@ DropShadowFilter::DropShadowFilter()
 	this->shaderName = kCCFilterShader_drop_shadow;
 }
 
-CCGLProgram* DropShadowFilter::loadShader()
+GLProgram* DropShadowFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("DropShadowFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccFilterShader_drop_shadow_vert, 
+	__p->initWithByteArrays(ccFilterShader_drop_shadow_vert, 
 		ccFilterShader_drop_shadow_frag);
 	return __p;
 }
@@ -65,10 +65,10 @@ void DropShadowFilter::setParameter(float $resolation)
 	//The initProgram() will perform in initSprite()
 }
 
-void DropShadowFilter::initSprite(CCFilteredSprite* $sprite)
+void DropShadowFilter::initSprite(FilteredSprite* $sprite)
 {
 	float __aspectRatio = 1.0f;
-	CCSize __size = $sprite->getContentSize();
+	Size __size = $sprite->getContentSize();
 	/*_textureWidth = __size.width;
 	_textureHeight = __size.height;*/
 	_textureWidth = 480;
@@ -76,15 +76,15 @@ void DropShadowFilter::initSprite(CCFilteredSprite* $sprite)
 	initProgram();
 }
 
-void DropShadowFilter::setAttributes(CCGLProgram* $cgp)
+void DropShadowFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("DropShadowFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
 }
 
-void DropShadowFilter::setUniforms(CCGLProgram* $cgp)
+void DropShadowFilter::setUniforms(GLProgram* $cgp)
 {
 	int u_resolution = $cgp->getUniformLocationForName("u_resolution");
 	//CCLOG("DropShadowFilter::setUniforms %d", u_resolution);

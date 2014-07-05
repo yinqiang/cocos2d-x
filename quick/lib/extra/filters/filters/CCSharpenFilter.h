@@ -19,11 +19,11 @@ public:
 
 	void setParameter(float $sharpness, float $widthFactor, float $heightFactor);
 	void setParameter(float $sharpness, int $amount);
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _sharpness;
 	float _widthFactor;
 	float _heightFactor;

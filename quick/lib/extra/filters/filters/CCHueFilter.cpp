@@ -52,11 +52,11 @@ HueFilter::HueFilter()
 	_param = 0.f;
 }
 
-CCGLProgram* HueFilter::loadShader()
+GLProgram* HueFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("HueFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_hue_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_hue_frag);
 	return __p;
 }
 
@@ -66,14 +66,14 @@ void HueFilter::setParameter(float $param)
 	initProgram();
 }
 
-void HueFilter::setAttributes(CCGLProgram* $cgp)
+void HueFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("HueFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void HueFilter::setUniforms(CCGLProgram* $cgp)
+void HueFilter::setUniforms(GLProgram* $cgp)
 {
 	int u_hueAdjust = $cgp->getUniformLocationForName("u_hueAdjust");
 	//CCLOG("HueFilter::setUniforms %d", u_hueAdjust);

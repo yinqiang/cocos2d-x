@@ -50,11 +50,11 @@ ContrastFilter::ContrastFilter()
 	_param = 1.f;
 }
 
-CCGLProgram* ContrastFilter::loadShader()
+GLProgram* ContrastFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("ContrastFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_contrast_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_contrast_frag);
 	return __p;
 }
 
@@ -64,14 +64,14 @@ void ContrastFilter::setParameter(float $param)
 	initProgram();
 }
 
-void ContrastFilter::setAttributes(CCGLProgram* $cgp)
+void ContrastFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("ContrastFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void ContrastFilter::setUniforms(CCGLProgram* $cgp)
+void ContrastFilter::setUniforms(GLProgram* $cgp)
 {
 	int u_contrast = $cgp->getUniformLocationForName("u_contrast");
 	//CCLOG("ContrastFilter::setUniforms %d", u_contrast);

@@ -25,11 +25,11 @@ TestFilter::TestFilter()
 	this->shaderName = kCCFilterShader_test;
 }
 
-CCGLProgram* TestFilter::loadShader()
+GLProgram* TestFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	CCLOG("TestFilter::loadShader, program: %p", __p);
-	__p->initWithVertexShaderByteArray(ccFilterShader_test_vert,
+	__p->initWithByteArrays(ccFilterShader_test_vert,
 		ccFilterShader_test_frag);
 	return __p;
 }
@@ -39,9 +39,9 @@ void TestFilter::setParameter(float $resolation)
 	//The initProgram() will perform in initSprite()
 }
 
-void TestFilter::initSprite(CCFilteredSprite* $sprite)
+void TestFilter::initSprite(FilteredSprite* $sprite)
 {
-	CCSize __size = $sprite->getContentSize();
+	Size __size = $sprite->getContentSize();
 	/*_textureWidth = __size.width;
 	_textureHeight = __size.height;*/
 	_textureWidth = 480;
@@ -49,22 +49,21 @@ void TestFilter::initSprite(CCFilteredSprite* $sprite)
 	initProgram();
 }
 
-void TestFilter::setAttributes(CCGLProgram* $cgp)
+void TestFilter::setAttributes(GLProgram* $cgp)
 {
 	CCLOG("TestFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
 }
 
-void TestFilter::setUniforms(CCGLProgram* $cgp)
+void TestFilter::setUniforms(GLProgram* $cgp)
 {
-	CCTexture2D* __maskTex = CCTextureCache::sharedTextureCache()->addImage("mask10.png");
+	Texture2D* __maskTex = Director::getInstance()->getTextureCache()->addImage("mask10.png");
 	__maskTex->setAntiAliasTexParameters();
 
-	CCTexture2D* __tex1 = CCTextureCache::sharedTextureCache()->addImage("dirt.png");
+	Texture2D* __tex1 = Director::getInstance()->getTextureCache()->addImage("dirt.png");
 	__tex1->setAntiAliasTexParameters();
-
 
 	int u_mask = $cgp->getUniformLocationForName("u_mask");
 	int u_texture1 = $cgp->getUniformLocationForName("u_texture1");

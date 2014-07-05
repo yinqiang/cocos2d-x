@@ -19,11 +19,11 @@ public:
 	TestFilter();
 
 	void setParameter(float $resolation);
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _textureWidth;
 	float _textureHeight;
 };

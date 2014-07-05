@@ -39,7 +39,7 @@ GrayFilter* GrayFilter::create()
 	return __filter;
 }
 
-GrayFilter* GrayFilter::create(ccColor4F $param)
+GrayFilter* GrayFilter::create(Color4F $param)
 {
 	GrayFilter* __filter = GrayFilter::create();
 	__filter->setParameter($param);
@@ -55,12 +55,12 @@ GrayFilter* GrayFilter::create(float $r, float $g, float $b, float $a)
 
 
 GrayFilter::GrayFilter()
-: _param(ccc4f(0.299f, 0.587f, 0.114f, 0.0f))
+: _param(Color4F(0.299f, 0.587f, 0.114f, 0.0f))
 {
 	this->shaderName = kCCFilterShader_gray;
 }
 
-void GrayFilter::setParameter(ccColor4F $param)
+void GrayFilter::setParameter(Color4F $param)
 {
 	_param = $param;
 	initProgram();
@@ -68,24 +68,24 @@ void GrayFilter::setParameter(ccColor4F $param)
 
 void GrayFilter::setParameter(float $r, float $g, float $b, float $a)
 {
-	setParameter(ccc4f($r, $a, $b, $a));
+	setParameter(Color4F($r, $a, $b, $a));
 }
 
-CCGLProgram* GrayFilter::loadShader()
+GLProgram* GrayFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
-	__p->initWithVertexShaderByteArray(ccPositionTextureColor_vert, ccFilterShader_gray_frag);
+	GLProgram* __p = new GLProgram();
+	__p->initWithByteArrays(ccPositionTextureColor_vert, ccFilterShader_gray_frag);
 	return __p;
 }
 
-void GrayFilter::setAttributes(CCGLProgram* $cgp)
+void GrayFilter::setAttributes(GLProgram* $cgp)
 {
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void GrayFilter::setUniforms(CCGLProgram* $cgp)
+void GrayFilter::setUniforms(GLProgram* $cgp)
 {
 	int __grayParam = $cgp->getUniformLocationForName("u_grayParam");
 	//CCLOG("GrayFilter::setUniforms, u_grayParam:%d", __grayParam);

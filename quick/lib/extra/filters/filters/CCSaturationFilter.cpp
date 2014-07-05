@@ -51,11 +51,11 @@ SaturationFilter::SaturationFilter()
 	_param = 1.f;
 }
 
-CCGLProgram* SaturationFilter::loadShader()
+GLProgram* SaturationFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("SaturationFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTexture_vert, ccFilterShader_saturation_frag);
+	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);
 	return __p;
 }
 
@@ -65,14 +65,14 @@ void SaturationFilter::setParameter(float $param)
 	initProgram();
 }
 
-void SaturationFilter::setAttributes(CCGLProgram* $cgp)
+void SaturationFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("SaturationFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void SaturationFilter::setUniforms(CCGLProgram* $cgp)
+void SaturationFilter::setUniforms(GLProgram* $cgp)
 {
 	int __param = $cgp->getUniformLocationForName("u_saturation");
 	//CCLOG("SaturationFilter::setUniforms %d", __param);

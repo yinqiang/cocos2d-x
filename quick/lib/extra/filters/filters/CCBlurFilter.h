@@ -14,8 +14,8 @@ public:
 	BlurBaseFilter();
 	virtual void setParameter(float $param);
 protected:
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _param;
 };
 
@@ -27,7 +27,7 @@ public:
 
 	HBlurFilter();
 protected:
-	virtual CCGLProgram* loadShader();
+	virtual GLProgram* loadShader();
 
 };
 
@@ -39,7 +39,7 @@ public:
 
 	VBlurFilter();
 protected:
-	virtual CCGLProgram* loadShader();
+	virtual GLProgram* loadShader();
 };
 
 class GaussianHBlurFilter : public BlurBaseFilter
@@ -49,10 +49,10 @@ public:
 	static GaussianHBlurFilter* create(float $param);
 
 	GaussianHBlurFilter();
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setUniforms(GLProgram* $glp);
 private:
 	float _resolation;
 };
@@ -64,10 +64,10 @@ public:
 	static GaussianVBlurFilter* create(float $param);
 
 	GaussianVBlurFilter();
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setUniforms(GLProgram* $glp);
 private:
 	float _resolation;
 };
@@ -85,9 +85,9 @@ public:
 
 	void setParameter(float $blurSize, float $centerX, float $centerY);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _blurSize;
 	float _centerX;
 	float _centerY;
@@ -105,11 +105,11 @@ public:
 	MotionBlurFilter();
 
 	void setParameter(float $blurSize, float $blurAngle);
-	virtual void initSprite(CCFilteredSprite* $sprite);
+	virtual void initSprite(FilteredSprite* $sprite);
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 	float _blurSize;
 	float _blurAngle;
 	float _texelOffsetX;

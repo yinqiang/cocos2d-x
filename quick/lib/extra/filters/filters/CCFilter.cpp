@@ -44,14 +44,14 @@ Filter::~Filter()
 	CC_SAFE_RELEASE(_pProgram);
 }
 
-CCGLProgram* Filter::getProgram()
+GLProgram* Filter::getProgram()
 {
 	return _pProgram;
 }
 
 void Filter::initProgram()
 {
-	CCGLProgram* __pProgram = CCShaderCache::sharedShaderCache()->programForKey(shaderName);
+	GLProgram* __pProgram = ShaderCache::getInstance()->getGLProgram(shaderName);
 	//CCLOG("Filter::initProgram %s, program:%d", shaderName, __pProgram);
 	if (!__pProgram)
 	{
@@ -69,7 +69,7 @@ void Filter::initProgram()
 		//this->setUniforms(__pProgram);
 		//CHECK_GL_ERROR_DEBUG();
 
-		CCShaderCache::sharedShaderCache()->addProgram(__pProgram, this->shaderName);
+		ShaderCache::getInstance()->addGLProgram(__pProgram, this->shaderName);
 		__pProgram->release();
 		//CCLOG("Filter::getProgram %d", __pProgram);
 	}
@@ -81,7 +81,7 @@ void Filter::initProgram()
 	}
 }
 
-void Filter::initSprite(CCFilteredSprite* $sprite)
+void Filter::initSprite(FilteredSprite* $sprite)
 {
 }
 
@@ -90,17 +90,17 @@ void Filter::draw()
 	setUniforms(getProgram());
 }
 
-CCGLProgram* Filter::loadShader()
+GLProgram* Filter::loadShader()
 {
 	//CCLOG("Filter::loadShader");
 	return NULL;
 }
 
-void Filter::setAttributes(CCGLProgram* $glp)
+void Filter::setAttributes(GLProgram* $glp)
 {
 }
 
-void Filter::setUniforms(CCGLProgram* $glp)
+void Filter::setUniforms(GLProgram* $glp)
 {
 }
 

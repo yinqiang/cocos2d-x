@@ -50,11 +50,11 @@ SepiaFilter::SepiaFilter()
 	this->shaderName = kCCFilterShader_sepia;
 }
 
-CCGLProgram* SepiaFilter::loadShader()
+GLProgram* SepiaFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("SepiaFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccPositionTextureColor_vert,
+	__p->initWithByteArrays(ccPositionTextureColor_vert,
 		ccFilterShader_sepia_frag);
 	return __p;
 }
@@ -64,15 +64,15 @@ void SepiaFilter::setParameter()
 	initProgram();
 }
 
-void SepiaFilter::setAttributes(CCGLProgram* $cgp)
+void SepiaFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("SepiaFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
 }
 
-void SepiaFilter::setUniforms(CCGLProgram* $cgp)
+void SepiaFilter::setUniforms(GLProgram* $cgp)
 {
 
 }

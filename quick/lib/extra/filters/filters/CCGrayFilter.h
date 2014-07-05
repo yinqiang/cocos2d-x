@@ -11,20 +11,20 @@ class GrayFilter : public Filter
 {
 public:
 	static GrayFilter* create();
-	static GrayFilter* create(ccColor4F $param);
+	static GrayFilter* create(Color4F $param);
 	static GrayFilter* create(float $r, float $g, float $b, float $a=0.f);
 
 	GrayFilter();
-	void setParameter(ccColor4F $param);
+	void setParameter(Color4F $param);
 	void setParameter(float $r, float $g, float $b, float $a=0.f);
 
 protected:
-	virtual CCGLProgram* loadShader();
-	virtual void setAttributes(CCGLProgram* $glp);
-	virtual void setUniforms(CCGLProgram* $glp);
+	virtual GLProgram* loadShader();
+	virtual void setAttributes(GLProgram* $glp);
+	virtual void setUniforms(GLProgram* $glp);
 
 private:
-	ccColor4F _param;
+	Color4F _param;
 };
 
 NS_CC_EXT_END

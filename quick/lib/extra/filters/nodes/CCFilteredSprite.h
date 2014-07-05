@@ -35,45 +35,43 @@ USING_NS_CC;
 
 NS_CC_EXT_BEGIN
 
-class CCFilteredSprite : public CCSprite
+class FilteredSprite : public Sprite
 {
 public:
 
-	CCFilteredSprite();
-	~CCFilteredSprite();
+	FilteredSprite();
+	~FilteredSprite();
 
-	virtual void draw(void);
+    virtual void draw(Renderer *renderer, const Mat4& transform, bool transformUpdated);
 
 	virtual Filter* getFilter(unsigned int $index = 0);
 	virtual void setFilter(Filter* $pFilter)=0;
 
-	virtual CCArray* getFilters();
-	virtual void setFilters(CCArray* $pFilters);
+	virtual Vector<Filter*>& getFilters();
+	virtual void setFilters(Vector<Filter*>& $pFilters);
 
     virtual void clearFilter() = 0;
 
 protected:
 	virtual void drawFilter()=0;
 	virtual bool updateFilters()=0;
-	CCArray* _pFilters;
+	Vector<Filter*> _pFilters;
 };
 
-class CCFilteredSpriteWithOne : public CCFilteredSprite
+class FilteredSpriteWithOne : public FilteredSprite
 {
 public:
-	static CCFilteredSpriteWithOne* create();
-	static CCFilteredSpriteWithOne* create(const char* $pszFileName);
-	static CCFilteredSpriteWithOne* create(const char* $pszFileName, const CCRect& $rect);
+	static FilteredSpriteWithOne* create();
+	static FilteredSpriteWithOne* create(const char* $pszFileName);
+	static FilteredSpriteWithOne* create(const char* $pszFileName, const Rect& $rect);
 
-	static CCFilteredSpriteWithOne* createWithTexture(CCTexture2D* $pTexture);
-	static CCFilteredSpriteWithOne* createWithTexture(CCTexture2D* $pTexture, const CCRect& rect);
-
-	static CCFilteredSpriteWithOne* createWithSpriteFrame(CCSpriteFrame* $pSpriteFrame);
-
-	static CCFilteredSpriteWithOne* createWithSpriteFrameName(const char* $pszSpriteFrameName);
+    static FilteredSpriteWithOne* createWithTexture(Texture2D* $pTexture);
+    static FilteredSpriteWithOne* createWithTexture(Texture2D* $pTexture, const Rect& $rect);
+	static FilteredSpriteWithOne* createWithSpriteFrame(SpriteFrame* $pSpriteFrame);
+	static FilteredSpriteWithOne* createWithSpriteFrameName(const char* $pszSpriteFrameName);
 
 	virtual Filter* getFilter(unsigned int $index = 0);
-	virtual void setFilters(CCArray* $pFilters);
+	virtual void setFilters(Vector<Filter*>& $pFilters);
 	virtual void setFilter(Filter* $pFilter);
     virtual void clearFilter();
 
@@ -82,42 +80,42 @@ protected:
 	virtual bool updateFilters();
 };
 
-class CCFilteredSpriteWithMulti : public CCFilteredSprite
+class FilteredSpriteWithMulti : public FilteredSprite
 {
 public:
-	static CCFilteredSpriteWithMulti* create();
-	static CCFilteredSpriteWithMulti* create(const char* $pszFileName);
-	static CCFilteredSpriteWithMulti* create(const char* $pszFileName, const CCRect& $rect);
+	static FilteredSpriteWithMulti* create();
+	static FilteredSpriteWithMulti* create(const char* $pszFileName);
+	static FilteredSpriteWithMulti* create(const char* $pszFileName, const Rect& $rect);
 
-	static CCFilteredSpriteWithMulti* createWithTexture(CCTexture2D* $pTexture);
-	static CCFilteredSpriteWithMulti* createWithTexture(CCTexture2D* $pTexture, const CCRect& rect);
+	static FilteredSpriteWithMulti* createWithTexture(Texture2D* $pTexture);
+	static FilteredSpriteWithMulti* createWithTexture(Texture2D* $pTexture, const Rect& rect);
 
-	static CCFilteredSpriteWithMulti* createWithSpriteFrame(CCSpriteFrame* $pSpriteFrame);
+	static FilteredSpriteWithMulti* createWithSpriteFrame(SpriteFrame* $pSpriteFrame);
 
-	static CCFilteredSpriteWithMulti* createWithSpriteFrameName(const char* $pszSpriteFrameName);
+	static FilteredSpriteWithMulti* createWithSpriteFrameName(const char* $pszSpriteFrameName);
 
 	virtual void setFilter(Filter* $pFilter);
     virtual void clearFilter();
 
-	CCFilteredSpriteWithMulti();
-	~CCFilteredSpriteWithMulti();
+	FilteredSpriteWithMulti();
+	~FilteredSpriteWithMulti();
 
 	// ts = Temporary Storage
-	CCTexture2D* getTSTexture();
-	void setTSTexture(CCTexture2D* $texture);
-	CCSpriteFrame* getTSFrame();
-	void setTSFrame(CCSpriteFrame* $frame);
+	Texture2D* getTSTexture();
+	void setTSTexture(Texture2D* $texture);
+	SpriteFrame* getTSFrame();
+	void setTSFrame(SpriteFrame* $frame);
 
-	CCRect getTSRect();
-	void setTSRect(const CCRect& $rect);
+	Rect getTSRect();
+	void setTSRect(const Rect& $rect);
 
 protected:
 	virtual void drawFilter();
 	virtual bool updateFilters();
 private:
-	CCTexture2D* _pTexture;
-	CCSpriteFrame* _pFrame;
-	CCRect _rect;
+	Texture2D* _pTexture;
+	SpriteFrame* _pFrame;
+	Rect _rect;
 };
 
 NS_CC_EXT_END

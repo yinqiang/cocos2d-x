@@ -62,11 +62,11 @@ SharpenFilter::SharpenFilter()
 	this->shaderName = kCCFilterShader_sharpen;
 }
 
-CCGLProgram* SharpenFilter::loadShader()
+GLProgram* SharpenFilter::loadShader()
 {
-	CCGLProgram* __p = new CCGLProgram();
+	GLProgram* __p = new GLProgram();
 	//CCLOG("SharpenFilter::loadShader, program:%d", __p);
-	__p->initWithVertexShaderByteArray(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
+	__p->initWithByteArrays(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
 	return __p;
 }
 
@@ -85,27 +85,27 @@ void SharpenFilter::setParameter(float $sharpness, int $amount)
 	//The initProgram() will perform in initSprite()
 }
 
-void SharpenFilter::initSprite(CCFilteredSprite* $sprite)
+void SharpenFilter::initSprite(FilteredSprite* $sprite)
 {
 	// If _amount is not 0, then calculate the value of the widthFactor and the heightFactor.
 	if (_amount != 0)
 	{
-		CCSize __size = $sprite->getContentSize();
+		Size __size = $sprite->getContentSize();
 		_widthFactor = 1.0f / __size.width * _amount;
 		_heightFactor = 1.0f / __size.height * _amount;
 	}
 	initProgram();
 }
 
-void SharpenFilter::setAttributes(CCGLProgram* $cgp)
+void SharpenFilter::setAttributes(GLProgram* $cgp)
 {
 	//CCLOG("SharpenFilter::setAttributes");
-	$cgp->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	$cgp->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
-	$cgp->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+	$cgp->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
 }
 
-void SharpenFilter::setUniforms(CCGLProgram* $cgp)
+void SharpenFilter::setUniforms(GLProgram* $cgp)
 {
 	int u_sharpness = $cgp->getUniformLocationForName("u_sharpness");
 	int u_widthFactor = $cgp->getUniformLocationForName("u_widthFactor");

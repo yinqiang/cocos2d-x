@@ -39,7 +39,7 @@ MaskFilter* MaskFilter::create()
 	return __filter;
 }
 
-MaskFilter* MaskFilter::create(CCString* $maskImage)
+MaskFilter* MaskFilter::create(std::string* $maskImage)
 {
 	MaskFilter* __filter = MaskFilter::create();
 	__filter->setParameter($maskImage);
@@ -47,7 +47,7 @@ MaskFilter* MaskFilter::create(CCString* $maskImage)
 	return __filter;
 }
 
-MaskFilter* MaskFilter::createWithSpriteFrameName(CCString* $maskImage)
+MaskFilter* MaskFilter::createWithSpriteFrameName(std::string* $maskImage)
 {
 	MaskFilter* __filter = MaskFilter::create();
 	__filter->setParameter($maskImage);
@@ -68,39 +68,39 @@ void MaskFilter::initProgram()
 	//CCLOG("MaskFilter initProgram");
 }
 
-void MaskFilter::initSprite(CCFilteredSprite* $sprite)
+void MaskFilter::initSprite(FilteredSprite* $sprite)
 {
-	//CCLOG("MaskFilter initSprite maskImage:%s", _param->getCString());
-	ccBlendFunc __maskBF = { GL_ONE, GL_ZERO };
-	ccBlendFunc __imgBF = { GL_DST_ALPHA, GL_ZERO };
+	//CCLOG("MaskFilter initSprite maskImage:%s", _param->c_str());
+	BlendFunc __maskBF = { GL_ONE, GL_ZERO };
+	BlendFunc __imgBF = { GL_DST_ALPHA, GL_ZERO };
 
-	CCSprite* __pMask = _isSpriteFrame ?
-		CCSprite::create(_param->getCString()) :
-		CCSprite::createWithSpriteFrameName(_param->getCString());
-	__pMask->setAnchorPoint(ccp(0, 0));
-	__pMask->setPosition(ccp(0, 0));
+	Sprite* __pMask = _isSpriteFrame ?
+		Sprite::create(_param->c_str()):
+		Sprite::createWithSpriteFrameName(_param->c_str());
+	__pMask->setAnchorPoint(Vec2(0, 0));
+	__pMask->setPosition(Vec2(0, 0));
 
-	CCSprite* __pImg = CCSprite::createWithSpriteFrameName("helloworld.png");
-	__pImg->setAnchorPoint(ccp(0, 0));
-	__pImg->setPosition(ccp(0, 0));
+	Sprite* __pImg = Sprite::createWithSpriteFrameName("helloworld.png");
+	__pImg->setAnchorPoint(Vec2(0, 0));
+	__pImg->setPosition(Vec2(0, 0));
 
 	__pMask->setBlendFunc(__maskBF);
 	__pImg->setBlendFunc(__imgBF);
 
-	CCSize __size = __pImg->getContentSize();
-	CCRenderTexture* __pRender = CCRenderTexture::create(__size.width, __size.height);
+	Size __size = __pImg->getContentSize();
+	RenderTexture* __pRender = RenderTexture::create(__size.width, __size.height);
 	__pRender->begin();
 	__pMask->visit();
 	__pImg->visit();
 	__pRender->end();
 
-	CCTexture2D* __pTex = new CCTexture2D();
-	__pTex->initWithImage(__pRender->newCCImage(true));
+	Texture2D* __pTex = new Texture2D();
+	__pTex->initWithImage(__pRender->newImage(true));
 	__pTex->autorelease();
 	$sprite->setTexture(__pTex);
 }
 
-void MaskFilter::setParameter(CCString* $maskImage)
+void MaskFilter::setParameter(std::string* $maskImage)
 {
 	_param = $maskImage;
 }
