@@ -587,6 +587,9 @@
 		497DB353195986FC00271944 /* xxtea.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E5774A19597E0B00C26077 /* xxtea.h */; };
 		497DB3541959870300271944 /* xxtea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E5774919597E0B00C26077 /* xxtea.cpp */; };
 		497DB3551959870600271944 /* xxtea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E5774919597E0B00C26077 /* xxtea.cpp */; };
+		49DBA8441968F0F600FBD3B9 /* CCTouchDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DABDD65519668A790099B727 /* CCTouchDelegateProtocol.h */; };
+		49DBA8451968F0F900FBD3B9 /* CCTouchDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DABDD65519668A790099B727 /* CCTouchDelegateProtocol.h */; };
+		49DBA8461968F22400FBD3B9 /* CCTouchDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DABDD65519668A790099B727 /* CCTouchDelegateProtocol.h */; };
 		49F5C3D1195038F0009F8643 /* CCClippingRegionNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49F5C3CF195038C8009F8643 /* CCClippingRegionNode.cpp */; };
 		5027253A190BF1B900AAF4ED /* cocos2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 50272538190BF1B900AAF4ED /* cocos2d.h */; };
 		5027253B190BF1B900AAF4ED /* cocos2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 50272538190BF1B900AAF4ED /* cocos2d.h */; };
@@ -4278,6 +4281,7 @@
 				DAEBA9101959808A00C31FBB /* options.h in Headers */,
 				1A57008B180BC5A10088DEC7 /* CCActionProgressTimer.h in Headers */,
 				50ABBD8D1925AB4100A911A9 /* CCGLProgram.h in Headers */,
+				49DBA8441968F0F600FBD3B9 /* CCTouchDelegateProtocol.h in Headers */,
 				50ABBEA11925AB6F00A911A9 /* CCScheduler.h in Headers */,
 				50ABBDB71925AB4100A911A9 /* CCTexture2D.h in Headers */,
 				50ABBE811925AB6F00A911A9 /* CCEventType.h in Headers */,
@@ -4560,6 +4564,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49DBA8461968F22400FBD3B9 /* CCTouchDelegateProtocol.h in Headers */,
 				460E478318080902000CDD6D /* CCControlExtensions.h in Headers */,
 				460E477E18080902000CDD6D /* CCControl.h in Headers */,
 				460E47B11808090B000CDD6D /* CCEditBoxImpl.h in Headers */,
@@ -4790,6 +4795,7 @@
 				DAEBA8D91959808A00C31FBB /* tolua_event.h in Headers */,
 				50ABBEC81925AB6F00A911A9 /* etc1.h in Headers */,
 				50ABBDB01925AB4100A911A9 /* CCRenderer.h in Headers */,
+				49DBA8451968F0F900FBD3B9 /* CCTouchDelegateProtocol.h in Headers */,
 				B29594B71926D5EC003EEF37 /* CCMeshCommand.h in Headers */,
 				50ABBD861925AB4100A911A9 /* CCBatchCommand.h in Headers */,
 				DAEBAACF195A9DF500C31FBB /* lua_cocos2dx_manual.hpp in Headers */,
@@ -5941,7 +5947,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../.. $(SRCROOT)/../../../cocos $(SRCROOT)/../../../cocos/editor-support $(SRCROOT)/../../../external/chipmunk/include/chipmunk $(SRCROOT)/../../../external $(SRCROOT)/../../../external/unzip $(SRCROOT)/extra $(SRCROOT)/../../../external/lua/luajit/include $(SRCROOT)/../../../external/xxtea $(SRCROOT)/lua-bindings/manual $(SRCROOT)/../../../external/lua/tolua $(SRCROOT)/../cocos2dx $(SRCROOT)/lua_extensions $(SRCROOT)/../../../external/lua";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../.. $(SRCROOT)/../../../cocos $(SRCROOT)/../../../cocos/editor-support $(SRCROOT)/../../../external/chipmunk/include/chipmunk $(SRCROOT)/../../../external $(SRCROOT)/../../../external/unzip $(SRCROOT)/extra $(SRCROOT)/../../../external/lua/luajit/include $(SRCROOT)/../../../external/xxtea $(SRCROOT)/lua-bindings/manual $(SRCROOT)/../../../external/lua/tolua $(SRCROOT)/../cocos2dx $(SRCROOT)/lua_extensions $(SRCROOT)/../../../external/lua $(SRCROOT)/";
 			};
 			name = Debug;
 		};
@@ -5991,7 +5997,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../.. $(SRCROOT)/../../../cocos $(SRCROOT)/../../../cocos/editor-support $(SRCROOT)/../../../external/chipmunk/include/chipmunk $(SRCROOT)/../../../external $(SRCROOT)/../../../external/unzip $(SRCROOT)/extra $(SRCROOT)/../../../external/lua/luajit/include $(SRCROOT)/../../../external/xxtea $(SRCROOT)/lua-bindings/manual $(SRCROOT)/../../../external/lua/tolua $(SRCROOT)/../cocos2dx $(SRCROOT)/lua_extensions $(SRCROOT)/../../../external/lua";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../.. $(SRCROOT)/../../../cocos $(SRCROOT)/../../../cocos/editor-support $(SRCROOT)/../../../external/chipmunk/include/chipmunk $(SRCROOT)/../../../external $(SRCROOT)/../../../external/unzip $(SRCROOT)/extra $(SRCROOT)/../../../external/lua/luajit/include $(SRCROOT)/../../../external/xxtea $(SRCROOT)/lua-bindings/manual $(SRCROOT)/../../../external/lua/tolua $(SRCROOT)/../cocos2dx $(SRCROOT)/lua_extensions $(SRCROOT)/../../../external/lua $(SRCROOT)/";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -6015,7 +6021,7 @@
 					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/png/include/mac $(SRCROOT)/../../../external/tiff/include/mac $(SRCROOT)/../../../external/webp/include/mac $(SRCROOT)/../../../external/jpeg/include/mac $(SRCROOT)/../../../external/freetype2/include/mac $(SRCROOT)/../../../external/websockets/include/mac $(SRCROOT)/../../../external/glfw3/include/mac";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/png/include/mac $(SRCROOT)/../../../external/tiff/include/mac $(SRCROOT)/../../../external/webp/include/mac $(SRCROOT)/../../../external/jpeg/include/mac $(SRCROOT)/../../../external/freetype2/include/mac $(SRCROOT)/../../../external/websockets/include/mac $(SRCROOT)/../../../external/glfw3/include/mac $(QUICK_V3_ROOT)/quick/lib";
 			};
 			name = Debug;
 		};
@@ -6038,7 +6044,7 @@
 					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/png/include/mac $(SRCROOT)/../../../external/tiff/include/mac $(SRCROOT)/../../../external/webp/include/mac $(SRCROOT)/../../../external/jpeg/include/mac $(SRCROOT)/../../../external/freetype2/include/mac $(SRCROOT)/../../../external/websockets/include/mac $(SRCROOT)/../../../external/glfw3/include/mac";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/png/include/mac $(SRCROOT)/../../../external/tiff/include/mac $(SRCROOT)/../../../external/webp/include/mac $(SRCROOT)/../../../external/jpeg/include/mac $(SRCROOT)/../../../external/freetype2/include/mac $(SRCROOT)/../../../external/websockets/include/mac $(SRCROOT)/../../../external/glfw3/include/mac $(QUICK_V3_ROOT)/quick/lib";
 			};
 			name = Release;
 		};
