@@ -42,7 +42,7 @@ FilteredSprite::~FilteredSprite()
     _pFilters.clear();
 }
 
-void FilteredSprite::draw(Renderer *renderer, const Mat4& transform, bool transformUpdated)
+void FilteredSprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
 	CC_NODE_DRAW_SETUP();
 	
@@ -138,7 +138,7 @@ FilteredSpriteWithOne* FilteredSpriteWithOne::create(const char* $pszFileName, c
 
 FilteredSpriteWithOne* FilteredSpriteWithOne::createWithTexture(Texture2D* $pTexture)
 {
-    Sprite *pobSprite = new FilteredSpriteWithOne();
+    FilteredSpriteWithOne *pobSprite = new FilteredSpriteWithOne();
     if (pobSprite && pobSprite->initWithTexture($pTexture))
     {
         pobSprite->autorelease();
@@ -150,7 +150,7 @@ FilteredSpriteWithOne* FilteredSpriteWithOne::createWithTexture(Texture2D* $pTex
 
 FilteredSpriteWithOne* FilteredSpriteWithOne::createWithTexture(Texture2D* $pTexture, const Rect& $rect)
 {
-    Sprite *pobSprite = new FilteredSpriteWithOne();
+    FilteredSpriteWithOne *pobSprite = new FilteredSpriteWithOne();
     if (pobSprite && pobSprite->initWithTexture($pTexture, $rect))
     {
         pobSprite->autorelease();

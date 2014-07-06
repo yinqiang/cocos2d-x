@@ -5,7 +5,7 @@ require("framework.init")
 game = {}
 
 function game.startup()
-    CCFileUtils:sharedFileUtils():addSearchPath("res/")
+    cc.FileUtils:getInstance():addSearchPath("res/")
 
     game.enterMainScene()
 end

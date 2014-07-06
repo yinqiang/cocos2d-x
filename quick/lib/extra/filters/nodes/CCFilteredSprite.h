@@ -42,7 +42,7 @@ public:
 	FilteredSprite();
 	~FilteredSprite();
 
-    virtual void draw(Renderer *renderer, const Mat4& transform, bool transformUpdated);
+    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 	virtual Filter* getFilter(unsigned int $index = 0);
 	virtual void setFilter(Filter* $pFilter)=0;
