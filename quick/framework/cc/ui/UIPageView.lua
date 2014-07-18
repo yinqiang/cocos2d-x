@@ -134,10 +134,9 @@ function UIPageView:createPage_(pageNo)
 end
 
 function UIPageView:onTouch_(event)
-	print("UIPageView - onTouch_:" .. event.x .. " " .. event.y)
 	if "began" == event.name
 		and not cc.rectContainsPoint(self.viewRect_, cc.p(event.x, event.y)) then
-		printInfo("UIPageView - touch didn't in viewRect")
+		-- printInfo("UIPageView - touch didn't in viewRect")
 		return false
 	end
 
@@ -250,7 +249,6 @@ function UIPageView:scroll(dis)
 			posX, posY = page:getPosition()
 			posX = posX + dis
 			page:setPosition(posX, posY)
-			-- print("UIPageView - setPos x:" .. posX .. " " .. i)
 		end
 	end
 end

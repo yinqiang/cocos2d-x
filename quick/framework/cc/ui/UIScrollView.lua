@@ -102,15 +102,13 @@ function UIScrollView:update_(dt)
 end
 
 function UIScrollView:onTouch_(event)
-	-- print("UIScrollView - onTouch_:" .. event.name)
 
 	if "began" == event.name and not cc.rectContainsPoint(self.viewRect_, cc.p(event.x, event.y)) then
-		printInfo("#DEBUG touch didn't in viewRect")
+		-- printInfo("#DEBUG touch didn't in viewRect")
 		return false
 	end
 
 	if "began" == event.name then
-		-- self:calcLayoutPadding()
 		self.prevX_ = event.x
 		self.prevY_ = event.y
 		self.bDrag_ = false
@@ -182,11 +180,6 @@ function UIScrollView:calcScrollRange()
 	--拖动时是可以大于或小于这个范围的，只是拖动结束自动回到这个范围中来，回到哪一边的值，最近原则
 
 	self.rect = self.scrollNode:getCascadeBoundingBox()
-	-- self.rect = self.scrollNode:getBoundingBox()
-	dump(self.rect, "UIScrollView scrollNode BoundingBox:")
-	-- HDrawRect(self.rect, self, cc.c4f(0, 1, 0, 1))
-	print("UIScrollView - calcScrollRange child count:" .. self.scrollNode:getChildrenCount())
-	-- dump(self.viewRect_, "viewRect:")
 	if not self.positionRange_ then
 		self.positionRange_ = {}
 	end
@@ -241,7 +234,7 @@ function UIScrollView:scrollAuto1()
 	else
 		-- do nothing
 	end
-	print("UIScrollView - scrollAuto: x:" .. newX .. " y:" .. newY)
+
 	transition.moveTo(self.scrollNode,
 		{x = newX, y = newY, time = 0.3,
 		easing = "backout",
@@ -259,18 +252,18 @@ end
 
 function UIScrollView:twiningScroll()
 	if self:isSideShow() then
-		printInfo("UIScrollView - side is show, so elastic scroll")
+		-- printInfo("UIScrollView - side is show, so elastic scroll")
 		return false
 	end
 
 	if math.abs(self.speed.x) < 10 and math.abs(self.speed.y) < 10 then
-		printInfo("#DEBUG, UIScrollView - isn't twinking scroll:"
-			.. self.speed.x .. " " .. self.speed.y)
+		-- printInfo("#DEBUG, UIScrollView - isn't twinking scroll:"
+		-- 	.. self.speed.x .. " " .. self.speed.y)
 		return false
 	end
 
 	transition.moveBy(self.scrollNode,
-		{x = self.speed.x*5, y = self.speed.y*5, time = 0.3,
+		{x = self.speed.x*10, y = self.speed.y*10, time = 0.3,
 		easing = "sineOut",
 		onComplete = function()
 			self:elasticScroll()
@@ -295,14 +288,10 @@ function UIScrollView:elasticScroll()
 		disY = self.viewRect_.y + self.viewRect_.height - cascadeBound.y - cascadeBound.height
 	end
 
-	-- dump(self.viewRect_, "viewRect:")
-	-- dump(cascadeBound, "cascadeRect:")
-	-- print("UIScrollView disY:" .. disY)
 	if 0 == disX and 0 == disY then
 		return
 	end
 
-	print("htl disY:" .. disY)
 	transition.moveBy(self.scrollNode,
 		{x = disX, y = disY, time = 0.3,
 		easing = "backout",
@@ -343,8 +332,6 @@ function UIScrollView:callListener_(event)
 end
 
 function UIScrollView:enableScrollBar()
-	print("UIScrollView - enableScrollBar")
-
 	local bound = self.scrollNode:getCascadeBoundingBox()
 	if self.sbV then
 		self.sbV:setVisible(false)
@@ -352,8 +339,6 @@ function UIScrollView:enableScrollBar()
 		self.sbV:setOpacity(128)
 		local size = self.sbV:getContentSize()
 		if self.viewRect_.height < bound.height then
-			-- dump(self.viewRect_, "viewRect_:")
-			-- dump(bound, "bound:")
 			local barH = self.viewRect_.height*self.viewRect_.height/bound.height
 			if barH < size.width then
 				-- 保证bar不会太小
@@ -382,7 +367,6 @@ function UIScrollView:enableScrollBar()
 end
 
 function UIScrollView:disableScrollBar()
-	print("UIScrollView - disableScrollBar")
 	if self.sbV then
 		transition.fadeOut(self.sbV,
 			{time = 0.3,
@@ -409,7 +393,6 @@ function UIScrollView:drawScrollBar()
 		return
 	end
 
-	-- print("UIScrollView - drawScrollBar")
 	local bound = self.scrollNode:getCascadeBoundingBox()
 	if self.sbV then
 		self.sbV:setVisible(true)
@@ -419,7 +402,6 @@ function UIScrollView:drawScrollBar()
 			+ self.viewRect_.y + size.height/2
 		local x, y = self.sbV:getPosition()
 		self.sbV:setPosition(x, posY)
-		-- print("htl x, y:" .. x .. "," .. posY)
 	end
 	if self.sbH then
 		self.sbH:setVisible(true)
@@ -429,7 +411,6 @@ function UIScrollView:drawScrollBar()
 			+ self.viewRect_.x + size.width/2
 		local x, y = self.sbH:getPosition()
 		self.sbH:setPosition(posX, y)
-		print("UIScrollView - x,y " .. x .. "," .. y)
 	end
 end
 
