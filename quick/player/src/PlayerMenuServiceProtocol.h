@@ -38,7 +38,7 @@ public:
     int listener;
 };
 
-class PlayerMenuServiceProtocol
+class PlayerMenuServiceProtocol : public PlayerServiceProtocol
 {
 public:
     // Add menu item

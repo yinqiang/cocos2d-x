@@ -6,6 +6,7 @@
 #include "PlayerFileDialogServiceProtocol.h"
 #include "PlayerMessageBoxServiceProtocol.h"
 #include "PlayerMenuServiceProtocol.h"
+#include "PlayerEditBoxServiceProtocol.h"
 
 #include "PlayerUtils.h"
 
@@ -43,6 +44,8 @@ public:
     virtual PlayerFileDialogServiceProtocol *getFileDialogService() = 0; // implemented in platform related source files
     virtual PlayerMessageBoxServiceProtocol *getMessageBoxService() = 0;
     virtual PlayerMenuServiceProtocol       *getMenuService() = 0;
+    
+    virtual PlayerEditBoxServiceProtocol    *getEditBoxService() = 0;
 
 protected:
     PlayerProtocol(); // avoid create instance from outside
@@ -53,6 +56,7 @@ protected:
     PlayerFileDialogServiceProtocol *m_fileDialogService;
     PlayerMessageBoxServiceProtocol *m_messageBoxService;
     PlayerMenuServiceProtocol       *m_menuService;
+    PlayerEditBoxServiceProtocol    *m_editBoxService;
 
 private:
     static PlayerProtocol *s_instance;

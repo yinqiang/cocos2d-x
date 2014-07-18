@@ -20,12 +20,12 @@ void ProjectConfig::resetToWelcome(void)
     setProjectDir(path);
     setWritablePath(path);
     setScriptFile("$PROJDIR/scripts/main.lua");
-    setFrameSize(CCSize(960, 640));
+    setFrameSize(Size(960, 640));
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(false);
-    setWindowOffset(CCPointZero);
+    setShowConsole(true);
+    setWindowOffset(Vec2::ZERO);
     setWriteDebugLogToFile(false);
 }
 
