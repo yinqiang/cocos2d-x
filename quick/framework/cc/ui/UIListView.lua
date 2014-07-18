@@ -22,6 +22,7 @@ function UIListView:ctor(params)
 	self.items_ = {}
 	self.direction = params.direction or UIScrollView.DIRECTION_VERTICAL
 	self.container = cc.Node:create()
+	-- self.padding_ = params.padding or {left = 0, right = 0, top = 0, bottom = 0}
 
 	self:setDirection(params.direction)
 	self:setViewRect(params.viewRect)
@@ -32,9 +33,6 @@ function UIListView:ctor(params)
 	self:addBgIf(params)
 
 	self.size = {}
-
-	-- dump(self.super, "padding:")
-	-- print("list super:", tostring(self.super))
 end
 
 function UIListView:addBgColorIf(bgColor)
@@ -43,7 +41,7 @@ function UIListView:addBgColorIf(bgColor)
 	end
 
 	display.newColorLayer(bgColor):addTo(self, UIListView.BG_ZORDER)
-		:setTouchSwallowEnabled(false)
+		:setTouchEnabled(false)
 end
 
 function UIListView:addBgIf(params)
@@ -56,7 +54,7 @@ function UIListView:addBgIf(params)
 		:pos(params.viewRect.x + params.viewRect.width/2,
 			params.viewRect.y + params.viewRect.height/2)
 		:addTo(self, UIListView.BG_ZORDER)
-		:setTouchSwallowEnabled(false)
+		:setTouchEnabled(false)
 end
 
 function UIListView:onTouch(listener)
@@ -73,7 +71,6 @@ function UIListView:newItem(item)
 end
 
 function UIListView:itemSizeChangeListener(listItem, newSize, oldSize)
-	-- print("UIListView - itemSizeChangeListener")
 	local pos = self:getItemPos(listItem)
 	if not pos then
 		return
@@ -86,7 +83,6 @@ function UIListView:itemSizeChangeListener(listItem, newSize, oldSize)
 		itemH = 0
 	end
 
-	print("UIListView - sizeChange: w,h " .. itemW .. "," .. itemH)
 	local content = listItem:getContent()
 	transition.moveBy(content,
 				{x = itemW/2, y = itemH/2, time = 0.2})
@@ -94,6 +90,8 @@ function UIListView:itemSizeChangeListener(listItem, newSize, oldSize)
 	self.size.width = self.size.width + itemW
 	self.size.height = self.size.height + itemH
 	if UIScrollView.DIRECTION_VERTICAL == self.direction then
+		transition.moveBy(self.container,
+			{x = -itemW, y = -itemH, time = 0.2})
 		self:moveItems(1, pos - 1, itemW, itemH, true)
 	else
 		self:moveItems(pos + 1, table.nums(self.items_), itemW, itemH, true)
@@ -101,8 +99,6 @@ function UIListView:itemSizeChangeListener(listItem, newSize, oldSize)
 end
 
 function UIListView:scrollListener(event)
-	-- print("UIListView - scrollListener:" .. event.name)
-
 	if "clicked" ~= event.name then
 		return
 	end
@@ -120,6 +116,7 @@ function UIListView:scrollListener(event)
 
 			if nodePoint.y < height and nodePoint.y > height - itemH then
 				pos = i
+				nodePoint.y = nodePoint.y - (height - itemH)
 				break
 			end
 			height = height - itemH
@@ -136,7 +133,9 @@ function UIListView:scrollListener(event)
 		end
 	end
 
-	self.touchListener_({name = "clicked", listView = self, itemPos = pos, item = self.items_[pos]})
+	self:notifyListener_{name = "clicked",
+		listView = self, itemPos = pos, item = self.items_[pos],
+		point = nodePoint}
 end
 
 function UIListView:addItem(listItem, pos)
@@ -151,7 +150,6 @@ function UIListView:addItem(listItem, pos)
 end
 
 function UIListView:removeItem(listItem, bAni)
-	print("UIListView - removeItem")
 	local itemW, itemH = listItem:getItemSize()
 	self.container:removeChild(listItem)
 
@@ -217,9 +215,6 @@ function UIListView:layout_()
 		height = height})
 	self.size.width = width
 	self.size.height = height
-	-- dump(self.container:getCascadeBoundingBox(), "UIListView container bound:")
-
-	print("UIListView - w,h", width, height)
 
 	local tempWidth, tempHeight = width, height
 	if UIScrollView.DIRECTION_VERTICAL == self.direction then
@@ -234,17 +229,9 @@ function UIListView:layout_()
 			tempHeight = tempHeight - itemH
 			content = v:getContent()
 			content:setAnchorPoint(0.5, 0.5)
-			-- content:setPosition(self.viewRect_.x + tempWidth/2,
-			-- 	self.viewRect_.y + tempHeight + itemH/2)
 			content:setPosition(itemW/2, itemH/2)
 			v:setPosition(self.viewRect_.x,
 				self.viewRect_.y + tempHeight)
-
-
-			-- print("UIListView - layout_:" .. tempWidth/2 .. " " .. tempHeight + itemH/2)
-			-- HDrawRect(content:getBoundingBox(), v, cc.c4f(0, 1, 0, 1))
-			-- dump(v:getBoundingBox(), "v Rect:")
-			-- dump(content:getBoundingBox(), "content rect:")
 		end
 	else
 		itemW, itemH = 0, 0
@@ -264,11 +251,6 @@ function UIListView:layout_()
 	end
 
 	self.container:setPosition(0, self.viewRect_.height - self.size.height)
-	-- dump(self.container:getCascadeBoundingBox(), "UIListView container bound:")
-	-- local bound = self.container:getCascadeBoundingBox()
-	-- dump(bound, "bound:")
-	-- HDrawRect(bound, self, cc.c4f(0, 1, 0, 1))
-
 end
 
 function UIListView:reload()
@@ -318,7 +300,6 @@ function UIListView:moveItems(beginIdx, endIdx, x, y, bAni)
 
 	local posX, posY = 0, 0
 
-	print("UIListView - moveItems x,y " .. x .. "," .. y)
 	local moveByParams = {x = x, y = y, time = 0.2}
 	for i=beginIdx, endIdx do
 		if bAni then
@@ -338,6 +319,14 @@ function UIListView:moveItems(beginIdx, endIdx, x, y, bAni)
 			end
 		end
 	end
+end
+
+function UIListView:notifyListener_(event)
+	if not self.touchListener_ then
+		return
+	end
+
+	self.touchListener_(event)
 end
 
 return UIListView
