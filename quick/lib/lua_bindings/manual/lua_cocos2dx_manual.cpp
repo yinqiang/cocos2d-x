@@ -2814,7 +2814,7 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f2 = (float)  tolua_tonumber(tolua_S,3,0);
+            f2 = (float)  tolua_tonumber(tolua_S,4,0);
             if (3 == argc)
             {
                 self->setUniformLocationWith2f(location, f1, f2);
@@ -2829,7 +2829,7 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f3 = (float)  tolua_tonumber(tolua_S,3,0);
+            f3 = (float)  tolua_tonumber(tolua_S,5,0);
             if (4 == argc)
             {
                 self->setUniformLocationWith3f(location, f1, f2, f3);
@@ -2844,8 +2844,8 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f4 = (float)  tolua_tonumber(tolua_S,3,0);
-            if (4 == argc)
+            f4 = (float)  tolua_tonumber(tolua_S,6,0);
+            if (5 == argc)
             {
                 self->setUniformLocationWith4f(location, f1, f2, f3, f4);
                 return 0;
