@@ -1,9 +1,9 @@
 #include "lua_cocos2dx_auto.hpp"
 #include "cocos2d.h"
-#include "SimpleAudioEngine.h"
-#include "CCAnimation3D.h"
-#include "CCAnimate3D.h"
-#include "vec2.h"
+#include "audio/include/SimpleAudioEngine.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCAnimate3D.h"
+#include "math/Vec2.h"
 #include "tolua_fix.h"
 #include "LuaBasicConversions.h"
 

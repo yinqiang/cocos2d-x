@@ -1,7 +1,3 @@
-//
-//  PlaerMessageBoxServiceProtocol.h
-//  quick-x-player
-//
 
 #ifndef __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
 #define __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
@@ -16,26 +12,20 @@ using namespace std;
 
 PLAYER_NS_BEGIN
 
-typedef enum {
-    MessageBoxOK,
-    MessageBoxOKCancel,
-    MessageBoxYesNo,
-    MessageBoxYesNoCancel,
-} MessageBoxButtonsType;
+#define kPlayerButtonsOK          0
+#define kPlayerButtonsOKCancel    1
+#define kPlayerButtonsYesNo       2
+#define kPlayerButtonsYesNoCancel 3
 
 class PlayerMessageBoxServiceProtocol : public PlayerServiceProtocol
 {
 public:
-    // 显示消息框，并返回用户选择按钮的索引
+    // Show a message box, return index of user clicked button
     //
-    // @param title 消息框标题
-    // @param message 消息框内容
-    // @param buttons 消息框中要包含的按钮
-    //
-    // @return 点击第一个按钮返回 0，以此类推
+    // @return int first button index is 0
     virtual int showMessageBox(const char *title,
-                               const char *message,
-                               MessageBoxButtonsType buttons = MessageBoxOK) = 0;
+        const char *message,
+        int buttonsType = kPlayerButtonsOK) = 0;
 };
 
 PLAYER_NS_END

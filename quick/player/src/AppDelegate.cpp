@@ -1,3 +1,4 @@
+
 #include "AppDelegate.h"
 #include "CCLuaEngine.h"
 #include "SimpleAudioEngine.h"
@@ -164,4 +165,3 @@ void StartupCall::startup()
     CCLOG("------------------------------------------------");
     pEngine->executeScriptFile(path.c_str());
 }
-

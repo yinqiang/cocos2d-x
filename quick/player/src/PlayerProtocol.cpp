@@ -17,7 +17,7 @@ PlayerProtocol::~PlayerProtocol()
     PLAYER_SAFE_DELETE(m_fileDialogService);
     PLAYER_SAFE_DELETE(m_messageBoxService);
     PLAYER_SAFE_DELETE(m_menuService);
-    
+
     s_instance = NULL;
 }
 
@@ -36,12 +36,12 @@ void PlayerProtocol::purgeInstance()
     PLAYER_SAFE_DELETE(s_instance);
 }
 
-void PlayerProtocol::setPlayerSettings(PlayerSettings &settings)
+void PlayerProtocol::setPlayerSettings(const PlayerSettings &settings)
 {
     m_settings = settings;
 }
 
-PlayerSettings &PlayerProtocol::getPlayerSettings()
+PlayerSettings PlayerProtocol::getPlayerSettings() const
 {
     return m_settings;
 }

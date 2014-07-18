@@ -384,9 +384,6 @@
     <ClInclude Include="..\..\..\cocos\2d\CCLabelAtlas.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cocos\2d\CCLabelBMFont.h">
-      <Filter>cocos\2d</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\cocos\2d\CCLabelTextFormatter.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
@@ -1434,9 +1431,6 @@
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.hpp">
       <Filter>libquick\lua_bindings\auto</Filter>
     </ClInclude>
-    <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extra_auto.hpp">
-      <Filter>libquick\lua_bindings\auto</Filter>
-    </ClInclude>
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.hpp">
       <Filter>libquick\lua_bindings\auto</Filter>
     </ClInclude>
@@ -1471,9 +1465,6 @@
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.h">
-      <Filter>libquick\lua_bindings\manual</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_external_extra_manual.h">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_manual.hpp">
@@ -1638,6 +1629,9 @@
     <ClInclude Include="..\..\..\extensions\GUI\CCEditBox\Win32InputBox.h">
       <Filter>extensions\GUI\CCEditBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cocos\2d\CCLabelBMFont.h">
+      <Filter>cocos\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -1713,9 +1707,6 @@
       <Filter>cocos\2d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\2d\CCLabelAtlas.cpp">
-      <Filter>cocos\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\2d\CCLabelBMFont.cpp">
       <Filter>cocos\2d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\2d\CCLabelTextFormatter.cpp">
@@ -2282,9 +2273,6 @@
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.cpp">
       <Filter>libquick\lua_bindings\auto</Filter>
     </ClCompile>
-    <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extra_auto.cpp">
-      <Filter>libquick\lua_bindings\auto</Filter>
-    </ClCompile>
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.cpp">
       <Filter>libquick\lua_bindings\auto</Filter>
     </ClCompile>
@@ -2310,9 +2298,6 @@
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.cpp">
-      <Filter>libquick\lua_bindings\manual</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_external_extra_manual.cpp">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_manual.cpp">
@@ -2473,6 +2458,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\extensions\GUI\CCEditBox\Win32InputBox.cpp">
       <Filter>extensions\GUI\CCEditBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\2d\CCLabelBMFont.cpp">
+      <Filter>cocos\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

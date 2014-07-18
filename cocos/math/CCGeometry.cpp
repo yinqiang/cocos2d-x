@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "math/CCGeometry.h"
-
 #include <algorithm>
+
+#include "math/CCGeometry.h"
 #include "base/ccMacros.h"
 
 // implementation of Vec2
@@ -199,17 +199,10 @@ void Rect::merge(const Rect& rect)
     float left2   = rect.getMinX();
     float right2  = rect.getMaxX();
     float bottom2 = rect.getMinY();
-#ifdef WIN32
-    origin.x    = fminf(left1, left2);
-    origin.y    = fminf(bottom1, bottom2);
-    size.width  = fmaxf(right1, right2) - origin.x;
-    size.height = fmaxf(top1, top2) - origin.y;
-#else
     origin.x = std::min(left1, left2);
     origin.y = std::min(bottom1, bottom2);
     size.width = std::max(right1, right2) - origin.x;
     size.height = std::max(top1, top2) - origin.y;
-#endif
 }
 
 Rect Rect::unionWithRect(const Rect & rect) const

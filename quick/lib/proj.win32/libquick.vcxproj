@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -469,7 +469,6 @@
     <ClInclude Include="..\extra\network\CCNetwork.h" />
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_auto.hpp" />
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.hpp" />
-    <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extra_auto.hpp" />
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.hpp" />
     <ClInclude Include="..\lua_bindings\luajit\include\lauxlib.h" />
     <ClInclude Include="..\lua_bindings\luajit\include\lua.h" />
@@ -484,7 +483,6 @@
     <ClInclude Include="..\lua_bindings\manual\LuaScriptHandlerMgr.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.h" />
-    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_external_extra_manual.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_manual.hpp" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.hpp" />
     <ClInclude Include="..\lua_bindings\manual\Lua_web_socket.h" />
@@ -809,7 +807,6 @@
     <ClCompile Include="..\extra\platform\win32\CCStorePaymentTransactionWrapper.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_auto.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.cpp" />
-    <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extra_auto.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.cpp" />
     <ClCompile Include="..\lua_bindings\manual\CCLuaBridge.cpp" />
     <ClCompile Include="..\lua_bindings\manual\CCLuaEngine.cpp" />
@@ -820,7 +817,6 @@
     <ClCompile Include="..\lua_bindings\manual\LuaScriptHandlerMgr.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.cpp" />
-    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_external_extra_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\Lua_web_socket.cpp" />
