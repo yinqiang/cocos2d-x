@@ -3,15 +3,6 @@ local TestUIListViewScene = class("TestUIListViewScene", function()
     return display.newScene("TestUIListViewScene")
 end)
 
-TestUIListViewScene.RADIO_BUTTON_IMAGES = {
-    off = "RadioButtonOff.png",
-    off_pressed = "RadioButtonOffPressed.png",
-    off_disabled = "RadioButtonOffDisabled.png",
-    on = "RadioButtonOn.png",
-    on_pressed = "RadioButtonOnPressed.png",
-    on_disabled = "RadioButtonOnDisabled.png",
-}
-
 function TestUIListViewScene:ctor()
     app:createGrid(self)
 
@@ -24,10 +15,17 @@ function TestUIListViewScene:ctor()
 end
 
 function TestUIListViewScene:createListView5()
+    cc.ui.UILabel.new(
+        {text = "vertical listView",
+        size = 24,
+        color = display.COLOR_BLACK})
+        :align(display.CENTER, 120, 520)
+        :addTo(self)
     self.lv = cc.ui.UIListView.new {
         -- bgColor = cc.c4b(200, 200, 200, 120),
         bg = "sunset.png",
         viewRect = cc.rect(40, 80, 120, 400),
+        padding = {left = 5, right = 5, top = 20, bottom = 20},
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
         scrollbarImgV = "bar.png"}
         :onTouch(handler(self, self.touchListener))
@@ -89,7 +87,6 @@ function TestUIListViewScene:createListView5()
     end
     self.lv:reload()
 
-    -- HDrawRect(self.lv:getCascadeBoundingBox(), self, cc.c4f(0, 1, 0, 1))
 end
 
 function TestUIListViewScene:touchListener(event)
@@ -103,6 +100,12 @@ function TestUIListViewScene:touchListener(event)
 end
 
 function TestUIListViewScene:createListView6()
+    cc.ui.UILabel.new(
+        {text = "horizontal listView",
+        size = 24,
+        color = display.COLOR_BLACK})
+        :align(display.CENTER, 640, 180)
+        :addTo(self)
     self.lvH = cc.ui.UIListView.new {
         bgColor = cc.c4b(200, 200, 200, 120),
         -- bg = "sunset.png",
@@ -170,10 +173,16 @@ function TestUIListViewScene:createListView6()
 end
 
 function TestUIListViewScene:createListView7()
+    cc.ui.UILabel.new(
+        {text = "grid in fact it's a listView",
+        size = 24,
+        color = display.COLOR_BLACK})
+        :align(display.CENTER, 680, 520)
+        :addTo(self)
     self.lvGrid = cc.ui.UIListView.new {
         -- bgColor = cc.c4b(200, 200, 200, 120),
         -- bg = "sunset.png",
-        viewRect = cc.rect(560, 200, 240, 240),
+        viewRect = cc.rect(560, 240, 240, 240),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL}
         :onTouch(handler(self, self.touchListener7))
         :addTo(self)
