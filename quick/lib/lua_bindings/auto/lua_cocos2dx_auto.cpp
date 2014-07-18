@@ -24614,79 +24614,6 @@ int lua_register_cocos2dx_RotateTo(lua_State* tolua_S)
     return 1;
 }
 
-int lua_cocos2dx_RotateBy_create(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"cc.RotateBy",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S)-1;
-
-    do 
-    {
-        if (argc == 3)
-        {
-            double arg0;
-            ok &= luaval_to_number(tolua_S, 2,&arg0);
-            if (!ok) { break; }
-            double arg1;
-            ok &= luaval_to_number(tolua_S, 3,&arg1);
-            if (!ok) { break; }
-            double arg2;
-            ok &= luaval_to_number(tolua_S, 4,&arg2);
-            if (!ok) { break; }
-            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1, arg2);
-            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
-            return 1;
-        }
-    } while (0);
-    ok  = true;
-    do 
-    {
-        if (argc == 2)
-        {
-            double arg0;
-            ok &= luaval_to_number(tolua_S, 2,&arg0);
-            if (!ok) { break; }
-            double arg1;
-            ok &= luaval_to_number(tolua_S, 3,&arg1);
-            if (!ok) { break; }
-            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1);
-            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
-            return 1;
-        }
-    } while (0);
-    ok  = true;
-    do 
-    {
-        if (argc == 2)
-        {
-            double arg0;
-            ok &= luaval_to_number(tolua_S, 2,&arg0);
-            if (!ok) { break; }
-            cocos2d::Vec3 arg1;
-            ok &= luaval_to_vec3(tolua_S, 3, &arg1);
-            if (!ok) { break; }
-            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1);
-            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
-            return 1;
-        }
-    } while (0);
-    ok  = true;
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "create",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_RotateBy_create'.",&tolua_err);
-#endif
-    return 0;
-}
 static int lua_cocos2dx_RotateBy_finalize(lua_State* tolua_S)
 {
     printf("luabindings: finalizing LUA object (RotateBy)");
@@ -24699,7 +24626,6 @@ int lua_register_cocos2dx_RotateBy(lua_State* tolua_S)
     tolua_cclass(tolua_S,"RotateBy","cc.RotateBy","cc.ActionInterval",nullptr);
 
     tolua_beginmodule(tolua_S,"RotateBy");
-        tolua_function(tolua_S,"create", lua_cocos2dx_RotateBy_create);
     tolua_endmodule(tolua_S);
     std::string typeName = typeid(cocos2d::RotateBy).name();
     g_luaType[typeName] = "cc.RotateBy";
