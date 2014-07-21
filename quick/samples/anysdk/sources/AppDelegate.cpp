@@ -106,7 +106,6 @@ void AppDelegate::applicationDidEnterBackground()
     Director::getInstance()->pause();
     SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     SimpleAudioEngine::getInstance()->pauseAllEffects();
-    NotificationCenter::getInstance()->postNotification("APP_ENTER_BACKGROUND_EVENT");
 }
 
 // this function will be called when the app is active again
@@ -116,7 +115,6 @@ void AppDelegate::applicationWillEnterForeground()
     Director::getInstance()->resume();
     SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
     SimpleAudioEngine::getInstance()->resumeAllEffects();
-    NotificationCenter::getInstance()->postNotification("APP_ENTER_FOREGROUND_EVENT");
 }
 
 void AppDelegate::setProjectConfig(const ProjectConfig& config)

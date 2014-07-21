@@ -475,8 +475,6 @@
 		DAF293EE196D339300959DA1 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29109196D338E00959DA1 /* CCDouble.h */; };
 		DAF293EF196D339300959DA1 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910A196D338E00959DA1 /* CCFloat.h */; };
 		DAF293F0196D339300959DA1 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910B196D338E00959DA1 /* CCInteger.h */; };
-		DAF293F1196D339300959DA1 /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */; };
-		DAF293F2196D339400959DA1 /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */; };
 		DAF293F3196D339400959DA1 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF2910E196D338E00959DA1 /* CCSet.cpp */; };
 		DAF293F4196D339400959DA1 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910F196D338E00959DA1 /* CCSet.h */; };
 		DAF293F5196D339400959DA1 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29110196D338E00959DA1 /* CCString.cpp */; };
@@ -1219,8 +1217,6 @@
 		DAF29109196D338E00959DA1 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		DAF2910A196D338E00959DA1 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		DAF2910B196D338E00959DA1 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
-		DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
-		DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
 		DAF2910E196D338E00959DA1 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
 		DAF2910F196D338E00959DA1 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		DAF29110196D338E00959DA1 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
@@ -2702,8 +2698,6 @@
 				DAF29109196D338E00959DA1 /* CCDouble.h */,
 				DAF2910A196D338E00959DA1 /* CCFloat.h */,
 				DAF2910B196D338E00959DA1 /* CCInteger.h */,
-				DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */,
-				DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */,
 				DAF2910E196D338E00959DA1 /* CCSet.cpp */,
 				DAF2910F196D338E00959DA1 /* CCSet.h */,
 				DAF29110196D338E00959DA1 /* CCString.cpp */,
@@ -3081,7 +3075,6 @@
 				DAF293C2196D339200959DA1 /* CCRef.h in Headers */,
 				DAF2947C196D339A00959DA1 /* CCGLView.h in Headers */,
 				DAF2941F196D339500959DA1 /* CCPhysicsJointInfo_chipmunk.h in Headers */,
-				DAF293F2196D339400959DA1 /* CCNotificationCenter.h in Headers */,
 				DAF28EC3196D082900959DA1 /* lua_extensions.h in Headers */,
 				DAF293FE196D339400959DA1 /* CCVertex.h in Headers */,
 				DAF2941D196D339500959DA1 /* CCPhysicsHelper_chipmunk.h in Headers */,
@@ -3550,7 +3543,6 @@
 				DAF28EEA196D082900959DA1 /* SimulatorConfig.cpp in Sources */,
 				DAF29346196D338F00959DA1 /* CCMesh.cpp in Sources */,
 				DAF29318196D338F00959DA1 /* CCParticleSystemQuad.cpp in Sources */,
-				DAF293F1196D339300959DA1 /* CCNotificationCenter.cpp in Sources */,
 				DAF28EB4196D082900959DA1 /* lua_cjson.c in Sources */,
 				DAF293FD196D339400959DA1 /* CCVertex.cpp in Sources */,
 				DAF293D7196D339200959DA1 /* etc1.cpp in Sources */,

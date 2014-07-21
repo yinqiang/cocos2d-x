@@ -281,7 +281,6 @@ THE SOFTWARE.
 #include "deprecated/CCDouble.h"
 #include "deprecated/CCBool.h"
 #include "deprecated/CCString.h"
-#include "deprecated/CCNotificationCenter.h"
 
 
 NS_CC_BEGIN

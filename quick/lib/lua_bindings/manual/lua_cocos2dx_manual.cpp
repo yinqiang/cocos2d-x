@@ -5344,12 +5344,29 @@ static void extendFunctions(lua_State* tolua_S)
     tolua_endmodule(tolua_S);
 }
 
+static void extendConstants(lua_State* tolua_S)
+{
+    tolua_module(tolua_S,"cc",0);
+    tolua_beginmodule(tolua_S,"cc");
+        lua_pushstring(tolua_S,"EVENT_COME_TO_FOREGROUND");
+        lua_pushstring(tolua_S,EVENT_COME_TO_FOREGROUND);
+        lua_rawset(tolua_S,-3);
+        lua_pushstring(tolua_S,"EVENT_RENDERER_RECREATED");
+        lua_pushstring(tolua_S,EVENT_RENDERER_RECREATED);
+        lua_rawset(tolua_S,-3);
+        lua_pushstring(tolua_S,"EVENT_COME_TO_BACKGROUND");
+        lua_pushstring(tolua_S,EVENT_COME_TO_BACKGROUND);
+        lua_rawset(tolua_S,-3);
+    tolua_endmodule(tolua_S);
+}
+
 int register_all_cocos2dx_manual(lua_State* tolua_S)
 {
     if (NULL == tolua_S)
         return 0;
     
     extendFunctions(tolua_S);
+    extendConstants(tolua_S);
     extendNode(tolua_S);
     extendLayer(tolua_S);
     extendMenuItem(tolua_S);

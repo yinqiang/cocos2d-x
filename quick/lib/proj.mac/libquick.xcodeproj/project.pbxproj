@@ -746,8 +746,6 @@
 		F4E0C0CC196BA3D60053EFD7 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */; };
 		F4E0C0CD196BA3D60053EFD7 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */; };
 		F4E0C0CE196BA3D60053EFD7 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */; };
-		F4E0C0CF196BA3D60053EFD7 /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0BF196BA3D60053EFD7 /* CCNotificationCenter.cpp */; };
-		F4E0C0D0196BA3D60053EFD7 /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0C0196BA3D60053EFD7 /* CCNotificationCenter.h */; };
 		F4E0C0D1196BA3D60053EFD7 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */; };
 		F4E0C0D2196BA3D60053EFD7 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0C2196BA3D60053EFD7 /* CCSet.h */; };
 		F4E0C0D3196BA3D60053EFD7 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */; };
@@ -1528,8 +1526,6 @@
 		F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
-		F4E0C0BF196BA3D60053EFD7 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
-		F4E0C0C0196BA3D60053EFD7 /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
 		F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
 		F4E0C0C2196BA3D60053EFD7 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
@@ -3206,8 +3202,6 @@
 				F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */,
 				F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */,
 				F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */,
-				F4E0C0BF196BA3D60053EFD7 /* CCNotificationCenter.cpp */,
-				F4E0C0C0196BA3D60053EFD7 /* CCNotificationCenter.h */,
 				F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */,
 				F4E0C0C2196BA3D60053EFD7 /* CCSet.h */,
 				F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */,
@@ -3604,7 +3598,6 @@
 				F4E0BCE8196BA0450053EFD7 /* jpeglib.h in Headers */,
 				F4E0B5BC196B9C7D0053EFD7 /* CCPhysicsShapeInfo_chipmunk.h in Headers */,
 				F4E0B58D196B9C7D0053EFD7 /* cocos2d-prefix.pch in Headers */,
-				F4E0C0D0196BA3D60053EFD7 /* CCNotificationCenter.h in Headers */,
 				F4E0B5AB196B9C7D0053EFD7 /* CCPhysicsBody.h in Headers */,
 				F4E0BE73196BA0C10053EFD7 /* decode.h in Headers */,
 				F4E0C082196BA25D0053EFD7 /* LuaScriptHandlerMgr.h in Headers */,
@@ -3987,7 +3980,6 @@
 				F4E0C081196BA25D0053EFD7 /* LuaScriptHandlerMgr.cpp in Sources */,
 				F4E0BEA1196BA0C20053EFD7 /* xxhash.c in Sources */,
 				F4E0B2A8196B9C660053EFD7 /* CCActionInstant.cpp in Sources */,
-				F4E0C0CF196BA3D60053EFD7 /* CCNotificationCenter.cpp in Sources */,
 				F4E0B5B2196B9C7D0053EFD7 /* CCPhysicsWorld.cpp in Sources */,
 				DAF28278196BDA7300959DA1 /* CCCrypto.cpp in Sources */,
 				F4E0B658196B9C7D0053EFD7 /* ccShaders.cpp in Sources */,
