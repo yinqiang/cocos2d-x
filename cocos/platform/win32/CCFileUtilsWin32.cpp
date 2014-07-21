@@ -118,6 +118,21 @@ bool FileUtilsWin32::isFileExistInternal(const std::string& strFilePath) const
     return true;
 }
 
+bool FileUtilsWin32::isDirectoryExistInternal(const std::string& strDirPath) const
+{
+    if (0 == strDirPath.length())
+    {
+        return false;
+    }
+
+    if (isAbsolutePath(strDirPath))
+    {
+        return GetFileAttributesA(strDirPath.c_str()) == FILE_ATTRIBUTE_DIRECTORY ? true : false;
+    }
+
+    return false;
+}
+
 bool FileUtilsWin32::isAbsolutePath(const std::string& strPath) const
 {
     if (   strPath.length() > 2 

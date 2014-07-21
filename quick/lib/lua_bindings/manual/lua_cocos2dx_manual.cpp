@@ -2814,7 +2814,7 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f2 = (float)  tolua_tonumber(tolua_S,3,0);
+            f2 = (float)  tolua_tonumber(tolua_S,4,0);
             if (3 == argc)
             {
                 self->setUniformLocationWith2f(location, f1, f2);
@@ -2829,7 +2829,7 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f3 = (float)  tolua_tonumber(tolua_S,3,0);
+            f3 = (float)  tolua_tonumber(tolua_S,5,0);
             if (4 == argc)
             {
                 self->setUniformLocationWith3f(location, f1, f2, f3);
@@ -2844,8 +2844,8 @@ static int tolua_cocos2dx_GLProgram_setUniformLocationF32(lua_State* tolua_S)
                 goto tolua_lerror;
 #endif
             
-            f4 = (float)  tolua_tonumber(tolua_S,3,0);
-            if (4 == argc)
+            f4 = (float)  tolua_tonumber(tolua_S,6,0);
+            if (5 == argc)
             {
                 self->setUniformLocationWith4f(location, f1, f2, f3, f4);
                 return 0;
@@ -5244,6 +5244,98 @@ static void extendGLProgramState(lua_State* tolua_S)
     lua_pop(tolua_S, 1);
 }
 
+int lua_cocos2dx_RotateBy_create(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.RotateBy",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    argc = lua_gettop(tolua_S)-1;
+    
+    do
+    {
+        if (argc == 3)
+        {
+            double arg0;
+            ok &= luaval_to_number(tolua_S, 2,&arg0);
+            if (!ok) { break; }
+            double arg1;
+            ok &= luaval_to_number(tolua_S, 3,&arg1);
+            if (!ok) { break; }
+            double arg2;
+            ok &= luaval_to_number(tolua_S, 4,&arg2);
+            if (!ok) { break; }
+            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1, arg2);
+            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do
+    {
+        tolua_Error tolua_err;
+        if (!tolua_isnumber(tolua_S,3,0,&tolua_err))
+        {
+            break;
+        }
+        if (argc == 2)
+        {
+            double arg0;
+            ok &= luaval_to_number(tolua_S, 2,&arg0);
+            if (!ok) { break; }
+            double arg1;
+            ok &= luaval_to_number(tolua_S, 3,&arg1);
+            if (!ok) { break; }
+            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1);
+            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do
+    {
+        if (argc == 2)
+        {
+            double arg0;
+            ok &= luaval_to_number(tolua_S, 2,&arg0);
+            if (!ok) { break; }
+            cocos2d::Vec3 arg1;
+            ok &= luaval_to_vec3(tolua_S, 3, &arg1);
+            if (!ok) { break; }
+            cocos2d::RotateBy* ret = cocos2d::RotateBy::create(arg0, arg1);
+            object_to_luaval<cocos2d::RotateBy>(tolua_S, "cc.RotateBy",(cocos2d::RotateBy*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "create",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_RotateBy_create'.",&tolua_err);
+#endif
+    return 0;
+}
+
+static void extendRotateBy(lua_State* tolua_S)
+{
+    lua_pushstring(tolua_S, "cc.RotateBy");
+    lua_rawget(tolua_S, LUA_REGISTRYINDEX);
+    if (lua_istable(tolua_S, -1))
+    {
+        lua_pushstring(tolua_S,"create");
+        lua_pushcfunction(tolua_S,lua_cocos2dx_RotateBy_create);
+        lua_rawset(tolua_S,-3);
+    }
+    lua_pop(tolua_S, 1);
+}
+
 static void extendFunctions(lua_State* tolua_S)
 {
     tolua_module(tolua_S,"cc",0);
@@ -5294,6 +5386,7 @@ int register_all_cocos2dx_manual(lua_State* tolua_S)
     extendEventListenerAcceleration(tolua_S);
     extendActionCamera(tolua_S);
     extendGridAction(tolua_S);
+    extendRotateBy(tolua_S);
     
     extendMotionStreak(tolua_S);
     extendAtlasNode(tolua_S);

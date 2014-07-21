@@ -79,6 +79,7 @@ public:
     
 private:
     virtual bool isFileExistInternal(const std::string& strFilePath) const;
+    virtual bool isDirectoryExistInternal(const std::string& dirPath) const;
     Data getData(const std::string& filename, bool forString);
 
     static AAssetManager* assetmanager;

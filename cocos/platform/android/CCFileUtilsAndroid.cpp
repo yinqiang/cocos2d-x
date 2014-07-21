@@ -121,6 +121,11 @@ bool FileUtilsAndroid::isFileExistInternal(const std::string& strFilePath) const
     return bFound;
 }
 
+bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) const
+{
+    return inDirectoryExistsJNI(dirPath.c_str());
+}
+
 bool FileUtilsAndroid::isAbsolutePath(const std::string& strPath) const
 {
     // On Android, there are two situations for full path.
