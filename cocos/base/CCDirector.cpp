@@ -193,11 +193,10 @@ Director::~Director(void)
 
     CC_SAFE_RELEASE(_eventDispatcher);
     
-    // clean auto release pool
-    PoolManager::destroyInstance();
-
     // delete _lastUpdate
     CC_SAFE_DELETE(_lastUpdate);
+
+    Configuration::destroyInstance();
 
     s_SharedDirector = nullptr;
 }
