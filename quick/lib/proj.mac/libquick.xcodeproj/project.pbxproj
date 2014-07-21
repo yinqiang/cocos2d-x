@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49386F9F197D24E200BF2EF5 /* Effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49386F9B197D24E200BF2EF5 /* Effect.cpp */; };
+		49386FA0197D24E200BF2EF5 /* Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 49386F9C197D24E200BF2EF5 /* Effect.h */; };
+		49386FA1197D24E200BF2EF5 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */; };
+		49386FA2197D24E200BF2EF5 /* EffectSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 49386F9E197D24E200BF2EF5 /* EffectSprite.h */; };
 		DA9FAA03197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */; };
 		DA9FAA04197377AC006A0B4C /* cocos2dx_extra_luabinding.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9FA9FC197377AC006A0B4C /* cocos2dx_extra_luabinding.h */; };
 		DA9FAA05197377AC006A0B4C /* HelperFunc_luabinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA9FA9FE197377AC006A0B4C /* HelperFunc_luabinding.cpp */; };
@@ -757,6 +761,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49386F9B197D24E200BF2EF5 /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effect.cpp; sourceTree = "<group>"; };
+		49386F9C197D24E200BF2EF5 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Effect.h; sourceTree = "<group>"; };
+		49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectSprite.cpp; sourceTree = "<group>"; };
+		49386F9E197D24E200BF2EF5 /* EffectSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectSprite.h; sourceTree = "<group>"; };
 		DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cocos2dx_extra_luabinding.cpp; sourceTree = "<group>"; };
 		DA9FA9FC197377AC006A0B4C /* cocos2dx_extra_luabinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2dx_extra_luabinding.h; sourceTree = "<group>"; };
 		DA9FA9FE197377AC006A0B4C /* HelperFunc_luabinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelperFunc_luabinding.cpp; sourceTree = "<group>"; };
@@ -1559,6 +1567,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49386F9A197D24E200BF2EF5 /* filters */ = {
+			isa = PBXGroup;
+			children = (
+				49386F9B197D24E200BF2EF5 /* Effect.cpp */,
+				49386F9C197D24E200BF2EF5 /* Effect.h */,
+				49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */,
+				49386F9E197D24E200BF2EF5 /* EffectSprite.h */,
+			);
+			path = filters;
+			sourceTree = "<group>";
+		};
 		DA9FA9F4197377AC006A0B4C /* luabinding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1573,6 +1592,7 @@
 		DAF28222196BDA7300959DA1 /* extra */ = {
 			isa = PBXGroup;
 			children = (
+				49386F9A197D24E200BF2EF5 /* filters */,
 				DA9FA9F4197377AC006A0B4C /* luabinding */,
 				DAF28224196BDA7300959DA1 /* apptools */,
 				DAF28227196BDA7300959DA1 /* cocos2dx_extra.h */,
@@ -3360,6 +3380,7 @@
 				F41590B3196BD1D20046D7EE /* CCTouchTargetNode.h in Headers */,
 				F4E0C0C7196BA3D60053EFD7 /* CCBool.h in Headers */,
 				DAF2827D196BDA7300959DA1 /* CCNative.h in Headers */,
+				49386FA0197D24E200BF2EF5 /* Effect.h in Headers */,
 				F4E0BD07196BA0460053EFD7 /* pow10.h in Headers */,
 				DAF28311196BDACB00959DA1 /* luasocket.h in Headers */,
 				F4E0BB24196BA00A0053EFD7 /* ftpfr.h in Headers */,
@@ -3629,6 +3650,7 @@
 				F4E0B52B196B9C7D0053EFD7 /* atitc.h in Headers */,
 				F4E0B311196B9C670053EFD7 /* CCTMXTiledMap.h in Headers */,
 				F4E0BB51196BA00A0053EFD7 /* svxf86nm.h in Headers */,
+				49386FA2197D24E200BF2EF5 /* EffectSprite.h in Headers */,
 				F4E0BB1C196BA00A0053EFD7 /* ftlist.h in Headers */,
 				F4E0B594196B9C7D0053EFD7 /* CCMath.h in Headers */,
 				DA9FAA06197377AC006A0B4C /* HelperFunc_luabinding.h in Headers */,
@@ -3743,6 +3765,7 @@
 				DAF282AB196BDA7300959DA1 /* CCStorePaymentTransaction.cpp in Sources */,
 				DAF282F6196BDACB00959DA1 /* fpconv.c in Sources */,
 				F41590B2196BD1D20046D7EE /* CCTouchTargetNode.cpp in Sources */,
+				49386F9F197D24E200BF2EF5 /* Effect.cpp in Sources */,
 				F4E0B308196B9C670053EFD7 /* CCTextFieldTTF.cpp in Sources */,
 				F4E0B710196B9EEB0053EFD7 /* cpSpaceStep.c in Sources */,
 				F4E0B31C196B9C670053EFD7 /* CCAnimate3D.cpp in Sources */,
@@ -3940,6 +3963,7 @@
 				F4E0B2A2196B9C660053EFD7 /* CCActionEase.cpp in Sources */,
 				F4E0B5AC196B9C7D0053EFD7 /* CCPhysicsContact.cpp in Sources */,
 				F4E0B2BE196B9C660053EFD7 /* CCClippingRegionNode.cpp in Sources */,
+				49386FA1197D24E200BF2EF5 /* EffectSprite.cpp in Sources */,
 				F4E0B6FB196B9EEB0053EFD7 /* cpGearJoint.c in Sources */,
 				F4E0B695196B9E4C0053EFD7 /* CCEditBoxImplMac.mm in Sources */,
 				F4E0C067196BA25D0053EFD7 /* CCLuaEngine.cpp in Sources */,
