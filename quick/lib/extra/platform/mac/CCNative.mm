@@ -109,13 +109,13 @@ const string Native::getDeviceName(void)
         return modelStr;
     }
 
-    CCLog("Native::getDeviceName() not support on this platform.");
+    log("Native::getDeviceName() not support on this platform.");
     return string("");
 }
 
 void Native::vibrate()
 {
-    CCLog("Native::vibrate() not support on this platform.");
+    log("Native::vibrate() not support on this platform.");
 }
 
 NS_CC_EXTRA_END

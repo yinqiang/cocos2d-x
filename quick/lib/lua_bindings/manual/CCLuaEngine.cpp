@@ -1136,10 +1136,10 @@ int LuaEngine::executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, 
             event["phase"] = LuaValue::stringValue("unknown");
     }
     
-    const Point pt = CCDirector::getInstance()->convertToGL(pTouch->getLocationInView());
+    const Point pt = Director::getInstance()->convertToGL(pTouch->getLocationInView());
     event["x"] = LuaValue::floatValue(pt.x);
     event["y"] = LuaValue::floatValue(pt.y);
-    const Point prev = CCDirector::getInstance()->convertToGL(pTouch->getPreviousLocationInView());
+    const Point prev = Director::getInstance()->convertToGL(pTouch->getPreviousLocationInView());
     event["prevX"] = LuaValue::floatValue(prev.x);
     event["prevY"] = LuaValue::floatValue(prev.y);
     

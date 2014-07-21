@@ -561,11 +561,11 @@ static int lua_cocos2dx_Layer_setAccelerometerEnabled(lua_State* L)
         auto dict = static_cast<__Dictionary*>(self->getUserObject());
         if (dict == nullptr)
         {
-            dict = Dictionary::create();
+            dict = __Dictionary::create();
             self->setUserObject(dict);
         }
         
-        dict->setObject(Bool::create(enabled), "accelerometerEnabled");
+        dict->setObject(__Bool::create(enabled), "accelerometerEnabled");
         
         auto accListener = static_cast<EventListenerAcceleration*>(dict->objectForKey("accListener"));
         

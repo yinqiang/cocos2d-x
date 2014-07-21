@@ -608,17 +608,17 @@ int LuaStack::executeFunctionReturnArray(int handler,int numArgs,int numResults,
                 if (lua_type(_state, -1) == LUA_TBOOLEAN) {
                     
                     bool value = lua_toboolean(_state, -1);
-                    resultArray.addObject(Bool::create(value)) ;
+                    resultArray.addObject(__Bool::create(value)) ;
                     
                 }else if (lua_type(_state, -1) == LUA_TNUMBER) {
                     
                     double value = lua_tonumber(_state, -1);
-                    resultArray.addObject(Double::create(value));
+                    resultArray.addObject(__Double::create(value));
                     
                 }else if (lua_type(_state, -1) == LUA_TSTRING) {
                     
                     const char* value = lua_tostring(_state, -1);
-                    resultArray.addObject(String::create(value));
+                    resultArray.addObject(__String::create(value));
                     
                 }else{
                     

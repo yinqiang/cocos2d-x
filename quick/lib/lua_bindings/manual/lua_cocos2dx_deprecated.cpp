@@ -487,7 +487,7 @@ static int tolua_Cocos2d_CCArray_create00(lua_State* tolua_S)
 #endif
     {
         {
-            __Array* tolua_ret = (__Array*)  Array::create();
+            __Array* tolua_ret = (__Array*)  __Array::create();
             int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
             int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
             toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCArray");
@@ -1432,7 +1432,7 @@ static int register_cocos2dx_deprecated_Array(lua_State* tolua_S)
     
     return 1;
 }
-
+#if 0
 static int tolua_cocos2d_kmGLPushMatrix00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
@@ -1444,7 +1444,7 @@ static int tolua_cocos2d_kmGLPushMatrix00(lua_State* tolua_S)
     else
 #endif
     {
-        kmGLPushMatrix();
+        glPushMatrix();
     }
     return 0;
 #ifndef TOLUA_RELEASE
@@ -1472,7 +1472,7 @@ static int tolua_cocos2d_kmGLTranslatef00(lua_State* tolua_S)
         float y = ((float)  tolua_tonumber(tolua_S,2,0));
         float z = ((float)  tolua_tonumber(tolua_S,3,0));
         {
-            kmGLTranslatef(x,y,z);
+            glTranslatef(x,y,z);
         }
     }
     return 0;
@@ -1495,7 +1495,7 @@ static int tolua_cocos2d_kmGLPopMatrix00(lua_State* tolua_S)
 #endif
     {
         {
-            kmGLPopMatrix();
+           glPopMatrix();
         }
     }
     return 0;
@@ -1517,7 +1517,7 @@ static int tolua_cocos2d_kmGLLoadMatrix00(lua_State* tolua_S)
     else
 #endif
     {
-        kmMat4 mat4;
+        Mat4 mat4;
         size_t len = lua_objlen(tolua_S, 1);
         for (int i = 0; i < len; i++)
         {
@@ -1545,7 +1545,7 @@ tolua_lerror:
     return 0;
 #endif
 }
-
+#endif //0
 
 static int tolua_Cocos2d_CCString_intValue00(lua_State* tolua_S)
 {
@@ -1858,7 +1858,7 @@ static int tolua_Cocos2d_CCString_create00(lua_State* tolua_S)
     {
         const char* pStr = ((const char*)  tolua_tostring(tolua_S,2,0));
         {
-            __String* tolua_ret = (__String*)  String::create(pStr);
+            __String* tolua_ret = (__String*)  __String::create(pStr);
             int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
             int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
             toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCString");
@@ -1892,7 +1892,7 @@ static int tolua_Cocos2d_CCString_createWithData00(lua_State* tolua_S)
         unsigned char* pData = ((unsigned char*)  tolua_tostring(tolua_S,2,0));
         unsigned long nLen = ((unsigned long)  tolua_tonumber(tolua_S,3,0));
         {
-            __String* tolua_ret = (__String*)  String::createWithData(pData,nLen);
+            __String* tolua_ret = (__String*)  __String::createWithData(pData,nLen);
             int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
             int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
             toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCString");
@@ -1924,7 +1924,7 @@ static int tolua_Cocos2d_CCString_createWithContentsOfFile00(lua_State* tolua_S)
     {
         const char* pszFileName = ((const char*)  tolua_tostring(tolua_S,2,0));
         {
-            __String* tolua_ret = (__String*)  String::createWithContentsOfFile(pszFileName);
+            __String* tolua_ret = (__String*)  __String::createWithContentsOfFile(pszFileName);
             int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
             int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
             toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCString");
@@ -1971,10 +1971,10 @@ int register_all_cocos2dx_deprecated(lua_State* tolua_S)
     register_cocos2dx_deprecated_Size(tolua_S);
     register_cocos2dx_deprecated_Array(tolua_S);
     register_cocos2dx_deprecated_String(tolua_S);
-    tolua_function(tolua_S,"kmGLPushMatrix",tolua_cocos2d_kmGLPushMatrix00);
-    tolua_function(tolua_S,"kmGLTranslatef",tolua_cocos2d_kmGLTranslatef00);
-    tolua_function(tolua_S,"kmGLPopMatrix",tolua_cocos2d_kmGLPopMatrix00);
-    tolua_function(tolua_S,"kmGLLoadMatrix",tolua_cocos2d_kmGLLoadMatrix00);
+//    tolua_function(tolua_S,"kmGLPushMatrix",tolua_cocos2d_kmGLPushMatrix00);
+//    tolua_function(tolua_S,"kmGLTranslatef",tolua_cocos2d_kmGLTranslatef00);
+//    tolua_function(tolua_S,"kmGLPopMatrix",tolua_cocos2d_kmGLPopMatrix00);
+//    tolua_function(tolua_S,"kmGLLoadMatrix",tolua_cocos2d_kmGLLoadMatrix00);
     tolua_endmodule(tolua_S);
     
     return 0;

@@ -165,7 +165,6 @@ deprecated/CCArray.cpp \
 deprecated/CCSet.cpp \
 deprecated/CCString.cpp \
 deprecated/CCDictionary.cpp \
-deprecated/CCDeprecated.cpp \
 deprecated/CCNotificationCenter.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \

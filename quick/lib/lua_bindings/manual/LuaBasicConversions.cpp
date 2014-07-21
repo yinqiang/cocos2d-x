@@ -1054,7 +1054,7 @@ bool luaval_to_array(lua_State* L,int lo, __Array** outValue)
                     std::string stringValue = "";
                     if(luaval_to_std_string(L, -1, &stringValue) )
                     {
-                        arr->addObject(String::create(stringValue));
+                        arr->addObject(__String::create(stringValue));
                     }
                 }
                 else if(lua_isboolean(L, -1))
@@ -1062,12 +1062,12 @@ bool luaval_to_array(lua_State* L,int lo, __Array** outValue)
                     bool boolVal = false;
                     if (luaval_to_boolean(L, -1, &boolVal))
                     {
-                        arr->addObject(Bool::create(boolVal));
+                        arr->addObject(__Bool::create(boolVal));
                     }
                 }
                 else if(lua_isnumber(L, -1))
                 {
-                    arr->addObject(Double::create(tolua_tonumber(L, -1, 0)));
+                    arr->addObject(__Double::create(tolua_tonumber(L, -1, 0)));
                 }
                 else
                 {
@@ -1116,7 +1116,7 @@ bool luaval_to_dictionary(lua_State* L,int lo, __Dictionary** outValue)
             
             if (NULL == dict)
             {
-                dict = Dictionary::create();
+                dict = __Dictionary::create();
             }
             
             if(luaval_to_std_string(L, -2, &stringKey))
@@ -1157,19 +1157,19 @@ bool luaval_to_dictionary(lua_State* L,int lo, __Dictionary** outValue)
                 {
                     if(luaval_to_std_string(L, -1, &stringValue))
                     {
-                        dict->setObject(String::create(stringValue), stringKey);
+                        dict->setObject(__String::create(stringValue), stringKey);
                     }
                 }
                 else if(lua_isboolean(L, -1))
                 {
                     if (luaval_to_boolean(L, -1, &boolVal))
                     {
-                        dict->setObject(Bool::create(boolVal),stringKey);
+                        dict->setObject(__Bool::create(boolVal),stringKey);
                     }
                 }
                 else if(lua_isnumber(L, -1))
                 {
-                     dict->setObject(Double::create(tolua_tonumber(L, -1, 0)),stringKey);
+                     dict->setObject(__Double::create(tolua_tonumber(L, -1, 0)),stringKey);
                 }
                 else
                 {
@@ -1260,12 +1260,12 @@ bool luavals_variadic_to_array(lua_State* L,int argc, __Array** ret)
             if (!ok)
                 break;
             
-            array->addObject(Integer::create((int)num));
+            array->addObject(__Integer::create((int)num));
         }
         else if (lua_isstring(L, i + 2))
         {
             std::string str = lua_tostring(L, i + 2);
-            array->addObject(String::create(str));
+            array->addObject(__String::create(str));
         }
         else if (lua_isuserdata(L, i + 2))
         {

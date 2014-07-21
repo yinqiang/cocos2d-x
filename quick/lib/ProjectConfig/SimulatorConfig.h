@@ -35,6 +35,7 @@ using namespace cocos2d;
 
 #define kProjectConfigAll (kProjectConfigQuickRootPath | kProjectConfigProjectDir | kProjectConfigScriptFile | kProjectConfigPackagePath | kProjectConfigWritablePath | kProjectConfigFrameSize | kProjectConfigFrameScale | kProjectConfigShowConsole | kProjectConfigLoadPrecompiledFramework | kProjectConfigWriteDebugLogToFile | kProjectConfigWindowOffset | kProjectConfigDebugger | kProjectConfigExitWhenRelaunch)
 
+NS_CC_BEGIN
 
 class ProjectConfig
 {
@@ -79,8 +80,8 @@ public:
     void addPackagePath(const string packagePath);
     const vector<string> getPackagePathArray(void);
 
-    const CCSize getFrameSize(void);
-    void setFrameSize(CCSize frameSize);
+    const Size getFrameSize(void);
+    void setFrameSize(Size frameSize);
     bool isLandscapeFrame(void);
     void changeFrameOrientation(void);
     void changeFrameOrientationToPortait(void);
@@ -99,8 +100,8 @@ public:
     void setWriteDebugLogToFile(bool writeDebugLogToFile);
     const string getDebugLogFilePath(void);
 
-    const CCPoint getWindowOffset(void);
-    void setWindowOffset(CCPoint windowOffset);
+    const Point getWindowOffset(void);
+    void setWindowOffset(Point windowOffset);
 
     int getDebuggerType(void);
     void setDebuggerType(int debuggerType);
@@ -120,13 +121,13 @@ private:
     string	m_scriptFile;
     string	m_packagePath;
     string  m_writablePath;
-    CCSize	m_frameSize;
+    Size	m_frameSize;
     float	m_frameScale;
     bool	m_showConsole;
     bool    m_loadPrecompiledFramework;
     bool    m_writeDebugLogToFile;
     bool    m_restartProcess;
-    CCPoint	m_windowOffset;
+    Point	m_windowOffset;
     int     m_debuggerType;
     bool    m_exitWhenRelaunch;
 
@@ -163,7 +164,7 @@ public:
     // predefined screen size
     int getScreenSizeCount(void);
     const SimulatorScreenSize getScreenSize(int index);
-    int checkScreenSize(const CCSize& size);
+    int checkScreenSize(const Size& size);
 
     // set quick-cocos2d-x root path
     void setQuickCocos2dxRootPath(const char *path);
@@ -183,5 +184,8 @@ private:
     ScreenSizeArray m_screenSizeArray;
     string m_quickCocos2dxRootPath;
 };
+
+NS_CC_END
+
 
 #endif /* __PROJECT_CONFIG_H_ */
