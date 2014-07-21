@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -143,6 +143,7 @@
     <ClInclude Include="..\..\..\cocos\3d\CCAnimationCurve.h" />
     <ClInclude Include="..\..\..\cocos\3d\CCBundle3D.h" />
     <ClInclude Include="..\..\..\cocos\3d\CCBundle3DData.h" />
+    <ClInclude Include="..\..\..\cocos\3d\CCBundleReader.h" />
     <ClInclude Include="..\..\..\cocos\3d\CCMesh.h" />
     <ClInclude Include="..\..\..\cocos\3d\CCMeshSkin.h" />
     <ClInclude Include="..\..\..\cocos\3d\CCObjLoader.h" />
@@ -209,12 +210,10 @@
     <ClInclude Include="..\..\..\cocos\cocos2d.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCArray.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCBool.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDeprecated.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCDictionary.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCDouble.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCFloat.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCInteger.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCNotificationCenter.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCSet.h" />
     <ClInclude Include="..\..\..\cocos\deprecated\CCString.h" />
     <ClInclude Include="..\..\..\cocos\math\CCAffineTransform.h" />
@@ -585,6 +584,7 @@
     <ClCompile Include="..\..\..\cocos\3d\CCAnimate3D.cpp" />
     <ClCompile Include="..\..\..\cocos\3d\CCAnimation3D.cpp" />
     <ClCompile Include="..\..\..\cocos\3d\CCBundle3D.cpp" />
+    <ClCompile Include="..\..\..\cocos\3d\CCBundleReader.cpp" />
     <ClCompile Include="..\..\..\cocos\3d\CCMesh.cpp" />
     <ClCompile Include="..\..\..\cocos\3d\CCMeshSkin.cpp" />
     <ClCompile Include="..\..\..\cocos\3d\CCObjLoader.cpp" />
@@ -637,9 +637,7 @@
     <ClCompile Include="..\..\..\cocos\base\ZipUtils.cpp" />
     <ClCompile Include="..\..\..\cocos\cocos2d.cpp" />
     <ClCompile Include="..\..\..\cocos\deprecated\CCArray.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCDeprecated.cpp" />
     <ClCompile Include="..\..\..\cocos\deprecated\CCDictionary.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCNotificationCenter.cpp" />
     <ClCompile Include="..\..\..\cocos\deprecated\CCSet.cpp" />
     <ClCompile Include="..\..\..\cocos\deprecated\CCString.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCAffineTransform.cpp" />

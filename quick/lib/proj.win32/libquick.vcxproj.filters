@@ -705,9 +705,6 @@
     <ClInclude Include="..\..\..\cocos\deprecated\CCBool.h">
       <Filter>cocos\deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDeprecated.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\cocos\deprecated\CCDictionary.h">
       <Filter>cocos\deprecated</Filter>
     </ClInclude>
@@ -718,9 +715,6 @@
       <Filter>cocos\deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\cocos\deprecated\CCInteger.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCNotificationCenter.h">
       <Filter>cocos\deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\cocos\deprecated\CCSet.h">
@@ -1635,6 +1629,9 @@
     <ClInclude Include="..\ProjectConfig\ProjectConfig.h">
       <Filter>libquick\ProjectConfig</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cocos\3d\CCBundleReader.h">
+      <Filter>cocos\3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -1985,13 +1982,7 @@
     <ClCompile Include="..\..\..\cocos\base\base64.cpp">
       <Filter>cocos\base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCDeprecated.cpp">
-      <Filter>cocos\deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\cocos\deprecated\CCDictionary.cpp">
-      <Filter>cocos\deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCNotificationCenter.cpp">
       <Filter>cocos\deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\deprecated\CCSet.cpp">
@@ -2467,6 +2458,9 @@
     </ClCompile>
     <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp">
       <Filter>libquick\ProjectConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\3d\CCBundleReader.cpp">
+      <Filter>cocos\3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

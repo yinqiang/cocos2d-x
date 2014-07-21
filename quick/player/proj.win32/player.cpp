@@ -18,6 +18,8 @@
 #include <shlguid.h>
 #include <shellapi.h>
 
+#include "glfw3.h"
+
 int APIENTRY _tWinMain(HINSTANCE hInstance,
     HINSTANCE hPrevInstance,
     LPTSTR    lpCmdLine,
@@ -90,18 +92,22 @@ int Player::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // create the application instance
-    _app = new AppDelegate();
-    _app->setProjectConfig(_project);
+    //_app = new AppDelegate();
+    //_app->setProjectConfig(_project);
 
     // set environments
     SetCurrentDirectoryA(_project.getProjectDir().c_str());
-    CCFileUtils::sharedFileUtils()->setSearchRootPath(_project.getProjectDir().c_str());
-    CCFileUtils::sharedFileUtils()->setWritablePath(_project.getWritableRealPath().c_str());
+    FileUtils::getInstance()->setSearchRootPath(_project.getProjectDir().c_str());
+    FileUtils::getInstance()->setWritablePath(_project.getWritableRealPath().c_str());
 
     // create opengl view
     const Size frameSize = _project.getFrameSize();
-    auto eglView = GLView::createWithRect("player", cocos2d::Rect(0, 0, frameSize.width, frameSize.height), _project.getFrameScale(), false);
+    auto glview = GLView::createWithRect("player", cocos2d::Rect(0, 0, frameSize.width, frameSize.height), _project.getFrameScale(), false);
+    Director::getInstance()->setOpenGLView(glview);
 
+    // startup message loop
+    _app = new AppDelegate();
+    return Application::getInstance()->run();
 }
 
 void Player::relaunch(const string &commandLine)
@@ -117,7 +123,7 @@ void Player::writeDebugLog(const char *log)
 // windows callback
 LRESULT Player::WindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL *pProcessed)
 {
-
+    return 0;
 }
 
 PLAYER_NS_END

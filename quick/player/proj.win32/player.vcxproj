@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -52,12 +52,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;CC_LUA_ENGINE_ENABLED=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)cocos;$(QUICK_V3_ROOT)cocos\platform\win32;$(QUICK_V3_ROOT)cocos\platform\desktop;$(QUICK_V3_ROOT)cocos\audio\include;$(QUICK_V3_ROOT)extensions;$(QUICK_V3_ROOT)external;$(QUICK_V3_ROOT)external\chipmunk\include\chipmunk;$(QUICK_V3_ROOT)external\ConvertUTF;$(QUICK_V3_ROOT)external\curl\include\win32;$(QUICK_V3_ROOT)external\edtaa3func;$(QUICK_V3_ROOT)external\freetype2\include\win32;$(QUICK_V3_ROOT)external\glfw3\include\win32;$(QUICK_V3_ROOT)external\jpeg\include\win32;$(QUICK_V3_ROOT)external\json;$(QUICK_V3_ROOT)external\png\include\win32;$(QUICK_V3_ROOT)external\sqlite3\include;$(QUICK_V3_ROOT)external\tiff\include\win32;$(QUICK_V3_ROOT)external\tinyxml2;$(QUICK_V3_ROOT)external\unzip;$(QUICK_V3_ROOT)external\webp\include\win32;$(QUICK_V3_ROOT)external\websockets\include\win32;$(QUICK_V3_ROOT)external\win32-specific\gles\include\OGLES;$(QUICK_V3_ROOT)external\win32-specific\icon\include;$(QUICK_V3_ROOT)external\win32-specific\zlib\include;$(QUICK_V3_ROOT)external\xxhash;$(QUICK_V3_ROOT)external\xxtea;$(QUICK_V3_ROOT)quick\lib;$(QUICK_V3_ROOT)quick\lib\event;$(QUICK_V3_ROOT)quick\lib\extra;$(QUICK_V3_ROOT)quick\lib\lua_bindings\auto;$(QUICK_V3_ROOT)quick\lib\lua_bindings\manual;$(QUICK_V3_ROOT)quick\lib\lua_bindings\luajit\include;$(QUICK_V3_ROOT)quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)quick\lib\lua_extensions;$(ProjDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)cocos;$(QUICK_V3_ROOT)cocos\platform\win32;$(QUICK_V3_ROOT)cocos\platform\desktop;$(QUICK_V3_ROOT)cocos\audio\include;$(QUICK_V3_ROOT)extensions;$(QUICK_V3_ROOT)external;$(QUICK_V3_ROOT)external\chipmunk\include\chipmunk;$(QUICK_V3_ROOT)external\ConvertUTF;$(QUICK_V3_ROOT)external\curl\include\win32;$(QUICK_V3_ROOT)external\edtaa3func;$(QUICK_V3_ROOT)external\freetype2\include\win32;$(QUICK_V3_ROOT)external\glfw3\include\win32;$(QUICK_V3_ROOT)external\jpeg\include\win32;$(QUICK_V3_ROOT)external\json;$(QUICK_V3_ROOT)external\png\include\win32;$(QUICK_V3_ROOT)external\sqlite3\include;$(QUICK_V3_ROOT)external\tiff\include\win32;$(QUICK_V3_ROOT)external\tinyxml2;$(QUICK_V3_ROOT)external\unzip;$(QUICK_V3_ROOT)external\webp\include\win32;$(QUICK_V3_ROOT)external\websockets\include\win32;$(QUICK_V3_ROOT)external\win32-specific\gles\include\OGLES;$(QUICK_V3_ROOT)external\win32-specific\icon\include;$(QUICK_V3_ROOT)external\win32-specific\zlib\include;$(QUICK_V3_ROOT)external\xxhash;$(QUICK_V3_ROOT)external\xxtea;$(QUICK_V3_ROOT)quick\lib;$(QUICK_V3_ROOT)quick\lib\event;$(QUICK_V3_ROOT)quick\lib\extra;$(QUICK_V3_ROOT)quick\lib\lua_bindings\auto;$(QUICK_V3_ROOT)quick\lib\lua_bindings\manual;$(QUICK_V3_ROOT)quick\lib\lua_bindings\luajit\include;$(QUICK_V3_ROOT)quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)quick\lib\lua_extensions;$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4800;4056;4018</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libcurl_imp.lib;freetype250.lib;glfw3.lib;libjpeg.lib;libpng.lib;sqlite3.lib;libtiff.lib;libwebp.lib;websockets.lib;glew32.lib;libiconv.lib;libzlib.lib;lua51.lib;libquick.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;wsock32.lib;ws2_32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(QUICK_V3_ROOT)\external\curl\prebuilt\win32;$(QUICK_V3_ROOT)\external\freetype2\prebuilt\win32;$(QUICK_V3_ROOT)\external\glfw3\prebuilt\win32;$(QUICK_V3_ROOT)\external\jpeg\prebuilt\win32;$(QUICK_V3_ROOT)\external\png\prebuilt\win32;$(QUICK_V3_ROOT)\external\sqlite3\libraries\win32;$(QUICK_V3_ROOT)\external\tiff\prebuilt\win32;$(QUICK_V3_ROOT)\external\webp\prebuilt\win32;$(QUICK_V3_ROOT)\external\websockets\prebuilt\win32;$(QUICK_V3_ROOT)\external\win32-specific\gles\prebuilt;$(QUICK_V3_ROOT)\external\win32-specific\icon\prebuilt;$(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt;$(QUICK_V3_ROOT)\quick\lib\lua_bindings\luajit\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +88,6 @@
     <ClInclude Include="..\src\PlayerProtocol.h" />
     <ClInclude Include="..\src\PlayerServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerUtils.h" />
-    <ClInclude Include="..\src\player_tolua.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -97,7 +98,6 @@
     <ClCompile Include="..\src\PlayerProtocol.cpp" />
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerUtils.cpp" />
-    <ClCompile Include="..\src\player_tolua.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -109,6 +109,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="player.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\proj.win32\libquick.vcxproj">
+      <Project>{b366c69e-671d-4de5-bac2-f064abfed392}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
