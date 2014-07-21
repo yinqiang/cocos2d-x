@@ -128,7 +128,7 @@ void StartupCall::startup()
     // load framework
     if (projectConfig.isLoadPrecompiledFramework())
     {
-        const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
+        const string precompiledFrameworkPath = SimulatorConfig::getInstance()->getPrecompiledFrameworkPath();
         pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
     }
     

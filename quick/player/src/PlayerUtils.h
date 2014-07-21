@@ -17,7 +17,7 @@ struct split
 };
 
 template <typename Container>
-Container& split(
+Container& split_s(
                  Container&                                 result,
                  const typename Container::value_type&      s,
                  typename Container::value_type::value_type delimiter,

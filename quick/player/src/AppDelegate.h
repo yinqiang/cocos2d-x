@@ -3,6 +3,7 @@
 
 #include "base/CCRef.h"
 #include "CCApplication.h"
+#include "ProjectConfig/ProjectConfig.h"
 #include "ProjectConfig/SimulatorConfig.h"
 
 /**

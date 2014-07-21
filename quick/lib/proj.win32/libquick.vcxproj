@@ -514,6 +514,7 @@
     <ClInclude Include="..\lua_extensions\socket\udp.h" />
     <ClInclude Include="..\lua_extensions\socket\wsocket.h" />
     <ClInclude Include="..\lua_extensions\zlib\lua_zlib.h" />
+    <ClInclude Include="..\ProjectConfig\ProjectConfig.h" />
     <ClInclude Include="..\ProjectConfig\SimulatorConfig.h" />
   </ItemGroup>
   <ItemGroup>
@@ -850,6 +851,7 @@
     <ClCompile Include="..\lua_extensions\socket\udp.c" />
     <ClCompile Include="..\lua_extensions\socket\wsocket.c" />
     <ClCompile Include="..\lua_extensions\zlib\lua_zlib.c" />
+    <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp" />
     <ClCompile Include="..\ProjectConfig\SimulatorConfig.cpp" />
   </ItemGroup>
   <ItemGroup>

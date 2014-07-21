@@ -1632,6 +1632,9 @@
     <ClInclude Include="..\..\..\cocos\2d\CCLabelBMFont.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
+    <ClInclude Include="..\ProjectConfig\ProjectConfig.h">
+      <Filter>libquick\ProjectConfig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -2461,6 +2464,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\2d\CCLabelBMFont.cpp">
       <Filter>cocos\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp">
+      <Filter>libquick\ProjectConfig</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
