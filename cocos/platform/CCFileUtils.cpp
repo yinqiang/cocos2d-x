@@ -921,6 +921,11 @@ bool FileUtils::isFileExist(const std::string& filename) const
     return false;
 }
 
+bool FileUtils::isDirectoryExist(const std::string& dirname) const
+{
+    return isDirectoryExistInternal(dirname);
+}
+
 bool FileUtils::isAbsolutePath(const std::string& path) const
 {
     return (path[0] == '/');

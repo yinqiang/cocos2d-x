@@ -376,6 +376,26 @@ bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
     return ret;
 }
 
+bool FileUtilsApple::isDirectoryExistInternal(const std::string& dirPath) const
+{
+    if (0 == dirPath.length())
+    {
+        return false;
+    }
+    
+    bool bRet = false;
+    
+    if (dirPath[0] == '/')
+    {
+        BOOL isDirectory = FALSE;
+        if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:dirPath.c_str()] isDirectory:&isDirectory]) {
+            bRet = isDirectory == YES;
+        }
+    }
+    
+    return bRet;
+}
+
 std::string FileUtilsApple::getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename)
 {
     if (directory[0] != '/')

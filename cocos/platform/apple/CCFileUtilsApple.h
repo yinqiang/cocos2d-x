@@ -53,6 +53,7 @@ public:
     virtual ValueVector getValueVectorFromFile(const std::string& filename) override;
 private:
     virtual bool isFileExistInternal(const std::string& filePath) const override;
+    virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
 };
 
 // end of platform group
