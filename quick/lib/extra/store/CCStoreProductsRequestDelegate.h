@@ -12,8 +12,8 @@ static const int CCStoreProductsRequestErrorCancelled = -1;
 class StoreProductsRequestDelegate
 {
 public:
-    virtual void requestProductsCompleted(cocos2d::CCArray* products,
-                                          cocos2d::CCArray* invalidProductsId = NULL) = 0;
+    virtual void requestProductsCompleted(cocos2d::__Array* products,
+                                          cocos2d::__Array* invalidProductsId = NULL) = 0;
     virtual void requestProductsFailed(int errorCode, const char* errorString) = 0;
 };
 

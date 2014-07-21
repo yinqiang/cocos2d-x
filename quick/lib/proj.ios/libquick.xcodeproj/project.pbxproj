@@ -470,15 +470,11 @@
 		DAF293E7196D339300959DA1 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29102196D338E00959DA1 /* CCArray.cpp */; };
 		DAF293E8196D339300959DA1 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29103196D338E00959DA1 /* CCArray.h */; };
 		DAF293E9196D339300959DA1 /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29104196D338E00959DA1 /* CCBool.h */; };
-		DAF293EA196D339300959DA1 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29105196D338E00959DA1 /* CCDeprecated.cpp */; };
-		DAF293EB196D339300959DA1 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29106196D338E00959DA1 /* CCDeprecated.h */; };
 		DAF293EC196D339300959DA1 /* CCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29107196D338E00959DA1 /* CCDictionary.cpp */; };
 		DAF293ED196D339300959DA1 /* CCDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29108196D338E00959DA1 /* CCDictionary.h */; };
 		DAF293EE196D339300959DA1 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29109196D338E00959DA1 /* CCDouble.h */; };
 		DAF293EF196D339300959DA1 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910A196D338E00959DA1 /* CCFloat.h */; };
 		DAF293F0196D339300959DA1 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910B196D338E00959DA1 /* CCInteger.h */; };
-		DAF293F1196D339300959DA1 /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */; };
-		DAF293F2196D339400959DA1 /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */; };
 		DAF293F3196D339400959DA1 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF2910E196D338E00959DA1 /* CCSet.cpp */; };
 		DAF293F4196D339400959DA1 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910F196D338E00959DA1 /* CCSet.h */; };
 		DAF293F5196D339400959DA1 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29110196D338E00959DA1 /* CCString.cpp */; };
@@ -1216,15 +1212,11 @@
 		DAF29102196D338E00959DA1 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
 		DAF29103196D338E00959DA1 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		DAF29104196D338E00959DA1 /* CCBool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBool.h; sourceTree = "<group>"; };
-		DAF29105196D338E00959DA1 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
-		DAF29106196D338E00959DA1 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
 		DAF29107196D338E00959DA1 /* CCDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDictionary.cpp; sourceTree = "<group>"; };
 		DAF29108196D338E00959DA1 /* CCDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDictionary.h; sourceTree = "<group>"; };
 		DAF29109196D338E00959DA1 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		DAF2910A196D338E00959DA1 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		DAF2910B196D338E00959DA1 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
-		DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
-		DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
 		DAF2910E196D338E00959DA1 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
 		DAF2910F196D338E00959DA1 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		DAF29110196D338E00959DA1 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
@@ -2701,15 +2693,11 @@
 				DAF29102196D338E00959DA1 /* CCArray.cpp */,
 				DAF29103196D338E00959DA1 /* CCArray.h */,
 				DAF29104196D338E00959DA1 /* CCBool.h */,
-				DAF29105196D338E00959DA1 /* CCDeprecated.cpp */,
-				DAF29106196D338E00959DA1 /* CCDeprecated.h */,
 				DAF29107196D338E00959DA1 /* CCDictionary.cpp */,
 				DAF29108196D338E00959DA1 /* CCDictionary.h */,
 				DAF29109196D338E00959DA1 /* CCDouble.h */,
 				DAF2910A196D338E00959DA1 /* CCFloat.h */,
 				DAF2910B196D338E00959DA1 /* CCInteger.h */,
-				DAF2910C196D338E00959DA1 /* CCNotificationCenter.cpp */,
-				DAF2910D196D338E00959DA1 /* CCNotificationCenter.h */,
 				DAF2910E196D338E00959DA1 /* CCSet.cpp */,
 				DAF2910F196D338E00959DA1 /* CCSet.h */,
 				DAF29110196D338E00959DA1 /* CCString.cpp */,
@@ -3087,7 +3075,6 @@
 				DAF293C2196D339200959DA1 /* CCRef.h in Headers */,
 				DAF2947C196D339A00959DA1 /* CCGLView.h in Headers */,
 				DAF2941F196D339500959DA1 /* CCPhysicsJointInfo_chipmunk.h in Headers */,
-				DAF293F2196D339400959DA1 /* CCNotificationCenter.h in Headers */,
 				DAF28EC3196D082900959DA1 /* lua_extensions.h in Headers */,
 				DAF293FE196D339400959DA1 /* CCVertex.h in Headers */,
 				DAF2941D196D339500959DA1 /* CCPhysicsHelper_chipmunk.h in Headers */,
@@ -3128,7 +3115,6 @@
 				DAF2935C196D338F00959DA1 /* CocosDenshion.h in Headers */,
 				DAF28EE5196D082900959DA1 /* usocket.h in Headers */,
 				DAF2937F196D339000959DA1 /* ccCArray.h in Headers */,
-				DAF293EB196D339300959DA1 /* CCDeprecated.h in Headers */,
 				DAF293BF196D339200959DA1 /* CCProfiling.h in Headers */,
 				DAF2934B196D338F00959DA1 /* CCObjLoader.h in Headers */,
 				DAF292CF196D338E00959DA1 /* CCActionTiledGrid.h in Headers */,
@@ -3549,7 +3535,6 @@
 				DAF294F9196D368700959DA1 /* cpSpaceStep.c in Sources */,
 				DAF2935E196D339000959DA1 /* SimpleAudioEngine.mm in Sources */,
 				DAF2933C196D338F00959DA1 /* CCAnimate3D.cpp in Sources */,
-				DAF293EA196D339300959DA1 /* CCDeprecated.cpp in Sources */,
 				DAF294F3196D368700959DA1 /* cpPolyShape.c in Sources */,
 				DAF294F4196D368700959DA1 /* cpShape.c in Sources */,
 				DAF292E2196D338E00959DA1 /* CCDrawNode.cpp in Sources */,
@@ -3558,7 +3543,6 @@
 				DAF28EEA196D082900959DA1 /* SimulatorConfig.cpp in Sources */,
 				DAF29346196D338F00959DA1 /* CCMesh.cpp in Sources */,
 				DAF29318196D338F00959DA1 /* CCParticleSystemQuad.cpp in Sources */,
-				DAF293F1196D339300959DA1 /* CCNotificationCenter.cpp in Sources */,
 				DAF28EB4196D082900959DA1 /* lua_cjson.c in Sources */,
 				DAF293FD196D339400959DA1 /* CCVertex.cpp in Sources */,
 				DAF293D7196D339200959DA1 /* etc1.cpp in Sources */,

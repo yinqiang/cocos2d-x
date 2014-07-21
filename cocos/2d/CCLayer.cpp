@@ -620,7 +620,7 @@ LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
 
 LayerMultiplex * LayerMultiplex::createWithLayer(Layer* layer)
 {
-    return LayerMultiplex::create(layer, NULL);
+    return LayerMultiplex::create(layer, nullptr);
 }
 
 LayerMultiplex* LayerMultiplex::create()
