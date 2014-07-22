@@ -52,6 +52,7 @@ THE SOFTWARE.
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventAcceleration.h"
+#include "platform/CCDevice.h"
 #include "base/CCEventListenerAcceleration.h"
 
 #include "deprecated/CCString.h"
@@ -860,6 +861,10 @@ void Node::cleanup()
     if (_keyboardListener) {
         _eventDispatcher->removeEventListener(_keyboardListener);
         _keyboardListener = nullptr;
+    }
+    if (_accelerationListener) {
+        _eventDispatcher->removeEventListener(_accelerationListener);
+        _accelerationListener = nullptr;
     }
 //    if ( _scriptType != kScriptTypeNone)
 //    {
@@ -2655,6 +2660,61 @@ void Node::setKeyboardEnabled(bool enabled)
             _keyboardListener = listener;
         }
     }
+}
+
+/// isAccelerometerEnabled getter
+bool Node::isAccelerometerEnabled() const
+{
+    return _accelerometerEnabled;
+}
+/// isAccelerometerEnabled setter
+void Node::setAccelerometerEnabled(bool enabled)
+{
+    if (enabled != _accelerometerEnabled)
+    {
+        _accelerometerEnabled = enabled;
+        
+        Device::setAccelerometerEnabled(enabled);
+        
+        if (_accelerationListener) {
+            _eventDispatcher->removeEventListener(_accelerationListener);
+            _accelerationListener = nullptr;
+        }
+        
+        if (enabled)
+        {
+            _accelerationListener = EventListenerAcceleration::create(CC_CALLBACK_2(Node::onAcceleration, this));
+            _eventDispatcher->addEventListenerWithSceneGraphPriority(_accelerationListener, this);
+        }
+    }
+}
+
+void Node::setAccelerometerInterval(double interval) {
+    if (_accelerometerEnabled)
+    {
+        if (_running)
+        {
+            Device::setAccelerometerInterval(interval);
+        }
+    }
+}
+
+void Node::onAcceleration(Acceleration* acc, Event* unused_event)
+{
+    CC_UNUSED_PARAM(acc);
+    CC_UNUSED_PARAM(unused_event);
+#if CC_ENABLE_SCRIPT_BINDING
+//    if(kScriptTypeNone != _scriptType)
+//    {
+//        BasicScriptData data(this,(void*)acc);
+//        ScriptEvent event(kAccelerometerEvent,&data);
+//        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(ACCELERATE_EVENT))
+    {
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeAccelerometerEvent(this, acc);
+    }
+#endif
 }
 
 
