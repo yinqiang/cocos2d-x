@@ -33,7 +33,7 @@
 // #include "lua_cocos2dx_coco_studio_manual.hpp"
 // #include "lua_cocos2dx_ui_manual.hpp"
 #include "event/CCScriptEventDispatcher.h"
-#include "event/CCTouchDispatcher.h"
+//#include "event/CCTouchDispatcher.h"
 
 NS_CC_BEGIN
 

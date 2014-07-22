@@ -162,7 +162,6 @@ renderer/CCTextureCache.cpp \
 renderer/ccGLStateCache.cpp \
 renderer/ccShaders.cpp \
 deprecated/CCArray.cpp \
-deprecated/CCSet.cpp \
 deprecated/CCString.cpp \
 deprecated/CCDictionary.cpp \
 physics/CCPhysicsBody.cpp \

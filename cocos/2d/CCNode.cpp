@@ -49,7 +49,6 @@ THE SOFTWARE.
 #include "renderer/CCGLProgramState.h"
 #include "math/TransformUtils.h"
 #include "event/CCScriptEventDispatcher.h"
-#include "event/CCTouchDispatcher.h"
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventAcceleration.h"

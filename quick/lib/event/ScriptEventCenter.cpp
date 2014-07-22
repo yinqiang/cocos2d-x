@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "2d/CCSpriteBatchNode.h"
 #include "physics/CCPhysicsWorld.h"
 #include "deprecated/CCString.h"
-#include "event/CCTouchDispatcher.h"
+//#include "event/CCTouchDispatcher.h"
 #include "event/CCTouchTargetNode.h"
 #include "deprecated/CCArray.h"
 

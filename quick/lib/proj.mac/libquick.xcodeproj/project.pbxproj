@@ -104,10 +104,6 @@
 		DAF2835A196CEE6D00959DA1 /* CCBundleReader.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF28358196CEE6D00959DA1 /* CCBundleReader.h */; };
 		F41590A9196BD1D20046D7EE /* CCScriptEventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F415909C196BD1D20046D7EE /* CCScriptEventDispatcher.cpp */; };
 		F41590AA196BD1D20046D7EE /* CCScriptEventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = F415909D196BD1D20046D7EE /* CCScriptEventDispatcher.h */; };
-		F41590AC196BD1D20046D7EE /* CCTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = F415909F196BD1D20046D7EE /* CCTouch.h */; };
-		F41590AD196BD1D20046D7EE /* CCTouchDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F41590A0196BD1D20046D7EE /* CCTouchDelegateProtocol.h */; };
-		F41590AF196BD1D20046D7EE /* CCTouchDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = F41590A2196BD1D20046D7EE /* CCTouchDispatcher.h */; };
-		F41590B1196BD1D20046D7EE /* CCTouchHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F41590A4196BD1D20046D7EE /* CCTouchHandler.h */; };
 		F41590B2196BD1D20046D7EE /* CCTouchTargetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F41590A5196BD1D20046D7EE /* CCTouchTargetNode.cpp */; };
 		F41590B3196BD1D20046D7EE /* CCTouchTargetNode.h in Headers */ = {isa = PBXBuildFile; fileRef = F41590A6196BD1D20046D7EE /* CCTouchTargetNode.h */; };
 		F41590B4196BD1D20046D7EE /* ScriptEventCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F41590A7196BD1D20046D7EE /* ScriptEventCenter.cpp */; };
@@ -746,8 +742,6 @@
 		F4E0C0CC196BA3D60053EFD7 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */; };
 		F4E0C0CD196BA3D60053EFD7 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */; };
 		F4E0C0CE196BA3D60053EFD7 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */; };
-		F4E0C0D1196BA3D60053EFD7 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */; };
-		F4E0C0D2196BA3D60053EFD7 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0C2196BA3D60053EFD7 /* CCSet.h */; };
 		F4E0C0D3196BA3D60053EFD7 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */; };
 		F4E0C0D4196BA3D60053EFD7 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0C4196BA3D60053EFD7 /* CCString.h */; };
 /* End PBXBuildFile section */
@@ -850,10 +844,6 @@
 		DAF28358196CEE6D00959DA1 /* CCBundleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBundleReader.h; sourceTree = "<group>"; };
 		F415909C196BD1D20046D7EE /* CCScriptEventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScriptEventDispatcher.cpp; sourceTree = "<group>"; };
 		F415909D196BD1D20046D7EE /* CCScriptEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScriptEventDispatcher.h; sourceTree = "<group>"; };
-		F415909F196BD1D20046D7EE /* CCTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouch.h; sourceTree = "<group>"; };
-		F41590A0196BD1D20046D7EE /* CCTouchDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchDelegateProtocol.h; sourceTree = "<group>"; };
-		F41590A2196BD1D20046D7EE /* CCTouchDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchDispatcher.h; sourceTree = "<group>"; };
-		F41590A4196BD1D20046D7EE /* CCTouchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchHandler.h; sourceTree = "<group>"; };
 		F41590A5196BD1D20046D7EE /* CCTouchTargetNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTouchTargetNode.cpp; sourceTree = "<group>"; };
 		F41590A6196BD1D20046D7EE /* CCTouchTargetNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchTargetNode.h; sourceTree = "<group>"; };
 		F41590A7196BD1D20046D7EE /* ScriptEventCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptEventCenter.cpp; sourceTree = "<group>"; };
@@ -1526,8 +1516,6 @@
 		F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
-		F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
-		F4E0C0C2196BA3D60053EFD7 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		F4E0C0C4196BA3D60053EFD7 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1811,10 +1799,6 @@
 			children = (
 				F415909C196BD1D20046D7EE /* CCScriptEventDispatcher.cpp */,
 				F415909D196BD1D20046D7EE /* CCScriptEventDispatcher.h */,
-				F415909F196BD1D20046D7EE /* CCTouch.h */,
-				F41590A0196BD1D20046D7EE /* CCTouchDelegateProtocol.h */,
-				F41590A2196BD1D20046D7EE /* CCTouchDispatcher.h */,
-				F41590A4196BD1D20046D7EE /* CCTouchHandler.h */,
 				F41590A5196BD1D20046D7EE /* CCTouchTargetNode.cpp */,
 				F41590A6196BD1D20046D7EE /* CCTouchTargetNode.h */,
 				F41590A7196BD1D20046D7EE /* ScriptEventCenter.cpp */,
@@ -3202,8 +3186,6 @@
 				F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */,
 				F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */,
 				F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */,
-				F4E0C0C1196BA3D60053EFD7 /* CCSet.cpp */,
-				F4E0C0C2196BA3D60053EFD7 /* CCSet.h */,
 				F4E0C0C3196BA3D60053EFD7 /* CCString.cpp */,
 				F4E0C0C4196BA3D60053EFD7 /* CCString.h */,
 			);
@@ -3248,13 +3230,11 @@
 				DAF28321196BDACB00959DA1 /* tcp.h in Headers */,
 				F4E0BB29196BA00A0053EFD7 /* ftsynth.h in Headers */,
 				F4E0BD05196BA0460053EFD7 /* document.h in Headers */,
-				F41590AF196BD1D20046D7EE /* CCTouchDispatcher.h in Headers */,
 				F4E0B2CD196B9C670053EFD7 /* CCFontAtlasCache.h in Headers */,
 				F4E0BD0E196BA0460053EFD7 /* writer.h in Headers */,
 				F4E0B6F1196B9EEB0053EFD7 /* cpBody.h in Headers */,
 				F4E0BB0E196BA00A0053EFD7 /* ftbzip2.h in Headers */,
 				F4E0B568196B9C7D0053EFD7 /* CCProfiling.h in Headers */,
-				F41590AC196BD1D20046D7EE /* CCTouch.h in Headers */,
 				F4E0BB06196BA00A0053EFD7 /* ftoption.h in Headers */,
 				F4E0BB1D196BA00A0053EFD7 /* ftlzw.h in Headers */,
 				F4E0BFCB196BA25D0053EFD7 /* lua_cocos2dx_physics_auto.hpp in Headers */,
@@ -3293,7 +3273,6 @@
 				DAF28275196BDA7300959DA1 /* cocos2dx_extra.h in Headers */,
 				F4E0B564196B9C7D0053EFD7 /* CCNS.h in Headers */,
 				F4E0BE67196BA0C10053EFD7 /* ioapi_mem.h in Headers */,
-				F4E0C0D2196BA3D60053EFD7 /* CCSet.h in Headers */,
 				DAF282AD196BDA7300959DA1 /* CCStorePaymentTransactionWrapper.h in Headers */,
 				DAF282AA196BDA7300959DA1 /* CCStore.h in Headers */,
 				F4E0BB0A196BA00A0053EFD7 /* ftautoh.h in Headers */,
@@ -3318,7 +3297,6 @@
 				F4E0B5B5196B9C7D0053EFD7 /* CCPhysicsBodyInfo_chipmunk.h in Headers */,
 				F4E0B5F4196B9C7D0053EFD7 /* CCApplicationProtocol.h in Headers */,
 				F4E0BE44196BA0C10053EFD7 /* tiffconf.h in Headers */,
-				F41590AD196BD1D20046D7EE /* CCTouchDelegateProtocol.h in Headers */,
 				F4E0BB57196BA00A0053EFD7 /* tttables.h in Headers */,
 				F4E0BB4B196BA00A0053EFD7 /* svpsinfo.h in Headers */,
 				F4E0BFCF196BA25D0053EFD7 /* lauxlib.h in Headers */,
@@ -3391,7 +3369,6 @@
 				F4E0BB44196BA00A0053EFD7 /* svkern.h in Headers */,
 				F4E0BB12196BA00A0053EFD7 /* ftcid.h in Headers */,
 				F4E0B516196B9C7D0053EFD7 /* CDXMacOSXSupport.h in Headers */,
-				F41590B1196BD1D20046D7EE /* CCTouchHandler.h in Headers */,
 				F4E0B2BB196B9C660053EFD7 /* CCAtlasNode.h in Headers */,
 				F4E0B57C196B9C7D0053EFD7 /* ccUtils.h in Headers */,
 				F4E0B2B9196B9C660053EFD7 /* CCAnimationCache.h in Headers */,
@@ -3968,7 +3945,6 @@
 				F4E0B575196B9C7D0053EFD7 /* CCUserDefault.cpp in Sources */,
 				F4E0B5B0196B9C7D0053EFD7 /* CCPhysicsShape.cpp in Sources */,
 				F4E0B300196B9C670053EFD7 /* CCSprite.cpp in Sources */,
-				F4E0C0D1196BA3D60053EFD7 /* CCSet.cpp in Sources */,
 				F4E0B52E196B9C7D0053EFD7 /* CCAutoreleasePool.cpp in Sources */,
 				DAF28322196BDACB00959DA1 /* timeout.c in Sources */,
 				F4E0B533196B9C7D0053EFD7 /* CCConfiguration.cpp in Sources */,

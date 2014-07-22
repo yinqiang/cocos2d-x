@@ -30,7 +30,6 @@
 #include "deprecated/CCString.h"
 #include "deprecated/CCArray.h"
 #include "deprecated/CCDictionary.h"
-#include "deprecated/CCSet.h"
 
 NS_CC_BEGIN
 
@@ -65,11 +64,6 @@ void DataVisitor::visit(const __Array *value)
 }
 
 void DataVisitor::visit(const __Dictionary *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Set *value)
 {
     visitObject(value);
 }
@@ -186,34 +180,6 @@ void PrettyPrinter::visit(const __Dictionary *p)
     _result += "\n";
     _result += _indentStr;
     _result += "</dict>";
-}
-
-void PrettyPrinter::visit(const __Set *p)
-{
-    _result += "\n";
-    _result += _indentStr;
-    _result += "<set>\n";
-    
-    setIndentLevel(_indentLevel+1);
-
-    int i = 0;
-    __Set* tmp = const_cast<__Set*>(p);
-    __SetIterator it = tmp->begin();
-
-    for (; it != tmp->end(); ++it, ++i) {
-        if (i > 0) {
-            _result += "\n";
-        }
-        _result += _indentStr.c_str();
-        PrettyPrinter v(_indentLevel);
-//FIXME:james        (*it)->acceptVisitor(v);
-        _result += v.getResult();
-    }
-    setIndentLevel(_indentLevel-1);
-    
-    _result += "\n";
-    _result += _indentStr;
-    _result += "</set>\n";
 }
 
 void PrettyPrinter::setIndentLevel(int indentLevel)

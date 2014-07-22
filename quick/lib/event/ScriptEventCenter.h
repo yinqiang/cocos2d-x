@@ -36,6 +36,15 @@ NS_CC_BEGIN
 
 class __Array;
 
+#define CCTOUCHBEGAN        0
+#define CCTOUCHMOVED        1
+#define CCTOUCHENDED        2
+#define CCTOUCHCANCELLED    3
+#define CCTOUCHADDED        4
+#define CCTOUCHREMOVED      5
+#define ccTouchMax          6
+
+
 /**
  * @addtogroup scene
  * @{
