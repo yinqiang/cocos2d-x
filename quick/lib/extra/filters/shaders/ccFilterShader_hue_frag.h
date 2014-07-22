@@ -3,7 +3,6 @@ precision mediump float;\n\
 #endif\n\
 varying vec2 v_texCoord;\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_hueAdjust;\n\
 const vec4  kRGBToYPrime = vec4 (0.299, 0.587, 0.114, 0.0);\n\
 const vec4  kRGBToI     = vec4 (0.595716, -0.274453, -0.321263, 0.0);\n\

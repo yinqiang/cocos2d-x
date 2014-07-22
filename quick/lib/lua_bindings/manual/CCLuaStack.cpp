@@ -34,7 +34,7 @@ extern "C" {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include "lua_extensions.h"
 #endif
-#include "external/xxtea/xxtea.h"
+#include "xxtea/xxtea.h"
 }
 
 #include "Cocos2dxLuaLoader.h"
@@ -61,9 +61,9 @@ extern "C" {
 //#include "lua_xml_http_request.h"
 #include "lua_cocos2dx_physics_auto.hpp"
 #include "lua_cocos2dx_physics_manual.hpp"
-#include "lua_cocos2dx_extra_auto.hpp"
-#include "lua_cocos2dx_external_extra_manual.h"
-#include "lua_cocos2dx_extension_filter_auto.hpp"
+#include "luabinding/cocos2dx_extra_luabinding.h"
+#include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
+#include "luabinding/HelperFunc_luabinding.h"
 
 namespace {
 int lua_print(lua_State * luastate)
@@ -144,6 +144,8 @@ bool LuaStack::init(void)
     // Register our version of the global "print" function
     const luaL_reg global_functions [] = {
         {"print", lua_print},
+        {"CCLuaLog", lua_print},
+        {"LuaLoadChunksFromZIP", LuaStack::lua_loadChunksFromZIP},
         {NULL, NULL}
     };
     luaL_register(_state, "_G", global_functions);
@@ -166,9 +168,11 @@ bool LuaStack::init(void)
     //register_all_cocos2dx_spine(_state);
     //register_all_cocos2dx_spine_manual(_state);
     //register_glnode_manual(_state);
-    register_all_cocos2dx_extra(_state);
-    register_all_cocos2dx_external_extra_manual(_state);
-    register_all_cocos2dx_extension_filter(_state);
+    luaopen_cocos2dx_extra_luabinding(_state);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    luaopen_cocos2dx_extra_ios_iap_luabinding(_state);
+#endif
+    luaopen_HelperFunc_luabinding(_state);
 #if CC_USE_PHYSICS
     register_all_cocos2dx_physics(_state);
     register_all_cocos2dx_physics_manual(_state);
@@ -313,6 +317,16 @@ int LuaStack::executeGlobalFunction(const char* functionName)
 void LuaStack::clean(void)
 {
     lua_settop(_state, 0);
+}
+
+void LuaStack::settop(int top)
+{
+    lua_settop(_state, top);
+}
+
+void LuaStack::copyValue(int index)
+{
+    lua_pushvalue(_state, index);
 }
 
 void LuaStack::pushInt(int intValue)
@@ -507,7 +521,7 @@ int LuaStack::executeFunctionByHandler(int nHandler, int numArgs)
         }
         ret = executeFunction(numArgs);
     }
-    lua_settop(_state, 0);
+//    lua_settop(_state, 0);
     return ret;
 }
 
@@ -800,7 +814,7 @@ int LuaStack::lua_loadChunksFromZIP(lua_State *L)
     const char *zipFilename = lua_tostring(L, -1);
     lua_settop(L, 0);
     FileUtils *utils = FileUtils::getInstance();
-    string zipFilePath = utils->fullPathForFilename(zipFilename);
+    std::string zipFilePath = utils->fullPathForFilename(zipFilename);
     
     LuaStack *stack = curStack;
     
@@ -837,7 +851,7 @@ int LuaStack::lua_loadChunksFromZIP(lua_State *L)
             lua_getfield(L, -1, "preload");
             
             int count = 0;
-            string filename = zip->getFirstFilename();
+            std::string filename = zip->getFirstFilename();
             while (filename.length()) {
                 ssize_t bufferSize = 0;
                 unsigned char *zbuffer = zip->getFileData(filename.c_str(), &bufferSize);

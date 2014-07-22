@@ -512,7 +512,7 @@ static Data getData(const std::string& filename, bool forString)
     Data ret;
     unsigned char* buffer = nullptr;
     ssize_t size = 0;
-    size_t readsize;
+    size_t readsize = 0;
     const char* mode = nullptr;
     if (forString)
         mode = "rt";
@@ -919,6 +919,11 @@ bool FileUtils::isFileExist(const std::string& filename) const
         }
     }
     return false;
+}
+
+bool FileUtils::isDirectoryExist(const std::string& dirname) const
+{
+    return isDirectoryExistInternal(dirname);
 }
 
 bool FileUtils::isAbsolutePath(const std::string& path) const

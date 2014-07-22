@@ -728,7 +728,7 @@ Create a Filtered Sprite
 @return An instance of FilteredSprite
 
 ]]
-function display.newFilteredSprite(filename, filters, params)
+function display.newFilteredSprite1(filename, filters, params)
 	local __one = {class=cc.FilteredSpriteWithOne}
 	local __multi = {class=cc.FilteredSpriteWithMulti}
 	if not filters then return display.newSprite(filtename, nil,nil , __one) end
@@ -764,6 +764,23 @@ function display.newFilteredSprite(filename, filters, params)
 		__sp:setFilter(filters)
 	end
 	return __sp
+end
+
+function display.newFilteredSprite(filename, filters)
+    local sp = cc.EffectSprite:create(filename)
+    local t = type(filters)
+    if "string" == t then
+        sp:setEffectByName(filters)
+    elseif "table" == t then
+        sp:setEffectByName(filters[1])
+        for i,v in ipairs(table_name) do
+            if i > 1 then
+                sp:addEffectByName(filters[1])
+            end
+        end
+    end
+
+    return sp
 end
 
 --[[--
@@ -907,6 +924,54 @@ function display.newRect(rect, params)
                     {x + width, y + height},
                     {x, y + height}}
     return display.newPolygon(points, params)
+end
+
+--[[--
+
+创建并返回一个 DrawNode （线性）对象。
+
+格式：
+
+shape = display.newLine(point表, [参数])
+
+~~~ lua
+
+-- 创建一个线宽为2，颜色为红色，从(10,10)到(100,100)的线段
+local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
+    {borderColor = cc.c4f(1.0, 0.0, 0.0, 1.0),
+    borderWidth = 1})
+
+~~~
+
+@param table point table
+@param table params 有参数，边线色 borderColor 及边线宽度 borderWidth
+
+@return DrawNode
+
+@see ShapeNode
+
+]]
+function display.newLine(points, params)
+    local radius
+    local borderColor
+
+    if not params then
+        borderColor = cc.c4f(0,0,0,1)
+        radius = 0.5
+    else
+        borderColor = params.borderColor or cc.c4f(0,0,0,1)
+        radius = (params.borderWidth and params.borderWidth/2) or 0.5
+    end
+
+    for i, p in ipairs(points) do
+        p = cc.p(p[1] * scale, p[2] * scale)
+        points[i] = p
+    end
+
+    local drawNode = cc.DrawNode:create()
+    drawNode:drawSegment(points[1], points[2], radius, borderColor)
+
+    return drawNode
 end
 
 --[[--

@@ -302,6 +302,8 @@ public:
      */
     virtual bool isFileExist(const std::string& filename) const;
     
+    virtual bool isDirectoryExist(const std::string& dirname) const;
+    
     /**
      *  Checks whether the path is an absolute path.
      *
@@ -370,7 +372,9 @@ protected:
      *  Checks whether file exists without considering search paths and resolution orders.
      */
     virtual bool isFileExistInternal(const std::string& filename) const = 0;
-    
+
+    virtual bool isDirectoryExistInternal(const std::string& dirname) const = 0;
+
     /**
      *  Gets full path for filename, resolution directory and search path.
      *

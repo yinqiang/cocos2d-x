@@ -38,11 +38,12 @@
 #include "math/CCMath.h"
 #include "renderer/ccGLStateCache.h"
 #include "CCGL.h"
-#include "event/CCTouchDelegateProtocol.h"
 
 NS_CC_BEGIN
 
 class CCScriptEventDispatcher;
+class EventListenerKeyboard;
+class EventListenerAcceleration;
 class GridBase;
 class Touch;
 class Action;
@@ -103,11 +104,13 @@ class EventListener;
 
  */
 
-class CC_DLL Node : public Ref, public CCTouchDelegate
+class CC_DLL Node : public Ref
 {
 public:
     /// Default tag used for all the nodes
     static const int INVALID_TAG = -1;
+    static const int modeTouchesOneByOne = (int)Touch::DispatchMode::ONE_BY_ONE;
+    static const int modeTouchesAllAtOnce = (int)Touch::DispatchMode::ALL_AT_ONCE;
 
     enum {
         FLAGS_TRANSFORM_DIRTY = (1 << 0),
@@ -716,7 +719,7 @@ public:
     virtual Node* getChildByName(const std::string& name) const;
     /** Search the children of the receiving node to perform processing for nodes which share a name.
      *
-     * @param name The name to search for, support c++11 regular expression
+     * @param name The name to search for, supports c++11 regular expression
      * Search syntax options:
      * `/` : When placed at the start of the search string, this indicates that the search should be performed on the tree's node.
      * `//`: Can only be placed at the begin of the search string. This indicates that the search should be performed on the tree's node
@@ -1476,7 +1479,71 @@ public:
     
     virtual void setOpacityModifyRGB(bool value) {CC_UNUSED_PARAM(value);}
     virtual bool isOpacityModifyRGB() const { return false; };
+
+    virtual Scene *getScene();
     
+    virtual void registerWithTouchDispatcher(void);
+    virtual void unregisterWithTouchDispatcher(void);
+    CCScriptEventDispatcher *getScriptEventDispatcher();
+    
+    /** whether or not it will receive Touch events.
+     You can enable / disable touch events with this property.
+     Only the touches of this node will be affected. This "method" is not propagated to it's children.
+     @since v0.8.1
+     */
+    virtual bool isTouchCaptureEnabled();
+    virtual void setTouchCaptureEnabled(bool value);
+    virtual bool isTouchSwallowEnabled();
+    virtual void setTouchSwallowEnabled(bool value);
+    
+    virtual bool ccTouchCaptureBegan(Touch *pTouch, Node *pTarget);
+    virtual bool ccTouchCaptureMoved(Touch *pTouch, Node *pTarget);
+    virtual void ccTouchCaptureEnded(Touch *pTouch, Node *pTarget);
+    virtual void ccTouchCaptureCancelled(Touch *pTouch, Node *pTarget);
+    
+    virtual void ccTouchesCaptureBegan(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureMoved(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureEnded(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureCancelled(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureAdded(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureRemoved(const std::vector<Touch*>& touches, Node *pTarget);
+    
+    virtual bool isTouchEnabled();
+    virtual void setTouchEnabled(bool value);
+    
+    virtual void setTouchMode(int mode);
+    virtual int getTouchMode();
+    
+    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent);
+    
+    virtual void ccTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesAdded(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesRemoved(const std::vector<Touch*>& touches, Event *pEvent);
+
+    virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+    virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+    
+    virtual bool isKeyboardEnabled() const;
+    virtual void setKeyboardEnabled(bool value);
+    
+    static unsigned int g_drawOrder;
+    unsigned int m_drawOrder;
+
+    void setOnEnterCallback(const std::function<void()>& callback) { _onEnterCallback = callback; }
+    const std::function<void()>& getOnEnterCallback() const { return _onEnterCallback; }   
+    void setOnExitCallback(const std::function<void()>& callback) { _onExitCallback = callback; }
+    const std::function<void()>& getOnExitCallback() const { return _onExitCallback; }   
+    void setonEnterTransitionDidFinishCallback(const std::function<void()>& callback) { _onEnterTransitionDidFinishCallback = callback; }
+    const std::function<void()>& getonEnterTransitionDidFinishCallback() const { return _onEnterTransitionDidFinishCallback; }   
+    void setonExitTransitionDidStartCallback(const std::function<void()>& callback) { _onExitTransitionDidStartCallback = callback; }
+    const std::function<void()>& getonExitTransitionDidStartCallback() const { return _onExitTransitionDidStartCallback; }   
+
 CC_CONSTRUCTOR_ACCESS:
     // Nodes should be created using create();
     Node();
@@ -1510,8 +1577,10 @@ protected:
     bool doEnumerateRecursive(const Node* node, const std::string &name, std::function<bool (Node *)> callback) const;
     
 #if CC_USE_PHYSICS
+    void updatePhysicsBodyTransform(Scene* layer);
     virtual void updatePhysicsBodyPosition(Scene* layer);
     virtual void updatePhysicsBodyRotation(Scene* layer);
+    virtual void updatePhysicsBodyScale(Scene* scene);
 #endif // CC_USE_PHYSICS
     
 private:
@@ -1593,16 +1662,33 @@ protected:
 
 #if CC_ENABLE_SCRIPT_BINDING
     int _scriptHandler;               ///< script handler for onEnter() & onExit(), used in Javascript binding and Lua binding.
-    int _updateScriptHandler;         ///< script handler for update() callback per frame, which is invoked from lua & javascript.
+//    int _updateScriptHandler;         ///< script handler for update() callback per frame, which is invoked from lua & javascript.
     ccScriptType _scriptType;         ///< type of script binding, lua or javascript
     
-    CCScriptEventDispatcher *_scriptEventDispatcher;
+   CCScriptEventDispatcher *_scriptEventDispatcher;
+   // touch events
+   bool m_bTouchCaptureEnabled;
+   bool m_bTouchSwallowEnabled;
+   bool m_bTouchEnabled;
+   int m_nTouchPriority;
+   int m_eTouchMode;
+
+   virtual int executeScriptTouchHandler(int nEventType, Touch *pTouch, int phase = 1);
+   virtual int executeScriptTouchHandler(int nEventType, const std::vector<Touch*>& touches, int phase = 1);
+
+    bool _accelerometerEnabled;
+    bool _keyboardEnabled;
+    EventListenerKeyboard* _keyboardListener;
+    EventListenerAcceleration* _accelerationListener;
+    
 #endif
     
     ComponentContainer *_componentContainer;        ///< Dictionary of components
 
 #if CC_USE_PHYSICS
     PhysicsBody* _physicsBody;        ///< the physicsBody the node have
+    float _physicsScaleStartX;         ///< the scale x value when setPhysicsBody
+    float _physicsScaleStartY;         ///< the scale y value when setPhysicsBody
 #endif
     
     // opacity controls
@@ -1615,6 +1701,11 @@ protected:
 
     static int s_globalOrderOfArrival;
     
+    std::function<void()> _onEnterCallback;
+    std::function<void()> _onExitCallback;
+    std::function<void()> _onEnterTransitionDidFinishCallback;
+    std::function<void()> _onExitTransitionDidStartCallback;
+
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Node);
     

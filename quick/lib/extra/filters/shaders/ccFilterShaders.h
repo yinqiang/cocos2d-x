@@ -2,7 +2,7 @@
 #define __CC_FILTER_SHADER_H__
 
 #include "CCGL.h"
-#include "base/CCPlatformMacros.h"
+#include "platform/CCPlatformMacros.h"
 #include "ExtensionMacros.h"
 
 NS_CC_EXT_BEGIN

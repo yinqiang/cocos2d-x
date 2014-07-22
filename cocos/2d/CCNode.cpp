@@ -49,6 +49,11 @@ THE SOFTWARE.
 #include "renderer/CCGLProgramState.h"
 #include "math/TransformUtils.h"
 #include "event/CCScriptEventDispatcher.h"
+#include "event/CCTouchDispatcher.h"
+#include "base/CCEventKeyboard.h"
+#include "base/CCEventListenerKeyboard.h"
+#include "base/CCEventAcceleration.h"
+#include "base/CCEventListenerAcceleration.h"
 
 #include "deprecated/CCString.h"
 
@@ -74,6 +79,8 @@ bool nodeComparisonLess(Node* n1, Node* n2)
 
 // XXX: Yes, nodes might have a sort problem once every 15 days if the game runs at 60 FPS and each frame sprites are reordered.
 int Node::s_globalOrderOfArrival = 1;
+
+unsigned int Node::g_drawOrder = 0;
 
 Node::Node(void)
 : _rotationX(0.0f)
@@ -112,11 +119,23 @@ Node::Node(void)
 , _reorderChildDirty(false)
 , _isTransitionFinished(false)
 #if CC_ENABLE_SCRIPT_BINDING
-, _updateScriptHandler(0)
+//, _updateScriptHandler(0)
+, m_drawOrder(0)
+// touch
+, m_bTouchCaptureEnabled(true)
+, m_bTouchSwallowEnabled(true)
+, m_bTouchEnabled(false)
+, m_eTouchMode(modeTouchesOneByOne)
+, _accelerometerEnabled(false)
+, _keyboardEnabled(false)
+, _keyboardListener(nullptr)
+, _accelerationListener(nullptr)
 #endif
 , _componentContainer(nullptr)
 #if CC_USE_PHYSICS
 , _physicsBody(nullptr)
+, _physicsScaleStartX(1.0f)
+, _physicsScaleStartY(1.0f)
 #endif
 , _displayedOpacity(255)
 , _realOpacity(255)
@@ -140,7 +159,7 @@ Node::Node(void)
 #if CC_ENABLE_SCRIPT_BINDING
     ScriptEngineProtocol* engine = ScriptEngineManager::getInstance()->getScriptEngine();
     _scriptType = engine != nullptr ? engine->getScriptType() : kScriptTypeNone;
-    _scriptEventDispatcher = new CCScriptEventDispatcher();
+   _scriptEventDispatcher = new CCScriptEventDispatcher();
 #endif
     _transform = _inverse = _additionalTransform = Mat4::IDENTITY;
 }
@@ -150,11 +169,11 @@ Node::~Node()
     CCLOGINFO( "deallocing Node: %p - tag: %i", this, _tag );
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_updateScriptHandler)
-    {
-        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
-    }
-    CC_SAFE_DELETE(_scriptEventDispatcher);
+//    if (_updateScriptHandler)
+//    {
+//        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
+//    }
+   CC_SAFE_DELETE(_scriptEventDispatcher);
 #endif
 
     // User object has to be released before others, since userObject may have a weak reference of this node
@@ -286,10 +305,9 @@ void Node::setRotation(float rotation)
     _transformUpdated = _transformDirty = _inverseDirty = true;
 
 #if CC_USE_PHYSICS
-    if (_physicsBody && !_physicsBody->_rotationResetTag)
+    if (!_physicsBody || !_physicsBody->_rotationResetTag)
     {
-        Scene* scene = _physicsBody->getWorld() != nullptr ? &_physicsBody->getWorld()->getScene() : nullptr;
-        updatePhysicsBodyRotation(scene);
+        updatePhysicsBodyRotation(getScene());
     }
 #endif
 }
@@ -380,15 +398,12 @@ void Node::setScale(float scale)
     if (_scaleX == scale && _scaleY == scale && _scaleZ == scale)
         return;
     
-#if CC_USE_PHYSICS
-    if (_physicsBody != nullptr)
-    {
-        CCLOG("Node WARNING: PhysicsBody doesn't support setScale");
-    }
-#endif
-    
     _scaleX = _scaleY = _scaleZ = scale;
     _transformUpdated = _transformDirty = _inverseDirty = true;
+    
+#if CC_USE_PHYSICS
+    updatePhysicsBodyTransform(getScene());
+#endif
 }
 
 /// scaleX getter
@@ -403,16 +418,13 @@ void Node::setScale(float scaleX,float scaleY)
     if (_scaleX == scaleX && _scaleY == scaleY)
         return;
     
-#if CC_USE_PHYSICS
-    if (_physicsBody != nullptr)
-    {
-        CCLOG("Node WARNING: PhysicsBody doesn't support setScale");
-    }
-#endif
-    
     _scaleX = scaleX;
     _scaleY = scaleY;
     _transformUpdated = _transformDirty = _inverseDirty = true;
+    
+#if CC_USE_PHYSICS
+    updatePhysicsBodyTransform(getScene());
+#endif
 }
 
 /// scaleX setter
@@ -421,15 +433,12 @@ void Node::setScaleX(float scaleX)
     if (_scaleX == scaleX)
         return;
     
-#if CC_USE_PHYSICS
-    if (_physicsBody != nullptr)
-    {
-        CCLOG("Node WARNING: PhysicsBody doesn't support setScaleX");
-    }
-#endif
-    
     _scaleX = scaleX;
     _transformUpdated = _transformDirty = _inverseDirty = true;
+    
+#if CC_USE_PHYSICS
+    updatePhysicsBodyTransform(getScene());
+#endif
 }
 
 /// scaleY getter
@@ -467,15 +476,12 @@ void Node::setScaleY(float scaleY)
     if (_scaleY == scaleY)
         return;
     
-#if CC_USE_PHYSICS
-    if (_physicsBody != nullptr)
-    {
-        CCLOG("Node WARNING: PhysicsBody doesn't support setScaleY");
-    }
-#endif
-    
     _scaleY = scaleY;
     _transformUpdated = _transformDirty = _inverseDirty = true;
+    
+#if CC_USE_PHYSICS
+    updatePhysicsBodyTransform(getScene());
+#endif
 }
 
 
@@ -496,10 +502,9 @@ void Node::setPosition(const Vec2& position)
     _usingNormalizedPosition = false;
 
 #if CC_USE_PHYSICS
-    if (_physicsBody != nullptr && !_physicsBody->_positionResetTag)
+    if (!_physicsBody || !_physicsBody->_positionResetTag)
     {
-        Scene* scene = _physicsBody->getWorld() != nullptr ? &_physicsBody->getWorld()->getScene() : nullptr;
-        updatePhysicsBodyPosition(scene);
+        updatePhysicsBodyPosition(getScene());
     }
 #endif
 }
@@ -853,12 +858,20 @@ void Node::cleanup()
     this->unscheduleAllSelectors();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if ( _scriptType != kScriptTypeNone)
+    if (_keyboardListener) {
+        _eventDispatcher->removeEventListener(_keyboardListener);
+        _keyboardListener = nullptr;
+    }
+//    if ( _scriptType != kScriptTypeNone)
+//    {
+//        int action = kNodeOnCleanup;
+//        BasicScriptData data(this,(void*)&action);
+//        ScriptEvent scriptEvent(kNodeEvent,(void*)&data);
+//        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
-        int action = kNodeOnCleanup;
-        BasicScriptData data(this,(void*)&action);
-        ScriptEvent scriptEvent(kNodeEvent,(void*)&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnCleanup);
     }
 #endif // #if CC_ENABLE_SCRIPT_BINDING
     
@@ -947,9 +960,9 @@ void Node::enumerateChildren(const std::string &name, std::function<bool (Node *
         subStrlength -= 3;
     }
     
-    // Remove '/', '//' and '/..' if exist
+    // Remove '/', '//', '/..' if exist
     std::string newName = name.substr(subStrStartPos, subStrlength);
-    // If search from parent, then add * at first to make it match its children, which will do make
+
     if (searchFromParent)
     {
         newName.insert(0, "[[:alnum:]]+/");
@@ -1021,7 +1034,7 @@ bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) 
     bool ret = false;
     for (const auto& child : _children)
     {
-        if(std::regex_match(child->_name, std::regex(searchName)))
+        if (std::regex_match(child->_name, std::regex(searchName)))
         {
             if (!needRecursive)
             {
@@ -1083,14 +1096,11 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
     
 #if CC_USE_PHYSICS
     // Recursive add children with which have physics body.
-    for (Node* node = this; node != nullptr; node = node->getParent())
+    Scene* scene = this->getScene();
+    if (scene != nullptr && scene->getPhysicsWorld() != nullptr)
     {
-        Scene* scene = dynamic_cast<Scene*>(node);
-        if (scene != nullptr && scene->getPhysicsWorld() != nullptr)
-        {
-            scene->addChildToPhysicsWorld(child);
-            break;
-        }
+        child->updatePhysicsBodyTransform(scene);
+        scene->addChildToPhysicsWorld(child);
     }
 #endif
     
@@ -1295,7 +1305,8 @@ void Node::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags)
 
 void Node::visit()
 {
-    auto renderer = Director::getInstance()->getRenderer();
+    m_drawOrder = ++g_drawOrder;
+   auto renderer = Director::getInstance()->getRenderer();
     Mat4 parentTransform = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     visit(renderer, parentTransform, true);
 }
@@ -1325,6 +1336,8 @@ uint32_t Node::processParentFlags(const Mat4& parentTransform, uint32_t parentFl
 
 void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
+    m_drawOrder = ++g_drawOrder;
+    
     // quick return if not visible. children won't be drawn.
     if (!_visible)
     {
@@ -1383,6 +1396,9 @@ Mat4 Node::transform(const Mat4& parentTransform)
 
 void Node::onEnter()
 {
+    if (_onEnterCallback)
+        _onEnterCallback();
+
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
     {
@@ -1401,15 +1417,22 @@ void Node::onEnter()
     _running = true;
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeLua)
+//    if (_scriptType == kScriptTypeLua)
+//    {
+//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnEnter);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
-        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnEnter);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnEnter);
     }
 #endif
 }
 
 void Node::onEnterTransitionDidFinish()
 {
+    if (_onEnterTransitionDidFinishCallback)
+        _onEnterTransitionDidFinishCallback();
+        
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
     {
@@ -1423,15 +1446,22 @@ void Node::onEnterTransitionDidFinish()
         child->onEnterTransitionDidFinish();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeLua)
+//    if (_scriptType == kScriptTypeLua)
+//    {
+//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnEnterTransitionDidFinish);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
-        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnEnterTransitionDidFinish);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnEnterTransitionDidFinish);
     }
 #endif
 }
 
 void Node::onExitTransitionDidStart()
 {
+    if (_onExitTransitionDidStartCallback)
+        _onExitTransitionDidStartCallback();
+    
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
     {
@@ -1444,15 +1474,22 @@ void Node::onExitTransitionDidStart()
         child->onExitTransitionDidStart();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeLua)
+//    if (_scriptType == kScriptTypeLua)
+//    {
+//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExitTransitionDidStart);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
-        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExitTransitionDidStart);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExitTransitionDidStart);
     }
 #endif
 }
 
 void Node::onExit()
 {
+    if (_onExitCallback)
+        _onExitCallback();
+    
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
     {
@@ -1469,9 +1506,13 @@ void Node::onExit()
         child->onExit();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeLua)
+//    if (_scriptType == kScriptTypeLua)
+//    {
+//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExit);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
-        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExit);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExit);
     }
 #endif
 }
@@ -1563,7 +1604,7 @@ void Node::scheduleUpdateWithPriorityLua(int nHandler, int priority)
     unscheduleUpdate();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    _updateScriptHandler = nHandler;
+//    _updateScriptHandler = nHandler;
 #endif
     
     _scheduler->scheduleUpdate(this, priority, !_running);
@@ -1574,11 +1615,11 @@ void Node::unscheduleUpdate()
     _scheduler->unscheduleUpdate(this);
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_updateScriptHandler)
-    {
-        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
-        _updateScriptHandler = 0;
-    }
+//    if (_updateScriptHandler)
+//    {
+//        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
+//        _updateScriptHandler = 0;
+//    }
 #endif
 }
 
@@ -1648,11 +1689,15 @@ void Node::update(float fDelta)
 {
 #if CC_ENABLE_SCRIPT_BINDING
 //    if (0 != _updateScriptHandler)
+//    {
+//        //only lua use
+//        SchedulerScriptData data(_updateScriptHandler,fDelta);
+//        ScriptEvent event(kScheduleEvent,&data);
+//        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_ENTER_FRAME_EVENT))
     {
-        //only lua use
-        SchedulerScriptData data(_updateScriptHandler,fDelta);
-        ScriptEvent event(kScheduleEvent,&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEnterFrameEvent(this, fDelta);
     }
 #endif
     
@@ -1899,6 +1944,7 @@ Vec2 Node::convertTouchToNodeSpaceAR(Touch *touch) const
 
 void Node::updateTransform()
 {
+    m_drawOrder = ++g_drawOrder;
     // Recursively iterate over children
     for( const auto &child: _children)
         child->updateTransform();
@@ -1933,6 +1979,12 @@ void Node::removeAllComponents()
 }
 
 #if CC_USE_PHYSICS
+void Node::updatePhysicsBodyTransform(Scene* scene)
+{
+    updatePhysicsBodyScale(scene);
+    updatePhysicsBodyPosition(scene);
+    updatePhysicsBodyRotation(scene);
+}
 
 void Node::updatePhysicsBodyPosition(Scene* scene)
 {
@@ -1947,6 +1999,11 @@ void Node::updatePhysicsBodyPosition(Scene* scene)
         {
             _physicsBody->setPosition(getPosition());
         }
+    }
+    
+    for (Node* child : _children)
+    {
+        child->updatePhysicsBodyPosition(scene);
     }
 }
 
@@ -1967,6 +2024,39 @@ void Node::updatePhysicsBodyRotation(Scene* scene)
         {
             _physicsBody->setRotation(_rotationZ_X);
         }
+    }
+    
+    for (auto child : _children)
+    {
+        child->updatePhysicsBodyRotation(scene);
+        child->updatePhysicsBodyPosition(scene);
+    }
+}
+
+void Node::updatePhysicsBodyScale(Scene* scene)
+{
+    if (_physicsBody != nullptr)
+    {
+        if (scene != nullptr && scene->getPhysicsWorld() != nullptr)
+        {
+            float scaleX = _scaleX / _physicsScaleStartX;
+            float scaleY = _scaleY / _physicsScaleStartY;
+            for (Node* parent = _parent; parent != scene; parent = parent->getParent())
+            {
+                scaleX *= parent->getScaleX();
+                scaleY *= parent->getScaleY();
+            }
+            _physicsBody->setScale(scaleX, scaleY);
+        }
+        else
+        {
+            _physicsBody->setScale(_scaleX / _physicsScaleStartX, _scaleY / _physicsScaleStartY);
+        }
+    }
+    
+    for (auto child : _children)
+    {
+        child->updatePhysicsBodyScale(scene);
     }
 }
 
@@ -2010,6 +2100,8 @@ void Node::setPhysicsBody(PhysicsBody* body)
     }
     
     _physicsBody = body;
+    _physicsScaleStartX = _scaleX;
+    _physicsScaleStartY = _scaleY;
     
     if (body != nullptr)
     {
@@ -2030,8 +2122,7 @@ void Node::setPhysicsBody(PhysicsBody* body)
             scene->getPhysicsWorld()->addBody(body);
         }
         
-        updatePhysicsBodyPosition(scene);
-        updatePhysicsBodyRotation(scene);
+        updatePhysicsBodyTransform(scene);
     }
 }
 
@@ -2192,8 +2283,391 @@ void Node::disableCascadeColor()
 
 int Node::addScriptEventListener(int event, int listener, int tag /* = 0 */, int priority /* = 0 */)
 {
+//    CCLOG("----addScriptEventListener: %d\n", event);
+    if (NODE_ENTER_FRAME_EVENT==event) {
+        scheduleUpdateWithPriorityLua(0, priority);
+//    } else if (KEYPAD_EVENT==event) {
+//        CCLOG("----addScriptEventListener: %d\n", event);
+    }
     return _scriptEventDispatcher->addScriptEventListener(event, listener, tag, priority);
 }
+
+// ----------------------------------------
+
+Scene *Node::getScene()
+{
+//    if (!_running) return NULL;
+    Node *parent = getParent();
+    if (!parent) return NULL;
+    
+    Node *scene = parent;
+    while (parent)
+    {
+        parent = parent->getParent();
+        if (parent) scene = parent;
+    }
+    return dynamic_cast<Scene*>(scene);
+}
+
+void Node::registerWithTouchDispatcher()
+{
+    //    CCLOG("CCNODE: REGISTER WITH TOUCH DISPATHCER <%p>", this);
+    ScriptEventCenter *scriptEventCenter = Director::getInstance()->getScriptEventCenter();
+    if (scriptEventCenter)
+    {
+        scriptEventCenter->addTouchableNode(this);
+    }
+}
+
+void Node::unregisterWithTouchDispatcher()
+{
+    //    CCLOG("CCNODE: UNREGISTER WITH TOUCH DISPATHCER <%p>", this);
+    ScriptEventCenter *scriptEventCenter = Director::getInstance()->getScriptEventCenter();
+    if (scriptEventCenter)
+    {
+        scriptEventCenter->removeTouchableNode(this);
+    }
+}
+
+bool Node::isTouchCaptureEnabled()
+{
+    return m_bTouchCaptureEnabled;
+}
+
+void Node::setTouchCaptureEnabled(bool value)
+{
+    m_bTouchCaptureEnabled = value;
+}
+
+bool Node::isTouchSwallowEnabled()
+{
+    return m_bTouchSwallowEnabled;
+}
+
+void Node::setTouchSwallowEnabled(bool value)
+{
+    m_bTouchSwallowEnabled = value;
+}
+
+bool Node::ccTouchCaptureBegan(Touch *pTouch, Node *pTarget)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        return executeScriptTouchHandler(CCTOUCHBEGAN, pTouch, NODE_TOUCH_CAPTURING_PHASE);
+    }
+    else
+    {
+        return true;
+    }
+}
+
+bool Node::ccTouchCaptureMoved(Touch *pTouch, Node *pTarget)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        return executeScriptTouchHandler(CCTOUCHMOVED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
+    }
+    else
+    {
+        return true;
+    }
+}
+
+void Node::ccTouchCaptureEnded(Touch *pTouch, Node *pTarget)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHENDED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchCaptureCancelled(Touch *pTouch, Node *pTarget)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHCANCELLED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureBegan(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHBEGAN, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureMoved(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHMOVED, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureEnded(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHENDED, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureCancelled(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHCANCELLED, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureAdded(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHADDED, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+void Node::ccTouchesCaptureRemoved(const std::vector<Touch*>& touches, Node *pTarget)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pTarget);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHREMOVED, touches, NODE_TOUCH_CAPTURING_PHASE);
+    }
+}
+
+bool Node::isTouchEnabled()
+{
+    return m_bTouchEnabled;
+}
+
+void Node::setTouchEnabled(bool enabled)
+{
+    if (m_bTouchEnabled != enabled)
+    {
+        m_bTouchEnabled = enabled;
+        //if (_running)
+        {
+            if (enabled)
+            {
+                registerWithTouchDispatcher();
+            }
+            else
+            {
+                unregisterWithTouchDispatcher();
+            }
+        }
+    }
+}
+
+void Node::setTouchMode(int mode)
+{
+    if(m_eTouchMode != mode)
+    {
+        m_eTouchMode = mode;
+        
+		if( m_bTouchEnabled)
+        {
+			setTouchEnabled(false);
+			setTouchEnabled(true);
+		}
+    }
+}
+
+int Node::getTouchMode()
+{
+    return m_eTouchMode;
+}
+
+bool Node::ccTouchBegan(Touch *pTouch, Event *pEvent)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHBEGAN, pTouch);
+    }
+    return true;
+}
+
+void Node::ccTouchMoved(Touch *pTouch, Event *pEvent)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHMOVED, pTouch);
+    }
+}
+
+void Node::ccTouchEnded(Touch *pTouch, Event *pEvent)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHENDED, pTouch);
+    }
+}
+
+void Node::ccTouchCancelled(Touch *pTouch, Event *pEvent)
+{
+    CC_UNUSED_PARAM(pTouch);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHCANCELLED, pTouch);
+    }
+}
+
+void Node::ccTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHBEGAN, touches);
+    }
+}
+
+void Node::ccTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHMOVED, touches);
+    }
+}
+
+void Node::ccTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHENDED, touches);
+    }
+}
+
+void Node::ccTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHCANCELLED, touches);
+    }
+}
+
+void Node::ccTouchesAdded(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHADDED, touches);
+    }
+}
+
+void Node::ccTouchesRemoved(const std::vector<Touch*>& touches, Event *pEvent)
+{
+    CC_UNUSED_PARAM(touches);
+    CC_UNUSED_PARAM(pEvent);
+    if (_scriptEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
+    {
+        executeScriptTouchHandler(CCTOUCHREMOVED, touches);
+    }
+}
+
+int Node::executeScriptTouchHandler(int nEventType, Touch *pTouch, int phase /* = NODE_TOUCH_TARGETING_PHASE */)
+{
+    return ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeTouchEvent(this, nEventType, pTouch, phase);
+}
+
+int Node::executeScriptTouchHandler(int nEventType, const std::vector<Touch*>& touches, int phase /* = NODE_TOUCH_TARGETING_PHASE */)
+{
+    return ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeTouchesEvent(this, nEventType, touches, phase);
+}
+
+CCScriptEventDispatcher *Node::getScriptEventDispatcher()
+{
+    return _scriptEventDispatcher;
+}
+
+void Node::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* unused_event)
+{
+    CC_UNUSED_PARAM(keyCode);
+    CC_UNUSED_PARAM(unused_event);
+}
+
+void Node::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* unused_event)
+{
+    CC_UNUSED_PARAM(unused_event);
+#if CC_ENABLE_SCRIPT_BINDING
+//    if(kScriptTypeNone != _scriptType)
+//    {
+//        KeypadScriptData data(keyCode, this);
+//        ScriptEvent event(kKeypadEvent,&data);
+//        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
+//    }
+    if (_scriptEventDispatcher->hasScriptEventListener(KEYPAD_EVENT))
+    {
+        ScriptEngineManager::getInstance()->getScriptEngine()->executeKeypadEvent(this, (int)keyCode);
+    }
+#endif
+}
+
+/// isKeyboardEnabled getter
+bool Node::isKeyboardEnabled() const
+{
+    return _keyboardEnabled;
+}
+/// isKeyboardEnabled setter
+void Node::setKeyboardEnabled(bool enabled)
+{
+    if (enabled != _keyboardEnabled)
+    {
+        _keyboardEnabled = enabled;
+        
+        if (_keyboardListener) {
+            _eventDispatcher->removeEventListener(_keyboardListener);
+            _keyboardListener = nullptr;
+        }
+        
+        if (enabled)
+        {
+            auto listener = EventListenerKeyboard::create();
+            listener->onKeyPressed = CC_CALLBACK_2(Node::onKeyPressed, this);
+            listener->onKeyReleased = CC_CALLBACK_2(Node::onKeyReleased, this);
+            
+            _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+            _keyboardListener = listener;
+        }
+    }
+}
+
 
 __NodeRGBA::__NodeRGBA()
 {

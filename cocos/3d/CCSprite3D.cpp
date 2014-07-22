@@ -132,8 +132,12 @@ bool Sprite3D::loadFromObj(const std::string& path)
         {
             CCLOGWARN("cocos2d:WARNING: more than one texture in %s", path.c_str());
         }
-            
-        matnames.push_back(dir + (*it).material.diffuse_texname);
+        
+        std::string texname = (*it).material.diffuse_texname;
+        if (texname.size() > 0)
+        {
+            matnames.push_back(dir + texname);
+        }
     }
     _mesh = Mesh::create(shapes.positions, shapes.normals, shapes.texcoords, indices);
     
@@ -273,6 +277,8 @@ void Sprite3D::genGLProgramState()
     }
     
     setGLProgramState(programstate);
+    GLuint texID = _texture ? _texture->getName() : 0;
+    _meshCommand.genMaterialID(texID, programstate, _mesh, _blend);
 }
 
 GLProgram* Sprite3D::getDefaultGLProgram(bool textured)
@@ -296,11 +302,12 @@ GLProgram* Sprite3D::getDefaultGLProgram(bool textured)
 void Sprite3D::setTexture(const std::string& texFile)
 {
     auto tex = Director::getInstance()->getTextureCache()->addImage(texFile);
-    if( tex && _texture != tex ) {
-        CC_SAFE_RETAIN(tex);
-        CC_SAFE_RELEASE_NULL(_texture);
-        _texture = tex;
-    }
+//    if( tex && _texture != tex ) {
+//        CC_SAFE_RETAIN(tex);
+//        CC_SAFE_RELEASE_NULL(_texture);
+//        _texture = tex;
+//    }
+    setTexture(tex);
 }
 
 void Sprite3D::setTexture(Texture2D* texture)
@@ -309,6 +316,11 @@ void Sprite3D::setTexture(Texture2D* texture)
         CC_SAFE_RETAIN(texture);
         CC_SAFE_RELEASE_NULL(_texture);
         _texture = texture;
+        if (getGLProgramState() && _mesh)
+        {
+            GLuint texID = _texture ? _texture->getName() : 0;
+            _meshCommand.genMaterialID(texID, getGLProgramState(), _mesh, _blend);
+        }
     }
 }
 
