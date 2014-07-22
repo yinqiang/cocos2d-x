@@ -125,3 +125,11 @@ class Network
                                                const char* url,
                                                int method = kCCHTTPRequestMethodGET);
 };
+
+class EffectSprite : public cc.Sprite
+{
+    static EffectSprite *create(const char* filename);
+
+    void setEffectByName(const char* name, float val1 = 0, float val2 = 0, float val3 = 0);
+    void addEffectByName(const char* name, int order, float val1 = 0, float val2 = 0, float val3 = 0);
+};

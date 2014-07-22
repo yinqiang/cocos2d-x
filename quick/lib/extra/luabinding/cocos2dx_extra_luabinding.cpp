@@ -1,6 +1,6 @@
 /*
 ** Lua binding: cocos2dx_extra_luabinding
-** Generated automatically by tolua++-1.0.92 on Tue Jul 15 15:28:05 2014.
+** Generated automatically by tolua++-1.0.92 on Tue Jul 22 15:30:32 2014.
 */
 
 #include "cocos2dx_extra_luabinding.h"
@@ -14,6 +14,7 @@ using namespace cocos2d;
 #include "crypto/CCCrypto.h"
 #include "native/CCNative.h"
 #include "network/CCNetwork.h"
+#include "filters/EffectSprite.h"
 using namespace std;
 using namespace cocos2d;
 using namespace cocos2d::extra;
@@ -28,13 +29,15 @@ using namespace cocos2d::extra;
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
 {
- tolua_usertype(tolua_S,"cc.Ref");
  tolua_usertype(tolua_S,"Network");
  tolua_usertype(tolua_S,"Crypto");
  
- tolua_usertype(tolua_S,"Native");
  tolua_usertype(tolua_S,"HTTPRequest");
+ tolua_usertype(tolua_S,"cc.Sprite");
+ tolua_usertype(tolua_S,"cc.Ref");
  
+ tolua_usertype(tolua_S,"Native");
+ tolua_usertype(tolua_S,"EffectSprite");
 }
 
 /* method: getAES256KeyLength of class  Crypto */
@@ -1556,6 +1559,116 @@ static int tolua_cocos2dx_extra_luabinding_Network_createHTTPRequest00(lua_State
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: create of class  EffectSprite */
+#ifndef TOLUA_DISABLE_tolua_cocos2dx_extra_luabinding_EffectSprite_create00
+static int tolua_cocos2dx_extra_luabinding_EffectSprite_create00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"EffectSprite",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const char* filename = ((const char*)  tolua_tostring(tolua_S,2,0));
+  {
+   EffectSprite* tolua_ret = (EffectSprite*)  EffectSprite::create(filename);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"EffectSprite");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'create'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setEffectByName of class  EffectSprite */
+#ifndef TOLUA_DISABLE_tolua_cocos2dx_extra_luabinding_EffectSprite_setEffectByName00
+static int tolua_cocos2dx_extra_luabinding_EffectSprite_setEffectByName00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"EffectSprite",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  EffectSprite* self = (EffectSprite*)  tolua_tousertype(tolua_S,1,0);
+  const char* name = ((const char*)  tolua_tostring(tolua_S,2,0));
+  float val1 = ((float)  tolua_tonumber(tolua_S,3,0));
+  float val2 = ((float)  tolua_tonumber(tolua_S,4,0));
+  float val3 = ((float)  tolua_tonumber(tolua_S,5,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setEffectByName'", NULL);
+#endif
+  {
+   self->setEffectByName(name,val1,val2,val3);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setEffectByName'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: addEffectByName of class  EffectSprite */
+#ifndef TOLUA_DISABLE_tolua_cocos2dx_extra_luabinding_EffectSprite_addEffectByName00
+static int tolua_cocos2dx_extra_luabinding_EffectSprite_addEffectByName00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"EffectSprite",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnumber(tolua_S,6,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,7,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  EffectSprite* self = (EffectSprite*)  tolua_tousertype(tolua_S,1,0);
+  const char* name = ((const char*)  tolua_tostring(tolua_S,2,0));
+  int order = ((int)  tolua_tonumber(tolua_S,3,0));
+  float val1 = ((float)  tolua_tonumber(tolua_S,4,0));
+  float val2 = ((float)  tolua_tonumber(tolua_S,5,0));
+  float val3 = ((float)  tolua_tonumber(tolua_S,6,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addEffectByName'", NULL);
+#endif
+  {
+   self->addEffectByName(name,order,val1,val2,val3);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'addEffectByName'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_cocos2dx_extra_luabinding_open (lua_State* tolua_S)
 {
@@ -1636,6 +1749,12 @@ TOLUA_API int tolua_cocos2dx_extra_luabinding_open (lua_State* tolua_S)
    tolua_function(tolua_S,"isHostNameReachable",tolua_cocos2dx_extra_luabinding_Network_isHostNameReachable00);
    tolua_function(tolua_S,"getInternetConnectionStatus",tolua_cocos2dx_extra_luabinding_Network_getInternetConnectionStatus00);
    tolua_function(tolua_S,"createHTTPRequest",tolua_cocos2dx_extra_luabinding_Network_createHTTPRequest00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"EffectSprite","EffectSprite","cc.Sprite",NULL);
+  tolua_beginmodule(tolua_S,"EffectSprite");
+   tolua_function(tolua_S,"create",tolua_cocos2dx_extra_luabinding_EffectSprite_create00);
+   tolua_function(tolua_S,"setEffectByName",tolua_cocos2dx_extra_luabinding_EffectSprite_setEffectByName00);
+   tolua_function(tolua_S,"addEffectByName",tolua_cocos2dx_extra_luabinding_EffectSprite_addEffectByName00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

@@ -1,5 +1,8 @@
 
 #include "Effect.h"
+#include "shaders/FilterShaders.h"
+
+USING_NS_CC_EXTRA;
 
 bool Effect::initGLProgramState(const std::string &fragmentFilename)
 {
@@ -15,6 +18,20 @@ bool Effect::initGLProgramState(const std::string &fragmentFilename)
     _glprogramstate = GLProgramState::getOrCreateWithGLProgram(glprogram);
     _glprogramstate->retain();
 
+    return _glprogramstate != nullptr;
+}
+
+bool Effect::initGLProgramStateWithByte(const GLchar* frag)
+{
+    auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, frag);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    _fragSource = fragSource;
+#endif
+    
+    _glprogramstate = GLProgramState::getOrCreateWithGLProgram(glprogram);
+    _glprogramstate->retain();
+    
     return _glprogramstate != nullptr;
 }
 
@@ -55,7 +72,8 @@ void EffectBlur::setTarget(EffectSprite *sprite)
 
 bool EffectBlur::init(float blurRadius, float sampleNum)
 {
-    initGLProgramState("Shaders/example_Blur.fsh");
+    //initGLProgramState("Shaders/example_Blur.fsh");
+    initGLProgramStateWithByte(FilterShader_blur_frag);
     _blurRadius = blurRadius;
     _blurSampleNum = sampleNum;
     
@@ -76,7 +94,8 @@ void EffectBlur::setBlurSampleNum(float num)
 // Outline
 bool EffectOutline::init()
 {
-    initGLProgramState("Shaders/example_outline.fsh");
+    //initGLProgramState("Shaders/example_outline.fsh");
+    initGLProgramStateWithByte(FilterShader_outline_frag);
 
     Vec3 color(1.0f, 0.2f, 0.3f);
     GLfloat radius = 0.01f;
@@ -91,7 +110,8 @@ bool EffectOutline::init()
 
 // Noise
 bool EffectNoise::init() {
-    initGLProgramState("Shaders/example_Noisy.fsh");
+    //initGLProgramState("Shaders/example_Noisy.fsh");
+    initGLProgramStateWithByte(FilterShader_noisy_frag);
     return true;
 }
 
@@ -103,7 +123,8 @@ void EffectNoise::setTarget(EffectSprite* sprite)
 
 // Edge Detect
 bool EffectEdgeDetect::init() {
-    initGLProgramState("Shaders/example_edgeDetection.fsh");
+    //initGLProgramState("Shaders/example_edgeDetection.fsh");
+    initGLProgramStateWithByte(FilterShader_edgedetection_frag);
     return true;
 }
 
@@ -115,31 +136,29 @@ void EffectEdgeDetect::setTarget(EffectSprite* sprite)
 
 // Grey
 bool EffectGreyScale::init() {
-    initGLProgramState("Shaders/example_greyScale.fsh");
+    //initGLProgramState("Shaders/example_greyScale.fsh");
+    initGLProgramStateWithByte(FilterShader_greyscale_frag);
     return true;
 }
 
 // Sepia
 bool EffectSepia::init() {
-    initGLProgramState("Shaders/example_sepia.fsh");
+    //initGLProgramState("Shaders/example_sepia.fsh");
+    initGLProgramStateWithByte(FilterShader_sepia_frag);
     return true;
 }
 
 // bloom
 bool EffectBloom::init() {
-    initGLProgramState("Shaders/example_bloom.fsh");
+    //initGLProgramState("Shaders/example_bloom.fsh");
+    initGLProgramStateWithByte(FilterShader_bloom_frag);
     return true;
-}
-
-void EffectBloom::setTarget(EffectSprite* sprite)
-{
-    auto s = sprite->getTexture()->getContentSizeInPixels();
-    getGLProgramState()->setUniformVec2("resolution", Vec2(s.width, s.height));
 }
 
 // cel shading
 bool EffectCelShading::init() {
-    initGLProgramState("Shaders/example_celShading.fsh");
+    //initGLProgramState("Shaders/example_celShading.fsh");
+    initGLProgramStateWithByte(FilterShader_celshading_frag);
     return true;
 }
 
@@ -151,7 +170,8 @@ void EffectCelShading::setTarget(EffectSprite* sprite)
 
 // Lens Flare
 bool EffectLensFlare::init() {
-    initGLProgramState("Shaders/example_lensFlare.fsh");
+    //initGLProgramState("Shaders/example_lensFlare.fsh");
+    initGLProgramStateWithByte(FilterShader_lensflare_frag);
     return true;
 }
 

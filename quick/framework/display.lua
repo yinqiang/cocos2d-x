@@ -728,7 +728,7 @@ Create a Filtered Sprite
 @return An instance of FilteredSprite
 
 ]]
-function display.newFilteredSprite(filename, filters, params)
+function display.newFilteredSprite1(filename, filters, params)
 	local __one = {class=cc.FilteredSpriteWithOne}
 	local __multi = {class=cc.FilteredSpriteWithMulti}
 	if not filters then return display.newSprite(filtename, nil,nil , __one) end
@@ -764,6 +764,23 @@ function display.newFilteredSprite(filename, filters, params)
 		__sp:setFilter(filters)
 	end
 	return __sp
+end
+
+function display.newFilteredSprite(filename, filters)
+    local sp = cc.EffectSprite:create(filename)
+    local t = type(filters)
+    if "string" == t then
+        sp:setEffectByName(filters)
+    elseif "table" == t then
+        sp:setEffectByName(filters[1])
+        for i,v in ipairs(table_name) do
+            if i > 1 then
+                sp:addEffectByName(filters[1])
+            end
+        end
+    end
+
+    return sp
 end
 
 --[[--

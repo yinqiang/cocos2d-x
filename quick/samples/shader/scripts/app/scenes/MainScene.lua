@@ -5,6 +5,18 @@ end)
 
 MainScene.TAG_SHARDER_NODE = 1111
 
+MainScene._FILTERS = {
+    {name = "bloom", filter = display.filters.BLOOM},
+    {name = "blur", filter = display.filters.BLUR, param = {10, 5}},
+    {name = "outline", filter = display.filters.OUTLINE},
+    {name = "noise", filter = display.filters.NOISE},
+    {name = "edgedetedt", filter = display.filters.EDGEDETEDT},
+    {name = "greyscale", filter = display.filters.GREYSCALE},
+    {name = "sepia", filter = display.filters.SEPIA},
+    {name = "celshading", filter = display.filters.CELSHADING},
+    {name = "lensflare", filter = display.filters.LENSFLARE}
+}
+
 function MainScene:ctor()
 	self:_addUI()
 	self:_createFilters()
@@ -18,6 +30,10 @@ function MainScene:onExit()
 end
 
 function MainScene:_addUI()
+    self.sp = display.newFilteredSprite("helloworld.png")
+        :pos(display.cx, display.cy)
+        :addTo(self)
+
 	cc.ui.UIPushButton.new("close.png")
 		:align(display.RIGHT_BOTTOM, display.width, display.bottom)
 		:addTo(self, 0)
@@ -37,52 +53,29 @@ function MainScene:_addUI()
 		:onButtonClicked(handler(self, self._onNext))
 
 
-	self._title = ui.newTTFLabel({
-		text="Shader test",
-	})
-		:align(display.CENTER, display.cx, display.top - 30)
+	self._title = ui.newTTFLabel({text="-- Shader test --"})
+		:align(display.CENTER, display.cx, display.top - 20)
 		:addTo(self, 10)
+    self._subTitle = ui.newTTFLabel({text=self._FILTERS[1].name})
+        :align(display.CENTER, display.cx, display.top - 40)
+        :addTo(self, 10)
 end
 
 function MainScene:_createFilters()
 	self._curFilter = 1
-	self._filterCount = 16
+	self._filterCount = #self._FILTERS
 end
 
 function MainScene:_showFilter()
-	if 1 == self._curFilter then
-		self:_showRetroEffect()
-	elseif 2 == self._curFilter then
-		self:_showShaderMajori()
-	elseif 3 == self._curFilter then
-		self:_showShaderMandelbrot()
-	elseif 4 == self._curFilter then
-		self:_showShaderHeart()
-	elseif 5 == self._curFilter then
-		self:_showShaderPlasma()
-	elseif 6 == self._curFilter then
-		self:_showShaderFlower()
-	elseif 7 == self._curFilter then
-		self:_showShaderJulia()
-	elseif 8 == self._curFilter then
-		self:_showGLGetActive()
-	elseif 9 == self._curFilter then
-		self:_shwoTexImage2D()
-	elseif 10 == self._curFilter then
-		self:_showSupportedExtensionsLayer()
-	elseif 11 == self._curFilter then
-		self:_showReadPixels()
-	elseif 12 == self._curFilter then
-		self:_showClear()
-	elseif 13 == self._curFilter then
-		self:_showNodeWebGLAPI()
-	elseif 14 == self._curFilter then
-		self:_showGLNodeCCAPI()
-	elseif 15 == self._curFilter then
-		self:_showGLTexParamter()
-	elseif 16 == self._curFilter then
-		self:_showGetUniform()
-	end
+    local filter = self._FILTERS[self._curFilter]
+    self._subTitle:setString(filter.name)
+    if filter.filter then
+        if filter.param then
+            self.sp:setEffectByName(filter.filter, unpack(filter.param))
+        else
+            self.sp:setEffectByName(filter.filter)
+        end
+    end
 end
 
 function MainScene:_onPrev()

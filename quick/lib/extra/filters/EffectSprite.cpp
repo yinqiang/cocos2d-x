@@ -2,6 +2,8 @@
 #include "EffectSprite.h"
 #include "Effect.h"
 
+USING_NS_CC_EXTRA;
+
 EffectSprite* EffectSprite::create(const std::string& filename) {
     auto ret = new (std::nothrow) EffectSprite;
     if(ret && ret->initWithFile(filename)) {
@@ -10,6 +12,11 @@ EffectSprite* EffectSprite::create(const std::string& filename) {
     }
     CC_SAFE_RELEASE(ret);
     return nullptr;
+}
+
+EffectSprite* EffectSprite::create(const char* filename) {
+    std::string name = filename;
+    return EffectSprite::create(name);
 }
 
 EffectSprite::EffectSprite() : _defaultEffect(nullptr)
@@ -24,13 +31,30 @@ EffectSprite::~EffectSprite() {
     CC_SAFE_RELEASE(_defaultEffect);
 }
 
-Effect* EffectSprite::createEffectByName(const char* name) {
+Effect* EffectSprite::createEffectByName(const char* name, float val1, float val2, float val3) {
     Effect *effect = nullptr;
-    
-    if (0 == strcmp(name, "test")) {
-        
-    } else if (0 == strcmp(name, "test")) {
-        
+                      
+    if (0 == strcmp(name, "EffectBlur")) {
+        EffectBlur* blur = EffectBlur::create();
+        blur->setBlurRadius(val1);
+        blur->setBlurSampleNum(val2);
+        effect = blur;
+    } else if (0 == strcmp(name, "EffectOutline")) {
+        effect = EffectOutline::create();
+    } else if (0 == strcmp(name, "EffectNoise")) {
+        effect = EffectNoise::create();
+    } else if (0 == strcmp(name, "EffectEdgeDetect")) {
+        effect = EffectEdgeDetect::create();
+    } else if (0 == strcmp(name, "EffectGreyScale")) {
+        effect = EffectGreyScale::create();
+    } else if (0 == strcmp(name, "EffectSepia")) {
+        effect = EffectSepia::create();
+    } else if (0 == strcmp(name, "EffectBloom")) {
+        effect = EffectBloom::create();
+    } else if (0 == strcmp(name, "EffectCelShading")) {
+        effect = EffectCelShading::create();
+    } else if (0 == strcmp(name, "EffectLensFlare")) {
+        effect = EffectLensFlare::create();
     } else {
         CCLOG("invaild effect name");
     }
@@ -38,10 +62,10 @@ Effect* EffectSprite::createEffectByName(const char* name) {
     return effect;
 }
 
-void EffectSprite::setEffectByName(const char* name) {
+void EffectSprite::setEffectByName(const char* name, float val1, float val2, float val3) {
     Effect *effect = nullptr;
     
-    effect = createEffectByName(name);
+    effect = createEffectByName(name, val1, val2, val3);
     if (nullptr == effect) {
         return;
     }
@@ -49,10 +73,10 @@ void EffectSprite::setEffectByName(const char* name) {
     setEffect(effect);
 }
 
-void EffectSprite::addEffectByName(const char* name, int order) {
+void EffectSprite::addEffectByName(const char* name, int order, float val1, float val2, float val3) {
     Effect *effect = nullptr;
     
-    effect = createEffectByName(name);
+    effect = createEffectByName(name, val1, val2, val3);
     if (nullptr == effect) {
         return;
     }
