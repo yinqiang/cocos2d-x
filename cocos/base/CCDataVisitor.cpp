@@ -23,36 +23,10 @@
  ****************************************************************************/
 
 #include "base/CCRef.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCDouble.h"
 #include "deprecated/CCString.h"
 #include "deprecated/CCArray.h"
-#include "deprecated/CCDictionary.h"
-#include "deprecated/CCSet.h"
 
 NS_CC_BEGIN
-
-void DataVisitor::visit(const __Bool *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Integer *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Float *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Double *value)
-{
-    visitObject(value);
-}
 
 void DataVisitor::visit(const __String *value)
 {
@@ -60,16 +34,6 @@ void DataVisitor::visit(const __String *value)
 }
 
 void DataVisitor::visit(const __Array *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Dictionary *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Set *value)
 {
     visitObject(value);
 }
@@ -94,34 +58,6 @@ void PrettyPrinter::visitObject(const Ref *p)
 {
     char buf[50] = {0};
     sprintf(buf, "%p", p);
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Bool * p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%s", p->getValue() ? "true" : "false");
-   _result += buf;
-}
-
-void PrettyPrinter::visit(const __Integer *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%d", p->getValue());
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Float *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%f", p->getValue());
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Double *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%lf", p->getValue());
     _result += buf;
 }
 
@@ -157,63 +93,6 @@ void PrettyPrinter::visit(const __Array *p)
     _result += "\n";
     _result += _indentStr;
     _result += "</array>";
-}
-
-void PrettyPrinter::visit(const __Dictionary *p)
-{
-    _result += "\n";
-    _result += _indentStr;
-    _result += "<dict>\n";
-    
-    setIndentLevel(_indentLevel+1);
-    DictElement* element;
-    bool bFirstElement = true;
-    char buf[1000] = {0};
-    CCDICT_FOREACH(p, element)
-    {
-        if (!bFirstElement) {
-            _result += "\n";
-        }
-        sprintf(buf, "%s%s: ", _indentStr.c_str(),element->getStrKey());
-        _result += buf;
-        PrettyPrinter v(_indentLevel);
-//FIXME:james        element->getObject()->acceptVisitor(v);
-        _result += v.getResult();
-        bFirstElement = false;
-    }
-    setIndentLevel(_indentLevel-1);
-    
-    _result += "\n";
-    _result += _indentStr;
-    _result += "</dict>";
-}
-
-void PrettyPrinter::visit(const __Set *p)
-{
-    _result += "\n";
-    _result += _indentStr;
-    _result += "<set>\n";
-    
-    setIndentLevel(_indentLevel+1);
-
-    int i = 0;
-    __Set* tmp = const_cast<__Set*>(p);
-    __SetIterator it = tmp->begin();
-
-    for (; it != tmp->end(); ++it, ++i) {
-        if (i > 0) {
-            _result += "\n";
-        }
-        _result += _indentStr.c_str();
-        PrettyPrinter v(_indentLevel);
-//FIXME:james        (*it)->acceptVisitor(v);
-        _result += v.getResult();
-    }
-    setIndentLevel(_indentLevel-1);
-    
-    _result += "\n";
-    _result += _indentStr;
-    _result += "</set>\n";
 }
 
 void PrettyPrinter::setIndentLevel(int indentLevel)

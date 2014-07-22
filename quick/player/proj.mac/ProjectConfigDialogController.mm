@@ -96,7 +96,7 @@
     [textFieldWritablePath setStringValue:[NSString stringWithCString:projectConfig.getWritablePath().c_str() encoding:NSUTF8StringEncoding]];
     [textFieldScriptFile setStringValue:[NSString stringWithCString:projectConfig.getScriptFile().c_str() encoding:NSUTF8StringEncoding]];
 
-    const CCSize frameSzie = projectConfig.getFrameSize();
+    const cocos2d::Size frameSzie = projectConfig.getFrameSize();
     SimulatorConfig *config = SimulatorConfig::sharedDefaults();
     int i = config->checkScreenSize(frameSzie);
     if (i >= 0)
@@ -195,7 +195,7 @@
 
         float width = config->getScreenSize(i).width;
         float height = config->getScreenSize(i).height;
-        projectConfig.setFrameSize(projectConfig.isLandscapeFrame() ? CCSize(height, width) : CCSize(width, height));
+        projectConfig.setFrameSize(projectConfig.isLandscapeFrame() ? cocos2d::Size(height, width) : cocos2d::Size(width, height));
         [self updateUI];
     }
     else
@@ -207,12 +207,12 @@
 
 - (IBAction) onScreenSizeTextFieldsChanged:(id)sender
 {
-    projectConfig.setFrameSize(CCSize([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
+    projectConfig.setFrameSize(cocos2d::Size([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
 }
 
 - (IBAction) onScreenOrientationChanged:(id)sender
 {
-    projectConfig.setFrameSize(CCSize([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
+    projectConfig.setFrameSize(cocos2d::Size([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
     NSButton *button = [matrixScreenOrientation selectedCell];
     if (([button tag] == 1 && projectConfig.isLandscapeFrame()) || ([button tag] == 2 && !projectConfig.isLandscapeFrame()))
     {
@@ -244,7 +244,7 @@
 
 - (IBAction) onOpenProject:(id)sender
 {
-    projectConfig.setFrameSize(CCSize([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
+    projectConfig.setFrameSize(cocos2d::Size([textFieldScreenSizeWidth intValue], [textFieldScreenSizeHeight intValue]));
     [self close];
     [NSApp endSheet:self.window returnCode:NSRunStoppedResponse];
 }

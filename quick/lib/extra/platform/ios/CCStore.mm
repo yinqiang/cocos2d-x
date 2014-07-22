@@ -76,12 +76,12 @@ bool Store::canMakePurchases(void)
     return [[StoreIOS sharedStore] canMakePurchases];
 }
 
-void Store::loadProducts(CCArray* productsId, StoreProductsRequestDelegate* delegate)
+void Store::loadProducts(__Array* productsId, StoreProductsRequestDelegate* delegate)
 {
     NSMutableSet* set = [NSMutableSet set];
     for (int i = 0; i < productsId->count(); ++i)
     {
-        CCString* productId = static_cast<CCString*>(productsId->objectAtIndex(i));
+        __String* productId = static_cast<__String*>(productsId->objectAtIndex(i));
         [set addObject:[NSString stringWithUTF8String: productId->_string.c_str()]];
     }
     [[StoreIOS sharedStore] requestProductData:set andDelegate:delegate];
@@ -258,7 +258,7 @@ void Store::transactionRestored(StorePaymentTransaction* transaction)
 }
 
 #if CC_LUA_ENGINE_ENABLED > 0
-void Store::requestProductsCompleted(CCArray* products, CCArray* invalidProductsId)
+void Store::requestProductsCompleted(__Array* products, __Array* invalidProductsId)
 {
     LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
 
@@ -283,7 +283,7 @@ void Store::requestProductsCompleted(CCArray* products, CCArray* invalidProducts
         LuaValueArray invalidProductsId_;
         for (int i = 0; i < invalidProductsId->count(); ++i)
         {
-            CCString* ccid = static_cast<CCString*>(invalidProductsId->objectAtIndex(i));
+            __String* ccid = static_cast<__String*>(invalidProductsId->objectAtIndex(i));
             invalidProductsId_.push_back(LuaValue::stringValue(ccid->getCString()));
         }
         event["invalidProductsId"] = LuaValue::arrayValue(invalidProductsId_);

@@ -8,7 +8,7 @@
 
 USING_NS_CC_EXTRA;
 
-class CCStoreReceiptVerifyRequestIOS : public cocos2d::CCObject, public HTTPRequestDelegate
+class CCStoreReceiptVerifyRequestIOS : public cocos2d::Ref, public HTTPRequestDelegate
 {
 public:
     static CCStoreReceiptVerifyRequestIOS* create(StoreIOS* store,

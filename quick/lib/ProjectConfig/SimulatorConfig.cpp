@@ -132,12 +132,12 @@ const vector<string> ProjectConfig::getPackagePathArray(void)
     return arr;
 }
 
-const CCSize ProjectConfig::getFrameSize(void)
+const Size ProjectConfig::getFrameSize(void)
 {
     return m_frameSize;
 }
 
-void ProjectConfig::setFrameSize(CCSize frameSize)
+void ProjectConfig::setFrameSize(Size frameSize)
 {
     if (frameSize.width <= 0 || frameSize.width > 2048 || frameSize.height <= 0 || frameSize.height > 2048) return;
     m_frameSize = frameSize;
@@ -213,12 +213,12 @@ const string ProjectConfig::getDebugLogFilePath(void)
     return path;
 }
 
-const CCPoint ProjectConfig::getWindowOffset(void)
+const Point ProjectConfig::getWindowOffset(void)
 {
     return m_windowOffset;
 }
 
-void ProjectConfig::setWindowOffset(CCPoint windowOffset)
+void ProjectConfig::setWindowOffset(Point windowOffset)
 {
     m_windowOffset = windowOffset;
 }
@@ -283,11 +283,11 @@ void ProjectConfig::parseCommandLine(vector<string>& args)
         }
         else if (arg.compare("-landscape") == 0)
         {
-            setFrameSize(CCSize(DEFAULT_HEIGHT, DEFAULT_WIDTH));
+            setFrameSize(Size(DEFAULT_HEIGHT, DEFAULT_WIDTH));
         }
         else if (arg.compare("-portrait") == 0)
         {
-            setFrameSize(CCSize(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+            setFrameSize(Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         }
         else if (arg.compare("-size") == 0)
         {
@@ -304,7 +304,7 @@ void ProjectConfig::parseCommandLine(vector<string>& args)
                 heightStr.assign(sizeStr, pos + 1, sizeStr.length() - pos);
                 width = atoi(widthStr.c_str());
                 height = atoi(heightStr.c_str());
-                setFrameSize(CCSize(width, height));
+                setFrameSize(Size(width, height));
             }
         }
         else if (arg.compare("-scale") == 0)
@@ -504,7 +504,7 @@ const string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfi
 
 bool ProjectConfig::validate(void)
 {
-    CCFileUtils *utils = CCFileUtils::sharedFileUtils();
+    FileUtils *utils = FileUtils::sharedFileUtils();
 //    if (!utils->isDirectoryExist(m_projectDir)) return false;
 //    if (!utils->isDirectoryExist(getWritableRealPath())) return false;
     if (!utils->isFileExist(getScriptFileRealPath())) return false;
@@ -513,18 +513,18 @@ bool ProjectConfig::validate(void)
 
 void ProjectConfig::dump(void)
 {
-    CCLog("Project Config:");
-    CCLog("    quick root path: %s", SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath().c_str());
-    CCLog("    project dir: %s", m_projectDir.c_str());
-    CCLog("    writable path: %s", m_writablePath.length() ? m_writablePath.c_str() : "-");
-    CCLog("    script file: %s", m_scriptFile.c_str());
-    CCLog("    package.path: %s", m_packagePath.length() ? m_packagePath.c_str() : "-");
-    CCLog("    frame size: %0.0f x %0.0f", m_frameSize.width, m_frameSize.height);
-    CCLog("    frame scale: %0.2f", m_frameScale);
-    CCLog("    show console: %s", m_showConsole ? "YES" : "NO");
-    CCLog("    write debug log: %s", m_writeDebugLogToFile ? "YES" : "NO");
-    CCLog("    debugger: %s", m_debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
-    CCLog("\n\n");
+    log("Project Config:");
+    log("    quick root path: %s", SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath().c_str());
+    log("    project dir: %s", m_projectDir.c_str());
+    log("    writable path: %s", m_writablePath.length() ? m_writablePath.c_str() : "-");
+    log("    script file: %s", m_scriptFile.c_str());
+    log("    package.path: %s", m_packagePath.length() ? m_packagePath.c_str() : "-");
+    log("    frame size: %0.0f x %0.0f", m_frameSize.width, m_frameSize.height);
+    log("    frame scale: %0.2f", m_frameScale);
+    log("    show console: %s", m_showConsole ? "YES" : "NO");
+    log("    write debug log: %s", m_writeDebugLogToFile ? "YES" : "NO");
+    log("    debugger: %s", m_debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
+    log("\n\n");
 }
 
 void ProjectConfig::normalize(void)
@@ -666,7 +666,7 @@ const SimulatorScreenSize SimulatorConfig::getScreenSize(int index)
     return m_screenSizeArray.at(index);
 }
 
-int SimulatorConfig::checkScreenSize(const CCSize& size)
+int SimulatorConfig::checkScreenSize(const Size& size)
 {
     int width = size.width;
     int height = size.height;
