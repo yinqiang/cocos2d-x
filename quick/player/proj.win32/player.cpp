@@ -92,8 +92,8 @@ int Player::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // create the application instance
-    //_app = new AppDelegate();
-    //_app->setProjectConfig(_project);
+    _app = new AppDelegate();
+    _app->setProjectConfig(_project);
 
     // set environments
     SetCurrentDirectoryA(_project.getProjectDir().c_str());
@@ -106,7 +106,6 @@ int Player::run()
     Director::getInstance()->setOpenGLView(glview);
 
     // startup message loop
-    _app = new AppDelegate();
     return Application::getInstance()->run();
 }
 
