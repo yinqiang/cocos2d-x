@@ -34,7 +34,8 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class __Array;
+//class __Array;
+class CCTouchTargetNode;
 
 #define CCTOUCHBEGAN        0
 #define CCTOUCHMOVED        1
@@ -123,12 +124,12 @@ protected:
     friend class Node;
     
     std::set<int> m_touchingIds;
-    __Array *m_touchableNodes;
-    __Array *m_touchingTargets;
+    Vector<Node*> _touchableNodes;
+    Vector<CCTouchTargetNode*> _touchingTargets;
     bool m_touchDispatchingEnabled;
     EventListenerTouchAllAtOnce *_touchListener;
 
-    void sortAllTouchableNodes(__Array *nodes);
+    void sortAllTouchableNodes(Vector<Node*>&nodes);
     void enableTouchDispatching();
     void disableTouchDispatching();
 
