@@ -29,7 +29,6 @@
 #include "deprecated/CCDouble.h"
 #include "deprecated/CCString.h"
 #include "deprecated/CCArray.h"
-#include "deprecated/CCDictionary.h"
 
 NS_CC_BEGIN
 
@@ -59,11 +58,6 @@ void DataVisitor::visit(const __String *value)
 }
 
 void DataVisitor::visit(const __Array *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Dictionary *value)
 {
     visitObject(value);
 }
@@ -151,35 +145,6 @@ void PrettyPrinter::visit(const __Array *p)
     _result += "\n";
     _result += _indentStr;
     _result += "</array>";
-}
-
-void PrettyPrinter::visit(const __Dictionary *p)
-{
-    _result += "\n";
-    _result += _indentStr;
-    _result += "<dict>\n";
-    
-    setIndentLevel(_indentLevel+1);
-    DictElement* element;
-    bool bFirstElement = true;
-    char buf[1000] = {0};
-    CCDICT_FOREACH(p, element)
-    {
-        if (!bFirstElement) {
-            _result += "\n";
-        }
-        sprintf(buf, "%s%s: ", _indentStr.c_str(),element->getStrKey());
-        _result += buf;
-        PrettyPrinter v(_indentLevel);
-//FIXME:james        element->getObject()->acceptVisitor(v);
-        _result += v.getResult();
-        bFirstElement = false;
-    }
-    setIndentLevel(_indentLevel-1);
-    
-    _result += "\n";
-    _result += _indentStr;
-    _result += "</dict>";
 }
 
 void PrettyPrinter::setIndentLevel(int indentLevel)

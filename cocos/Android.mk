@@ -163,7 +163,6 @@ renderer/ccGLStateCache.cpp \
 renderer/ccShaders.cpp \
 deprecated/CCArray.cpp \
 deprecated/CCString.cpp \
-deprecated/CCDictionary.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \
 physics/CCPhysicsJoint.cpp \

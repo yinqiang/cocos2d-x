@@ -273,7 +273,6 @@ THE SOFTWARE.
 #include "audio/include/SimpleAudioEngine.h"
 
 // Deprecated include
-#include "deprecated/CCDictionary.h"
 #include "deprecated/CCArray.h"
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCFloat.h"

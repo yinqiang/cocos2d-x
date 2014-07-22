@@ -737,8 +737,6 @@
 		F4E0C0C5196BA3D60053EFD7 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0B5196BA3D60053EFD7 /* CCArray.cpp */; };
 		F4E0C0C6196BA3D60053EFD7 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0B6196BA3D60053EFD7 /* CCArray.h */; };
 		F4E0C0C7196BA3D60053EFD7 /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0B7196BA3D60053EFD7 /* CCBool.h */; };
-		F4E0C0CA196BA3D60053EFD7 /* CCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0C0BA196BA3D60053EFD7 /* CCDictionary.cpp */; };
-		F4E0C0CB196BA3D60053EFD7 /* CCDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BB196BA3D60053EFD7 /* CCDictionary.h */; };
 		F4E0C0CC196BA3D60053EFD7 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */; };
 		F4E0C0CD196BA3D60053EFD7 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */; };
 		F4E0C0CE196BA3D60053EFD7 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */; };
@@ -1511,8 +1509,6 @@
 		F4E0C0B5196BA3D60053EFD7 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
 		F4E0C0B6196BA3D60053EFD7 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		F4E0C0B7196BA3D60053EFD7 /* CCBool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBool.h; sourceTree = "<group>"; };
-		F4E0C0BA196BA3D60053EFD7 /* CCDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDictionary.cpp; sourceTree = "<group>"; };
-		F4E0C0BB196BA3D60053EFD7 /* CCDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDictionary.h; sourceTree = "<group>"; };
 		F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
@@ -3181,8 +3177,6 @@
 				F4E0C0B5196BA3D60053EFD7 /* CCArray.cpp */,
 				F4E0C0B6196BA3D60053EFD7 /* CCArray.h */,
 				F4E0C0B7196BA3D60053EFD7 /* CCBool.h */,
-				F4E0C0BA196BA3D60053EFD7 /* CCDictionary.cpp */,
-				F4E0C0BB196BA3D60053EFD7 /* CCDictionary.h */,
 				F4E0C0BC196BA3D60053EFD7 /* CCDouble.h */,
 				F4E0C0BD196BA3D60053EFD7 /* CCFloat.h */,
 				F4E0C0BE196BA3D60053EFD7 /* CCInteger.h */,
@@ -3531,7 +3525,6 @@
 				F4E0B53E196B9C7D0053EFD7 /* CCEvent.h in Headers */,
 				F4E0B2B7196B9C660053EFD7 /* CCAnimation.h in Headers */,
 				F4E0BEA2196BA0C20053EFD7 /* xxhash.h in Headers */,
-				F4E0C0CB196BA3D60053EFD7 /* CCDictionary.h in Headers */,
 				F4E0C08D196BA25D0053EFD7 /* tolua_event.h in Headers */,
 				F4E0B2D7196B9C670053EFD7 /* CCGrabber.h in Headers */,
 				F4E0B6EA196B9EEB0053EFD7 /* cpRatchetJoint.h in Headers */,
@@ -3751,7 +3744,6 @@
 				F4E0B53F196B9C7D0053EFD7 /* CCEventAcceleration.cpp in Sources */,
 				DAF2831E196BDACB00959DA1 /* socket_scripts.c in Sources */,
 				F4E0B310196B9C670053EFD7 /* CCTMXTiledMap.cpp in Sources */,
-				F4E0C0CA196BA3D60053EFD7 /* CCDictionary.cpp in Sources */,
 				F4E0B2CA196B9C670053EFD7 /* CCFontAtlas.cpp in Sources */,
 				F4E0B707196B9EEB0053EFD7 /* cpBody.c in Sources */,
 				DAF28304196BDACB00959DA1 /* sqlite3.c in Sources */,
