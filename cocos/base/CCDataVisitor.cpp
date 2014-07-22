@@ -23,34 +23,10 @@
  ****************************************************************************/
 
 #include "base/CCRef.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCDouble.h"
 #include "deprecated/CCString.h"
 #include "deprecated/CCArray.h"
 
 NS_CC_BEGIN
-
-void DataVisitor::visit(const __Bool *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Integer *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Float *value)
-{
-    visitObject(value);
-}
-
-void DataVisitor::visit(const __Double *value)
-{
-    visitObject(value);
-}
 
 void DataVisitor::visit(const __String *value)
 {
@@ -82,34 +58,6 @@ void PrettyPrinter::visitObject(const Ref *p)
 {
     char buf[50] = {0};
     sprintf(buf, "%p", p);
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Bool * p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%s", p->getValue() ? "true" : "false");
-   _result += buf;
-}
-
-void PrettyPrinter::visit(const __Integer *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%d", p->getValue());
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Float *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%f", p->getValue());
-    _result += buf;
-}
-
-void PrettyPrinter::visit(const __Double *p)
-{
-    char buf[50] = {0};
-    sprintf(buf, "%lf", p->getValue());
     _result += buf;
 }
 

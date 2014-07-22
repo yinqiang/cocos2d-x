@@ -274,10 +274,6 @@ THE SOFTWARE.
 
 // Deprecated include
 #include "deprecated/CCArray.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCBool.h"
 #include "deprecated/CCString.h"
 
 

@@ -465,10 +465,6 @@
 		DAF293E6196D339300959DA1 /* cocos2d.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29100196D338E00959DA1 /* cocos2d.h */; };
 		DAF293E7196D339300959DA1 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29102196D338E00959DA1 /* CCArray.cpp */; };
 		DAF293E8196D339300959DA1 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29103196D338E00959DA1 /* CCArray.h */; };
-		DAF293E9196D339300959DA1 /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29104196D338E00959DA1 /* CCBool.h */; };
-		DAF293EE196D339300959DA1 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29109196D338E00959DA1 /* CCDouble.h */; };
-		DAF293EF196D339300959DA1 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910A196D338E00959DA1 /* CCFloat.h */; };
-		DAF293F0196D339300959DA1 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF2910B196D338E00959DA1 /* CCInteger.h */; };
 		DAF293F5196D339400959DA1 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29110196D338E00959DA1 /* CCString.cpp */; };
 		DAF293F6196D339400959DA1 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29111196D338E00959DA1 /* CCString.h */; };
 		DAF293F7196D339400959DA1 /* CCAffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29127196D338E00959DA1 /* CCAffineTransform.cpp */; };
@@ -1199,10 +1195,6 @@
 		DAF29100196D338E00959DA1 /* cocos2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2d.h; sourceTree = "<group>"; };
 		DAF29102196D338E00959DA1 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
 		DAF29103196D338E00959DA1 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
-		DAF29104196D338E00959DA1 /* CCBool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBool.h; sourceTree = "<group>"; };
-		DAF29109196D338E00959DA1 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
-		DAF2910A196D338E00959DA1 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
-		DAF2910B196D338E00959DA1 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
 		DAF29110196D338E00959DA1 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		DAF29111196D338E00959DA1 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		DAF29127196D338E00959DA1 /* CCAffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAffineTransform.cpp; sourceTree = "<group>"; };
@@ -2672,10 +2664,6 @@
 			children = (
 				DAF29102196D338E00959DA1 /* CCArray.cpp */,
 				DAF29103196D338E00959DA1 /* CCArray.h */,
-				DAF29104196D338E00959DA1 /* CCBool.h */,
-				DAF29109196D338E00959DA1 /* CCDouble.h */,
-				DAF2910A196D338E00959DA1 /* CCFloat.h */,
-				DAF2910B196D338E00959DA1 /* CCInteger.h */,
 				DAF29110196D338E00959DA1 /* CCString.cpp */,
 				DAF29111196D338E00959DA1 /* CCString.h */,
 			);
@@ -2912,7 +2900,6 @@
 				DAF292BB196D338E00959DA1 /* CCActionCamera.h in Headers */,
 				DAF28EE3196D082900959DA1 /* unix.h in Headers */,
 				DAF292D5196D338E00959DA1 /* CCAnimationCache.h in Headers */,
-				DAF293E9196D339300959DA1 /* CCBool.h in Headers */,
 				DAF2938C196D339000959DA1 /* CCDataVisitor.h in Headers */,
 				DAF2931B196D338F00959DA1 /* CCProgressTimer.h in Headers */,
 				DAF29408196D339400959DA1 /* Vec2.h in Headers */,
@@ -2933,7 +2920,6 @@
 				DAF293DD196D339300959DA1 /* s3tc.h in Headers */,
 				DAF2937B196D339000959DA1 /* base64.h in Headers */,
 				DAF28DD0196D082800959DA1 /* OpenUDIDIOS.h in Headers */,
-				DAF293EF196D339300959DA1 /* CCFloat.h in Headers */,
 				DAF29337196D338F00959DA1 /* CCTransitionPageTurn.h in Headers */,
 				DAF294BB196D339E00959DA1 /* CCQuadCommand.h in Headers */,
 				DAF2945C196D339800959DA1 /* CCFileUtilsApple.h in Headers */,
@@ -2996,7 +2982,6 @@
 				DAF28EAA196D082900959DA1 /* tolua_fix.h in Headers */,
 				DAF294B7196D339E00959DA1 /* CCGroupCommand.h in Headers */,
 				DAF294CF196D359500959DA1 /* CCControlUtils.h in Headers */,
-				DAF293EE196D339300959DA1 /* CCDouble.h in Headers */,
 				DAF28DE2196D082800959DA1 /* CCStore.h in Headers */,
 				DAF2940E196D339500959DA1 /* WebSocket.h in Headers */,
 				DAF2932F196D338F00959DA1 /* CCTMXObjectGroup.h in Headers */,
@@ -3124,7 +3109,6 @@
 				DAF29345196D338F00959DA1 /* CCBundleReader.h in Headers */,
 				DAF293FA196D339400959DA1 /* CCGeometry.h in Headers */,
 				DAF28EC9196D082900959DA1 /* except.h in Headers */,
-				DAF293F0196D339300959DA1 /* CCInteger.h in Headers */,
 				DAF2945F196D339800959DA1 /* CCLock.h in Headers */,
 				DAF292D9196D338E00959DA1 /* CCClippingNode.h in Headers */,
 				DAF292D7196D338E00959DA1 /* CCAtlasNode.h in Headers */,

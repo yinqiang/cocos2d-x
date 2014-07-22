@@ -58,32 +58,12 @@ bool array_to_valuevector_deprecated(__Array& array,ValueVector& valueVec)
     valueVec.clear();
     
     __String* strVal = nullptr;
-    __Double* doubleVal = nullptr;
-    __Bool* boolVal = nullptr;
-    __Float* floatVal = nullptr;
-    __Integer* intVal = nullptr;
     
     for (int i = 0; i < array.count(); i++)
     {
         if( (strVal = dynamic_cast<__String *>(array.getObjectAtIndex(i))))
         {
             valueVec.push_back(Value(strVal->getCString()));
-        }
-        else if ((doubleVal = dynamic_cast<__Double*>(array.getObjectAtIndex(i))))
-        {
-            valueVec.push_back(Value(doubleVal->getValue()));
-        }
-        else if ((floatVal = dynamic_cast<__Float*>(array.getObjectAtIndex(i))))
-        {
-            valueVec.push_back(Value(floatVal->getValue()));
-        }
-        else if ((intVal = dynamic_cast<__Integer*>(array.getObjectAtIndex(i))))
-        {
-            valueVec.push_back(Value(intVal->getValue()));
-        }
-        else if ((boolVal = dynamic_cast<__Bool*>(array.getObjectAtIndex(i))))
-        {
-            valueVec.push_back(Value(boolVal->getValue()));
         }
         else
         {

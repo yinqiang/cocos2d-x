@@ -31,10 +31,6 @@
 NS_CC_BEGIN
 
 class Ref;
-class __Bool;
-class __Integer;
-class __Float;
-class __Double;
 class __String;
 class __Array;
 
@@ -69,10 +65,6 @@ public:
     /** default method, called from non-overloaded methods and for unrecognized objects */
     virtual void visitObject(const Ref *p) = 0;
 
-    virtual void visit(const __Bool *p);
-    virtual void visit(const __Integer *p);
-    virtual void visit(const __Float *p);
-    virtual void visit(const __Double *p);
     virtual void visit(const __String *p);
     virtual void visit(const __Array *p);
 };
@@ -87,10 +79,6 @@ public:
     virtual std::string getResult();
     
     virtual void visitObject(const Ref *p);
-    virtual void visit(const __Bool * p);
-    virtual void visit(const __Integer *p);
-    virtual void visit(const __Float *p);
-    virtual void visit(const __Double *p);
     virtual void visit(const __String *p);
     virtual void visit(const __Array *p);
 private:

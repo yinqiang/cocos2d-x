@@ -1038,52 +1038,6 @@ bool luaval_to_array_of_vec2(lua_State* L,int lo,cocos2d::Vec2 **points, int *nu
     return ok;
 }
 
-
-bool luavals_variadic_to_array(lua_State* L,int argc, __Array** ret)
-{
-    if (nullptr == L || argc == 0 )
-        return false;
-    
-    bool ok = true;
-    
-    __Array* array = __Array::create();
-    for (int i = 0; i < argc; i++)
-    {
-        double num = 0.0;
-        if (lua_isnumber(L, i + 2))
-        {
-            ok &= luaval_to_number(L, i + 2, &num);
-            if (!ok)
-                break;
-            
-            array->addObject(__Integer::create((int)num));
-        }
-        else if (lua_isstring(L, i + 2))
-        {
-            std::string str = lua_tostring(L, i + 2);
-            array->addObject(__String::create(str));
-        }
-        else if (lua_isuserdata(L, i + 2))
-        {
-            tolua_Error err;
-            if (!tolua_isusertype(L, i + 2, "cc.Ref", 0, &err))
-            {
-#if COCOS2D_DEBUG >=1
-                luaval_to_native_err(L,"#ferror:",&err);
-#endif
-                ok = false;
-                break;
-            }
-            Ref* obj = static_cast<Ref*>(tolua_tousertype(L, i + 2, nullptr));
-            array->addObject(obj);
-        }
-    }
-    
-    *ret = array;
-    
-    return ok;
-}
-
 bool luavals_variadic_to_ccvaluevector(lua_State* L, int argc, cocos2d::ValueVector* ret)
 {
     if (nullptr == L || argc == 0 )
