@@ -55,12 +55,9 @@ THE SOFTWARE.
 #include "platform/CCDevice.h"
 #include "base/CCEventListenerAcceleration.h"
 
-#include "deprecated/CCString.h"
-
 #if CC_USE_PHYSICS
 #include "physics/CCPhysicsBody.h"
 #endif
-
 
 #if CC_NODE_RENDER_SUBPIXEL
 #define RENDER_IN_SUBPIXEL

@@ -38,6 +38,7 @@
 #include "math/CCMath.h"
 #include "renderer/ccGLStateCache.h"
 #include "CCGL.h"
+#include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 

@@ -371,8 +371,6 @@
 		DAF29388196D339000959DA1 /* CCController.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF290A2196D338D00959DA1 /* CCController.h */; };
 		DAF29389196D339000959DA1 /* CCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF290A3196D338D00959DA1 /* CCData.cpp */; };
 		DAF2938A196D339000959DA1 /* CCData.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF290A4196D338D00959DA1 /* CCData.h */; };
-		DAF2938B196D339000959DA1 /* CCDataVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF290A5196D338D00959DA1 /* CCDataVisitor.cpp */; };
-		DAF2938C196D339000959DA1 /* CCDataVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF290A6196D338D00959DA1 /* CCDataVisitor.h */; };
 		DAF2938D196D339000959DA1 /* CCDirector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF290A7196D338D00959DA1 /* CCDirector.cpp */; };
 		DAF2938E196D339000959DA1 /* CCDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF290A8196D338D00959DA1 /* CCDirector.h */; };
 		DAF2938F196D339000959DA1 /* CCEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF290A9196D338D00959DA1 /* CCEvent.cpp */; };
@@ -463,10 +461,6 @@
 		DAF293E4196D339300959DA1 /* cocos2d-prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DAF290FE196D338E00959DA1 /* cocos2d-prefix.pch */; };
 		DAF293E5196D339300959DA1 /* cocos2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF290FF196D338E00959DA1 /* cocos2d.cpp */; };
 		DAF293E6196D339300959DA1 /* cocos2d.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29100196D338E00959DA1 /* cocos2d.h */; };
-		DAF293E7196D339300959DA1 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29102196D338E00959DA1 /* CCArray.cpp */; };
-		DAF293E8196D339300959DA1 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29103196D338E00959DA1 /* CCArray.h */; };
-		DAF293F5196D339400959DA1 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29110196D338E00959DA1 /* CCString.cpp */; };
-		DAF293F6196D339400959DA1 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29111196D338E00959DA1 /* CCString.h */; };
 		DAF293F7196D339400959DA1 /* CCAffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29127196D338E00959DA1 /* CCAffineTransform.cpp */; };
 		DAF293F8196D339400959DA1 /* CCAffineTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF29128196D338E00959DA1 /* CCAffineTransform.h */; };
 		DAF293F9196D339400959DA1 /* CCGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF29129196D338E00959DA1 /* CCGeometry.cpp */; };
@@ -1101,8 +1095,6 @@
 		DAF290A2196D338D00959DA1 /* CCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCController.h; sourceTree = "<group>"; };
 		DAF290A3196D338D00959DA1 /* CCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCData.cpp; sourceTree = "<group>"; };
 		DAF290A4196D338D00959DA1 /* CCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCData.h; sourceTree = "<group>"; };
-		DAF290A5196D338D00959DA1 /* CCDataVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDataVisitor.cpp; sourceTree = "<group>"; };
-		DAF290A6196D338D00959DA1 /* CCDataVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDataVisitor.h; sourceTree = "<group>"; };
 		DAF290A7196D338D00959DA1 /* CCDirector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDirector.cpp; sourceTree = "<group>"; };
 		DAF290A8196D338D00959DA1 /* CCDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDirector.h; sourceTree = "<group>"; };
 		DAF290A9196D338D00959DA1 /* CCEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEvent.cpp; sourceTree = "<group>"; };
@@ -1193,10 +1185,6 @@
 		DAF290FE196D338E00959DA1 /* cocos2d-prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cocos2d-prefix.pch"; sourceTree = "<group>"; };
 		DAF290FF196D338E00959DA1 /* cocos2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cocos2d.cpp; sourceTree = "<group>"; };
 		DAF29100196D338E00959DA1 /* cocos2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2d.h; sourceTree = "<group>"; };
-		DAF29102196D338E00959DA1 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
-		DAF29103196D338E00959DA1 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
-		DAF29110196D338E00959DA1 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
-		DAF29111196D338E00959DA1 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		DAF29127196D338E00959DA1 /* CCAffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAffineTransform.cpp; sourceTree = "<group>"; };
 		DAF29128196D338E00959DA1 /* CCAffineTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAffineTransform.h; sourceTree = "<group>"; };
 		DAF29129196D338E00959DA1 /* CCGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGeometry.cpp; sourceTree = "<group>"; };
@@ -2333,7 +2321,6 @@
 				DAF290FE196D338E00959DA1 /* cocos2d-prefix.pch */,
 				DAF290FF196D338E00959DA1 /* cocos2d.cpp */,
 				DAF29100196D338E00959DA1 /* cocos2d.h */,
-				DAF29101196D338E00959DA1 /* deprecated */,
 				DAF29126196D338E00959DA1 /* math */,
 				DAF29144196D338E00959DA1 /* network */,
 				DAF29147196D338E00959DA1 /* physics */,
@@ -2566,8 +2553,6 @@
 				DAF290A2196D338D00959DA1 /* CCController.h */,
 				DAF290A3196D338D00959DA1 /* CCData.cpp */,
 				DAF290A4196D338D00959DA1 /* CCData.h */,
-				DAF290A5196D338D00959DA1 /* CCDataVisitor.cpp */,
-				DAF290A6196D338D00959DA1 /* CCDataVisitor.h */,
 				DAF290A7196D338D00959DA1 /* CCDirector.cpp */,
 				DAF290A8196D338D00959DA1 /* CCDirector.h */,
 				DAF290A9196D338D00959DA1 /* CCEvent.cpp */,
@@ -2657,17 +2642,6 @@
 				DAF290FD196D338E00959DA1 /* ZipUtils.h */,
 			);
 			path = base;
-			sourceTree = "<group>";
-		};
-		DAF29101196D338E00959DA1 /* deprecated */ = {
-			isa = PBXGroup;
-			children = (
-				DAF29102196D338E00959DA1 /* CCArray.cpp */,
-				DAF29103196D338E00959DA1 /* CCArray.h */,
-				DAF29110196D338E00959DA1 /* CCString.cpp */,
-				DAF29111196D338E00959DA1 /* CCString.h */,
-			);
-			path = deprecated;
 			sourceTree = "<group>";
 		};
 		DAF29126196D338E00959DA1 /* math */ = {
@@ -2900,7 +2874,6 @@
 				DAF292BB196D338E00959DA1 /* CCActionCamera.h in Headers */,
 				DAF28EE3196D082900959DA1 /* unix.h in Headers */,
 				DAF292D5196D338E00959DA1 /* CCAnimationCache.h in Headers */,
-				DAF2938C196D339000959DA1 /* CCDataVisitor.h in Headers */,
 				DAF2931B196D338F00959DA1 /* CCProgressTimer.h in Headers */,
 				DAF29408196D339400959DA1 /* Vec2.h in Headers */,
 				DAF294B5196D339E00959DA1 /* ccGLStateCache.h in Headers */,
@@ -2968,7 +2941,6 @@
 				DAF29313196D338F00959DA1 /* CCParticleBatchNode.h in Headers */,
 				DAF29481196D339A00959DA1 /* OpenGL_Internal.h in Headers */,
 				DAF29342196D338F00959DA1 /* CCBundle3D.h in Headers */,
-				DAF293F6196D339400959DA1 /* CCString.h in Headers */,
 				DAF294C6196D339F00959DA1 /* CCTextureAtlas.h in Headers */,
 				DAF292DF196D338E00959DA1 /* CCComponentContainer.h in Headers */,
 				DAF29307196D338F00959DA1 /* CCMenu.h in Headers */,
@@ -3089,7 +3061,6 @@
 				DAF292ED196D338E00959DA1 /* CCFontAtlasCache.h in Headers */,
 				DAF293B1196D339100959DA1 /* CCEventType.h in Headers */,
 				DAF292F9196D338E00959DA1 /* CCGrid.h in Headers */,
-				DAF293E8196D339300959DA1 /* CCArray.h in Headers */,
 				DAF293B7196D339100959DA1 /* CCIMEDispatcher.h in Headers */,
 				DAF28EB3196D082900959DA1 /* fpconv.h in Headers */,
 				DAF29414196D339500959DA1 /* CCPhysicsJoint.h in Headers */,
@@ -3325,7 +3296,6 @@
 				DAF294BC196D339E00959DA1 /* CCRenderCommand.cpp in Sources */,
 				DAF294D4196D359900959DA1 /* CCEditBox.cpp in Sources */,
 				DAF29460196D339800959DA1 /* CCThread.mm in Sources */,
-				DAF293E7196D339300959DA1 /* CCArray.cpp in Sources */,
 				DAF2941E196D339500959DA1 /* CCPhysicsJointInfo_chipmunk.cpp in Sources */,
 				DAF294E7196D368700959DA1 /* cpPivotJoint.c in Sources */,
 				DAF293AB196D339100959DA1 /* CCEventListenerTouch.cpp in Sources */,
@@ -3426,7 +3396,6 @@
 				DAF294FB196D368700959DA1 /* cpSweep1D.c in Sources */,
 				DAF28DD2196D082800959DA1 /* CCNetworkIOSMac.mm in Sources */,
 				DAF28EA9196D082900959DA1 /* tolua_fix.cpp in Sources */,
-				DAF2938B196D339000959DA1 /* CCDataVisitor.cpp in Sources */,
 				DAF293DA196D339300959DA1 /* ObjectFactory.cpp in Sources */,
 				DAF293BA196D339200959DA1 /* CCNS.cpp in Sources */,
 				DAF294A8196D339D00959DA1 /* CCBatchCommand.cpp in Sources */,
@@ -3436,7 +3405,6 @@
 				DAF28E8F196D082900959DA1 /* CCLuaValue.cpp in Sources */,
 				DAF294C5196D339F00959DA1 /* CCTextureAtlas.cpp in Sources */,
 				DAF28DCF196D082800959DA1 /* SBJsonWriter.m in Sources */,
-				DAF293F5196D339400959DA1 /* CCString.cpp in Sources */,
 				DAF294E1196D368700959DA1 /* cpConstraint.c in Sources */,
 				DAF293DC196D339300959DA1 /* s3tc.cpp in Sources */,
 				DAF28E95196D082900959DA1 /* lua_cocos2dx_extension_manual.cpp in Sources */,

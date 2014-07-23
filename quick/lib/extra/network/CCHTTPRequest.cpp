@@ -8,6 +8,8 @@ extern "C" {
 }
 #include "CCLuaEngine.h"
 #endif
+#include <sstream>
+
 
 using namespace cocos2d;
 

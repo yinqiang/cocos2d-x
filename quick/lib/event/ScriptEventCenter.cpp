@@ -31,10 +31,8 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteBatchNode.h"
 #include "physics/CCPhysicsWorld.h"
-#include "deprecated/CCString.h"
-//#include "event/CCTouchDispatcher.h"
+
 #include "event/CCTouchTargetNode.h"
-#include "deprecated/CCArray.h"
 
 NS_CC_BEGIN
 
@@ -188,8 +186,7 @@ void ScriptEventCenter::onTouchesBegan(const std::vector<Touch*>& touches, Event
         }
 
         // try to dispatching event
-        Vector<Node*> path;
-        path.reserve(10);
+        Vector<Node*> path(10);
         node = touchTarget->getNode();
         do
         {
@@ -374,19 +371,19 @@ void ScriptEventCenter::dispatchingTouchEvent(const std::vector<Touch*>& touches
         }
 
         // try to dispatching event
-        __Array *path = __Array::createWithCapacity(10);
+        Vector<Node*> path(10);
         node = touchTarget->getNode();
         do
         {
-            path->addObject(node);
+            path.pushBack(node);
             node = node->getParent();
         } while (node != NULL && node != this);
 
         // phase: capturing
         // from parent to child
-        for (long i = path->count() - 1; i >= 0; --i)
+        for (long i = path.size() - 1; i >= 0; --i)
         {
-            node = dynamic_cast<Node*>(path->getObjectAtIndex(i));
+            node = path.at(i);
             if (touchMode == Node::modeTouchesAllAtOnce)
             {
                 switch (event)

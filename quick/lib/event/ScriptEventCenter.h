@@ -34,7 +34,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-//class __Array;
 class CCTouchTargetNode;
 
 #define CCTOUCHBEGAN        0
