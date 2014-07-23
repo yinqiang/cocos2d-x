@@ -110,8 +110,6 @@
 		DAF28E90196D082900959DA1 /* CCLuaValue.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF28D33196D082800959DA1 /* CCLuaValue.h */; };
 		DAF28E91196D082900959DA1 /* Cocos2dxLuaLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF28D34196D082800959DA1 /* Cocos2dxLuaLoader.cpp */; };
 		DAF28E92196D082900959DA1 /* Cocos2dxLuaLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF28D35196D082800959DA1 /* Cocos2dxLuaLoader.h */; };
-		DAF28E93196D082900959DA1 /* lua_cocos2dx_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF28D36196D082800959DA1 /* lua_cocos2dx_deprecated.cpp */; };
-		DAF28E94196D082900959DA1 /* lua_cocos2dx_deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF28D37196D082800959DA1 /* lua_cocos2dx_deprecated.h */; };
 		DAF28E95196D082900959DA1 /* lua_cocos2dx_extension_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF28D38196D082800959DA1 /* lua_cocos2dx_extension_manual.cpp */; };
 		DAF28E96196D082900959DA1 /* lua_cocos2dx_extension_manual.h in Headers */ = {isa = PBXBuildFile; fileRef = DAF28D39196D082800959DA1 /* lua_cocos2dx_extension_manual.h */; };
 		DAF28E99196D082900959DA1 /* lua_cocos2dx_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAF28D3C196D082800959DA1 /* lua_cocos2dx_manual.cpp */; };
@@ -831,8 +829,6 @@
 		DAF28D33196D082800959DA1 /* CCLuaValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaValue.h; sourceTree = "<group>"; };
 		DAF28D34196D082800959DA1 /* Cocos2dxLuaLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cocos2dxLuaLoader.cpp; sourceTree = "<group>"; };
 		DAF28D35196D082800959DA1 /* Cocos2dxLuaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cocos2dxLuaLoader.h; sourceTree = "<group>"; };
-		DAF28D36196D082800959DA1 /* lua_cocos2dx_deprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_deprecated.cpp; sourceTree = "<group>"; };
-		DAF28D37196D082800959DA1 /* lua_cocos2dx_deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_deprecated.h; sourceTree = "<group>"; };
 		DAF28D38196D082800959DA1 /* lua_cocos2dx_extension_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_extension_manual.cpp; sourceTree = "<group>"; };
 		DAF28D39196D082800959DA1 /* lua_cocos2dx_extension_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_extension_manual.h; sourceTree = "<group>"; };
 		DAF28D3C196D082800959DA1 /* lua_cocos2dx_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_manual.cpp; sourceTree = "<group>"; };
@@ -2134,8 +2130,6 @@
 				DAF28D33196D082800959DA1 /* CCLuaValue.h */,
 				DAF28D34196D082800959DA1 /* Cocos2dxLuaLoader.cpp */,
 				DAF28D35196D082800959DA1 /* Cocos2dxLuaLoader.h */,
-				DAF28D36196D082800959DA1 /* lua_cocos2dx_deprecated.cpp */,
-				DAF28D37196D082800959DA1 /* lua_cocos2dx_deprecated.h */,
 				DAF28D38196D082800959DA1 /* lua_cocos2dx_extension_manual.cpp */,
 				DAF28D39196D082800959DA1 /* lua_cocos2dx_extension_manual.h */,
 				DAF28D3C196D082800959DA1 /* lua_cocos2dx_manual.cpp */,
@@ -2972,7 +2966,6 @@
 				DAF294CD196D359500959DA1 /* CCControlExtensions.h in Headers */,
 				DAF294FD196D368700959DA1 /* prime.h in Headers */,
 				DAF293D9196D339300959DA1 /* firePngData.h in Headers */,
-				DAF28E94196D082900959DA1 /* lua_cocos2dx_deprecated.h in Headers */,
 				DAF28E9A196D082900959DA1 /* lua_cocos2dx_manual.hpp in Headers */,
 				DAF292F5196D338E00959DA1 /* CCGLBufferedNode.h in Headers */,
 				DAF292F1196D338E00959DA1 /* CCFontFNT.h in Headers */,
@@ -3449,7 +3442,6 @@
 				DAF28ED0196D082900959DA1 /* luasocket_io.c in Sources */,
 				DAF29383196D339000959DA1 /* CCConsole.cpp in Sources */,
 				DAF294EE196D368700959DA1 /* cpBB.c in Sources */,
-				DAF28E93196D082900959DA1 /* lua_cocos2dx_deprecated.cpp in Sources */,
 				DAF293C1196D339200959DA1 /* CCRef.cpp in Sources */,
 				DAF29405196D339400959DA1 /* TransformUtils.cpp in Sources */,
 				DAF294F9196D368700959DA1 /* cpSpaceStep.c in Sources */,

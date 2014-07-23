@@ -16,7 +16,6 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_manual.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_extension_manual.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp \
-          $(LOCAL_PATH)/manual/lua_cocos2dx_deprecated.cpp \
           $(LOCAL_PATH)/manual/platform/android/CCLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/tolua_fix.cpp \
