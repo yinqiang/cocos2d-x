@@ -1,17 +1,23 @@
 #ifndef __APP_DELEGATE_H__
 #define __APP_DELEGATE_H__
 
+#include <string>
+
+using namespace std;
+
 #include "base/CCRef.h"
 #include "CCApplication.h"
 #include "ProjectConfig/ProjectConfig.h"
 #include "ProjectConfig/SimulatorConfig.h"
+
+using namespace cocos2d;
 
 /**
 @brief    The cocos2d Application.
 
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
-class  AppDelegate : public cocos2d::Application
+class  AppDelegate : public Application
 {
 public:
     AppDelegate();
@@ -36,26 +42,24 @@ public:
     */
     virtual void applicationWillEnterForeground();
     
-    void setProjectConfig(const ProjectConfig& config);
-    void setOpenRecents(const LuaValueArray& recents);
+    void setProjectConfig(const ProjectConfig &config);
     
 private:
-    ProjectConfig m_projectConfig;
-    LuaValueArray m_openRecents;
+    ProjectConfig _project;
     
     friend class StartupCall;
 };
 
 
 
-class StartupCall : public cocos2d::Ref
+class StartupCall : public Ref
 {
 public:
     static StartupCall *create(AppDelegate *app);
     void startup();
     
 private:
-    AppDelegate *m_app;
+    AppDelegate *_app;
 };
-#endif  // __APP_DELEGATE_H__
 
+#endif  // __APP_DELEGATE_H__

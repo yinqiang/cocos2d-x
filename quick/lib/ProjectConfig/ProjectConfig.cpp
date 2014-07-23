@@ -110,7 +110,7 @@ string ProjectConfig::getNormalizedPackagePath() const
     auto pos = string::npos;
     while ((pos = path.find("$(PROJDIR)")) != string::npos)
     {
-        path = path.substr(0, pos) + _projectDir + path.substr(pos + 8);
+        path = path.substr(0, pos) + _projectDir + path.substr(pos + 10);
     }
     auto len = path.length();
     if (len && path[len - 1] != ';')
@@ -591,7 +591,7 @@ string ProjectConfig::replaceProjectDirToMacro(const string &path) const
 {
     if (!isAbsolutePath(path))
     {
-        if (path.compare(0, 8, "$(PROJDIR)") == 0) return path;
+        if (path.compare(0, 10, "$(PROJDIR)") == 0) return path;
         string result("$(PROJDIR)");
         result.append(DIRECTORY_SEPARATOR);
         result.append(path);
@@ -616,10 +616,10 @@ string ProjectConfig::replaceProjectDirToFullPath(const string &path) const
     if (path.length() == 0) return _projectDir;
 
     string result = path;
-    if (path.compare(0, 8, "$(PROJDIR)") == 0)
+    if (path.compare(0, 10, "$(PROJDIR)") == 0)
     {
         result = _projectDir;
-        string suffix = path.substr(8);
+        string suffix = path.substr(10);
         if (suffix[0] == DIRECTORY_SEPARATOR_CHAR)
         {
             suffix = suffix.substr(1);

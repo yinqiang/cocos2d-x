@@ -77,6 +77,9 @@ public:
      *        It returns 0 when the listener is associated with fixed priority.
      */
     inline Node* getCurrentTarget() { return _currentTarget; };
+
+    std::string getResult() const { return _result; };
+    void setResult(const std::string &result) { _result = result; };
     
 protected:
     /** Sets current target */
@@ -86,6 +89,7 @@ protected:
     
     bool _isStopped;       ///< whether the event has been stopped.
     Node* _currentTarget;  ///< Current target
+    std::string _result;   ///< Event result
     
     friend class EventDispatcher;
 };

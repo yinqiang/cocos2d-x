@@ -19,6 +19,7 @@
 #include <shellapi.h>
 
 #include "glfw3.h"
+#include "glfw3native.h"
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
     HINSTANCE hPrevInstance,
@@ -27,17 +28,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-    return player::Player::startup();
+    auto player = player::Player::create();
+    return player->run();
 }
 
 PLAYER_NS_BEGIN
 
-Player *Player::_instance = NULL;
-
 Player::Player()
-: _app(NULL)
-, _hwnd(NULL)
-, _writeDebugLogFile(NULL)
+: _app(nullptr)
+, _writeDebugLogFile(nullptr)
 {
 }
 
@@ -53,31 +52,29 @@ Player::~Player()
     }
 }
 
-int Player::startup()
+Player *Player::create()
 {
-    Player *player = Player::getInstance();
-    int ret = player->run();
-    delete player;
-    return ret;
+    return new Player();
 }
 
-Player *Player::getInstance()
+PlayerFileDialogServiceProtocol *Player::getFileDialogService()
 {
-    if (!_instance)
-    {
-        _instance = new Player();
-    }
-    return _instance;
+    return nullptr;
 }
 
-AppDelegate *Player::getApp()
+PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
 {
-    return _app;
+    return nullptr;
 }
 
-HWND Player::getWindowHandle()
+PlayerMenuServiceProtocol *Player::getMenuService()
 {
-    return _hwnd;
+    return nullptr;
+}
+
+PlayerEditBoxServiceProtocol *Player::getEditBoxService()
+{
+    return nullptr;
 }
 
 int Player::run()
@@ -89,7 +86,23 @@ int Player::run()
 
     // set QUICK_V3_ROOT
     const char *QUICK_V3_ROOT = getenv("QUICK_V3_ROOT");
+    if (!QUICK_V3_ROOT || strlen(QUICK_V3_ROOT) == 0)
+    {
+        MessageBox("Please run \"setup_win.bat\", set quick-cocos2d-x root path.", "quick-cocos2d-x player error");
+        return 1;
+    }
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
+
+    // load project config from command line args
+    vector<string> args;
+    for (int i = 0; i < __argc; ++i)
+    {
+        wstring ws(__wargv[i]);
+        string s;
+        s.assign(ws.begin(), ws.end());
+        args.push_back(s);
+    }
+    _project.parseCommandLine(args);
 
     // create the application instance
     _app = new AppDelegate();
@@ -102,27 +115,50 @@ int Player::run()
 
     // create opengl view
     const Size frameSize = _project.getFrameSize();
-    auto glview = GLView::createWithRect("player", cocos2d::Rect(0, 0, frameSize.width, frameSize.height), _project.getFrameScale(), false);
+    const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, _project.getFrameScale(), true);
     Director::getInstance()->setOpenGLView(glview);
+    if (glview->isRetinaEnabled())
+    {
+        glview->enableRetina(true);
+    }
+
+    // prepare
+    _project.dump();
+
+    // register event handlers
+    auto director = Director::getInstance();
+    auto eventDispatcher = director->getEventDispatcher();
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", std::bind(&Player::onWindowClose, this, std::placeholders::_1));
 
     // startup message loop
-    return Application::getInstance()->run();
+    auto app = Application::getInstance();
+    return app->run();
 }
 
-void Player::relaunch(const string &commandLine)
+// event handlers
+void Player::onWindowClose(EventCustom* event)
 {
+    CCLOG("APP.WINDOW_CLOSE_EVENT");
 
+    // If script set event's result to "cancel", ignore window close event
+    EventCustom forwardEvent("APP.EVENT");
+    stringstream buf;
+    buf << "{\"name\":\"close\"}";
+    forwardEvent.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
+
+    if (forwardEvent.getResult().compare("cancel") != 0)
+    {
+        glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
+    }
 }
+
+// debug log
 
 void Player::writeDebugLog(const char *log)
 {
 
-}
-
-// windows callback
-LRESULT Player::WindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL *pProcessed)
-{
-    return 0;
 }
 
 PLAYER_NS_END

@@ -14,37 +14,34 @@ using namespace cocos2d;
 
 #include "PlayerMacros.h"
 #include "AppDelegate.h"
+#include "PlayerProtocol.h"
 
 PLAYER_NS_BEGIN
 
-class CC_DLL Player : public Ref
+class CC_DLL Player : public PlayerProtocol
 {
 public:
-    static int startup();
-    ~Player();
+    static Player *create();
+    virtual ~Player();
+    int run();
 
-private:
-    static Player *getInstance();
-    static Player *_instance;
+    virtual PlayerFileDialogServiceProtocol *getFileDialogService();
+    virtual PlayerMessageBoxServiceProtocol *getMessageBoxService();
+    virtual PlayerMenuServiceProtocol       *getMenuService();
+    virtual PlayerEditBoxServiceProtocol    *getEditBoxService();
 
-    AppDelegate *getApp();
-    HWND getWindowHandle();
-
+protected:
     Player();
 
-    AppDelegate *_app;
     ProjectConfig _project;
-    HWND _hwnd;
+    AppDelegate *_app;
     FILE *_writeDebugLogFile;
 
-    int run();
-    void relaunch(const string &commandLine);
+    // event handlers
+    void onWindowClose(EventCustom* event);
 
     // debug log
     void writeDebugLog(const char *log);
-
-    // windows callback
-    static LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL *pProcessed);
 };
 
 PLAYER_NS_END

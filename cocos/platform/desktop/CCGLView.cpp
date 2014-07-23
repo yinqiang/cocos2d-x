@@ -708,8 +708,8 @@ void GLView::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int heig
         cocos2d::EventCustom event("APP.EVENT");
         std::stringstream buf;
         
-        buf << "{\"name\":\"resize\",\"w\":" << width;
-        buf << ",\"h\":" << height << "}";
+        buf << "{\"name\":\"resize\",\"width\":" << width;
+        buf << ",\"height\":" << height << "}";
         
         event.setDataString(buf.str());
         Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
@@ -718,15 +718,11 @@ void GLView::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int heig
 
 void GLView::onGLFWWindowcloseCallback(GLFWwindow *window)
 {
-    cocos2d::EventCustom event("APP.EVENT");
-    std::stringstream buf;
-    
-    buf << "{\"name\":\"close\"}";
-
-    event.setDataString(buf.str());
-    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-    
     glfwSetWindowShouldClose(window, 0);
+
+    // "APP.WINDOW_CLOSE_EVENT" forwarded through by Player as "APP.EVENT"
+    cocos2d::EventCustom event("APP.WINDOW_CLOSE_EVENT");
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);    
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)

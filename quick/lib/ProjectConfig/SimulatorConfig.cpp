@@ -87,6 +87,8 @@ string SimulatorConfig::getQuickCocos2dxRootPath() const
 string SimulatorConfig::getPrecompiledFrameworkPath() const
 {
     string path = _quickCocos2dxRootPath;
+    path.append("quick");
+    path.append(DIRECTORY_SEPARATOR);
     path.append("lib");
     path.append(DIRECTORY_SEPARATOR);
     path.append("framework_precompiled");
