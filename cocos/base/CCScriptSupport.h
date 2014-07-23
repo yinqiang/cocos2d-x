@@ -454,6 +454,7 @@ public:
     virtual int executeNodeTouchesEvent(Node* pNode, int eventType, const std::vector<Touch*>& touches, int phase) = 0;
     virtual int executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, int phase) = 0;
     virtual int executeKeypadEvent(Node* pNode, int eventType) = 0;
+    virtual int executeAccelerometerEvent(Node* pNode, Acceleration* pAccelerationValue) = 0;
 };
 
 class Node;

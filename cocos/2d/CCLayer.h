@@ -72,19 +72,6 @@ public:
     /** @deprecated Please override onAcceleration */
     CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(Acceleration* accelerationValue) final {};
 
-	/* Callback function should not be deprecated, it will generate lots of warnings.
-	Since 'setAccelerometerEnabled' was deprecated, it will make warnings if developer overrides onAcceleration and invokes setAccelerometerEnabled(true) instead of using EventDispatcher::addEventListenerWithXXX.
-    */
-    virtual void onAcceleration(Acceleration* acc, Event* unused_event);
-
-    /** whether or not it will receive Accelerometer events
-    You can enable / disable accelerometer events with this property.
-    @since v0.8.1
-    */
-    CC_DEPRECATED_ATTRIBUTE virtual bool isAccelerometerEnabled() const;
-    CC_DEPRECATED_ATTRIBUTE virtual void setAccelerometerEnabled(bool value);
-    CC_DEPRECATED_ATTRIBUTE virtual void setAccelerometerInterval(double interval);
-
     /** whether or not it will receive keyboard or keypad events
     You can enable / disable accelerometer events with this property.
     it's new in cocos2d-x

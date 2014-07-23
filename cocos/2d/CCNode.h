@@ -38,6 +38,7 @@
 #include "math/CCMath.h"
 #include "renderer/ccGLStateCache.h"
 #include "CCGL.h"
+#include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 
@@ -1536,6 +1537,11 @@ public:
     
     virtual bool isKeyboardEnabled() const;
     virtual void setKeyboardEnabled(bool value);
+    
+    virtual void onAcceleration(Acceleration* acc, Event* unused_event);
+    virtual bool isAccelerometerEnabled() const;
+    virtual void setAccelerometerEnabled(bool value);
+    virtual void setAccelerometerInterval(double interval);
     
     static unsigned int g_drawOrder;
     unsigned int m_drawOrder;
