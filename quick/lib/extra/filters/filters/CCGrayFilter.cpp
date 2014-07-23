@@ -68,13 +68,14 @@ void GrayFilter::setParameter(Color4F $param)
 
 void GrayFilter::setParameter(float $r, float $g, float $b, float $a)
 {
-	setParameter(Color4F($r, $a, $b, $a));
+	setParameter(Color4F($r, $g, $b, $a));
 }
 
 GLProgram* GrayFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	__p->initWithByteArrays(ccPositionTextureColor_vert, ccFilterShader_gray_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_gray_frag);
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_gray_frag);
 	return __p;
 }
 
@@ -87,9 +88,10 @@ void GrayFilter::setAttributes(GLProgram* $cgp)
 
 void GrayFilter::setUniforms(GLProgram* $cgp)
 {
-	int __grayParam = $cgp->getUniformLocationForName("u_grayParam");
+	//int __grayParam = $cgp->getUniformLocationForName("u_grayParam");
 	//CCLOG("GrayFilter::setUniforms, u_grayParam:%d", __grayParam);
-	$cgp->setUniformLocationWith4f(__grayParam, _param.r, _param.g, _param.b, _param.a);
+	//$cgp->setUniformLocationWith4f(__grayParam, _param.r, _param.g, _param.b, _param.a);
+    _pProgramState->setUniformVec4("u_grayParam", Vec4(_param.r, _param.g, _param.b, _param.a));
 }
 
 NS_CC_EXT_END

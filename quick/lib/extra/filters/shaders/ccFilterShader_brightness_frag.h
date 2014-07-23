@@ -3,7 +3,6 @@ precision mediump float;\n\
 #endif\n\
 varying vec2 v_texCoord;\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_brightness;\n\
 \n\
 void main()\n\

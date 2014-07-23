@@ -54,9 +54,10 @@ HueFilter::HueFilter()
 
 GLProgram* HueFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("HueFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_hue_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_hue_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_hue_frag);
 	return __p;
 }
 
@@ -75,10 +76,10 @@ void HueFilter::setAttributes(GLProgram* $cgp)
 
 void HueFilter::setUniforms(GLProgram* $cgp)
 {
-	int u_hueAdjust = $cgp->getUniformLocationForName("u_hueAdjust");
-	//CCLOG("HueFilter::setUniforms %d", u_hueAdjust);
-	$cgp->setUniformLocationWith1f(u_hueAdjust, _param);
-	//CCLOG("HueFilter::setUniforms _param:%.2f", _param);
+//	int u_hueAdjust = $cgp->getUniformLocationForName("u_hueAdjust");
+//	$cgp->setUniformLocationWith1f(u_hueAdjust, _param);
+    
+    _pProgramState->setUniformFloat("u_hueAdjust", _param);
 }
 
 NS_CC_EXT_END

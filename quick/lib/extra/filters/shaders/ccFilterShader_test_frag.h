@@ -1,5 +1,4 @@
-"uniform sampler2D CC_Texture0;\n\
-uniform sampler2D u_texture1;\n\
+"uniform sampler2D u_texture1;\n\
 uniform sampler2D u_mask;\n\
 \n\
 varying vec4 v_fragmentColor;\n\

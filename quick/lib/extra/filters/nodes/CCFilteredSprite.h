@@ -56,6 +56,7 @@ protected:
 	virtual void drawFilter()=0;
 	virtual bool updateFilters()=0;
 	Vector<Filter*> _pFilters;
+    std::vector<std::tuple<ssize_t, Filter*, QuadCommand>> _pCommand;
 };
 
 class FilteredSpriteWithOne : public FilteredSprite

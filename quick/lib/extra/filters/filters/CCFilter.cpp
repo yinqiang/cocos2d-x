@@ -34,60 +34,46 @@ NS_CC_EXT_BEGIN
 
 Filter::Filter()
 : shaderName(NULL)
-, _pProgram(NULL)
+, _pProgramState(NULL)
 {
 }
 
 
 Filter::~Filter()
 {
-	CC_SAFE_RELEASE(_pProgram);
+	CC_SAFE_RELEASE_NULL(_pProgramState);
 }
 
 GLProgram* Filter::getProgram()
 {
-	return _pProgram;
+	return _pProgramState->getGLProgram();
+}
+
+GLProgramState* Filter::getGLProgramState() {
+    return _pProgramState;
 }
 
 void Filter::initProgram()
 {
-	GLProgram* __pProgram = ShaderCache::getInstance()->getGLProgram(shaderName);
-	//CCLOG("Filter::initProgram %s, program:%d", shaderName, __pProgram);
-	if (!__pProgram)
-	{
-		__pProgram = loadShader();
-		//CCLOG("Filter::initProgram %s, after loadShader program:%d", shaderName, __pProgram);
-		this->setAttributes(__pProgram);
-		CHECK_GL_ERROR_DEBUG();
-
-		__pProgram->link();
-		CHECK_GL_ERROR_DEBUG();
-
-		__pProgram->updateUniforms();
-		CHECK_GL_ERROR_DEBUG();
-
-		//this->setUniforms(__pProgram);
-		//CHECK_GL_ERROR_DEBUG();
-
-		ShaderCache::getInstance()->addGLProgram(__pProgram, this->shaderName);
-		__pProgram->release();
-		//CCLOG("Filter::getProgram %d", __pProgram);
-	}
-	//CCLOG("Filter::getProgram2 %d", __pProgram);
-	if (!_pProgram)
-	{
-		_pProgram = __pProgram;
-		_pProgram->retain();
-	}
+    if (nullptr != _pProgramState) {
+        return;
+    }
+    
+	GLProgram* __pProgram = nullptr;
+    __pProgram = loadShader();
+        
+    _pProgramState = GLProgramState::getOrCreateWithGLProgram(__pProgram);
+    _pProgramState->retain();
 }
 
 void Filter::initSprite(FilteredSprite* $sprite)
 {
+    setUniforms(nullptr);
 }
 
 void Filter::draw()
 {
-	setUniforms(getProgram());
+	//setUniforms(getProgram());
 }
 
 GLProgram* Filter::loadShader()

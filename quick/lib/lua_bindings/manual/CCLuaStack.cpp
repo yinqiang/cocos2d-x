@@ -64,6 +64,7 @@ extern "C" {
 #include "luabinding/cocos2dx_extra_luabinding.h"
 #include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
 #include "luabinding/HelperFunc_luabinding.h"
+#include "lua_cocos2dx_extension_filter_auto.hpp"
 
 namespace {
 int lua_print(lua_State * luastate)
@@ -168,6 +169,7 @@ bool LuaStack::init(void)
     //register_all_cocos2dx_spine(_state);
     //register_all_cocos2dx_spine_manual(_state);
     //register_glnode_manual(_state);
+    register_all_cocos2dx_extension_filter(_state);
     luaopen_cocos2dx_extra_luabinding(_state);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     luaopen_cocos2dx_extra_ios_iap_luabinding(_state);

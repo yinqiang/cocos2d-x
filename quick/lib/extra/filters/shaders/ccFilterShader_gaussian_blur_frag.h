@@ -1,5 +1,4 @@
-"uniform sampler2D CC_Texture0;\n\
-uniform float u_resolution;\n\
+"uniform float u_resolution;\n\
 uniform float u_radius;\n\
 uniform vec2 u_direction;\n\
 \n\

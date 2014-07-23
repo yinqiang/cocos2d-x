@@ -64,9 +64,10 @@ SharpenFilter::SharpenFilter()
 
 GLProgram* SharpenFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("SharpenFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccFilterShader_sharpen_vert, ccFilterShader_sharpen_frag);
 	return __p;
 }
 
@@ -107,14 +108,16 @@ void SharpenFilter::setAttributes(GLProgram* $cgp)
 
 void SharpenFilter::setUniforms(GLProgram* $cgp)
 {
-	int u_sharpness = $cgp->getUniformLocationForName("u_sharpness");
-	int u_widthFactor = $cgp->getUniformLocationForName("u_widthFactor");
-	int u_heightFactor = $cgp->getUniformLocationForName("u_heightFactor");
-	//CCLOG("SharpenFilter::setUniforms %d, %d, %d", u_sharpness, u_widthFactor, u_heightFactor);
-	$cgp->setUniformLocationWith1f(u_sharpness, _sharpness);
-	$cgp->setUniformLocationWith1f(u_widthFactor, _widthFactor);
-	$cgp->setUniformLocationWith1f(u_heightFactor, _heightFactor);
-	//CCLOG("SharpenFilter::setUniforms u_sharpness:%.2f, u_widthFactor:%.5f, u_heightFctor:%.5f",_sharpness, _widthFactor, _heightFactor);
+//	int u_sharpness = $cgp->getUniformLocationForName("u_sharpness");
+//	int u_widthFactor = $cgp->getUniformLocationForName("u_widthFactor");
+//	int u_heightFactor = $cgp->getUniformLocationForName("u_heightFactor");
+//	$cgp->setUniformLocationWith1f(u_sharpness, _sharpness);
+//	$cgp->setUniformLocationWith1f(u_widthFactor, _widthFactor);
+//	$cgp->setUniformLocationWith1f(u_heightFactor, _heightFactor);
+    
+    _pProgramState->setUniformFloat("u_sharpness", _sharpness);
+    _pProgramState->setUniformFloat("u_widthFactor", _widthFactor);
+    _pProgramState->setUniformFloat("u_heightFactor", _heightFactor);
 }
 
 NS_CC_EXT_END

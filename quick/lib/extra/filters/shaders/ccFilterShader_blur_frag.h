@@ -5,7 +5,6 @@ precision mediump float;\n\
 \n\
 varying vec2 v_texCoord;\n\
 varying vec2 v_blurTexCoords[14];\n\
-uniform sampler2D CC_Texture0;\n\
 \n\
 void main()\n\
 {\n\

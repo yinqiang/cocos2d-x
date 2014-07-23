@@ -3,8 +3,6 @@ precision highp float;\n\
 #endif\n\
 varying vec2 v_texCoord;\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
-\n\
 uniform vec2 u_blurCenter;\n\
 uniform float u_blurSize;\n\
 \n\

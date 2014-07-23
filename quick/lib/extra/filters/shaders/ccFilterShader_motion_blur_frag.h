@@ -2,7 +2,6 @@
 precision highp float;\n\
 #endif\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
 \n\
 varying vec2 v_texCoord;\n\
 varying vec2 v_oneStepBackTextureCoordinate;\n\

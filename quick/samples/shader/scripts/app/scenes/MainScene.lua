@@ -6,8 +6,8 @@ end)
 MainScene.TAG_SHARDER_NODE = 1111
 
 MainScene._FILTERS = {
-    {name = "bloom", filter = display.filters.BLOOM},
     {name = "blur", filter = display.filters.BLUR, param = {10, 5}},
+    {name = "bloom", filter = display.filters.BLOOM},
     {name = "outline", filter = display.filters.OUTLINE},
     {name = "noise", filter = display.filters.NOISE},
     {name = "edgedetedt", filter = display.filters.EDGEDETEDT},

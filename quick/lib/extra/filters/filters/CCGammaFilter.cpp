@@ -53,9 +53,10 @@ GammaFilter::GammaFilter()
 
 GLProgram* GammaFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("GammaFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_gamma_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_gamma_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_gamma_frag);
 	return __p;
 }
 
@@ -74,10 +75,10 @@ void GammaFilter::setAttributes(GLProgram* $cgp)
 
 void GammaFilter::setUniforms(GLProgram* $cgp)
 {
-	int __param = $cgp->getUniformLocationForName("u_gamma");
-	//CCLOG("GammaFilter::setUniforms %d", __param);
-	$cgp->setUniformLocationWith1f(__param, _param);
-	//CCLOG("GammaFilter::setUniforms _param:%.2f", _param);
+//	int __param = $cgp->getUniformLocationForName("u_gamma");
+//	$cgp->setUniformLocationWith1f(__param, _param);
+    
+    _pProgramState->setUniformFloat("u_gamma", _param);
 }
 
 NS_CC_EXT_END

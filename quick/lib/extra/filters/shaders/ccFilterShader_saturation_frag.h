@@ -5,7 +5,6 @@ varying highp vec2 v_texCoord;\n\
 varying vec2 v_texCoord;\n\
 #endif\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_saturation;\n\
 \n\
 const vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);\n\

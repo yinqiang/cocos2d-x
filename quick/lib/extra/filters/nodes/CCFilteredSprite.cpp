@@ -44,36 +44,27 @@ FilteredSprite::~FilteredSprite()
 
 void FilteredSprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
-	CC_NODE_DRAW_SETUP();
-	
-	GL::blendFunc(_blendFunc.src, _blendFunc.dst);
-
-	GL::bindTexture2D(this->getTexture()->getName());
-	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
-
-#define kQuadSize sizeof(_quad.bl)
-	long offset = (long)&_quad;
-
-	// vertex
-	int diff = offsetof(V3F_C4B_T2F, vertices);
-	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
-
-	// texCoods
-	diff = offsetof(V3F_C4B_T2F, texCoords);
-	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
-
-	// color
-	diff = offsetof(V3F_C4B_T2F, colors);
-	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
-
-	// draw customer filter, implement in child class.
-	drawFilter();
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	CHECK_GL_ERROR_DEBUG();
-
-	CC_INCREMENT_GL_DRAWS(1);
+    // Don't do calculate the culling if the transform was not updated
+    _insideBounds = (flags & FLAGS_TRANSFORM_DIRTY) ? renderer->checkVisibility(transform, _contentSize) : _insideBounds;
+    
+    if(_insideBounds)
+    {
+        // normal effect: order == 0
+        _quadCommand.init(_globalZOrder, _texture->getName(), getGLProgramState(), _blendFunc, &_quad, 1, transform);
+        renderer->addCommand(&_quadCommand);
+        
+        int i = 0;
+        for(auto &command : _pCommand) {
+            QuadCommand &q = std::get<2>(command);
+            q.init(_globalZOrder, _texture->getName(), std::get<1>(command)->getGLProgramState(), _blendFunc, &_quad, 1, transform);
+            renderer->addCommand(&q);
+            
+            i++;
+            if (i > 1){
+            break;
+            }
+        }
+    }
 }
 
 Filter* FilteredSprite::getFilter(unsigned int $index)
@@ -93,6 +84,13 @@ Vector<Filter*>& FilteredSprite::getFilters()
 void FilteredSprite::setFilters(Vector<Filter*>& $pFilters)
 {
 	_pFilters = $pFilters;
+    
+    _pCommand.clear();
+    ssize_t i = 0;
+    for (auto &filter : _pFilters) {
+        _pCommand.push_back(std::make_tuple(i, filter, QuadCommand()));
+        i++;
+    }
 	//CCLOG("FilteredSprite setFilters:%d", _pFilters->count());
 	updateFilters();
 }
@@ -220,14 +218,15 @@ void FilteredSpriteWithOne::setFilter(Filter* $pFilter)
 
 void FilteredSpriteWithOne::setFilters(Vector<Filter*>& $pFilters)
 {
-	CCASSERT(false, "setFilters on FilteredSpriteWithOne is forbidden!");
+    FilteredSprite::setFilters($pFilters);
+	//CCASSERT(false, "setFilters on FilteredSpriteWithOne is forbidden!");
 }
 
 void FilteredSpriteWithOne::clearFilter()
 {
     _pFilters.clear();
     //CCLOG("FilteredSpriteWithOne::clearFilter");
-    setGLProgram(ShaderCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+//    setGLProgram(ShaderCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
 }
 
 void FilteredSpriteWithOne::drawFilter()
@@ -241,16 +240,17 @@ void FilteredSpriteWithOne::drawFilter()
 
 bool FilteredSpriteWithOne::updateFilters()
 {
-	CCASSERT(_pFilters.size() != 1, "Invalid Filter!");
+	//CCASSERT(_pFilters.size() == 1, "Invalid Filter!");
 	do
 	{
-		unsigned int __count = _pFilters.size();
+		unsigned int __count = _pCommand.size();
 		CC_BREAK_IF(__count == 0);
-		Filter* __filter = static_cast<Filter*>(_pFilters.at(0));
+        auto item = _pCommand.at(0);
+        Filter* __filter = static_cast<Filter*>(std::get<1>(item));
 		__filter->initSprite(this);
-		if (__filter->getProgram())
+		if (__filter->getGLProgramState())
 		{
-			setGLProgram(__filter->getProgram());
+            setGLProgramState(__filter->getGLProgramState());
 		}
 		CHECK_GL_ERROR_DEBUG();
 		return true;

@@ -52,9 +52,10 @@ ContrastFilter::ContrastFilter()
 
 GLProgram* ContrastFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("ContrastFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_contrast_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_contrast_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_contrast_frag);
 	return __p;
 }
 
@@ -73,10 +74,10 @@ void ContrastFilter::setAttributes(GLProgram* $cgp)
 
 void ContrastFilter::setUniforms(GLProgram* $cgp)
 {
-	int u_contrast = $cgp->getUniformLocationForName("u_contrast");
-	//CCLOG("ContrastFilter::setUniforms %d", u_contrast);
-	$cgp->setUniformLocationWith1f(u_contrast, _param);
-	//CCLOG("ContrastFilter::setUniforms _param:%.2f", _param);
+//	int u_contrast = $cgp->getUniformLocationForName("u_contrast");
+//	$cgp->setUniformLocationWith1f(u_contrast, _param);
+    
+    _pProgramState->setUniformFloat("u_contrast", _param);
 }
 
 NS_CC_EXT_END

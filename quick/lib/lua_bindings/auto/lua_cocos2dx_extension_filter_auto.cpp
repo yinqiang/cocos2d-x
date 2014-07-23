@@ -5,6 +5,50 @@
 
 
 
+int lua_cocos2dx_extension_filter_Filter_getGLProgramState(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::Filter* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.Filter",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::Filter*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_Filter_getGLProgramState'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::GLProgramState* ret = cobj->getGLProgramState();
+        object_to_luaval<cocos2d::GLProgramState>(tolua_S, "cc.GLProgramState",(cocos2d::GLProgramState*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getGLProgramState",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_Filter_getGLProgramState'.",&tolua_err);
+#endif
+
+    return 0;
+}
 int lua_cocos2dx_extension_filter_Filter_draw(lua_State* tolua_S)
 {
     int argc = 0;
@@ -185,6 +229,7 @@ int lua_register_cocos2dx_extension_filter_Filter(lua_State* tolua_S)
 
     tolua_beginmodule(tolua_S,"Filter");
         tolua_function(tolua_S,"new",lua_cocos2dx_extension_filter_Filter_constructor);
+        tolua_function(tolua_S,"getGLProgramState",lua_cocos2dx_extension_filter_Filter_getGLProgramState);
         tolua_function(tolua_S,"draw",lua_cocos2dx_extension_filter_Filter_draw);
         tolua_function(tolua_S,"initSprite",lua_cocos2dx_extension_filter_Filter_initSprite);
         tolua_function(tolua_S,"getProgram",lua_cocos2dx_extension_filter_Filter_getProgram);
@@ -3711,6 +3756,1262 @@ int lua_register_cocos2dx_extension_filter_TestFilter(lua_State* tolua_S)
     g_typeCast["TestFilter"] = "cc.TestFilter";
     return 1;
 }
+
+int lua_cocos2dx_extension_filter_FilteredSprite_getFilters(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSprite* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSprite",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSprite*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSprite_getFilters'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::Vector<cocos2d::extension::Filter *>& ret = cobj->getFilters();
+        ccvector_to_luaval(tolua_S, ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getFilters",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSprite_getFilters'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSprite_setFilters(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSprite* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSprite",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSprite*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSprite_setFilters'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::Vector<cocos2d::extension::Filter *> arg0;
+
+        ok &= luaval_to_ccvector(tolua_S, 2, &arg0);
+        if(!ok)
+            return 0;
+        cobj->setFilters(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setFilters",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSprite_setFilters'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSprite_getFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSprite* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSprite",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSprite*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSprite_getFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::extension::Filter* ret = cobj->getFilter();
+        object_to_luaval<cocos2d::extension::Filter>(tolua_S, "cc.Filter",(cocos2d::extension::Filter*)ret);
+        return 1;
+    }
+    if (argc == 1) 
+    {
+        unsigned int arg0;
+
+        ok &= luaval_to_uint32(tolua_S, 2,&arg0);
+        if(!ok)
+            return 0;
+        cocos2d::extension::Filter* ret = cobj->getFilter(arg0);
+        object_to_luaval<cocos2d::extension::Filter>(tolua_S, "cc.Filter",(cocos2d::extension::Filter*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSprite_getFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSprite_clearFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSprite* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSprite",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSprite*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSprite_clearFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cobj->clearFilter();
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "clearFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSprite_clearFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSprite_setFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSprite* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSprite",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSprite*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSprite_setFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::extension::Filter* arg0;
+
+        ok &= luaval_to_object<cocos2d::extension::Filter>(tolua_S, 2, "cc.Filter",&arg0);
+        if(!ok)
+            return 0;
+        cobj->setFilter(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setFilter",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSprite_setFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+static int lua_cocos2dx_extension_filter_FilteredSprite_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (FilteredSprite)");
+    return 0;
+}
+
+int lua_register_cocos2dx_extension_filter_FilteredSprite(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"cc.FilteredSprite");
+    tolua_cclass(tolua_S,"FilteredSprite","cc.FilteredSprite","cc.Sprite",nullptr);
+
+    tolua_beginmodule(tolua_S,"FilteredSprite");
+        tolua_function(tolua_S,"getFilters",lua_cocos2dx_extension_filter_FilteredSprite_getFilters);
+        tolua_function(tolua_S,"setFilters",lua_cocos2dx_extension_filter_FilteredSprite_setFilters);
+        tolua_function(tolua_S,"getFilter",lua_cocos2dx_extension_filter_FilteredSprite_getFilter);
+        tolua_function(tolua_S,"clearFilter",lua_cocos2dx_extension_filter_FilteredSprite_clearFilter);
+        tolua_function(tolua_S,"setFilter",lua_cocos2dx_extension_filter_FilteredSprite_setFilter);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(cocos2d::extension::FilteredSprite).name();
+    g_luaType[typeName] = "cc.FilteredSprite";
+    g_typeCast["FilteredSprite"] = "cc.FilteredSprite";
+    return 1;
+}
+
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilters(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithOne* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithOne*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilters'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::Vector<cocos2d::extension::Filter *> arg0;
+
+        ok &= luaval_to_ccvector(tolua_S, 2, &arg0);
+        if(!ok)
+            return 0;
+        cobj->setFilters(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setFilters",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilters'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_getFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithOne* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithOne*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_getFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::extension::Filter* ret = cobj->getFilter();
+        object_to_luaval<cocos2d::extension::Filter>(tolua_S, "cc.Filter",(cocos2d::extension::Filter*)ret);
+        return 1;
+    }
+    if (argc == 1) 
+    {
+        unsigned int arg0;
+
+        ok &= luaval_to_uint32(tolua_S, 2,&arg0);
+        if(!ok)
+            return 0;
+        cocos2d::extension::Filter* ret = cobj->getFilter(arg0);
+        object_to_luaval<cocos2d::extension::Filter>(tolua_S, "cc.Filter",(cocos2d::extension::Filter*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_getFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_clearFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithOne* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithOne*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_clearFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cobj->clearFilter();
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "clearFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_clearFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithOne* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithOne*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::extension::Filter* arg0;
+
+        ok &= luaval_to_object<cocos2d::extension::Filter>(tolua_S, 2, "cc.Filter",&arg0);
+        if(!ok)
+            return 0;
+        cobj->setFilter(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setFilter",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_create(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 1)
+        {
+            const char* arg0;
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::create(arg0);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 0)
+        {
+            cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::create();
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 2)
+        {
+            const char* arg0;
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+            if (!ok) { break; }
+            cocos2d::Rect arg1;
+            ok &= luaval_to_rect(tolua_S, 3, &arg1);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::create(arg0, arg1);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "create",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_create'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithTexture(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 2)
+        {
+            cocos2d::Texture2D* arg0;
+            ok &= luaval_to_object<cocos2d::Texture2D>(tolua_S, 2, "cc.Texture2D",&arg0);
+            if (!ok) { break; }
+            cocos2d::Rect arg1;
+            ok &= luaval_to_rect(tolua_S, 3, &arg1);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::createWithTexture(arg0, arg1);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 1)
+        {
+            cocos2d::Texture2D* arg0;
+            ok &= luaval_to_object<cocos2d::Texture2D>(tolua_S, 2, "cc.Texture2D",&arg0);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::createWithTexture(arg0);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "createWithTexture",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithTexture'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrameName(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        const char* arg0;
+        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+        if(!ok)
+            return 0;
+        cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::createWithSpriteFrameName(arg0);
+        object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d\n ", "createWithSpriteFrameName",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrameName'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrame(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithOne",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        cocos2d::SpriteFrame* arg0;
+        ok &= luaval_to_object<cocos2d::SpriteFrame>(tolua_S, 2, "cc.SpriteFrame",&arg0);
+        if(!ok)
+            return 0;
+        cocos2d::extension::FilteredSpriteWithOne* ret = cocos2d::extension::FilteredSpriteWithOne::createWithSpriteFrame(arg0);
+        object_to_luaval<cocos2d::extension::FilteredSpriteWithOne>(tolua_S, "cc.FilteredSpriteWithOne",(cocos2d::extension::FilteredSpriteWithOne*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d\n ", "createWithSpriteFrame",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrame'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_cocos2dx_extension_filter_FilteredSpriteWithOne_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (FilteredSpriteWithOne)");
+    return 0;
+}
+
+int lua_register_cocos2dx_extension_filter_FilteredSpriteWithOne(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"cc.FilteredSpriteWithOne");
+    tolua_cclass(tolua_S,"FilteredSpriteWithOne","cc.FilteredSpriteWithOne","cc.FilteredSprite",nullptr);
+
+    tolua_beginmodule(tolua_S,"FilteredSpriteWithOne");
+        tolua_function(tolua_S,"setFilters",lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilters);
+        tolua_function(tolua_S,"getFilter",lua_cocos2dx_extension_filter_FilteredSpriteWithOne_getFilter);
+        tolua_function(tolua_S,"clearFilter",lua_cocos2dx_extension_filter_FilteredSpriteWithOne_clearFilter);
+        tolua_function(tolua_S,"setFilter",lua_cocos2dx_extension_filter_FilteredSpriteWithOne_setFilter);
+        tolua_function(tolua_S,"create", lua_cocos2dx_extension_filter_FilteredSpriteWithOne_create);
+        tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithTexture);
+        tolua_function(tolua_S,"createWithSpriteFrameName", lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrameName);
+        tolua_function(tolua_S,"createWithSpriteFrame", lua_cocos2dx_extension_filter_FilteredSpriteWithOne_createWithSpriteFrame);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(cocos2d::extension::FilteredSpriteWithOne).name();
+    g_luaType[typeName] = "cc.FilteredSpriteWithOne";
+    g_typeCast["FilteredSpriteWithOne"] = "cc.FilteredSpriteWithOne";
+    return 1;
+}
+
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSFrame(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSFrame'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::SpriteFrame* arg0;
+
+        ok &= luaval_to_object<cocos2d::SpriteFrame>(tolua_S, 2, "cc.SpriteFrame",&arg0);
+        if(!ok)
+            return 0;
+        cobj->setTSFrame(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setTSFrame",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSFrame'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSTexture(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSTexture'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::Texture2D* arg0;
+
+        ok &= luaval_to_object<cocos2d::Texture2D>(tolua_S, 2, "cc.Texture2D",&arg0);
+        if(!ok)
+            return 0;
+        cobj->setTSTexture(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setTSTexture",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSTexture'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSRect(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSRect'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::Rect arg0;
+
+        ok &= luaval_to_rect(tolua_S, 2, &arg0);
+        if(!ok)
+            return 0;
+        cobj->setTSRect(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setTSRect",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSRect'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSFrame(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSFrame'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::SpriteFrame* ret = cobj->getTSFrame();
+        object_to_luaval<cocos2d::SpriteFrame>(tolua_S, "cc.SpriteFrame",(cocos2d::SpriteFrame*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getTSFrame",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSFrame'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_clearFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_clearFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cobj->clearFilter();
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "clearFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_clearFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSRect(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSRect'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::Rect ret = cobj->getTSRect();
+        rect_to_luaval(tolua_S, ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getTSRect",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSRect'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSTexture(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSTexture'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::Texture2D* ret = cobj->getTSTexture();
+        object_to_luaval<cocos2d::Texture2D>(tolua_S, "cc.Texture2D",(cocos2d::Texture2D*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getTSTexture",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSTexture'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setFilter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::FilteredSpriteWithMulti*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setFilter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        cocos2d::extension::Filter* arg0;
+
+        ok &= luaval_to_object<cocos2d::extension::Filter>(tolua_S, 2, "cc.Filter",&arg0);
+        if(!ok)
+            return 0;
+        cobj->setFilter(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setFilter",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setFilter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_create(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 1)
+        {
+            const char* arg0;
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::create(arg0);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 0)
+        {
+            cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::create();
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 2)
+        {
+            const char* arg0;
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+            if (!ok) { break; }
+            cocos2d::Rect arg1;
+            ok &= luaval_to_rect(tolua_S, 3, &arg1);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::create(arg0, arg1);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "create",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_create'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithTexture(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 2)
+        {
+            cocos2d::Texture2D* arg0;
+            ok &= luaval_to_object<cocos2d::Texture2D>(tolua_S, 2, "cc.Texture2D",&arg0);
+            if (!ok) { break; }
+            cocos2d::Rect arg1;
+            ok &= luaval_to_rect(tolua_S, 3, &arg1);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::createWithTexture(arg0, arg1);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 1)
+        {
+            cocos2d::Texture2D* arg0;
+            ok &= luaval_to_object<cocos2d::Texture2D>(tolua_S, 2, "cc.Texture2D",&arg0);
+            if (!ok) { break; }
+            cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::createWithTexture(arg0);
+            object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "createWithTexture",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithTexture'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrameName(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        const char* arg0;
+        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+        if(!ok)
+            return 0;
+        cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::createWithSpriteFrameName(arg0);
+        object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d\n ", "createWithSpriteFrameName",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrameName'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrame(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.FilteredSpriteWithMulti",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        cocos2d::SpriteFrame* arg0;
+        ok &= luaval_to_object<cocos2d::SpriteFrame>(tolua_S, 2, "cc.SpriteFrame",&arg0);
+        if(!ok)
+            return 0;
+        cocos2d::extension::FilteredSpriteWithMulti* ret = cocos2d::extension::FilteredSpriteWithMulti::createWithSpriteFrame(arg0);
+        object_to_luaval<cocos2d::extension::FilteredSpriteWithMulti>(tolua_S, "cc.FilteredSpriteWithMulti",(cocos2d::extension::FilteredSpriteWithMulti*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d\n ", "createWithSpriteFrame",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrame'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_constructor(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::FilteredSpriteWithMulti* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cobj = new cocos2d::extension::FilteredSpriteWithMulti();
+        cobj->autorelease();
+        int ID =  (int)cobj->_ID ;
+        int* luaID =  &cobj->_luaID ;
+        toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)cobj,"cc.FilteredSpriteWithMulti");
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "FilteredSpriteWithMulti",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_constructor'.",&tolua_err);
+#endif
+
+    return 0;
+}
+
+static int lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (FilteredSpriteWithMulti)");
+    return 0;
+}
+
+int lua_register_cocos2dx_extension_filter_FilteredSpriteWithMulti(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"cc.FilteredSpriteWithMulti");
+    tolua_cclass(tolua_S,"FilteredSpriteWithMulti","cc.FilteredSpriteWithMulti","cc.FilteredSprite",nullptr);
+
+    tolua_beginmodule(tolua_S,"FilteredSpriteWithMulti");
+        tolua_function(tolua_S,"new",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_constructor);
+        tolua_function(tolua_S,"setTSFrame",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSFrame);
+        tolua_function(tolua_S,"setTSTexture",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSTexture);
+        tolua_function(tolua_S,"setTSRect",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setTSRect);
+        tolua_function(tolua_S,"getTSFrame",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSFrame);
+        tolua_function(tolua_S,"clearFilter",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_clearFilter);
+        tolua_function(tolua_S,"getTSRect",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSRect);
+        tolua_function(tolua_S,"getTSTexture",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_getTSTexture);
+        tolua_function(tolua_S,"setFilter",lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_setFilter);
+        tolua_function(tolua_S,"create", lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_create);
+        tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithTexture);
+        tolua_function(tolua_S,"createWithSpriteFrameName", lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrameName);
+        tolua_function(tolua_S,"createWithSpriteFrame", lua_cocos2dx_extension_filter_FilteredSpriteWithMulti_createWithSpriteFrame);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(cocos2d::extension::FilteredSpriteWithMulti).name();
+    g_luaType[typeName] = "cc.FilteredSpriteWithMulti";
+    g_typeCast["FilteredSpriteWithMulti"] = "cc.FilteredSpriteWithMulti";
+    return 1;
+}
 TOLUA_API int register_all_cocos2dx_extension_filter(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -3718,11 +5019,13 @@ TOLUA_API int register_all_cocos2dx_extension_filter(lua_State* tolua_S)
 	tolua_module(tolua_S,"cc",0);
 	tolua_beginmodule(tolua_S,"cc");
 
+	lua_register_cocos2dx_extension_filter_FilteredSprite(tolua_S);
 	lua_register_cocos2dx_extension_filter_Filter(tolua_S);
 	lua_register_cocos2dx_extension_filter_RGBFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_TestFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_ZoomBlurFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_MotionBlurFilter(tolua_S);
+	lua_register_cocos2dx_extension_filter_FilteredSpriteWithMulti(tolua_S);
 	lua_register_cocos2dx_extension_filter_MaskFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_DropShadowFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_SingleFloatParamFilter(tolua_S);
@@ -3736,6 +5039,7 @@ TOLUA_API int register_all_cocos2dx_extension_filter(lua_State* tolua_S)
 	lua_register_cocos2dx_extension_filter_HueFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_ContrastFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_HazeFilter(tolua_S);
+	lua_register_cocos2dx_extension_filter_FilteredSpriteWithOne(tolua_S);
 	lua_register_cocos2dx_extension_filter_GrayFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_GaussianVBlurFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_SepiaFilter(tolua_S);

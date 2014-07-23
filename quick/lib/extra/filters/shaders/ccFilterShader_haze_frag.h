@@ -8,8 +8,6 @@ uniform float u_slope;\n\
 #endif\n\
 varying vec2 v_texCoord;\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
-\n\
 void main()\n\
 {\n\
    //todo reconsider precision modifiers	 \n\

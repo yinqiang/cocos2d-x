@@ -52,10 +52,11 @@ SepiaFilter::SepiaFilter()
 
 GLProgram* SepiaFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("SepiaFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTextureColor_vert,
-		ccFilterShader_sepia_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, ccFilterShader_sepia_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTextureColor_vert,
+//		ccFilterShader_sepia_frag);
 	return __p;
 }
 

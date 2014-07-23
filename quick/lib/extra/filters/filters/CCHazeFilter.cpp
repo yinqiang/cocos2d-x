@@ -27,9 +27,10 @@ HazeFilter::HazeFilter()
 
 GLProgram* HazeFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("HazeFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_haze_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_haze_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_haze_frag);
 	return __p;
 }
 
@@ -49,11 +50,12 @@ void HazeFilter::setAttributes(GLProgram* $cgp)
 
 void HazeFilter::setUniforms(GLProgram* $cgp)
 {
-	int __hazeDistance = $cgp->getUniformLocationForName("u_hazeDistance");
-	int __slope = $cgp->getUniformLocationForName("u_slope");
-	//CCLOG("HazeFilter::setUniforms %d, %d", __hazeDistance, __slope);
-	$cgp->setUniformLocationWith1f(__hazeDistance, _hazeDistance);
-	$cgp->setUniformLocationWith1f(__slope, _slope);
-	//CCLOG("HazeFilter::setUniforms _hazeDistance:%.5f, _slope:%.5f", _hazeDistance, _slope);
+//	int __hazeDistance = $cgp->getUniformLocationForName("u_hazeDistance");
+//	int __slope = $cgp->getUniformLocationForName("u_slope");
+//	$cgp->setUniformLocationWith1f(__hazeDistance, _hazeDistance);
+//	$cgp->setUniformLocationWith1f(__slope, _slope);
+    
+    _pProgramState->setUniformFloat("u_hazeDistance", _hazeDistance);
+    _pProgramState->setUniformFloat("u_slope", _slope);
 }
 NS_CC_EXT_END

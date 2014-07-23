@@ -7,8 +7,6 @@ varying vec2 v_bottomTexCoord;\n\
 varying float v_centerMultiplier;\n\
 varying float v_edgeMultiplier;\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
-\n\
 void main()\n\
 {\n\
     vec3 textureColor = texture2D(CC_Texture0, v_texCoord).rgb;\n\

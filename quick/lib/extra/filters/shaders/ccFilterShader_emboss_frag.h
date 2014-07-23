@@ -1,6 +1,5 @@
 "precision mediump float;\n\
 varying vec2 v_texCoord;\n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_factor;\n\
  \n\
 void main()\n\

@@ -8,6 +8,7 @@ end)
 
 MainScene._FILTERS = {
 	-- colors
+	{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
 	{"GRAY",{0.2, 0.3, 0.5, 0.1}},
 	{"RGB",{1, 0.5, 0.3}},
 	{"HUE", {90}},
@@ -56,13 +57,13 @@ function MainScene:_addUI()
 		:onButtonClicked(handler(self, self._onNext))
 	
 	
-	ui.newMenu({
-		ui.newTTFLabelMenuItem({
-				text="clear filter",
-				listener=handler(self, self._onClearFilter)
-		}):pos(display.cx, 100)
-	})
-		:addTo(self)
+	-- ui.newMenu({
+	-- 	ui.newTTFLabelMenuItem({
+	-- 			text="clear filter",
+	-- 			listener=handler(self, self._onClearFilter)
+	-- 	}):pos(display.cx, 100)
+	-- })
+	-- 	:addTo(self)
 
 	self._title = ui.newTTFLabel({
 		text="Filters test",
@@ -90,6 +91,9 @@ function MainScene:_showFilter()
 	self._filterSprite = display.newFilteredSprite("helloworld.png", __filters, __params)
 		:align(display.CENTER, display.cx, display.cy)
 		:addTo(self, 10)
+	self._filterSprite:setAnchorPoint(cc.p(1, 1))
+	self._filterSprite:setPosition(display.cx, display.cy)
+
         local __title = ""
         if type(__filters) == "table" then
 			for i in ipairs(__filters) do
@@ -123,6 +127,7 @@ function MainScene:_onReset()
 end
 
 function MainScene:_onNext()
+	print("htl on next")
 	self._curFilter = self._curFilter + 1
 	if self._curFilter > self._filterCount then
 		self._curFilter = 1

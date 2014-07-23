@@ -56,9 +56,10 @@ RGBFilter::RGBFilter()
 
 GLProgram* RGBFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("RGBFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_rgb_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_rgb_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_rgb_frag);
 	return __p;
 }
 
@@ -79,15 +80,16 @@ void RGBFilter::setAttributes(GLProgram* $cgp)
 
 void RGBFilter::setUniforms(GLProgram* $cgp)
 {
-	int __redAdj = $cgp->getUniformLocationForName("u_redAdj");
-	int __greenAdj = $cgp->getUniformLocationForName("u_greenAdj");
-	int __blueAdj = $cgp->getUniformLocationForName("u_blueAdj");
-	//CCLOG("RGBFilter::setUniforms %d, %d, %d", __redAdj, __greenAdj, __blueAdj);
-	$cgp->setUniformLocationWith1f(__redAdj, _redAdj);
-	$cgp->setUniformLocationWith1f(__greenAdj, _greenAdj);
-	$cgp->setUniformLocationWith1f(__blueAdj, _blueAdj);
-	/*CCLOG("RGBFilter::setUniforms u_redAdj:%.2f, u_greenAdj:%.5f, u_blueAdj:%.5f",
-		_redAdj, _greenAdj, _blueAdj);*/
+//	int __redAdj = $cgp->getUniformLocationForName("u_redAdj");
+//	int __greenAdj = $cgp->getUniformLocationForName("u_greenAdj");
+//	int __blueAdj = $cgp->getUniformLocationForName("u_blueAdj");
+//	$cgp->setUniformLocationWith1f(__redAdj, _redAdj);
+//	$cgp->setUniformLocationWith1f(__greenAdj, _greenAdj);
+//	$cgp->setUniformLocationWith1f(__blueAdj, _blueAdj);
+    
+    _pProgramState->setUniformFloat("u_redAdj", _redAdj);
+    _pProgramState->setUniformFloat("u_greenAdj", _greenAdj);
+    _pProgramState->setUniformFloat("u_blueAdj", _blueAdj);
 }
 
 NS_CC_EXT_END

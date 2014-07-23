@@ -1750,12 +1750,16 @@ TOLUA_API int tolua_cocos2dx_extra_luabinding_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getInternetConnectionStatus",tolua_cocos2dx_extra_luabinding_Network_getInternetConnectionStatus00);
    tolua_function(tolua_S,"createHTTPRequest",tolua_cocos2dx_extra_luabinding_Network_createHTTPRequest00);
   tolua_endmodule(tolua_S);
+
+
   tolua_cclass(tolua_S,"EffectSprite","EffectSprite","cc.Sprite",NULL);
   tolua_beginmodule(tolua_S,"EffectSprite");
    tolua_function(tolua_S,"create",tolua_cocos2dx_extra_luabinding_EffectSprite_create00);
    tolua_function(tolua_S,"setEffectByName",tolua_cocos2dx_extra_luabinding_EffectSprite_setEffectByName00);
    tolua_function(tolua_S,"addEffectByName",tolua_cocos2dx_extra_luabinding_EffectSprite_addEffectByName00);
   tolua_endmodule(tolua_S);
+
+
  tolua_endmodule(tolua_S);
  return 1;
 }

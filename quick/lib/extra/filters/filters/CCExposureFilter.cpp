@@ -53,9 +53,10 @@ ExposureFilter::ExposureFilter()
 
 GLProgram* ExposureFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("ExposureFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_exposure_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_exposure_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_exposure_frag);
 	return __p;
 }
 
@@ -74,10 +75,10 @@ void ExposureFilter::setAttributes(GLProgram* $cgp)
 
 void ExposureFilter::setUniforms(GLProgram* $cgp)
 {
-	int __param = $cgp->getUniformLocationForName("u_exposure");
-	//CCLOG("ExposureFilter::setUniforms %d", __param);
-	$cgp->setUniformLocationWith1f(__param, _param);
-	//CCLOG("ExposureFilter::setUniforms _param:%.2f", _param);
+//	int __param = $cgp->getUniformLocationForName("u_exposure");
+//	$cgp->setUniformLocationWith1f(__param, _param);
+    
+    _pProgramState->setUniformFloat("u_exposure", _param);
 }
 
 NS_CC_EXT_END

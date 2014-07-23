@@ -1,7 +1,6 @@
 "#ifdef GL_ES\n\
 precision mediump float;\n\
 #endif\n\
-uniform sampler2D CC_Texture0;\n\
 uniform vec2 u_resolution;\n\
 \n\
 varying vec4 v_fragmentColor;\n\

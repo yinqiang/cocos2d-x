@@ -23,10 +23,11 @@ public:
 	virtual void initSprite(FilteredSprite* $sprite);
 	virtual void draw();
 	GLProgram* getProgram();
+    GLProgramState* getGLProgramState();
 
 	const char* shaderName;
 protected:
-	GLProgram* _pProgram;
+    GLProgramState* _pProgramState;
 	void initProgram();
 	virtual GLProgram* loadShader();
 	virtual void setAttributes(GLProgram* $glp);

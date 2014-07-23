@@ -5,7 +5,6 @@ varying mediump vec2 v_texCoord;\n\
 varying vec2 v_texCoord;\n\
 #endif\n\
 \n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_exposure;\n\
 \n\
 void main()\n\

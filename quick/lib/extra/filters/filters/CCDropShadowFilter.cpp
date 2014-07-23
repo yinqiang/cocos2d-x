@@ -53,10 +53,11 @@ DropShadowFilter::DropShadowFilter()
 
 GLProgram* DropShadowFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("DropShadowFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccFilterShader_drop_shadow_vert, 
-		ccFilterShader_drop_shadow_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccFilterShader_drop_shadow_vert, ccFilterShader_drop_shadow_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccFilterShader_drop_shadow_vert, 
+//		ccFilterShader_drop_shadow_frag);
 	return __p;
 }
 
@@ -86,10 +87,10 @@ void DropShadowFilter::setAttributes(GLProgram* $cgp)
 
 void DropShadowFilter::setUniforms(GLProgram* $cgp)
 {
-	int u_resolution = $cgp->getUniformLocationForName("u_resolution");
-	//CCLOG("DropShadowFilter::setUniforms %d", u_resolution);
-	$cgp->setUniformLocationWith2f(u_resolution, _textureWidth, _textureHeight);
-	//CCLOG("DropShadowFilter::setUniforms _textureWidth:%.5f,_textureHeight:%.5f",_textureWidth, _textureHeight);
+//	int u_resolution = $cgp->getUniformLocationForName("u_resolution");
+//	$cgp->setUniformLocationWith2f(u_resolution, _textureWidth, _textureHeight);
+    
+    _pProgramState->setUniformVec2("u_resolution", Vec2(_textureWidth, _textureHeight));
 }
 
 NS_CC_EXT_END

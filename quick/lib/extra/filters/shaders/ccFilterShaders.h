@@ -1,9 +1,10 @@
 #ifndef __CC_FILTER_SHADER_H__
 #define __CC_FILTER_SHADER_H__
 
-#include "CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "ExtensionMacros.h"
+#include "cocos2dx_extra.h"
+//#include "CCGL.h"
+//#include "platform/CCPlatformMacros.h"
+#include "extensions/ExtensionMacros.h"
 
 NS_CC_EXT_BEGIN
 

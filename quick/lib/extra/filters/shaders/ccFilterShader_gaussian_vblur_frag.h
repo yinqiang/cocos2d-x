@@ -1,7 +1,6 @@
 "#ifdef GL_ES\n\
 precision mediump float;\n\
 #endif\n\
-uniform sampler2D CC_Texture0;\n\
 uniform float u_resolution;\n\
 uniform float u_radius;\n\
 \n\

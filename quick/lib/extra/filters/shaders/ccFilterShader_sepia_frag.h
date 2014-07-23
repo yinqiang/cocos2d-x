@@ -1,6 +1,4 @@
-"uniform sampler2D CC_Texture0;\n\
-\n\
-varying vec4 v_fragmentColor;\n\
+"varying vec4 v_fragmentColor;\n\
 varying vec2 v_texCoord;\n\
 \n\
 const vec3 SEPIA = vec3(1.2, 1.0, 0.8);\n\

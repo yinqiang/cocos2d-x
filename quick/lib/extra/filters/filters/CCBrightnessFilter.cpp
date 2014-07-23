@@ -53,9 +53,10 @@ BrightnessFilter::BrightnessFilter()
 
 GLProgram* BrightnessFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("BrightnessFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_brightness_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_brightness_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_brightness_frag);
 	return __p;
 }
 
@@ -74,9 +75,9 @@ void BrightnessFilter::setAttributes(GLProgram* $cgp)
 
 void BrightnessFilter::setUniforms(GLProgram* $cgp)
 {
-	int u_brightness = $cgp->getUniformLocationForName("u_brightness");
-	//CCLOG("BrightnessFilter::setUniforms %d", u_brightness);
-	$cgp->setUniformLocationWith1f(u_brightness, _param);
-	//CCLOG("BrightnessFilter::setUniforms _param:%.2f", _param);
+//	int u_brightness = $cgp->getUniformLocationForName("u_brightness");
+//	$cgp->setUniformLocationWith1f(u_brightness, _param);
+    
+    _pProgramState->setUniformFloat("u_brightness", _param);
 }
 NS_CC_EXT_END

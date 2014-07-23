@@ -53,9 +53,10 @@ SaturationFilter::SaturationFilter()
 
 GLProgram* SaturationFilter::loadShader()
 {
-	GLProgram* __p = new GLProgram();
-	//CCLOG("SaturationFilter::loadShader, program:%d", __p);
-	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);
+    
+//	GLProgram* __p = new GLProgram();
+//	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);
 	return __p;
 }
 
@@ -74,10 +75,10 @@ void SaturationFilter::setAttributes(GLProgram* $cgp)
 
 void SaturationFilter::setUniforms(GLProgram* $cgp)
 {
-	int __param = $cgp->getUniformLocationForName("u_saturation");
-	//CCLOG("SaturationFilter::setUniforms %d", __param);
-	$cgp->setUniformLocationWith1f(__param, _param);
-	//CCLOG("SaturationFilter::setUniforms _param:%.2f", _param);
+//	int __param = $cgp->getUniformLocationForName("u_saturation");
+//	$cgp->setUniformLocationWith1f(__param, _param);
+    
+    _pProgramState->setUniformFloat("u_saturation", _param);
 }
 
 
