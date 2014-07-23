@@ -22,9 +22,6 @@
     <Filter Include="cocos\base">
       <UniqueIdentifier>{56bdfbf7-0817-4c19-bb4a-401e280eb1f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cocos\deprecated">
-      <UniqueIdentifier>{08f3a30f-8add-4050-9352-f09ca6f02da2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="cocos\math">
       <UniqueIdentifier>{6a6a2134-bb39-4b14-beef-5cd05dc2becc}</UniqueIdentifier>
     </Filter>
@@ -555,9 +552,6 @@
     <ClInclude Include="..\..\..\cocos\base\CCData.h">
       <Filter>cocos\base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cocos\base\CCDataVisitor.h">
-      <Filter>cocos\base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\cocos\base\CCDirector.h">
       <Filter>cocos\base</Filter>
     </ClInclude>
@@ -657,9 +651,6 @@
     <ClInclude Include="..\..\..\cocos\base\ccTypes.h">
       <Filter>cocos\base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cocos\base\CCUserDefault.h">
-      <Filter>cocos\base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\cocos\base\ccUTF8.h">
       <Filter>cocos\base</Filter>
     </ClInclude>
@@ -701,30 +692,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\cocos\base\base64.h">
       <Filter>cocos\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCBool.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDictionary.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDouble.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCFloat.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCInteger.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCSet.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCString.h">
-      <Filter>cocos\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\deprecated\CCArray.h">
-      <Filter>cocos\deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\cocos\math\CCMathBase.h">
       <Filter>cocos\math</Filter>
@@ -1455,9 +1422,6 @@
     <ClInclude Include="..\lua_bindings\manual\Cocos2dxLuaLoader.h">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
-    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.h">
-      <Filter>libquick\lua_bindings\manual</Filter>
-    </ClInclude>
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.h">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
@@ -1631,6 +1595,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\cocos\3d\CCBundleReader.h">
       <Filter>cocos\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\base\CCUserDefault.h">
+      <Filter>cocos\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1868,9 +1835,6 @@
     <ClCompile Include="..\..\..\cocos\base\CCData.cpp">
       <Filter>cocos\base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\cocos\base\CCDataVisitor.cpp">
-      <Filter>cocos\base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\cocos\base\CCDirector.cpp">
       <Filter>cocos\base</Filter>
     </ClCompile>
@@ -1946,12 +1910,6 @@
     <ClCompile Include="..\..\..\cocos\base\ccTypes.cpp">
       <Filter>cocos\base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\cocos\base\CCUserDefault.cpp">
-      <Filter>cocos\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\base\CCUserDefaultAndroid.cpp">
-      <Filter>cocos\base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\cocos\base\ccUTF8.cpp">
       <Filter>cocos\base</Filter>
     </ClCompile>
@@ -1981,18 +1939,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\base\base64.cpp">
       <Filter>cocos\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCDictionary.cpp">
-      <Filter>cocos\deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCSet.cpp">
-      <Filter>cocos\deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCString.cpp">
-      <Filter>cocos\deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\deprecated\CCArray.cpp">
-      <Filter>cocos\deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\math\CCVertex.cpp">
       <Filter>cocos\math</Filter>
@@ -2288,9 +2234,6 @@
     <ClCompile Include="..\lua_bindings\manual\Cocos2dxLuaLoader.cpp">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
-    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.cpp">
-      <Filter>libquick\lua_bindings\manual</Filter>
-    </ClCompile>
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.cpp">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
@@ -2462,13 +2405,13 @@
     <ClCompile Include="..\..\..\cocos\3d\CCBundleReader.cpp">
       <Filter>cocos\3d</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\cocos\base\CCUserDefault.cpp">
+      <Filter>cocos\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\cocos\3d\CCAnimationCurve.inl">
       <Filter>cocos\3d</Filter>
-    </None>
-    <None Include="..\..\..\cocos\base\CCUserDefault.mm">
-      <Filter>cocos\base</Filter>
     </None>
     <None Include="..\..\..\cocos\math\Mat4.inl">
       <Filter>cocos\math</Filter>

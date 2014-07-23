@@ -160,7 +160,6 @@
     <ClInclude Include="..\..\..\cocos\base\CCConfiguration.h" />
     <ClInclude Include="..\..\..\cocos\base\CCConsole.h" />
     <ClInclude Include="..\..\..\cocos\base\CCData.h" />
-    <ClInclude Include="..\..\..\cocos\base\CCDataVisitor.h" />
     <ClInclude Include="..\..\..\cocos\base\CCDirector.h" />
     <ClInclude Include="..\..\..\cocos\base\CCEvent.h" />
     <ClInclude Include="..\..\..\cocos\base\CCEventAcceleration.h" />
@@ -208,14 +207,6 @@
     <ClInclude Include="..\..\..\cocos\base\utlist.h" />
     <ClInclude Include="..\..\..\cocos\base\ZipUtils.h" />
     <ClInclude Include="..\..\..\cocos\cocos2d.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCArray.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCBool.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDictionary.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCDouble.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCFloat.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCInteger.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCSet.h" />
-    <ClInclude Include="..\..\..\cocos\deprecated\CCString.h" />
     <ClInclude Include="..\..\..\cocos\math\CCAffineTransform.h" />
     <ClInclude Include="..\..\..\cocos\math\CCGeometry.h" />
     <ClInclude Include="..\..\..\cocos\math\CCMath.h" />
@@ -480,7 +471,6 @@
     <ClInclude Include="..\lua_bindings\manual\Cocos2dxLuaLoader.h" />
     <ClInclude Include="..\lua_bindings\manual\LuaBasicConversions.h" />
     <ClInclude Include="..\lua_bindings\manual\LuaScriptHandlerMgr.h" />
-    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_manual.hpp" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.hpp" />
@@ -599,7 +589,6 @@
     <ClCompile Include="..\..\..\cocos\base\CCConfiguration.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCConsole.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCData.cpp" />
-    <ClCompile Include="..\..\..\cocos\base\CCDataVisitor.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCDirector.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCEvent.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCEventAcceleration.cpp" />
@@ -626,7 +615,6 @@
     <ClCompile Include="..\..\..\cocos\base\CCTouch.cpp" />
     <ClCompile Include="..\..\..\cocos\base\ccTypes.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCUserDefault.cpp" />
-    <ClCompile Include="..\..\..\cocos\base\CCUserDefaultAndroid.cpp" />
     <ClCompile Include="..\..\..\cocos\base\ccUTF8.cpp" />
     <ClCompile Include="..\..\..\cocos\base\ccUtils.cpp" />
     <ClCompile Include="..\..\..\cocos\base\CCValue.cpp" />
@@ -636,10 +624,6 @@
     <ClCompile Include="..\..\..\cocos\base\TGAlib.cpp" />
     <ClCompile Include="..\..\..\cocos\base\ZipUtils.cpp" />
     <ClCompile Include="..\..\..\cocos\cocos2d.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCArray.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCDictionary.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCSet.cpp" />
-    <ClCompile Include="..\..\..\cocos\deprecated\CCString.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCAffineTransform.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCGeometry.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCVertex.cpp" />
@@ -814,7 +798,6 @@
     <ClCompile Include="..\lua_bindings\manual\Cocos2dxLuaLoader.cpp" />
     <ClCompile Include="..\lua_bindings\manual\LuaBasicConversions.cpp" />
     <ClCompile Include="..\lua_bindings\manual\LuaScriptHandlerMgr.cpp" />
-    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_deprecated.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.cpp" />
@@ -854,7 +837,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\cocos\3d\CCAnimationCurve.inl" />
-    <None Include="..\..\..\cocos\base\CCUserDefault.mm" />
     <None Include="..\..\..\cocos\cocos2d-prefix.pch" />
     <None Include="..\..\..\cocos\math\Mat4.inl" />
     <None Include="..\..\..\cocos\math\MathUtil.inl" />
