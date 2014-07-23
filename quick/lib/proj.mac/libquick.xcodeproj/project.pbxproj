@@ -705,8 +705,6 @@
 		F4E0C06C196BA25D0053EFD7 /* CCLuaValue.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0BF99196BA25D0053EFD7 /* CCLuaValue.h */; };
 		F4E0C06D196BA25D0053EFD7 /* Cocos2dxLuaLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0BF9A196BA25D0053EFD7 /* Cocos2dxLuaLoader.cpp */; };
 		F4E0C06E196BA25D0053EFD7 /* Cocos2dxLuaLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0BF9B196BA25D0053EFD7 /* Cocos2dxLuaLoader.h */; };
-		F4E0C06F196BA25D0053EFD7 /* lua_cocos2dx_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0BF9C196BA25D0053EFD7 /* lua_cocos2dx_deprecated.cpp */; };
-		F4E0C070196BA25D0053EFD7 /* lua_cocos2dx_deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0BF9D196BA25D0053EFD7 /* lua_cocos2dx_deprecated.h */; };
 		F4E0C071196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0BF9E196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.cpp */; };
 		F4E0C072196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0BF9F196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.h */; };
 		F4E0C075196BA25D0053EFD7 /* lua_cocos2dx_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0BFA2196BA25D0053EFD7 /* lua_cocos2dx_manual.cpp */; };
@@ -1467,8 +1465,6 @@
 		F4E0BF99196BA25D0053EFD7 /* CCLuaValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaValue.h; sourceTree = "<group>"; };
 		F4E0BF9A196BA25D0053EFD7 /* Cocos2dxLuaLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cocos2dxLuaLoader.cpp; sourceTree = "<group>"; };
 		F4E0BF9B196BA25D0053EFD7 /* Cocos2dxLuaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cocos2dxLuaLoader.h; sourceTree = "<group>"; };
-		F4E0BF9C196BA25D0053EFD7 /* lua_cocos2dx_deprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_deprecated.cpp; sourceTree = "<group>"; };
-		F4E0BF9D196BA25D0053EFD7 /* lua_cocos2dx_deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_deprecated.h; sourceTree = "<group>"; };
 		F4E0BF9E196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_extension_manual.cpp; sourceTree = "<group>"; };
 		F4E0BF9F196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_extension_manual.h; sourceTree = "<group>"; };
 		F4E0BFA2196BA25D0053EFD7 /* lua_cocos2dx_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_manual.cpp; sourceTree = "<group>"; };
@@ -3087,8 +3083,6 @@
 				F4E0BF99196BA25D0053EFD7 /* CCLuaValue.h */,
 				F4E0BF9A196BA25D0053EFD7 /* Cocos2dxLuaLoader.cpp */,
 				F4E0BF9B196BA25D0053EFD7 /* Cocos2dxLuaLoader.h */,
-				F4E0BF9C196BA25D0053EFD7 /* lua_cocos2dx_deprecated.cpp */,
-				F4E0BF9D196BA25D0053EFD7 /* lua_cocos2dx_deprecated.h */,
 				F4E0BF9E196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.cpp */,
 				F4E0BF9F196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.h */,
 				F4E0BFA2196BA25D0053EFD7 /* lua_cocos2dx_manual.cpp */,
@@ -3582,7 +3576,6 @@
 				F4E0BB19196BA00A0053EFD7 /* ftimage.h in Headers */,
 				F4E0B2F7196B9C670053EFD7 /* CCParticleSystem.h in Headers */,
 				F4E0C08B196BA25D0053EFD7 /* tolua++.h in Headers */,
-				F4E0C070196BA25D0053EFD7 /* lua_cocos2dx_deprecated.h in Headers */,
 				F4E0C07E196BA25D0053EFD7 /* Lua_web_socket.h in Headers */,
 				F4E0BB2E196BA00A0053EFD7 /* ftwinfnt.h in Headers */,
 			);
@@ -3778,7 +3771,6 @@
 				F4E0B55C196B9C7D0053EFD7 /* ccFPSImages.c in Sources */,
 				F4E0C095196BA2A60053EFD7 /* SimulatorConfig.cpp in Sources */,
 				F4E0B2B2196B9C660053EFD7 /* CCActionTiledGrid.cpp in Sources */,
-				F4E0C06F196BA25D0053EFD7 /* lua_cocos2dx_deprecated.cpp in Sources */,
 				F4E0B6FC196B9EEB0053EFD7 /* cpGrooveJoint.c in Sources */,
 				F4E0B316196B9C670053EFD7 /* CCTransitionPageTurn.cpp in Sources */,
 				F41590A9196BD1D20046D7EE /* CCScriptEventDispatcher.cpp in Sources */,
