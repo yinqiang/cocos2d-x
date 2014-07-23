@@ -96,6 +96,8 @@ void SharpenFilter::initSprite(FilteredSprite* $sprite)
 		_heightFactor = 1.0f / __size.height * _amount;
 	}
 	initProgram();
+    
+    Filter::initSprite(nullptr);
 }
 
 void SharpenFilter::setAttributes(GLProgram* $cgp)

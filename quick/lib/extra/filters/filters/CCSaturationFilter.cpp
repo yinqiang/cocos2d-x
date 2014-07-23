@@ -53,7 +53,7 @@ SaturationFilter::SaturationFilter()
 
 GLProgram* SaturationFilter::loadShader()
 {
-    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_saturation_frag);
     
 //	GLProgram* __p = new GLProgram();
 //	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_saturation_frag);

@@ -144,7 +144,7 @@ GaussianHBlurFilter::GaussianHBlurFilter()
 
 GLProgram* GaussianHBlurFilter::loadShader()
 {
-    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, ccFilterShader_gaussian_hblur_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_gaussian_hblur_frag);
 //	GLProgram* __p = new GLProgram();
 //	__p->initWithByteArrays(ccPositionTextureColor_vert,
 //		ccFilterShader_gaussian_hblur_frag);
@@ -166,6 +166,7 @@ void GaussianHBlurFilter::initSprite(FilteredSprite* $sprite)
 	//_resolation = $sprite->getContentSize().width;
 	_resolation = 1024;
 	//CCLOG("GaussianHBlurFilter.initSprite resulation:%f", _resolation);
+    BlurBaseFilter::initSprite(nullptr);
 }
 
 //================== GaussianVBlurFilter
@@ -192,7 +193,7 @@ GaussianVBlurFilter::GaussianVBlurFilter()
 
 GLProgram* GaussianVBlurFilter::loadShader()
 {
-    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, ccFilterShader_gaussian_vblur_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_gaussian_vblur_frag);
 //	GLProgram* __p = new GLProgram();
 //	__p->initWithByteArrays(ccPositionTextureColor_vert,
 //		ccFilterShader_gaussian_vblur_frag);
@@ -214,6 +215,7 @@ void GaussianVBlurFilter::initSprite(FilteredSprite* $sprite)
 	//_resolation = $sprite->getContentSize().height;
 	_resolation = 1024;
 	//CCLOG("GaussianVBlurFilter.initSprite resulation:%f", _resolation);
+    BlurBaseFilter::initSprite(nullptr);
 }
 
 //================== ZoomBlurFilter
@@ -242,7 +244,7 @@ ZoomBlurFilter::ZoomBlurFilter()
 
 GLProgram* ZoomBlurFilter::loadShader()
 {
-    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTexture_vert, ccFilterShader_zoom_blur_frag);
+    GLProgram* __p = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, ccFilterShader_zoom_blur_frag);
     
 //	GLProgram* __p = new GLProgram();
 //	__p->initWithByteArrays(ccPositionTexture_vert, ccFilterShader_zoom_blur_frag);
@@ -328,6 +330,8 @@ void MotionBlurFilter::initSprite(FilteredSprite* $sprite)
 	_texelOffsetX = _blurSize*cos(_blurAngle*M_PI / 180.0f) / __size.width;
 	_texelOffsetY = _blurSize*sin(_blurAngle*M_PI / 180.0f) / __size.width;
 	initProgram();
+    
+    Filter::initSprite(nullptr);
 }
 
 void MotionBlurFilter::setAttributes(GLProgram* $cgp)

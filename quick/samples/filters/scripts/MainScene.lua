@@ -8,7 +8,6 @@ end)
 
 MainScene._FILTERS = {
 	-- colors
-	{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
 	{"GRAY",{0.2, 0.3, 0.5, 0.1}},
 	{"RGB",{1, 0.5, 0.3}},
 	{"HUE", {90}},
@@ -26,9 +25,9 @@ MainScene._FILTERS = {
 	{"MOTION_BLUR", {5, 135}},
 	-- others
 	{"SHARPEN", {1, 1}},
-	{{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
-	{{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
-	{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
+	--{{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
+	--{{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
+	--{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
 }
 
 function MainScene:ctor()
@@ -91,8 +90,8 @@ function MainScene:_showFilter()
 	self._filterSprite = display.newFilteredSprite("helloworld.png", __filters, __params)
 		:align(display.CENTER, display.cx, display.cy)
 		:addTo(self, 10)
-	self._filterSprite:setAnchorPoint(cc.p(1, 1))
-	self._filterSprite:setPosition(display.cx, display.cy)
+	-- self._filterSprite:setAnchorPoint(cc.p(1, 1))
+	-- self._filterSprite:setPosition(display.cx, display.cy)
 
         local __title = ""
         if type(__filters) == "table" then
