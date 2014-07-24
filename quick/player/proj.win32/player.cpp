@@ -113,21 +113,45 @@ int Player::run()
     FileUtils::getInstance()->setSearchRootPath(_project.getProjectDir().c_str());
     FileUtils::getInstance()->setWritablePath(_project.getWritableRealPath().c_str());
 
+    // check screen DPI
+    HDC screen = GetDC(0);
+    int dpi = GetDeviceCaps(screen, LOGPIXELSX);
+    ReleaseDC(0, screen);
+
+    // set scale with DPI
+    //  96 DPI = 100 % scaling
+    // 120 DPI = 125 % scaling
+    // 144 DPI = 150 % scaling
+    // 192 DPI = 200 % scaling
+    // http://msdn.microsoft.com/en-us/library/windows/desktop/dn469266%28v=vs.85%29.aspx#dpi_and_the_desktop_scaling_factor
+    //
+    // enable DPI-Aware with DeclareDPIAware.manifest
+    // http://msdn.microsoft.com/en-us/library/windows/desktop/dn469266%28v=vs.85%29.aspx#declaring_dpi_awareness
+    float screenScale = 1.0f;
+    if (dpi >= 120 && dpi < 144)
+    {
+        screenScale = 1.25f;
+    }
+    else if (dpi >= 144 && dpi < 192)
+    {
+        screenScale = 1.5f;
+    }
+    else if (dpi >= 192)
+    {
+        screenScale = 2.0f;
+    }
+
     // create opengl view
     const Size frameSize = _project.getFrameSize();
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, _project.getFrameScale(), true);
-    Director::getInstance()->setOpenGLView(glview);
-    if (glview->isRetinaEnabled())
-    {
-        glview->enableRetina(true);
-    }
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, true);
+    auto director = Director::getInstance();
+    director->setOpenGLView(glview);
 
     // prepare
     _project.dump();
 
     // register event handlers
-    auto director = Director::getInstance();
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", std::bind(&Player::onWindowClose, this, std::placeholders::_1));
 
