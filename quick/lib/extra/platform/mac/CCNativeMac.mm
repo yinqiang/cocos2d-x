@@ -24,12 +24,12 @@ static NativeMac *s_sharedInstance;
 
 - (void)showActivityIndicator
 {
-    CCLog("Native::showActivityIndicator() not support on this platform.");
+    log("Native::showActivityIndicator() not support on this platform.");
 }
 
 - (void)hideActivityIndicator
 {
-    CCLog("Native::hideActivityIndicator() not support on this platform.");
+    log("Native::hideActivityIndicator() not support on this platform.");
 }
 
 

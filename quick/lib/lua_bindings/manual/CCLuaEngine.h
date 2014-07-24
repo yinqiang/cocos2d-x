@@ -114,7 +114,7 @@ public:
     virtual int executeNodeEvent(Node* pNode, int nAction);
     virtual int executeNodeEnterFrameEvent(Node* pNode, float dt);
     virtual int executeMenuItemEvent(MenuItem* pMenuItem);
-    virtual int executeNotificationEvent(__NotificationCenter* pNotificationCenter, const char* pszName);
+//    virtual int executeNotificationEvent(__NotificationCenter* pNotificationCenter, const char* pszName);
     virtual int executeCallFuncActionEvent(CallFunc* pAction, Ref* pTarget = NULL);
     virtual int executeSchedule(int nHandler, float dt, Node* pNode = NULL);
     virtual int executeNodeTouchesEvent(Node* pNode, int eventType, const std::vector<Touch*>& touches, int phase);

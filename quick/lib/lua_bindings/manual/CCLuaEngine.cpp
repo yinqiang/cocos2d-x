@@ -33,7 +33,7 @@
 // #include "lua_cocos2dx_coco_studio_manual.hpp"
 // #include "lua_cocos2dx_ui_manual.hpp"
 #include "event/CCScriptEventDispatcher.h"
-#include "event/CCTouchDispatcher.h"
+//#include "event/CCTouchDispatcher.h"
 
 NS_CC_BEGIN
 
@@ -112,16 +112,16 @@ int LuaEngine::executeMenuItemEvent(MenuItem* pMenuItem)
     return 0;
 }
 
-int LuaEngine::executeNotificationEvent(__NotificationCenter* pNotificationCenter, const char* pszName)
-{
-    int nHandler = pNotificationCenter->getObserverHandlerByName(pszName);
-    if (!nHandler) return 0;
-    
-    _stack->pushString(pszName);
-    int ret = _stack->executeFunctionByHandler(nHandler, 1);
-    _stack->clean();
-    return ret;
-}
+//int LuaEngine::executeNotificationEvent(__NotificationCenter* pNotificationCenter, const char* pszName)
+//{
+//    int nHandler = pNotificationCenter->getObserverHandlerByName(pszName);
+//    if (!nHandler) return 0;
+//    
+//    _stack->pushString(pszName);
+//    int ret = _stack->executeFunctionByHandler(nHandler, 1);
+//    _stack->clean();
+//    return ret;
+//}
 
 int LuaEngine::executeCallFuncActionEvent(CallFunc* pAction, Ref* pTarget/* = NULL*/)
 {
@@ -1136,10 +1136,10 @@ int LuaEngine::executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, 
             event["phase"] = LuaValue::stringValue("unknown");
     }
     
-    const Point pt = CCDirector::getInstance()->convertToGL(pTouch->getLocationInView());
+    const Point pt = Director::getInstance()->convertToGL(pTouch->getLocationInView());
     event["x"] = LuaValue::floatValue(pt.x);
     event["y"] = LuaValue::floatValue(pt.y);
-    const Point prev = CCDirector::getInstance()->convertToGL(pTouch->getPreviousLocationInView());
+    const Point prev = Director::getInstance()->convertToGL(pTouch->getPreviousLocationInView());
     event["prevX"] = LuaValue::floatValue(prev.x);
     event["prevY"] = LuaValue::floatValue(prev.y);
     

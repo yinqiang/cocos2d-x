@@ -25,11 +25,10 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCMenu.h"
 #include "base/CCDirector.h"
-#include "CCApplication.h"
 #include "base/CCTouch.h"
 #include "CCStdC.h"
 #include "base/CCEventListenerTouch.h"
-#include "deprecated/CCString.h"
+
 
 #include <vector>
 #include <stdarg.h>

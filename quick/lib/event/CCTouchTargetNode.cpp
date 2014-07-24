@@ -25,7 +25,7 @@
  ****************************************************************************/
 
 #include "CCTouchTargetNode.h"
-#include "deprecated/CCSet.h"
+//#include "deprecated/CCSet.h"
 
 
 NS_CC_BEGIN

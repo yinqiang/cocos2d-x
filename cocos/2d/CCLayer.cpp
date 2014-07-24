@@ -45,7 +45,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerAcceleration.h"
 #include "math/TransformUtils.h"
 
-#include "deprecated/CCString.h"
+
 
 #if CC_USE_PHYSICS
 #include "physics/CCPhysicsBody.h"
@@ -96,55 +96,6 @@ Layer *Layer::create()
 #pragma warning (push)
 #pragma warning (disable: 4996)
 #endif
-
-/// isAccelerometerEnabled getter
-bool Layer::isAccelerometerEnabled() const
-{
-    return _accelerometerEnabled;
-}
-/// isAccelerometerEnabled setter
-void Layer::setAccelerometerEnabled(bool enabled)
-{
-    if (enabled != _accelerometerEnabled)
-    {
-        _accelerometerEnabled = enabled;
-
-        Device::setAccelerometerEnabled(enabled);
-
-        _eventDispatcher->removeEventListener(_accelerationListener);
-        _accelerationListener = nullptr;
-
-        if (enabled)
-        {
-            _accelerationListener = EventListenerAcceleration::create(CC_CALLBACK_2(Layer::onAcceleration, this));
-            _eventDispatcher->addEventListenerWithSceneGraphPriority(_accelerationListener, this);
-        }
-    }
-}
-
-void Layer::setAccelerometerInterval(double interval) {
-    if (_accelerometerEnabled)
-    {
-        if (_running)
-        {
-            Device::setAccelerometerInterval(interval);
-        }
-    }
-}
-
-void Layer::onAcceleration(Acceleration* acc, Event* unused_event)
-{
-    CC_UNUSED_PARAM(acc);
-    CC_UNUSED_PARAM(unused_event);
-#if CC_ENABLE_SCRIPT_BINDING
-    if(kScriptTypeNone != _scriptType)
-    {
-        BasicScriptData data(this,(void*)acc);
-        ScriptEvent event(kAccelerometerEvent,&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    }
-#endif
-}
 
 /// isKeyboardEnabled getter
 bool Layer::isKeyboardEnabled() const
@@ -620,7 +571,7 @@ LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
 
 LayerMultiplex * LayerMultiplex::createWithLayer(Layer* layer)
 {
-    return LayerMultiplex::create(layer, NULL);
+    return LayerMultiplex::create(layer, nullptr);
 }
 
 LayerMultiplex* LayerMultiplex::create()

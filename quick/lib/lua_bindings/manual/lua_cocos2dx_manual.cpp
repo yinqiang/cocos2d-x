@@ -527,371 +527,6 @@ tolua_lerror:
 #endif
 }
 
-static int lua_cocos2dx_Layer_setAccelerometerEnabled(lua_State* L)
-{
-    if (nullptr == L)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(L,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(L,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self)
-    {
-		tolua_error(L,"invalid 'self' in function 'lua_cocos2dx_Layer_setAccelerometerEnabled'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(L) - 1;
-    if (1 == argc)
-    {
-#if COCOS2D_DEBUG >= 1
-        if (!tolua_isboolean(L, 2, 0, &tolua_err))
-            goto tolua_lerror;
-#endif
-        bool enabled = tolua_toboolean(L, 2, 0);
-        auto dict = static_cast<__Dictionary*>(self->getUserObject());
-        if (dict == nullptr)
-        {
-            dict = Dictionary::create();
-            self->setUserObject(dict);
-        }
-        
-        dict->setObject(Bool::create(enabled), "accelerometerEnabled");
-        
-        auto accListener = static_cast<EventListenerAcceleration*>(dict->objectForKey("accListener"));
-        
-        auto dispatcher = self->getEventDispatcher();
-        dispatcher->removeEventListener(accListener);
-        
-        Device::setAccelerometerEnabled(enabled);
-        
-        if (enabled)
-        {
-            auto listener = EventListenerAcceleration::create([self](Acceleration* acc, Event* event){
-                BasicScriptData data(self,(void*)acc);
-                ScriptEvent accEvent(kAccelerometerEvent,&data);
-                ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&accEvent);
-            });
-            
-            dispatcher->addEventListenerWithSceneGraphPriority(listener, self);
-            
-            dict->setObject(listener, "accListener");
-        }
-        
-        return 0;
-    }
-    
-    CCLOG("'setAccelerometerEnabled' has wrong number of arguments: %d, was expecting %d\n", argc, 1);
-    return 0;
-    
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(L,"#ferror in function 'setAccelerometerEnabled'.",&tolua_err);
-    return 0;
-#endif
-}
-
-static int lua_cocos2dx_Layer_isAccelerometerEnabled(lua_State* L)
-{
-    if (nullptr == L)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(L,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(L,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self)
-    {
-		tolua_error(L,"invalid 'self' in function 'lua_cocos2dx_Layer_isAccelerometerEnabled'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(L) - 1;
-    if (0 == argc)
-    {
-        auto dict = static_cast<__Dictionary*>(self->getUserObject());
-        if (dict != nullptr)
-        {
-            __Bool* enabled = static_cast<__Bool*>(dict->objectForKey("accelerometerEnabled"));
-            bool ret = enabled ? enabled->getValue() : false;
-            tolua_pushboolean(L, ret);
-            return 1;
-        }
-        
-        return 0;
-    }
-    
-    
-    CCLOG("'isAccelerometerEnabled' has wrong number of arguments: %d, was expecting %d\n", argc, 0);
-    return 0;
-    
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(L,"#ferror in function 'isAccelerometerEnabled'.",&tolua_err);
-    return 0;
-#endif
-}
-
-static int lua_cocos2dx_Layer_setAccelerometerInterval(lua_State* L)
-{
-    if (nullptr == L)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(L,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(L,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self)
-    {
-		tolua_error(L,"invalid 'self' in function 'lua_cocos2dx_Layer_setAccelerometerInterval'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(L) - 1;
-    if (1 == argc)
-    {
-#if COCOS2D_DEBUG >= 1
-        if (!tolua_isnumber(L, 2, 0, &tolua_err))
-            goto tolua_lerror;
-#endif
-        double interval = tolua_tonumber(L, 2, 0);
-        Device::setAccelerometerEnabled(interval);
-        return 0;
-    }
-    
-    CCLOG("'setAccelerometerInterval' has wrong number of arguments: %d, was expecting %d\n", argc, 1);
-    return 0;
-    
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(L,"#ferror in function 'setAccelerometerInterval'.",&tolua_err);
-    return 0;
-#endif
-}
-
-
-static int tolua_cocos2d_Layer_registerScriptKeypadHandler(lua_State* tolua_S)
-{
-    if (NULL == tolua_S)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(tolua_S,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(tolua_S,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self)
-    {
-		tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Layer_registerScriptKeypadHandler'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(tolua_S) - 1;
-    
-    if (1 == argc)
-    {
-#if COCOS2D_DEBUG >= 1
-        if (!toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) {
-            goto tolua_lerror;
-        }
-#endif
-        LUA_FUNCTION handler = toluafix_ref_function(tolua_S,2,0);
-        ScriptHandlerMgr::getInstance()->addObjectHandler((void*)self, handler, ScriptHandlerMgr::HandlerType::KEYPAD);
-        return 0;
-    }
-    
-    CCLOG("'registerScriptKeypadHandler' has wrong number of arguments: %d, was expecting %d\n", argc, 1);
-    return 0;
-
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'registerScriptKeypadHandler'.",&tolua_err);
-    return 0;
-#endif
-}
-
-static int tolua_cocos2d_Layer_unregisterScriptKeypadHandler(lua_State* tolua_S)
-{
-    if (NULL == tolua_S)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(tolua_S,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(tolua_S,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self)
-    {
-		tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Layer_unregisterScriptKeypadHandler'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(tolua_S) - 1;
-    
-    if (0 == argc)
-    {
-        auto dict = static_cast<__Dictionary*>(self->getUserObject());
-        if (dict != nullptr)
-        {
-            auto keyboardListener = static_cast<EventListenerKeyboard*>(dict->objectForKey("keyboardListener"));
-            
-            auto dispatcher = self->getEventDispatcher();
-            if (dispatcher != nullptr)
-            {
-                dispatcher->removeEventListener(keyboardListener);
-            }
-        }
-        
-        ScriptHandlerMgr::getInstance()->removeObjectHandler(self, ScriptHandlerMgr::HandlerType::KEYPAD);
-        return 0;
-    }
-
-    CCLOG("'unregisterScriptKeypadHandler' has wrong number of arguments: %d, was expecting %d\n", argc, 0);
-    return 0;
-    
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'unregisterScriptKeypadHandler'.",&tolua_err);
-    return 0;
-#endif
-}
-
-static int tolua_cocos2d_Layer_registerScriptAccelerateHandler(lua_State* tolua_S)
-{
-    if (NULL == tolua_S)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(tolua_S,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(tolua_S,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self) {
-		tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Layer_registerScriptAccelerateHandler'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(tolua_S) - 1;
-    
-    if (1 == argc)
-    {
-#if COCOS2D_DEBUG >= 1
-        if (!toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) {
-            goto tolua_lerror;
-        }
-#endif
-        LUA_FUNCTION handler =  toluafix_ref_function(tolua_S,2,0);
-        ScriptHandlerMgr::getInstance()->addObjectHandler((void*)self, handler, ScriptHandlerMgr::HandlerType::ACCELEROMETER);
-        return 0;
-    }
-    
-    CCLOG("'registerScriptAccelerateHandler' has wrong number of arguments: %d, was expecting %d\n", argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'registerScriptAccelerateHandler'.",&tolua_err);
-    return 0;
-#endif
-}
-
-static int tolua_cocos2d_Layer_unregisterScriptAccelerateHandler(lua_State* tolua_S)
-{
-    if (nullptr == tolua_S)
-        return 0;
-    
-    int argc = 0;
-    Layer* self = nullptr;
-    
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-	if (!tolua_isusertype(tolua_S,1,"cc.Layer",0,&tolua_err)) goto tolua_lerror;
-#endif
-    
-    self = static_cast<cocos2d::Layer*>(tolua_tousertype(tolua_S,1,0));
-    
-#if COCOS2D_DEBUG >= 1
-	if (nullptr == self) {
-		tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Layer_unregisterScriptAccelerateHandler'\n", NULL);
-		return 0;
-	}
-#endif
-    
-    argc = lua_gettop(tolua_S) - 1;
-    
-    if (0 == argc)
-    {
-        auto dict = static_cast<__Dictionary*>(self->getUserObject());
-        if (dict != nullptr)
-        {
-            auto accListener = static_cast<EventListenerAcceleration*>(dict->objectForKey("accListener"));
-            
-            auto dispatcher = self->getEventDispatcher();
-            if (dispatcher != nullptr)
-            {
-                dispatcher->removeEventListener(accListener);
-            }
-        }
-        
-        ScriptHandlerMgr::getInstance()->removeObjectHandler((void*)self, ScriptHandlerMgr::HandlerType::ACCELEROMETER);
-        return 0;
-    }
-    
-    CCLOG("'unregisterScriptAccelerateHandler' has wrong number of arguments: %d, was expecting %d\n", argc, 0);
-    return 0;
-    
-#if COCOS2D_DEBUG >= 1
-tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'unregisterScriptAccelerateHandler'.",&tolua_err);
-    return 0;
-#endif
-}
-
 static int tolua_cocos2d_Scheduler_scheduleScriptFunc(lua_State* tolua_S)
 {
     if (NULL == tolua_S)
@@ -2623,12 +2258,8 @@ static int tolua_cocos2dx_FileUtils_getStringFromFile(lua_State* tolua_S)
         if (ok)
         {
             std::string fullPathName = FileUtils::getInstance()->fullPathForFilename(arg0);
-            __String* contentsOfFile = __String::createWithContentsOfFile(fullPathName.c_str());
-            if (nullptr != contentsOfFile)
-            {
-                const char* tolua_ret = contentsOfFile->getCString();
-                tolua_pushstring(tolua_S, tolua_ret);
-            }
+            const char* tolua_ret = fullPathName.c_str();
+            tolua_pushstring(tolua_S, tolua_ret);
             return 1;
         }
     }
@@ -3205,33 +2836,33 @@ static void extendNode(lua_State* tolua_S)
     lua_pop(tolua_S, 1);
 }
 
-static void extendLayer(lua_State* tolua_S)
-{
-    lua_pushstring(tolua_S,"cc.Layer");
-    lua_rawget(tolua_S,LUA_REGISTRYINDEX);
-    if (lua_istable(tolua_S,-1))
-    {
-        lua_pushstring(tolua_S, "registerScriptKeypadHandler");
-        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_registerScriptKeypadHandler);
-        lua_rawset(tolua_S, -3);
-        lua_pushstring(tolua_S, "unregisterScriptKeypadHandler");
-        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_unregisterScriptKeypadHandler);
-        lua_rawset(tolua_S, -3);
-        lua_pushstring(tolua_S, "registerScriptAccelerateHandler");
-        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_registerScriptAccelerateHandler);
-        lua_rawset(tolua_S, -3);
-        lua_pushstring(tolua_S, "unregisterScriptAccelerateHandler");
-        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_unregisterScriptAccelerateHandler);
-        lua_rawset(tolua_S, -3);
-        
+//static void extendLayer(lua_State* tolua_S)
+//{
+//    lua_pushstring(tolua_S,"cc.Layer");
+//    lua_rawget(tolua_S,LUA_REGISTRYINDEX);
+//    if (lua_istable(tolua_S,-1))
+//    {
+//        lua_pushstring(tolua_S, "registerScriptKeypadHandler");
+//        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_registerScriptKeypadHandler);
+//        lua_rawset(tolua_S, -3);
+//        lua_pushstring(tolua_S, "unregisterScriptKeypadHandler");
+//        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_unregisterScriptKeypadHandler);
+//        lua_rawset(tolua_S, -3);
+//        lua_pushstring(tolua_S, "registerScriptAccelerateHandler");
+//        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_registerScriptAccelerateHandler);
+//        lua_rawset(tolua_S, -3);
+//        lua_pushstring(tolua_S, "unregisterScriptAccelerateHandler");
+//        lua_pushcfunction(tolua_S, tolua_cocos2d_Layer_unregisterScriptAccelerateHandler);
+//        lua_rawset(tolua_S, -3);
+//        
 //        tolua_function(tolua_S, "setKeyboardEnabled", lua_cocos2dx_Layer_setKeyboardEnabled);
 //        tolua_function(tolua_S, "isKeyboardEnabled", lua_cocos2dx_Layer_isKeyboardEnabled);
-        tolua_function(tolua_S, "setAccelerometerEnabled", lua_cocos2dx_Layer_setAccelerometerEnabled);
-        tolua_function(tolua_S, "isAccelerometerEnabled", lua_cocos2dx_Layer_isAccelerometerEnabled);
-        tolua_function(tolua_S, "setAccelerometerInterval", lua_cocos2dx_Layer_setAccelerometerInterval);
-    }
-    lua_pop(tolua_S, 1);
-}
+//        tolua_function(tolua_S, "setAccelerometerEnabled", lua_cocos2dx_Layer_setAccelerometerEnabled);
+//        tolua_function(tolua_S, "isAccelerometerEnabled", lua_cocos2dx_Layer_isAccelerometerEnabled);
+//        tolua_function(tolua_S, "setAccelerometerInterval", lua_cocos2dx_Layer_setAccelerometerInterval);
+//    }
+//    lua_pop(tolua_S, 1);
+//}
 
 static void extendScheduler(lua_State* tolua_S)
 {
@@ -5344,14 +4975,31 @@ static void extendFunctions(lua_State* tolua_S)
     tolua_endmodule(tolua_S);
 }
 
+static void extendConstants(lua_State* tolua_S)
+{
+    tolua_module(tolua_S,"cc",0);
+    tolua_beginmodule(tolua_S,"cc");
+        lua_pushstring(tolua_S,"EVENT_COME_TO_FOREGROUND");
+        lua_pushstring(tolua_S,EVENT_COME_TO_FOREGROUND);
+        lua_rawset(tolua_S,-3);
+        lua_pushstring(tolua_S,"EVENT_RENDERER_RECREATED");
+        lua_pushstring(tolua_S,EVENT_RENDERER_RECREATED);
+        lua_rawset(tolua_S,-3);
+        lua_pushstring(tolua_S,"EVENT_COME_TO_BACKGROUND");
+        lua_pushstring(tolua_S,EVENT_COME_TO_BACKGROUND);
+        lua_rawset(tolua_S,-3);
+    tolua_endmodule(tolua_S);
+}
+
 int register_all_cocos2dx_manual(lua_State* tolua_S)
 {
     if (NULL == tolua_S)
         return 0;
     
     extendFunctions(tolua_S);
+    extendConstants(tolua_S);
     extendNode(tolua_S);
-    extendLayer(tolua_S);
+//    extendLayer(tolua_S);
     extendMenuItem(tolua_S);
     extendMenuItemImage(tolua_S);
     extendMenuItemLabel(tolua_S);

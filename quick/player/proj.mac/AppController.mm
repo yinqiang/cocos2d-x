@@ -852,7 +852,7 @@ USING_NS_CC_EXTRA;
 
 - (IBAction) onPlayerShowProjectSandbox:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[NSString stringWithCString:CCFileUtils::sharedFileUtils()->getWritablePath().c_str() encoding:NSUTF8StringEncoding]];
+    [[NSWorkspace sharedWorkspace] openFile:[NSString stringWithCString:FileUtils::sharedFileUtils()->getWritablePath().c_str() encoding:NSUTF8StringEncoding]];
 }
 
 - (IBAction) onPlayerShowProjectFiles:(id)sender

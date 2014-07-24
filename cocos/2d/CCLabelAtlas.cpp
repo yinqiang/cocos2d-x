@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "renderer/ccGLStateCache.h"
 #include "math/TransformUtils.h"
 
-#include "deprecated/CCString.h"
+
 
 #if CC_LABELATLAS_DEBUG_DRAW
 #include "renderer/CCRenderer.h"
@@ -133,6 +133,11 @@ bool LabelAtlas::initWithString(const std::string& theString, const std::string&
 //CCLabelAtlas - Atlas generation
 void LabelAtlas::updateAtlasValues()
 {
+    if(_itemsPerRow == 0)
+    {
+        return;
+    }
+
     ssize_t n = _string.length();
 
     const unsigned char *s = (unsigned char*)_string.c_str();

@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "CCGL.h"
 
-#include "deprecated/CCString.h"
+
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #include "CCPrecompiledShaders.h"
@@ -254,7 +254,7 @@ bool GLProgram::initWithPrecompiledProgramByteArray(const GLchar* vShaderByteArr
     haveProgram = CCPrecompiledShaders::getInstance()->loadProgram(_program, vShaderByteArray, fShaderByteArray);
 
     CHECK_GL_ERROR_DEBUG();
-    _hashForUniforms = NULL;
+    _hashForUniforms = nullptr;
 
     CHECK_GL_ERROR_DEBUG();  
 
@@ -311,7 +311,7 @@ void GLProgram::parseVertexAttribs()
 			for(int i = 0; i < activeAttributes; ++i)
 			{
 				// Query attribute info.
-				glGetActiveAttrib(_program, i, length, NULL, &attribute.size, &attribute.type, attribName);
+				glGetActiveAttrib(_program, i, length, nullptr, &attribute.size, &attribute.type, attribName);
 				attribName[length] = '\0';
                 attribute.name = std::string(attribName);
 
@@ -343,7 +343,7 @@ void GLProgram::parseUniforms()
 			for(int i = 0; i < activeUniforms; ++i)
 			{
 				// Query uniform info.
-				glGetActiveUniform(_program, i, length, NULL, &uniform.size, &uniform.type, uniformName);
+				glGetActiveUniform(_program, i, length, nullptr, &uniform.size, &uniform.type, uniformName);
 				uniformName[length] = '\0';
 
                 // Only add uniforms that are not built-in.

@@ -254,6 +254,8 @@ THE SOFTWARE.
 #include "2d/CCTMXTiledMap.h"
 #include "2d/CCTMXXMLParser.h"
 #include "2d/CCTileMapAtlas.h"
+#include "2d/CCFastTMXTiledMap.h"
+#include "2d/CCFastTMXLayer.h"
 
 // component
 #include "2d/CCComponent.h"
@@ -262,22 +264,13 @@ THE SOFTWARE.
 //3d
 #include "3d/CCSprite3D.h"
 #include "3d/CCMesh.h"
+#include "3d/CCMeshSkin.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCSprite3DMaterial.h"
 
 // Audio
 #include "audio/include/SimpleAudioEngine.h"
-
-// Deprecated include
-#include "deprecated/CCDictionary.h"
-#include "deprecated/CCArray.h"
-#include "deprecated/CCSet.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCString.h"
-#include "deprecated/CCNotificationCenter.h"
-// CCDeprecated.h must be included at the end
-#include "deprecated/CCDeprecated.h"
 
 
 NS_CC_BEGIN

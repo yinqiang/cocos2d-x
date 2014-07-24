@@ -27,11 +27,10 @@ THE SOFTWARE.
 
 #include <string>
 #include <stack>
-#include "deprecated/CCString.h"
+
 #include "CCFileUtils.h"
 #include "base/CCDirector.h"
 #include "CCSAXParser.h"
-#include "CCDictionary.h"
 #include "unzip.h"
 
 #include "CCFileUtilsApple.h"

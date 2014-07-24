@@ -102,7 +102,6 @@ base/CCAutoreleasePool.cpp \
 base/CCConfiguration.cpp \
 base/CCConsole.cpp \
 base/CCData.cpp \
-base/CCDataVisitor.cpp \
 base/CCDirector.cpp \
 base/CCEvent.cpp \
 base/CCEventAcceleration.cpp \
@@ -161,12 +160,6 @@ renderer/CCTextureAtlas.cpp \
 renderer/CCTextureCache.cpp \
 renderer/ccGLStateCache.cpp \
 renderer/ccShaders.cpp \
-deprecated/CCArray.cpp \
-deprecated/CCSet.cpp \
-deprecated/CCString.cpp \
-deprecated/CCDictionary.cpp \
-deprecated/CCDeprecated.cpp \
-deprecated/CCNotificationCenter.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \
 physics/CCPhysicsJoint.cpp \
@@ -231,9 +224,9 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dxandroid_static
 
 # define the macro to compile through support/zip_support/ioapi.c
 LOCAL_CFLAGS   :=  -DUSE_FILE32API
-LOCAL_CPPFLAGS := -Wno-deprecated-declarations
+LOCAL_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
-LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations
+LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 
 include $(BUILD_STATIC_LIBRARY)
 
