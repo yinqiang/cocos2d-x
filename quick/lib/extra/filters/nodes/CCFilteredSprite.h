@@ -56,7 +56,6 @@ protected:
 	virtual void drawFilter()=0;
 	virtual bool updateFilters()=0;
 	Vector<Filter*> _pFilters;
-    std::vector<std::tuple<ssize_t, Filter*, QuadCommand>> _pCommand;
 };
 
 class FilteredSpriteWithOne : public FilteredSprite
@@ -109,6 +108,8 @@ public:
 
 	Rect getTSRect();
 	void setTSRect(const Rect& $rect);
+    
+    virtual void update(float delta) override;
 
 protected:
 	virtual void drawFilter();
@@ -117,6 +118,11 @@ private:
 	Texture2D* _pTexture;
 	SpriteFrame* _pFrame;
 	Rect _rect;
+    
+    FilteredSprite* _pFilterSpiteCompound;
+    RenderTexture* _pRenderTextureCompound;
+    Texture2D* _pTextureCompound;
+    int _filterIdxCompound;
 };
 
 NS_CC_EXT_END

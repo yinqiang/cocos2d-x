@@ -81,6 +81,8 @@
 		49BCFA38197F4CE700F48FF6 /* FilterShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCF9F1197F4CE700F48FF6 /* FilterShaders.h */; };
 		49BCFA3B197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49BCFA39197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.cpp */; };
 		49BCFA3C197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 49BCFA3A197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */; };
+		49BCFA3F1980DABA00F48FF6 /* CCCustomFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49BCFA3D1980DABA00F48FF6 /* CCCustomFilter.cpp */; };
+		49BCFA401980DABA00F48FF6 /* CCCustomFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCFA3E1980DABA00F48FF6 /* CCCustomFilter.h */; };
 		DA9FAA03197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */; };
 		DA9FAA04197377AC006A0B4C /* cocos2dx_extra_luabinding.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9FA9FC197377AC006A0B4C /* cocos2dx_extra_luabinding.h */; };
 		DA9FAA05197377AC006A0B4C /* HelperFunc_luabinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA9FA9FE197377AC006A0B4C /* HelperFunc_luabinding.cpp */; };
@@ -914,6 +916,8 @@
 		49BCF9F4197F4CE700F48FF6 /* shadertoy_LensFlare.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadertoy_LensFlare.fsh; sourceTree = "<group>"; };
 		49BCFA39197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_extension_filter_auto.cpp; sourceTree = "<group>"; };
 		49BCFA3A197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_cocos2dx_extension_filter_auto.hpp; sourceTree = "<group>"; };
+		49BCFA3D1980DABA00F48FF6 /* CCCustomFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCustomFilter.cpp; sourceTree = "<group>"; };
+		49BCFA3E1980DABA00F48FF6 /* CCCustomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCustomFilter.h; sourceTree = "<group>"; };
 		DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cocos2dx_extra_luabinding.cpp; sourceTree = "<group>"; };
 		DA9FA9FC197377AC006A0B4C /* cocos2dx_extra_luabinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2dx_extra_luabinding.h; sourceTree = "<group>"; };
 		DA9FA9FE197377AC006A0B4C /* HelperFunc_luabinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelperFunc_luabinding.cpp; sourceTree = "<group>"; };
@@ -1718,6 +1722,8 @@
 		49BCF996197F4CE700F48FF6 /* filters */ = {
 			isa = PBXGroup;
 			children = (
+				49BCFA3D1980DABA00F48FF6 /* CCCustomFilter.cpp */,
+				49BCFA3E1980DABA00F48FF6 /* CCCustomFilter.h */,
 				49BCF997197F4CE700F48FF6 /* CCBlurFilter.cpp */,
 				49BCF998197F4CE700F48FF6 /* CCBlurFilter.h */,
 				49BCF999197F4CE700F48FF6 /* CCBrightnessFilter.cpp */,
@@ -3682,6 +3688,7 @@
 				F4E0B516196B9C7D0053EFD7 /* CDXMacOSXSupport.h in Headers */,
 				F4E0B2BB196B9C660053EFD7 /* CCAtlasNode.h in Headers */,
 				F4E0B57C196B9C7D0053EFD7 /* ccUtils.h in Headers */,
+				49BCFA401980DABA00F48FF6 /* CCCustomFilter.h in Headers */,
 				F4E0B2B9196B9C660053EFD7 /* CCAnimationCache.h in Headers */,
 				F4E0C06C196BA25D0053EFD7 /* CCLuaValue.h in Headers */,
 				F4E0B68C196B9E4C0053EFD7 /* CCScale9Sprite.h in Headers */,
@@ -4224,6 +4231,7 @@
 				DAF282AE196BDA7300959DA1 /* CCStoreProduct.cpp in Sources */,
 				F4E0B32C196B9C670053EFD7 /* CCSprite3DMaterial.cpp in Sources */,
 				F4E0C090196BA25D0053EFD7 /* tolua_push.c in Sources */,
+				49BCFA3F1980DABA00F48FF6 /* CCCustomFilter.cpp in Sources */,
 				F4E0C077196BA25D0053EFD7 /* lua_cocos2dx_physics_manual.cpp in Sources */,
 				F4E0B53D196B9C7D0053EFD7 /* CCEvent.cpp in Sources */,
 				F4E0B51A196B9C7D0053EFD7 /* SimpleAudioEngine.mm in Sources */,

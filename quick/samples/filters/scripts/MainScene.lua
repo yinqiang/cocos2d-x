@@ -7,6 +7,7 @@ local MainScene = class("MainScene", function()
 end)
 
 MainScene._FILTERS = {
+	{"CUSTOM"},
 	-- colors
 	{"GRAY",{0.2, 0.3, 0.5, 0.1}},
 	{"RGB",{1, 0.5, 0.3}},
@@ -25,12 +26,24 @@ MainScene._FILTERS = {
 	{"MOTION_BLUR", {5, 135}},
 	-- others
 	{"SHARPEN", {1, 1}},
-	--{{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
-	--{{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
-	--{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
+	{{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
+	{{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
+	{{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
 }
 
 function MainScene:ctor()
+	-- 定制filter传入的参数
+	-- frag固定为fragment shader文件资源中的所在位置
+	-- vert固定为vert shader文件资源中的所在位置
+	-- 其它值会认为是要传入的参数
+	local customParams = {frag = "Shaders/example_Noisy.fsh",
+						-- u_outlineColor = {1.0, 0.2, 0.3},
+						-- u_radius = 0.01,
+						-- u_threshold = 1.75,
+						resolution = {480, 320}}
+	local par = json.encode(customParams)
+	self._FILTERS[1][2] = par
+
 	self:_addUI()
 	self:_createFilters()
 	self:_showFilter()

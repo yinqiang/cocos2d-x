@@ -45,6 +45,7 @@ THE SOFTWARE.
 #include "filters/CCSaturationFilter.h"
 #include "filters/CCSepiaFilter.h"
 #include "filters/CCTestFilter.h"
+#include "filters/CCCustomFilter.h"
 
 // nodes
 #include "nodes/CCFilteredSprite.h"

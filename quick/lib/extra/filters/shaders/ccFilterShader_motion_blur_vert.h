@@ -15,7 +15,7 @@ varying vec2 v_fourStepsForwardTextureCoordinate;\n\
 \n\
 void main()\n\
 {\n\
-	gl_Position = CC_MVPMatrix * a_position;\n\
+	gl_Position = CC_PMatrix * a_position;\n\
     //gl_Position = a_position;\n\
     \n\
     v_texCoord = a_texCoord;\n\

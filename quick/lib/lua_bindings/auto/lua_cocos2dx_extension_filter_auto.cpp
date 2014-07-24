@@ -3757,6 +3757,153 @@ int lua_register_cocos2dx_extension_filter_TestFilter(lua_State* tolua_S)
     return 1;
 }
 
+int lua_cocos2dx_extension_filter_CustomFilter_setParameter(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::CustomFilter* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.CustomFilter",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::extension::CustomFilter*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_extension_filter_CustomFilter_setParameter'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) 
+    {
+        const char* arg0;
+
+        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp); arg0 = arg0_tmp.c_str();
+        if(!ok)
+            return 0;
+        cobj->setParameter(arg0);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "setParameter",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_CustomFilter_setParameter'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_extension_filter_CustomFilter_create(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"cc.CustomFilter",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 1)
+        {
+            std::string arg0;
+            ok &= luaval_to_std_string(tolua_S, 2,&arg0);
+            if (!ok) { break; }
+            cocos2d::extension::CustomFilter* ret = cocos2d::extension::CustomFilter::create(arg0);
+            object_to_luaval<cocos2d::extension::CustomFilter>(tolua_S, "cc.CustomFilter",(cocos2d::extension::CustomFilter*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 0)
+        {
+            cocos2d::extension::CustomFilter* ret = cocos2d::extension::CustomFilter::create();
+            object_to_luaval<cocos2d::extension::CustomFilter>(tolua_S, "cc.CustomFilter",(cocos2d::extension::CustomFilter*)ret);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "create",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_CustomFilter_create'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_cocos2dx_extension_filter_CustomFilter_constructor(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::extension::CustomFilter* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cobj = new cocos2d::extension::CustomFilter();
+        cobj->autorelease();
+        int ID =  (int)cobj->_ID ;
+        int* luaID =  &cobj->_luaID ;
+        toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)cobj,"cc.CustomFilter");
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "CustomFilter",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_extension_filter_CustomFilter_constructor'.",&tolua_err);
+#endif
+
+    return 0;
+}
+
+static int lua_cocos2dx_extension_filter_CustomFilter_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (CustomFilter)");
+    return 0;
+}
+
+int lua_register_cocos2dx_extension_filter_CustomFilter(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"cc.CustomFilter");
+    tolua_cclass(tolua_S,"CustomFilter","cc.CustomFilter","cc.Filter",nullptr);
+
+    tolua_beginmodule(tolua_S,"CustomFilter");
+        tolua_function(tolua_S,"new",lua_cocos2dx_extension_filter_CustomFilter_constructor);
+        tolua_function(tolua_S,"setParameter",lua_cocos2dx_extension_filter_CustomFilter_setParameter);
+        tolua_function(tolua_S,"create", lua_cocos2dx_extension_filter_CustomFilter_create);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(cocos2d::extension::CustomFilter).name();
+    g_luaType[typeName] = "cc.CustomFilter";
+    g_typeCast["CustomFilter"] = "cc.CustomFilter";
+    return 1;
+}
+
 int lua_cocos2dx_extension_filter_FilteredSprite_getFilters(lua_State* tolua_S)
 {
     int argc = 0;
@@ -5042,6 +5189,7 @@ TOLUA_API int register_all_cocos2dx_extension_filter(lua_State* tolua_S)
 	lua_register_cocos2dx_extension_filter_FilteredSpriteWithOne(tolua_S);
 	lua_register_cocos2dx_extension_filter_GrayFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_GaussianVBlurFilter(tolua_S);
+	lua_register_cocos2dx_extension_filter_CustomFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_SepiaFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_VBlurFilter(tolua_S);
 	lua_register_cocos2dx_extension_filter_GammaFilter(tolua_S);

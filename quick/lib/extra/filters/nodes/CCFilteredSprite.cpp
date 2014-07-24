@@ -52,18 +52,12 @@ void FilteredSprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t fl
         // normal effect: order == 0
         _quadCommand.init(_globalZOrder, _texture->getName(), getGLProgramState(), _blendFunc, &_quad, 1, transform);
         renderer->addCommand(&_quadCommand);
-        
-        int i = 0;
-        for(auto &command : _pCommand) {
-            QuadCommand &q = std::get<2>(command);
-            q.init(_globalZOrder, _texture->getName(), std::get<1>(command)->getGLProgramState(), _blendFunc, &_quad, 1, transform);
-            renderer->addCommand(&q);
-            
-            i++;
-            if (i > 1){
-            break;
-            }
-        }
+
+//        for(auto &command : _pCommand) {
+//            QuadCommand &q = std::get<2>(command);
+//            q.init(_globalZOrder, _texture->getName(), std::get<1>(command)->getGLProgramState(), _blendFunc, &_quad, 1, transform);
+//            renderer->addCommand(&q);
+//        }
     }
 }
 
@@ -84,13 +78,6 @@ Vector<Filter*>& FilteredSprite::getFilters()
 void FilteredSprite::setFilters(Vector<Filter*>& $pFilters)
 {
 	_pFilters = $pFilters;
-    
-    _pCommand.clear();
-    ssize_t i = 0;
-    for (auto &filter : _pFilters) {
-        _pCommand.push_back(std::make_tuple(i, filter, QuadCommand()));
-        i++;
-    }
 	//CCLOG("FilteredSprite setFilters:%d", _pFilters->count());
 	updateFilters();
 }
@@ -218,15 +205,14 @@ void FilteredSpriteWithOne::setFilter(Filter* $pFilter)
 
 void FilteredSpriteWithOne::setFilters(Vector<Filter*>& $pFilters)
 {
-    FilteredSprite::setFilters($pFilters);
-	//CCASSERT(false, "setFilters on FilteredSpriteWithOne is forbidden!");
+	CCASSERT(false, "setFilters on FilteredSpriteWithOne is forbidden!");
 }
 
 void FilteredSpriteWithOne::clearFilter()
 {
     _pFilters.clear();
     //CCLOG("FilteredSpriteWithOne::clearFilter");
-//    setGLProgram(ShaderCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+    setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
 }
 
 void FilteredSpriteWithOne::drawFilter()
@@ -240,13 +226,12 @@ void FilteredSpriteWithOne::drawFilter()
 
 bool FilteredSpriteWithOne::updateFilters()
 {
-	//CCASSERT(_pFilters.size() == 1, "Invalid Filter!");
+	CCASSERT(_pFilters.size() == 1, "Invalid Filter!");
 	do
 	{
-		unsigned int __count = _pCommand.size();
+		unsigned int __count = _pFilters.size();
 		CC_BREAK_IF(__count == 0);
-        auto item = _pCommand.at(0);
-        Filter* __filter = static_cast<Filter*>(std::get<1>(item));
+		Filter* __filter = static_cast<Filter*>(_pFilters.at(0));
 		__filter->initSprite(this);
 		if (__filter->getGLProgramState())
 		{
@@ -265,6 +250,11 @@ FilteredSpriteWithMulti* FilteredSpriteWithMulti::create()
 	FilteredSpriteWithMulti *pSprite = new FilteredSpriteWithMulti();
 	if (pSprite && pSprite->init())
 	{
+        pSprite->_filterIdxCompound = -1;
+        pSprite->_pFilterSpiteCompound = nullptr;
+        pSprite->_pRenderTextureCompound = nullptr;
+        
+        pSprite->scheduleUpdate();
 		pSprite->autorelease();
 		return pSprite;
 	}
@@ -393,7 +383,6 @@ bool FilteredSpriteWithMulti::updateFilters()
 	CCASSERT(_pFilters.size()>1, "Invalid Filter!");
 	do
 	{
-		FilteredSprite* __sp = NULL;
 		Size __size;
 		if (_pTexture)
 		{
@@ -408,42 +397,14 @@ bool FilteredSpriteWithMulti::updateFilters()
 			break;
 		}
 
-		unsigned int __count = _pFilters.size();
-		Texture2D* __newTex = NULL;
-		RenderTexture* __canva = RenderTexture::create(__size.width, __size.height);
-		//CCLOG("FilteredSpriteWithMulti::updateFilters %f, %f", __size.width, __size.height);
-		for (size_t i = 0; i < __count; i++)
-		{
-			//CCLOG("FilteredSpriteWithMulti render %d", i);
-			
-			__canva->begin();
-			Filter* __filter = static_cast<Filter*>(_pFilters.at(i));
-			if (i == 0)
-			{
-				__sp = _pTexture ?
-					FilteredSpriteWithOne::createWithTexture(_pTexture) :
-					FilteredSpriteWithOne::createWithSpriteFrame(_pFrame);
-			}
-			else
-			{
-				__sp = FilteredSpriteWithOne::createWithTexture(__newTex);
-			}
-			__sp->setFilter(__filter);
-			__sp->setAnchorPoint(Vec2(0, 0));
-			//__sp->setPosition(Vec2(0, 0));
-			//__sp->getTexture()->setAliasTexParameters();
-			__sp->visit();
-			__canva->end();
-			__newTex = new Texture2D();
-			__newTex->initWithImage(__canva->newImage(true));
-			__newTex->autorelease();
+        if (nullptr != _pRenderTextureCompound) {
+            _pRenderTextureCompound->release();
+            _pRenderTextureCompound = nullptr;
+        }
+		_pRenderTextureCompound = RenderTexture::create(__size.width, __size.height);
+        _pRenderTextureCompound->retain();
+        _filterIdxCompound = 0;
 
-			//CCLOG("__sp (%u, %u)", __newTex->getPixelsWide(), __newTex->getPixelsHigh());
-		}
-		initWithTexture(__newTex);
-		CHECK_GL_ERROR_DEBUG();
-		//CCLOG("FilteredSpriteWithMulti updateFilters:%d", __count);
-		//CCLOG("==== FilteredSpriteWithMulti updateFilters texture %f, %f", __newTex->getContentSize().width, __newTex->getContentSize().height);
 		return true;
 	} while (0);
 
@@ -451,5 +412,56 @@ bool FilteredSpriteWithMulti::updateFilters()
 }
 
 void FilteredSpriteWithMulti::drawFilter(){}
+
+void FilteredSpriteWithMulti::update(float delta) {
+    if (_filterIdxCompound < 0) {
+        return;
+    }
+    
+    CCLOG("FilterSpriteMulti:%d", _filterIdxCompound);
+
+    if (_filterIdxCompound >= _pFilters.size()) {
+        //finish
+        _filterIdxCompound = -1;
+        
+        Texture2D *texture = nullptr;
+        texture = new Texture2D();
+        texture->autorelease();
+        texture->initWithImage(_pRenderTextureCompound->newImage(true));
+        initWithTexture(texture);
+
+        _pFilterSpiteCompound->release();
+        _pFilterSpiteCompound = nullptr;
+        return;
+    }
+
+    _pRenderTextureCompound->begin();
+    Filter* __filter = static_cast<Filter*>(_pFilters.at(_filterIdxCompound));
+    if (nullptr != _pFilterSpiteCompound) {
+        _pFilterSpiteCompound->release();
+        _pFilterSpiteCompound = nullptr;
+    }
+    if (_filterIdxCompound == 0)
+    {
+        _pFilterSpiteCompound = _pTexture ?
+        FilteredSpriteWithOne::createWithTexture(_pTexture) :
+        FilteredSpriteWithOne::createWithSpriteFrame(_pFrame);
+    }
+    else
+    {
+        Texture2D *texture = nullptr;
+        texture = new Texture2D();
+        texture->autorelease();
+        texture->initWithImage(_pRenderTextureCompound->newImage(true));
+        _pFilterSpiteCompound = FilteredSpriteWithOne::createWithTexture(texture);
+    }
+    _pFilterSpiteCompound->retain();
+    _pFilterSpiteCompound->setFilter(__filter);
+    _pFilterSpiteCompound->setAnchorPoint(Vec2(0, 0));
+    _pFilterSpiteCompound->visit();
+    _pRenderTextureCompound->end();
+
+    _filterIdxCompound++;
+}
 
 NS_CC_EXT_END
