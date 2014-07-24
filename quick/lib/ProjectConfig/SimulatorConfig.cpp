@@ -17,14 +17,13 @@ void ProjectConfig::resetToWelcome(void)
     string path = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
     //path.append("player/welcome");
     path.append("samples/filters");
-    //path.append("samples/shader");
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
     setScriptFile("$PROJDIR/scripts/main.lua");
     setFrameSize(Size(960, 640));
     setFrameScale(1.0f);
-    setLoadPrecompiledFramework(false);
+    setLoadPrecompiledFramework(true);
     setPackagePath("");
     setShowConsole(true);
     setWindowOffset(Vec2::ZERO);

@@ -417,8 +417,6 @@ void FilteredSpriteWithMulti::update(float delta) {
     if (_filterIdxCompound < 0) {
         return;
     }
-    
-    CCLOG("FilterSpriteMulti:%d", _filterIdxCompound);
 
     if (_filterIdxCompound >= _pFilters.size()) {
         //finish

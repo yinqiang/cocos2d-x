@@ -139,7 +139,6 @@ function MainScene:_onReset()
 end
 
 function MainScene:_onNext()
-	print("htl on next")
 	self._curFilter = self._curFilter + 1
 	if self._curFilter > self._filterCount then
 		self._curFilter = 1
