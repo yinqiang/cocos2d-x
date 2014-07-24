@@ -7,7 +7,19 @@ local MainScene = class("MainScene", function()
 end)
 
 MainScene._FILTERS = {
+
 	{"CUSTOM"},
+
+	{"CUSTOM", json.encode({frag = "Shaders/example_Flower.fsh",
+						center = {display.cx, display.cy},
+						resolution = {480, 320}})},
+
+	{{"CUSTOM", "CUSTOM"},
+		{json.encode({frag = "Shaders/example_Blur.fsh",
+			resolution = {480,320},
+			blurRadius = 10,
+			sampleNum = 5}),
+		json.encode({frag = "Shaders/example_sepia.fsh"})}},
 	-- colors
 	{"GRAY",{0.2, 0.3, 0.5, 0.1}},
 	{"RGB",{1, 0.5, 0.3}},
@@ -111,7 +123,7 @@ function MainScene:_showFilter()
 			for i in ipairs(__filters) do
 				__title = __title..__filters[i]
 				local __param = __params[i]
-				if __param then
+				if "table" == type(__param) then
 					__title = __title.." (" .. table.concat(__param, ",")..")\n"
 				else
 					__title = __title.." (nil)\n"
