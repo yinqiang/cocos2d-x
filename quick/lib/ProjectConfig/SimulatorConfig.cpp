@@ -15,8 +15,7 @@ void ProjectConfig::resetToWelcome(void)
 {
 	m_isWelcome = true;
     string path = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
-    //path.append("player/welcome");
-    path.append("samples/filters");
+    path.append("player/welcome");
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
@@ -25,7 +24,7 @@ void ProjectConfig::resetToWelcome(void)
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(true);
+    setShowConsole(false);
     setWindowOffset(Vec2::ZERO);
     setWriteDebugLogToFile(false);
 }
