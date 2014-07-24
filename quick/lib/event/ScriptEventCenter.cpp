@@ -308,6 +308,7 @@ void ScriptEventCenter::sortAllTouchableNodes(Vector<Node*>& nodes)
 
     // debug
 //        CCLOG("----------------------------------------");
+//        Node *tempItem;
 //        for(i=0; i<length; i++)
 //        {
 //            tempItem = nodes.at(i);

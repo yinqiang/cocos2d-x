@@ -42,6 +42,7 @@ public:
     int tag;
     int priority;
     bool enabled;
+    bool removed;
 
     CCScriptHandlePair(int index_, int listener_, int tag_, int priority_)
     : index(index_)
@@ -49,6 +50,7 @@ public:
     , tag(tag_)
     , priority(priority_)
     , enabled(true)
+    , removed(false)
     {
     }
 };
@@ -68,6 +70,7 @@ public:
 // listener handle -> listener pair
 typedef vector<CCScriptHandlePair> CCScriptEventListenersForEvent;
 typedef CCScriptEventListenersForEvent::iterator CCScriptEventListenersForEventIterator;
+typedef vector<CCScriptHandlePair*> ScriptEventListenerPointsForEvent;
 
 // event -> CCScriptEventListenersForEvent
 typedef map<int, CCScriptEventListenersForEvent> CCScriptEventListenersForDispatcher;
@@ -83,6 +86,7 @@ public:
     void removeScriptEventListenersByEvent(int event);
     void removeScriptEventListenersByTag(int tag);
     void removeAllScriptEventListeners();
+    void cleanRemovedEvents();
 
     bool hasScriptEventListener(int event);
     CCScriptEventListenersForEvent &getScriptEventListenersByEvent(int event) const;
@@ -96,8 +100,6 @@ private:
     static CCScriptEventListenersForDispatcher s_emptyListeners;
 
     static bool sortListenerCompare(const CCScriptHandlePair &a, const CCScriptHandlePair &b);
-    static bool removeListenerByTag(CCScriptHandlePair &p);
-    static int s_removeTag;
 };
 
 NS_CC_END
