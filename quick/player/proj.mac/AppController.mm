@@ -16,15 +16,24 @@
 #include "glfw3native.h"
 
 #include "cocos2d.h"
+#include "native/CCNative.h"
+#include "CCLuaEngine.h"
 USING_NS_CC;
+USING_NS_CC_EXTRA;
 
-
+// player interface
+#include "player_tolua.h"
 #include "PlayerProtocol.h"
 
 @implementation AppController
 
 - (void) dealloc
 {
+    if (buildTask)
+    {
+        [buildTask interrupt];
+        buildTask = nil;
+    }
     [super dealloc];
 }
 
@@ -35,6 +44,9 @@ USING_NS_CC;
     isMaximized = NO;
     hasPopupDialog = NO;
     debugLogFile = 0;
+
+    buildTask = nil;
+    isBuildingFinished = YES;
     
     // load QUICK_COCOS2DX_ROOT from ~/.QUICK_COCOS2DX_ROOT
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
@@ -50,16 +62,39 @@ USING_NS_CC;
     }
     
     env = [env stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    env = [NSString stringWithFormat:@"%@/quick", env];
     SimulatorConfig::sharedDefaults()->setQuickCocos2dxRootPath([env cStringUsingEncoding:NSUTF8StringEncoding]);
     
-    
-    
+    [self loadLuaConfig];
     [self updateProjectConfigFromCommandLineArgs:&projectConfig];
     [self createWindowAndGLView];
     [self initUI];
     [self updateOpenRect];
     [self updateUI];
+    [self loadLuaPlayerCore];
     [self startup];
+}
+
+-(void) applicationDidResignActive: (NSNotification*) note
+{
+    cocos2d::EventCustom event("APP.EVENT");
+    std::stringstream buf;
+    
+    buf << "{\"name\":\"focusOut\"}";
+    
+    event.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+}
+
+- (void) applicationDidBecomeActive:(NSNotification *)notification
+{
+    cocos2d::EventCustom event("APP.EVENT");
+    std::stringstream buf;
+    
+    buf << "{\"name\":\"focusIn\"}";
+    
+    event.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 - (BOOL) windowShouldClose:(id)sender
@@ -74,7 +109,8 @@ USING_NS_CC;
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)theApplication
 {
-    return YES;
+    LuaEngine::getInstance()->getLuaStack()->executeString("cc.player.exit()");
+    return NO;
 }
 
 - (void) updateOpenRect
@@ -283,7 +319,9 @@ USING_NS_CC;
 - (void) relaunch:(NSArray*)args
 {
     [self launch:args];
-    [[NSApplication sharedApplication] terminate:self];
+    
+    LuaEngine::getInstance()->getLuaStack()->executeString("cc.player.exit()");
+//    [[NSApplication sharedApplication] terminate:self];
 }
 
 - (void) relaunch
@@ -301,12 +339,57 @@ USING_NS_CC;
     [alert runModal];
 }
 
+- (void) showAlert:(NSString*)message withTitle:(NSString*)title
+{
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert addButtonWithTitle:@"OK"];
+	[alert setMessageText:message];
+	[alert setInformativeText:title];
+	[alert setAlertStyle:NSWarningAlertStyle];
+    
+	[alert beginSheetModalForWindow:window
+					  modalDelegate:self
+					 didEndSelector:nil
+						contextInfo:nil];
+}
+
+- (void) loadLuaConfig
+{
+    LuaEngine* pEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
+    
+    tolua_player_luabinding_open(pEngine->getLuaStack()->getLuaState());
+    
+    NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
+    [path appendString:@"/"];
+    
+    // set user home dir
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), path.UTF8String);
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+    
+    [path appendString:@".quick_player.lua"];
+    
+
+    NSString *luaCorePath = [[NSBundle mainBundle] pathForResource:@"player" ofType:@"lua"];
+    pEngine->getLuaStack()->executeScriptFile(luaCorePath.UTF8String);
+    
+    player::PlayerSettings &settings = player::PlayerProtocol::getInstance()->getPlayerSettings();
+
+    projectConfig.setWindowOffset(Vec2(settings.offsetX, settings.offsetY));
+    projectConfig.setFrameSize(cocos2d::Size(settings.windowWidth, settings.windowHeight));
+}
+
 #pragma mark -
 #pragma mark functions
 
 - (void) createWindowAndGLView
 {
-    eglView = GLView::createWithRect("quick-x-player", cocos2d::Rect(0,0,projectConfig.getFrameSize().width, projectConfig.getFrameSize().height), projectConfig.getFrameScale());
+    int width = projectConfig.getFrameSize().width;
+    int height = projectConfig.getFrameSize().height;
+    float scale = projectConfig.getFrameScale();
+    
+    eglView = GLView::createWithRect("quick-x-player", cocos2d::Rect(0, 0, width, height), scale, false);
     Director::getInstance()->setOpenGLView(eglView);
     
     window = glfwGetCocoaWindow(eglView->getWindow());
@@ -331,6 +414,30 @@ USING_NS_CC;
 //    [window setAcceptsMouseMovedEvents:NO];
 }
 
+- (void) loadLuaPlayerCore
+{
+    LuaEngine* pEngine = LuaEngine::getInstance();
+    
+    // set quick-cocos2d-x root path
+    std::string quickPath = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), quickPath.c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G__QUICK_PATH__");
+    
+    std::string command = projectConfig.makeCommandLine();
+    std::vector <std::string> fields;
+    player::split(fields, command, ' ');
+    
+    LuaValueArray array;
+    for (size_t i = 0; i < fields.size(); i++)
+    {
+        array.push_back(LuaValue::stringValue(fields.at(i)));
+    }
+    pEngine->getLuaStack()->pushFunctionByName("__PLAYER_OPEN__");
+    pEngine->getLuaStack()->pushLuaValue(LuaValue::stringValue(projectConfig.getProjectDir()));
+    pEngine->getLuaStack()->pushLuaValueArray(array);
+    pEngine->getLuaStack()->executeFunction(2);
+
+}
 
 - (void) startup
 {
@@ -338,8 +445,6 @@ USING_NS_CC;
     if (path.length() <= 0)
     {
         [self showPreferences:YES];
-//        player::PlayerProtocol::getInstance()->getMessageBoxService()->showMessageBox("quick-x-player error",
-//                                                                                      "Please set quick-cocos2d-x root path.");
     }
     
     const string projectDir = projectConfig.getProjectDir();
@@ -366,17 +471,27 @@ USING_NS_CC;
     app = new AppDelegate();
     bridge = new AppControllerBridge(self);
     
-    
+    EventDispatcher *eventDispatcher = Director::getInstance()->getEventDispatcher();
     EventListenerCustom *_listener = EventListenerCustom::create("WELCOME_OPEN_PROJECT_ARGS", [=](EventCustom* event){
         if (event->getDataString().length() > 0)
         {
             std::vector<std::string> args;
             player::split(args, event->getDataString(), ',');
-            projectConfig.parseCommandLine(args);
-            [self relaunch];
+            
+            if (args.at(args.size()-1) == "-new")
+            {
+                ProjectConfig config;
+                config.parseCommandLine(args);
+                [self newPlayerWithArgs:config];
+            }
+            else
+            {
+                projectConfig.parseCommandLine(args);
+                [self relaunch];
+            }
         }
     });
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listener, 1);
+    eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
     
     EventListenerCustom *_listener2 = EventListenerCustom::create("WELCOME_OPEN_RECENT", [=](EventCustom* event){
         if (event->getDataString().length() > 0)
@@ -391,15 +506,29 @@ USING_NS_CC;
             }
         }
     });
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listener2, 1);
+    eventDispatcher->addEventListenerWithFixedPriority(_listener2, 1);
     
-    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeNewProject), "WELCOME_NEW_PROJECT", NULL);
-    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeOpen), "WELCOME_OPEN_PROJECT", NULL);
-    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeSamples), "WELCOME_LIST_SAMPLES", NULL);
-    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetStarted), "WELCOME_OPEN_DOCUMENTS", NULL);
-    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetCommunity), "WELCOME_OPEN_COMMUNITY", NULL);
+    eventDispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("WELCOME_NEW_PROJECT", [=](EventCustom* event) {
+        [self welcomeNewProject];
+    }), 1);
+    eventDispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("WELCOME_OPEN_PROJECT", [=](EventCustom* event) {
+        [self welcomeOpen];
+    }), 1);
+    eventDispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("WELCOME_OPEN_DOCUMENTS", [=](EventCustom* event) {
+        [self welcomeGetStarted];
+    }), 1);
+    eventDispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("WELCOME_OPEN_COMMUNITY", [=](EventCustom* event) {
+        [self welcomeCommunity];
+    }), 1);
+    eventDispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("WELCOME_APP_HIDE", [=](EventCustom* event) {
+        [consoleController close];
+        glfwHideWindow(eglView->getWindow());
+    }), 1);
+//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeNewProject), "WELCOME_NEW_PROJECT", NULL);
+//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeOpen), "WELCOME_OPEN_PROJECT", NULL);
+//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetStarted), "WELCOME_OPEN_DOCUMENTS", NULL);
+//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetCommunity), "WELCOME_OPEN_COMMUNITY", NULL);
 //    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeOpenRecent), "WELCOME_OPEN_PROJECT_ARGS", NULL);
-    
     
     
     // send recent to Lua
@@ -531,6 +660,38 @@ USING_NS_CC;
     }];
 }
 
+- (void) buildAndroidInBackground:(NSString *) scriptAbsPath
+{
+    buildTask = [[NSTask alloc] init];
+    [buildTask setLaunchPath: [NSString stringWithUTF8String:scriptAbsPath.UTF8String]];
+    
+    [buildTask setArguments: [NSArray array]];
+    
+    [buildTask launch];
+    
+    [buildTask waitUntilExit];
+
+    int exitCode = [buildTask terminationStatus];
+    [buildTask release];
+    buildTask = nil;
+    
+    [self performSelectorOnMainThread:@selector(updateAlertUI:) withObject:@(exitCode) waitUntilDone:YES];
+}
+
+- (void) updateAlertUI:(NSString*) errCodeString
+{
+    if (!buildAlert) return;
+    
+    int errCode = [errCodeString intValue];
+    NSString *message = (errCode == 0) ? @"Build finished, Congraturations!" : @"OPPS, please check your code or build env";
+    BOOL hide = (errCode == 0) ? YES : NO;
+    
+    [buildAlert setMessageText:message];
+    [[[buildAlert buttons] objectAtIndex:0] setTitle:@"Finish"];
+    [[[buildAlert buttons] objectAtIndex:1] setHidden:hide];
+}
+
+
 #pragma mark -
 #pragma mark interfaces
 
@@ -556,36 +717,19 @@ USING_NS_CC;
 
 - (void) welcomeGetStarted
 {
-//    CCNative::openURL("http://quick.cocoachina.com/wiki/doku.php?id=zh_cn");
+    Native::openURL("http://cn.cocos2d-x.org/tutorial/index?type=quick-cocos2d-x");
 }
 
 - (void) welcomeCommunity
 {
-//    CCNative::openURL("http://www.cocoachina.com/bbs/thread.php?fid=56");
+    Native::openURL("http://www.cocoachina.com/bbs/thread.php?fid=56");
 }
 
-- (void) welcomeOpenRecent:(cocos2d::CCObject *)object
+- (void) newPlayerWithArgs:(ProjectConfig&) config
 {
-    
-    cocos2d::CCString *stringData = dynamic_cast<cocos2d::CCString*>(object);
-    if (stringData)
-    {
-        NSString *data = [NSString stringWithUTF8String:stringData->getCString()];
-        [self relaunch:[data componentsSeparatedByString:@","]];
-    }
-    
-    cocos2d::CCInteger *intData = dynamic_cast<cocos2d::CCInteger*>(object);
-    if (intData)
-    {
-        int index = intData->getValue();
-        
-        NSArray *recents = [[NSUserDefaults standardUserDefaults] objectForKey:@"recents"];
-        if (index < recents.count)
-        {
-            NSDictionary *recentItem = [recents objectAtIndex:index];
-            [self relaunch: [recentItem objectForKey:@"args"]];
-        }
-    }
+    config.setWindowOffset(Vec2(window.frame.origin.x, window.frame.origin.y));
+    NSString *commandLine = [NSString stringWithCString:config.makeCommandLine().c_str() encoding:NSUTF8StringEncoding];
+    [self launch:[NSMutableArray arrayWithArray:[commandLine componentsSeparatedByString:@" "]]];
 }
 
 #pragma mark -
@@ -655,6 +799,7 @@ USING_NS_CC;
 - (IBAction) onFileOpenRecentClearMenu:(id)sender
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSArray array] forKey:@"recents"];
+    LuaEngine::getInstance()->getLuaStack()->executeString("cc.player.clearMenu()");
     [self updateUI];
 }
 
@@ -666,7 +811,13 @@ USING_NS_CC;
 
 - (IBAction) onFileClose:(id)sender
 {
-    [[NSApplication sharedApplication] terminate:self];
+    // send close event to lua
+    cocos2d::EventCustom event("APP.EVENT");
+    std::string data = "{\"name\":\"close\"}";
+    event.setDataString(data);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+//    [[NSApplication sharedApplication] terminate:self];
 }
 
 - (IBAction) onPlayerWriteDebugLogToFile:(id)sender
@@ -701,7 +852,7 @@ USING_NS_CC;
 
 - (IBAction) onPlayerShowProjectSandbox:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[NSString stringWithCString:CCFileUtils::sharedFileUtils()->getWritablePath().c_str() encoding:NSUTF8StringEncoding]];
+    [[NSWorkspace sharedWorkspace] openFile:[NSString stringWithCString:FileUtils::sharedFileUtils()->getWritablePath().c_str() encoding:NSUTF8StringEncoding]];
 }
 
 - (IBAction) onPlayerShowProjectFiles:(id)sender
@@ -715,7 +866,7 @@ USING_NS_CC;
     if (i >= 0 && i < SimulatorConfig::sharedDefaults()->getScreenSizeCount())
     {
         SimulatorScreenSize size = SimulatorConfig::sharedDefaults()->getScreenSize((int)i);
-        projectConfig.setFrameSize(projectConfig.isLandscapeFrame() ? CCSize(size.height, size.width) : CCSize(size.width, size.height));
+        projectConfig.setFrameSize(projectConfig.isLandscapeFrame() ? cocos2d::Size(size.height, size.width) : cocos2d::Size(size.width, size.height));
         projectConfig.setFrameScale(1.0f);
         [self relaunch];
     }
@@ -766,5 +917,73 @@ USING_NS_CC;
     [self setAlwaysOnTop:!isAlwaysOnTop];
 }
 
+-(IBAction)fileBuildAndroid:(id)sender
+{
+    if (!isBuildingFinished) return;
+        
+    if (projectConfig.isWelcome())
+    {
+        [self showAlert:@"Welcome app is not for android" withTitle:@""];
+    }
+    else
+    {
+        std::string scriptPath = projectConfig.getProjectDir() + "proj.android/build_native.sh";
+        if (!FileUtils::getInstance()->isFileExist(scriptPath))
+        {
+            [self showAlert:[NSString stringWithFormat:@"%s isn't exist", scriptPath.c_str()] withTitle:@""];
+        }
+        else
+        {
+            isBuildingFinished = NO;
+            NSString *tmpPath = [NSString stringWithUTF8String:scriptPath.c_str()];
+            
+            [self performSelectorInBackground:@selector(buildAndroidInBackground:)
+                                   withObject:tmpPath];
+            
+            
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert addButtonWithTitle:@"Cancel"];
+            [[alert addButtonWithTitle:@"How to setup android ENV"] setHidden:YES];
+            [alert setMessageText:@"Building android target, view console :-)"];
+            [alert setAlertStyle:NSWarningAlertStyle];
 
+            buildAlert = alert;
+            [alert beginSheetModalForWindow:window
+                          completionHandler:^(NSModalResponse returnCode) {
+                              
+                              isBuildingFinished = YES;
+                              if (returnCode == NSAlertFirstButtonReturn)
+                              {
+                                  if (buildTask && [buildTask isRunning])
+                                  {
+                                      [NSObject cancelPreviousPerformRequestsWithTarget:self];
+                                      [buildTask interrupt];
+                                  }
+                              }
+                              else if (returnCode == NSAlertSecondButtonReturn)
+                              {
+                                  Native::openURL("http://quick.cocos.org/?p=415");
+                              }
+                          }];
+        }
+    }
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
+{
+    return (isBuildingFinished);
+}
+
+- (IBAction) fileBuildIOS:(id)sender
+{
+    if (projectConfig.isWelcome())
+    {
+        [self showAlert:@"Welcome app " withTitle:@""];
+    }
+    else
+    {
+        [self showAlert:@"Coming soon :-)" withTitle:@""];
+    }
+}
 @end

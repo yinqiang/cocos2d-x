@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteBatchNode.h"
 #include "physics/CCPhysicsWorld.h"
-#include "deprecated/CCString.h"
+
 
 NS_CC_BEGIN
 
@@ -98,15 +98,22 @@ std::string Scene::getDescription() const
     return StringUtils::format("<Scene | tag = %d>", _tag);
 }
 
-Scene* Scene::getScene()
+Scene* Scene::getScene() const
 {
-    return this;
+    // FIX ME: should use const_case<> to fix compiling error
+    return const_cast<Scene*>(this);
 }
 
 #if CC_USE_PHYSICS
 void Scene::addChild(Node* child, int zOrder, int tag)
 {
     Node::addChild(child, zOrder, tag);
+    addChildToPhysicsWorld(child);
+}
+
+void Scene::addChild(Node* child, int zOrder, const std::string &name)
+{
+    Node::addChild(child, zOrder, name);
     addChildToPhysicsWorld(child);
 }
 

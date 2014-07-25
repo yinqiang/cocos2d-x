@@ -63,8 +63,10 @@ cocos2d.cpp \
 2d/CCSpriteFrame.cpp \
 2d/CCSpriteFrameCache.cpp \
 2d/CCTMXLayer.cpp \
+2d/CCFastTMXLayer.cpp \
 2d/CCTMXObjectGroup.cpp \
 2d/CCTMXTiledMap.cpp \
+2d/CCFastTMXTiledMap.cpp \
 2d/CCTMXXMLParser.cpp \
 2d/CCTextFieldTTF.cpp \
 2d/CCTileMapAtlas.cpp \
@@ -72,8 +74,13 @@ cocos2d.cpp \
 2d/CCTransitionPageTurn.cpp \
 2d/CCTransitionProgress.cpp \
 2d/CCTweenFunction.cpp \
+3d/CCAnimate3D.cpp \
+3d/CCAnimation3D.cpp \
+3d/CCBundle3D.cpp \
+3d/CCBundleReader.cpp \
 3d/CCMesh.cpp \
-3d/CCSprite3DDataCache.cpp \
+3d/CCMeshSkin.cpp \
+3d/CCSprite3DMaterial.cpp \
 3d/CCObjLoader.cpp \
 3d/CCSprite3D.cpp \
 platform/CCGLViewProtocol.cpp \
@@ -95,7 +102,6 @@ base/CCAutoreleasePool.cpp \
 base/CCConfiguration.cpp \
 base/CCConsole.cpp \
 base/CCData.cpp \
-base/CCDataVisitor.cpp \
 base/CCDirector.cpp \
 base/CCEvent.cpp \
 base/CCEventAcceleration.cpp \
@@ -103,7 +109,9 @@ base/CCEventCustom.cpp \
 base/CCEventDispatcher.cpp \
 base/CCEventFocus.cpp \
 base/CCEventKeyboard.cpp \
+base/CCEventController.cpp \
 base/CCEventListener.cpp \
+base/CCEventListenerController.cpp \
 base/CCEventListenerAcceleration.cpp \
 base/CCEventListenerCustom.cpp \
 base/CCEventListenerFocus.cpp \
@@ -133,6 +141,8 @@ base/ccUTF8.cpp \
 base/ccUtils.cpp \
 base/etc1.cpp \
 base/s3tc.cpp \
+base/CCController.cpp \
+base/CCController-android.cpp \
 base/ObjectFactory.cpp \
 renderer/CCBatchCommand.cpp \
 renderer/CCCustomCommand.cpp \
@@ -150,12 +160,6 @@ renderer/CCTextureAtlas.cpp \
 renderer/CCTextureCache.cpp \
 renderer/ccGLStateCache.cpp \
 renderer/ccShaders.cpp \
-deprecated/CCArray.cpp \
-deprecated/CCSet.cpp \
-deprecated/CCString.cpp \
-deprecated/CCDictionary.cpp \
-deprecated/CCDeprecated.cpp \
-deprecated/CCNotificationCenter.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \
 physics/CCPhysicsJoint.cpp \
@@ -178,11 +182,16 @@ physics/chipmunk/CCPhysicsWorldInfo_chipmunk.cpp \
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/. \
+                    $(LOCAL_PATH)/3d \
+                    $(LOCAL_PATH)/math \
                     $(LOCAL_PATH)/platform/android \
                     $(LOCAL_PATH)/../external/tinyxml2 \
+                    $(LOCAL_PATH)/../external \
                     $(LOCAL_PATH)/../external/unzip \
                     $(LOCAL_PATH)/../external/chipmunk/include/chipmunk \
-                    $(LOCAL_PATH)/../external/xxhash
+                    $(LOCAL_PATH)/../external/xxhash \
+                    $(QUICK_V3_LIB) \
+                    $(LOCAL_PATH)/../external/nslog
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/. \
@@ -193,7 +202,10 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/../external/edtaa3func \
                     $(LOCAL_PATH)/../external/xxhash \
                     $(LOCAL_PATH)/../external/ConvertUTF \
-                    $(LOCAL_PATH)/base
+                    $(LOCAL_PATH)/../external \
+                    $(LOCAL_PATH)/base \
+                    $(QUICK_V3_LIB) \
+                    $(LOCAL_PATH)/../external/nslog
 
 
 LOCAL_LDLIBS := -lGLESv2 \
@@ -211,10 +223,10 @@ LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dxandroid_static
 
 # define the macro to compile through support/zip_support/ioapi.c
-LOCAL_CFLAGS   := -Wno-psabi  -DUSE_FILE32API
-LOCAL_CPPFLAGS := -Wno-literal-suffix -Wno-deprecated-declarations
-LOCAL_EXPORT_CFLAGS   := -Wno-psabi -DUSE_FILE32API
-LOCAL_EXPORT_CPPFLAGS := -Wno-literal-suffix -Wno-deprecated-declarations
+LOCAL_CFLAGS   :=  -DUSE_FILE32API
+LOCAL_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
+LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
+LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 
 include $(BUILD_STATIC_LIBRARY)
 

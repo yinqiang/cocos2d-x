@@ -46,8 +46,6 @@ THE SOFTWARE.
 #include "renderer/CCQuadCommand.h"
 #include "math/TransformUtils.h"
 
-#include "deprecated/CCString.h" // For StringUtils::format
-
 
 NS_CC_BEGIN
 
@@ -85,6 +83,10 @@ bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity)
     CCASSERT(capacity>=0, "Capacity must be >= 0");
     
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
+    if(tex->hasPremultipliedAlpha())
+    {
+        _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+    }
     _textureAtlas = new TextureAtlas();
 
     if (capacity == 0)
@@ -136,6 +138,8 @@ void SpriteBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uin
 {
     CC_PROFILER_START_CATEGORY(kProfilerCategoryBatchSprite, "CCSpriteBatchNode - visit");
 
+    m_drawOrder = ++g_drawOrder;
+    
     // CAREFUL:
     // This visit is almost identical to CocosNode#visit
     // with the exception that it doesn't call visit on it's children
@@ -162,7 +166,9 @@ void SpriteBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uin
     draw(renderer, _modelViewTransform, flags);
 
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    setOrderOfArrival(0);
+    // FIX ME: Why need to set _orderOfArrival to 0??
+    // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
+//    setOrderOfArrival(0);
 
     CC_PROFILER_STOP_CATEGORY(kProfilerCategoryBatchSprite, "CCSpriteBatchNode - visit");
 }
@@ -177,6 +183,19 @@ void SpriteBatchNode::addChild(Node *child, int zOrder, int tag)
 
     Node::addChild(child, zOrder, tag);
 
+    appendChild(sprite);
+}
+
+void SpriteBatchNode::addChild(Node * child, int zOrder, const std::string &name)
+{
+    CCASSERT(child != nullptr, "child should not be null");
+    CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "CCSpriteBatchNode only supports Sprites as children");
+    Sprite *sprite = static_cast<Sprite*>(child);
+    // check Sprite is using the same texture id
+    CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
+    
+    Node::addChild(child, zOrder, name);
+    
     appendChild(sprite);
 }
 

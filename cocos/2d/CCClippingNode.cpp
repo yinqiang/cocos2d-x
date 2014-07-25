@@ -142,6 +142,14 @@ bool ClippingNode::init(Node *stencil)
 
 void ClippingNode::onEnter()
 {
+#if CC_ENABLE_SCRIPT_BINDING
+    if (_scriptType == kScriptTypeJavascript)
+    {
+        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
+            return;
+    }
+#endif
+    
     Node::onEnter();
     
     if (_stencil != nullptr)
@@ -205,6 +213,7 @@ void ClippingNode::drawFullScreenQuadClearStencil()
 
 void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
+    m_drawOrder = ++g_drawOrder;
     if(!_visible)
         return;
     

@@ -229,7 +229,7 @@ public:
       * @see setSearchResolutionsOrder(), fullPathForFilename().
       * @since v2.1
       */
-    virtual void addSearchResolutionsOrder(const std::string &order);
+    virtual void addSearchResolutionsOrder(const std::string &order,const bool front=false);
     
     /**
      *  Gets the array that contains the search order of the resources.
@@ -271,7 +271,7 @@ public:
       *
       * @since v2.1
       */
-    void addSearchPath(const std::string & path);
+    void addSearchPath(const std::string & path, const bool front=false);
     
     /**
      *  Gets the array of search paths.
@@ -301,6 +301,8 @@ public:
      *  @return true if the file exists, otherwise it will return false.
      */
     virtual bool isFileExist(const std::string& filename) const;
+    
+    virtual bool isDirectoryExist(const std::string& dirname) const;
     
     /**
      *  Checks whether the path is an absolute path.
@@ -370,7 +372,9 @@ protected:
      *  Checks whether file exists without considering search paths and resolution orders.
      */
     virtual bool isFileExistInternal(const std::string& filename) const = 0;
-    
+
+    virtual bool isDirectoryExistInternal(const std::string& dirname) const = 0;
+
     /**
      *  Gets full path for filename, resolution directory and search path.
      *

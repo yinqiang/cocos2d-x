@@ -32,19 +32,6 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-enum positions
-{
-    pCentre = 0,
-    pTop,
-    pLeft,
-    pRight,
-    pBottom,
-    pTopRight,
-    pTopLeft,
-    pBottomRight,
-    pBottomLeft
-};
-
 Scale9Sprite::Scale9Sprite()
 : _spritesGenerated(false)
 , _spriteFrameRotated(false)
@@ -84,7 +71,7 @@ Scale9Sprite::~Scale9Sprite()
 
 bool Scale9Sprite::init()
 {
-    return this->initWithBatchNode(NULL, Rect::ZERO, Rect::ZERO);
+    return this->initWithBatchNode(nullptr, Rect::ZERO, Rect::ZERO);
 }
 
 bool Scale9Sprite::initWithBatchNode(SpriteBatchNode* batchnode, const Rect& rect, const Rect& capInsets)
@@ -98,7 +85,8 @@ bool Scale9Sprite::initWithBatchNode(SpriteBatchNode* batchnode, const Rect& rec
     {
         this->updateWithBatchNode(batchnode, rect, rotated, capInsets);
     }
-    
+    this->setCascadeColorEnabled(true);
+    this->setCascadeOpacityEnabled(true);
     this->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->_positionsAreDirty = true;
     
@@ -250,48 +238,57 @@ bool Scale9Sprite::updateWithBatchNode(SpriteBatchNode* batchnode, const Rect& o
         // Centre
         _centre = Sprite::createWithTexture(_scale9Image->getTexture(), centerbounds);
         _centre->retain();
-        this->addChild(_centre, 0, pCentre);
+        _centre->setPosition(Vec2(centerbounds.size.width/2, centerbounds.size.height/2));
+        this->addChild(_centre, 0);
 
         
         // Top
         _top = Sprite::createWithTexture(_scale9Image->getTexture(), centertopbounds);
         _top->retain();
-        this->addChild(_top, 1, pTop);
+        _top->setPosition(Vec2(centertopbounds.size.width/2, centertopbounds.size.height/2));
+        this->addChild(_top, 1);
         
         // Bottom
         _bottom = Sprite::createWithTexture(_scale9Image->getTexture(), centerbottombounds);
         _bottom->retain();
-        this->addChild(_bottom, 1, pBottom);
+        _bottom->setPosition(Vec2(centerbottombounds.size.width/2, centerbottombounds.size.height/2));
+        this->addChild(_bottom, 1);
         
         // Left
         _left = Sprite::createWithTexture(_scale9Image->getTexture(), leftcenterbounds);
         _left->retain();
-        this->addChild(_left, 1, pLeft);
+        _left->setPosition(Vec2(leftcenterbounds.size.width/2, leftcenterbounds.size.height/2));
+        this->addChild(_left, 1);
         
         // Right
         _right = Sprite::createWithTexture(_scale9Image->getTexture(), rightcenterbounds);
         _right->retain();
-        this->addChild(_right, 1, pRight);
+        _right->setPosition(Vec2(rightcenterbounds.size.width/2, rightcenterbounds.size.height/2));
+        this->addChild(_right, 1);
         
         // Top left
         _topLeft = Sprite::createWithTexture(_scale9Image->getTexture(), lefttopbounds);
         _topLeft->retain();
-        this->addChild(_topLeft, 2, pTopLeft);
+        _topLeft->setPosition(Vec2(lefttopbounds.size.width/2, lefttopbounds.size.height/2));
+        this->addChild(_topLeft, 2);
         
         // Top right
         _topRight = Sprite::createWithTexture(_scale9Image->getTexture(), righttopbounds);
         _topRight->retain();
-        this->addChild(_topRight, 2, pTopRight);
+        _topRight->setPosition(Vec2(righttopbounds.size.width/2, righttopbounds.size.height/2));
+        this->addChild(_topRight, 2);
         
         // Bottom left
         _bottomLeft = Sprite::createWithTexture(_scale9Image->getTexture(), leftbottombounds);
         _bottomLeft->retain();
-        this->addChild(_bottomLeft, 2, pBottomLeft);
+        _bottomLeft->setPosition(Vec2(leftbottombounds.size.width/2, leftbottombounds.size.height/2));
+        this->addChild(_bottomLeft, 2);
         
         // Bottom right
         _bottomRight = Sprite::createWithTexture(_scale9Image->getTexture(), rightbottombounds);
         _bottomRight->retain();
-        this->addChild(_bottomRight, 2, pBottomRight);
+        _bottomRight->setPosition(Vec2(rightbottombounds.size.width/2, rightbottombounds.size.height/2));
+        this->addChild(_bottomRight, 2);
     } else {
         // set up transformation of coordinates
         // to handle the case where the sprite is stored rotated
@@ -336,47 +333,56 @@ bool Scale9Sprite::updateWithBatchNode(SpriteBatchNode* batchnode, const Rect& o
         // Centre
         _centre = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedcenterbounds, true);
         _centre->retain();
-        this->addChild(_centre, 0, pCentre);
+        _centre->setPosition(Vec2(rotatedcenterbounds.size.width/2, rotatedcenterbounds.size.height/2));
+        this->addChild(_centre, 0);
         
         // Top
         _top = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedcentertopbounds, true);
         _top->retain();
-        this->addChild(_top, 1, pTop);
+        _top->setPosition(Vec2(rotatedcentertopbounds.size.width/2, rotatedcentertopbounds.size.height/2));
+        this->addChild(_top, 1);
         
         // Bottom
         _bottom = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedcenterbottombounds, true);
         _bottom->retain();
-        this->addChild(_bottom, 1, pBottom);
+        _bottom->setPosition(Vec2(rotatedcenterbottombounds.size.width/2, rotatedcenterbottombounds.size.height/2));
+        this->addChild(_bottom, 1);
         
         // Left
         _left = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedleftcenterbounds, true);
         _left->retain();
-        this->addChild(_left, 1, pLeft);
+        _left->setPosition(Vec2(rotatedleftcenterbounds.size.width/2, rotatedleftcenterbounds.size.height/2));
+        this->addChild(_left, 1);
         
         // Right
         _right = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedrightcenterbounds, true);
         _right->retain();
-        this->addChild(_right, 1, pRight);
+        _right->setPosition(Vec2(rotatedrightcenterbounds.size.width/2, rotatedrightcenterbounds.size.height/2));
+        this->addChild(_right, 1);
         
         // Top left
         _topLeft = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedlefttopbounds, true);
         _topLeft->retain();
-        this->addChild(_topLeft, 2, pTopLeft);
+        _topLeft->setPosition(Vec2(rotatedlefttopbounds.size.width/2, rotatedlefttopbounds.size.height/2));
+        this->addChild(_topLeft, 2);
         
         // Top right
         _topRight = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedrighttopbounds, true);
         _topRight->retain();
-        this->addChild(_topRight, 2, pTopRight);
+        _topRight->setPosition(Vec2(rotatedrighttopbounds.size.width/2, rotatedrighttopbounds.size.height/2));
+        this->addChild(_topRight, 2);
         
         // Bottom left
         _bottomLeft = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedleftbottombounds, true);
         _bottomLeft->retain();
-        this->addChild(_bottomLeft, 2, pBottomLeft);
+        _bottomLeft->setPosition(Vec2(rotatedleftbottombounds.size.width/2, rotatedleftbottombounds.size.height/2));
+        this->addChild(_bottomLeft, 2);
         
         // Bottom right
         _bottomRight = Sprite::createWithTexture(_scale9Image->getTexture(), rotatedrightbottombounds, true);
         _bottomRight->retain();
-        this->addChild(_bottomRight, 2, pBottomRight);
+        _bottomRight->setPosition(Vec2(rotatedrightbottombounds.size.width/2, rotatedrightbottombounds.size.height/2));
+        this->addChild(_bottomRight, 2);
     }
 
     this->setContentSize(rect.size);
@@ -401,13 +407,13 @@ void Scale9Sprite::setContentSize(const Size &size)
 
 void Scale9Sprite::updatePositions()
 {
-    // Check that instances are non-NULL
+    // Check that instances are non-nullptr
     if(!((_topLeft) &&
          (_topRight) &&
          (_bottomRight) &&
          (_bottomLeft) &&
          (_centre))) {
-        // if any of the above sprites are NULL, return
+        // if any of the above sprites are nullptr, return
         return;
     }
 
@@ -474,7 +480,7 @@ Scale9Sprite* Scale9Sprite::create(const std::string& file, const Rect& rect,  c
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 bool Scale9Sprite::initWithFile(const std::string& file, const Rect& rect)
@@ -492,7 +498,7 @@ Scale9Sprite* Scale9Sprite::create(const std::string& file, const Rect& rect)
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 
@@ -511,7 +517,7 @@ Scale9Sprite* Scale9Sprite::create(const Rect& capInsets, const std::string& fil
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 bool Scale9Sprite::initWithFile(const std::string& file)
@@ -530,16 +536,16 @@ Scale9Sprite* Scale9Sprite::create(const std::string& file)
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets)
 {
     Texture2D* texture = spriteFrame->getTexture();
-    CCASSERT(texture != NULL, "CCTexture must be not nil");
+    CCASSERT(texture != nullptr, "CCTexture must be not nil");
 
     SpriteBatchNode *batchnode = SpriteBatchNode::createWithTexture(texture, 9);
-    CCASSERT(batchnode != NULL, "CCSpriteBatchNode must be not nil");
+    CCASSERT(batchnode != nullptr, "CCSpriteBatchNode must be not nil");
 
     bool pReturn = this->initWithBatchNode(batchnode, spriteFrame->getRect(), spriteFrame->isRotated(), capInsets);
     return pReturn;
@@ -554,11 +560,11 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame, cons
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame)
 {
-    CCASSERT(spriteFrame != NULL, "Invalid spriteFrame for sprite");
+    CCASSERT(spriteFrame != nullptr, "Invalid spriteFrame for sprite");
     bool pReturn = this->initWithSpriteFrame(spriteFrame, Rect::ZERO);
     return pReturn;
 }
@@ -572,17 +578,17 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame)
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets)
 {
-    CCASSERT((SpriteFrameCache::getInstance()) != NULL, "SpriteFrameCache::getInstance() must be non-NULL");
+    CCASSERT((SpriteFrameCache::getInstance()) != nullptr, "SpriteFrameCache::getInstance() must be non-nullptr");
 
     SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
-    CCASSERT(frame != NULL, "CCSpriteFrame must be non-NULL");
+    CCASSERT(frame != nullptr, "CCSpriteFrame must be non-nullptr");
 
-    if (NULL == frame) return false;
+    if (nullptr == frame) return false;
 
     bool pReturn = this->initWithSpriteFrame(frame, capInsets);
     return pReturn;
@@ -597,7 +603,7 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteF
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName)
@@ -617,7 +623,7 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteF
     CC_SAFE_DELETE(pReturn);
 
     log("Could not allocate Scale9Sprite()");
-    return NULL;
+    return nullptr;
     
 }
 
@@ -630,7 +636,7 @@ Scale9Sprite* Scale9Sprite::resizableSpriteWithCapInsets(const Rect& capInsets)
         return pReturn;
     }
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 Scale9Sprite* Scale9Sprite::create()
@@ -642,7 +648,7 @@ Scale9Sprite* Scale9Sprite::create()
         return pReturn;
     } 
     CC_SAFE_DELETE(pReturn);
-    return NULL;
+    return nullptr;
 }
 
 /** sets the opacity.

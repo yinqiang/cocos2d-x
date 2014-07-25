@@ -30,8 +30,11 @@ THE SOFTWARE.
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventMouse.h"
 #include "base/CCIMEDispatcher.h"
+#include "base/CCEventCustom.h"
+#include "base/ccUtils.h"
 
 #include <unordered_map>
+#include <sstream>
 
 NS_CC_BEGIN
 
@@ -94,6 +97,12 @@ public:
             _view->onGLFWWindowSizeFunCallback(window, width, height);
     }
 
+    static void onGLFWWindowCloseCallback(GLFWwindow *window)
+    {
+        if (_view)
+            _view->onGLFWWindowcloseCallback(window);
+    }
+    
     static void setGLView(GLView* view)
     {
         _view = view;
@@ -293,10 +302,10 @@ GLView* GLView::create(const std::string& viewName)
     return nullptr;
 }
 
-GLView* GLView::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
+GLView* GLView::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable)
 {
     auto ret = new GLView;
-    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor)) {
+    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor, resizable)) {
         ret->autorelease();
         return ret;
     }
@@ -327,13 +336,13 @@ GLView* GLView::createWithFullScreen(const std::string& viewName, const GLFWvidm
 }
 
 
-bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
+bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable)
 {
     setViewName(viewName);
 
     _frameZoomFactor = frameZoomFactor;
 
-    glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, resizable ? GL_TRUE : GL_FALSE);
 
     _mainWindow = glfwCreateWindow(rect.size.width * _frameZoomFactor,
                                    rect.size.height * _frameZoomFactor,
@@ -350,13 +359,14 @@ bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoo
     glfwSetWindowPosCallback(_mainWindow, GLFWEventHandler::onGLFWWindowPosCallback);
     glfwSetFramebufferSizeCallback(_mainWindow, GLFWEventHandler::onGLFWframebuffersize);
     glfwSetWindowSizeCallback(_mainWindow, GLFWEventHandler::onGLFWWindowSizeFunCallback);
+    glfwSetWindowCloseCallback(_mainWindow, GLFWEventHandler::onGLFWWindowCloseCallback);
 
     setFrameSize(rect.size.width, rect.size.height);
 
     // check OpenGL version at first
     const GLubyte* glVersion = glGetString(GL_VERSION);
 
-    if ( atof((const char*)glVersion) < 1.5 )
+    if ( utils::atof((const char*)glVersion) < 1.5 )
     {
         char strComplain[256] = {0};
         sprintf(strComplain,
@@ -564,20 +574,22 @@ void GLView::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int
             }
         }
     }
+    
+    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
+    float cursorX = (_mouseX - _viewPortRect.origin.x) / _scaleX;
+    float cursorY = (_viewPortRect.origin.y + _viewPortRect.size.height - _mouseY) / _scaleY;
 
     if(GLFW_PRESS == action)
     {
         EventMouse event(EventMouse::MouseEventType::MOUSE_DOWN);
-        //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
-        event.setCursorPosition(_mouseX, this->getViewPortRect().size.height - _mouseY);
+        event.setCursorPosition(cursorX, cursorY);
         event.setMouseButton(button);
         Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
     else if(GLFW_RELEASE == action)
     {
         EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
-        //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
-        event.setCursorPosition(_mouseX, this->getViewPortRect().size.height - _mouseY);
+        event.setCursorPosition(cursorX, cursorY);
         event.setMouseButton(button);
         Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
@@ -605,10 +617,26 @@ void GLView::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y)
         intptr_t id = 0;
         this->handleTouchesMove(1, &id, &_mouseX, &_mouseY);
     }
+    
+    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
+    float cursorX = (_mouseX - _viewPortRect.origin.x) / _scaleX;
+    float cursorY = (_viewPortRect.origin.y + _viewPortRect.size.height - _mouseY) / _scaleY;
 
     EventMouse event(EventMouse::MouseEventType::MOUSE_MOVE);
-    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
-    event.setCursorPosition(_mouseX, this->getViewPortRect().size.height - _mouseY);
+    // Set current button
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+    {
+        event.setMouseButton(GLFW_MOUSE_BUTTON_LEFT);
+    }
+    else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+    {
+        event.setMouseButton(GLFW_MOUSE_BUTTON_RIGHT);
+    }
+    else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
+    {
+        event.setMouseButton(GLFW_MOUSE_BUTTON_MIDDLE);
+    }
+    event.setCursorPosition(cursorX, cursorY);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
@@ -676,7 +704,29 @@ void GLView::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int heig
     {
         updateDesignResolutionSize();
         Director::getInstance()->setViewport();
+        
+        cocos2d::EventCustom event("APP.EVENT");
+        std::stringstream buf;
+        
+        buf << "{\"name\":\"resize\",\"w\":" << width;
+        buf << ",\"h\":" << height << "}";
+        
+        event.setDataString(buf.str());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
+}
+
+void GLView::onGLFWWindowcloseCallback(GLFWwindow *window)
+{
+    cocos2d::EventCustom event("APP.EVENT");
+    std::stringstream buf;
+    
+    buf << "{\"name\":\"close\"}";
+
+    event.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    
+    glfwSetWindowShouldClose(window, 0);
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -685,9 +735,9 @@ static bool glew_dynamic_binding()
     const char *gl_extensions = (const char*)glGetString(GL_EXTENSIONS);
 
     // If the current opengl driver doesn't have framebuffers methods, check if an extension exists
-    if (glGenFramebuffers == NULL)
+    if (glGenFramebuffers == nullptr)
     {
-        log("OpenGL: glGenFramebuffers is NULL, try to detect an extension");
+        log("OpenGL: glGenFramebuffers is nullptr, try to detect an extension");
         if (strstr(gl_extensions, "ARB_framebuffer_object"))
         {
             log("OpenGL: ARB_framebuffer_object is supported");

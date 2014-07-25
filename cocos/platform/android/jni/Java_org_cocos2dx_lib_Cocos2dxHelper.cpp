@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "JniHelper.h"
 #include "CCFileUtilsAndroid.h"
 #include "android/asset_manager_jni.h"
-#include "deprecated/CCString.h"
+
 #include "Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 
 #define  LOG_TAG    "Java_org_cocos2dx_lib_Cocos2dxHelper.cpp"
@@ -207,6 +207,23 @@ void disableAccelerometerJni() {
         t.env->CallStaticVoidMethod(t.classID, t.methodID);
         t.env->DeleteLocalRef(t.classID);
     }
+}
+
+bool inDirectoryExistsJNI(const char* path) {
+    if (!path) return false;
+
+    JniMethodInfo t;
+    if (JniHelper::getStaticMethodInfo(t, CLASS_NAME, "inDirectoryExists", "(Ljava/lang/String;)Z")) {
+        jstring stringArg1;
+
+        stringArg1 = t.env->NewStringUTF(path);
+        jboolean ret = t.env->CallStaticBooleanMethod(t.classID, t.methodID, stringArg1);
+        t.env->DeleteLocalRef(stringArg1);
+        t.env->DeleteLocalRef(t.classID);
+        return ret;
+    }
+
+    return false;
 }
 
 // functions for UserDefault

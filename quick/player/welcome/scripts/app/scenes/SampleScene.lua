@@ -26,7 +26,7 @@ end
 
 function SampleScene:createCopyright()
     local label = ui.newTTFLabel({
-        text = "Copyright (c) 2012-2014 chukong-inc.com, licensed under MIT.",
+        text = "Copyright 2012-2014 Chukong Technologies, Inc. Licensed under MIT License.",
         size = 14,
         color = cc.c3b(144, 144, 144),
         x = display.cx,
@@ -36,7 +36,7 @@ function SampleScene:createCopyright()
     self:addChild(label)
 end
 
-function SampleScene:createPageView()
+function SampleScene:createPageView1()
 
     local originLeft  = display.left + 130
     local left        = originLeft
@@ -92,6 +92,38 @@ function SampleScene:createPageView()
     self:updateWall()
 end
 
+function SampleScene:createPageView()
+    self.pageView = cc.ui.UIPageView.new{
+        viewRect = cc.rect(50, 80, 860, 510),
+        row = 3, column = 4,
+        rowSpace = 20, columnSpace = 30}
+        :onTouch(handler(self, self.gridViewListener))
+        :addTo(self)
+
+    local sampleCount = #self.samples
+
+    for i=1,sampleCount do
+        local sample = self.samples[i]
+        local pageViewItem = self.pageView:newItem()
+
+        pageViewItem:addChild(self:createDemoTitle(sample))
+        pageViewItem:addChild(self:createDemoDescription(sample))
+        pageViewItem:addChild(self:createDemoButton(sample))
+        self.pageView:addItem(pageViewItem)
+    end
+
+    self.pageView:reload()
+    self.pageCount = self.pageView:getPageCount()
+    self:createBackButton()
+    self:createLRButton()
+end
+
+function SampleScene:gridViewListener(event)
+    if "pageChange" == event.name then
+        self:updateArrow()
+    end
+end
+
 -- helper
 
 function SampleScene:createDemoTitle(sample, x, y)
@@ -102,22 +134,31 @@ function SampleScene:createDemoTitle(sample, x, y)
         size = 14,
         font = "Monaco",
     })
-    label:setPosition(cc.p(x, y))
+    label:setAnchorPoint(0.5, 0.5)
+    label:setPosition(100, 150)
     return label
 end
 
 function SampleScene:createDemoDescription(sample, x, y)
+    local title =  sample.title
+    local color = cc.c3b(50,144,144)
+    if not cc.FileUtils:getInstance():isFileExist(__G__QUICK_PATH__ .. sample.path) then
+        title = title .. " (unfinished)"
+        color = cc.c3b(255,0,0)
+    end
+
     local label = ui.newTTFLabel({
-        text = sample.title,
+        text = title,
         align = ui.TEXT_ALIGNMENT_CENTER,
-        color = cc.c3b(50,144,144),
+        color = color,
         size = 12,
     })
-    label:setPosition(cc.p(x, y))
+    label:setAnchorPoint(0.5, 0.5)
+    label:setPosition(100, 140)
     return label
 end
 
-function SampleScene:createDemoButton(sample, x, y)
+function SampleScene:createDemoButton(sample)
     function onButtonClick()
         local configPath = __G__QUICK_PATH__ .. sample.path .. "/scripts/config.lua"
         dofile(configPath)
@@ -129,7 +170,7 @@ function SampleScene:createDemoButton(sample, x, y)
             "-" .. CONFIG_SCREEN_ORIENTATION,
         }
         local projectPath = __G__QUICK_PATH__ .. sample.path
-        local commandline = "-workdir," .. projectPath .. ",-size," .. CONFIG_SCREEN_WIDTH.."x"..CONFIG_SCREEN_HEIGHT .. ",-" .. CONFIG_SCREEN_ORIENTATION
+        local commandline = "-workdir," .. projectPath .. ",-size," .. CONFIG_SCREEN_WIDTH.."x"..CONFIG_SCREEN_HEIGHT .. ",-" .. CONFIG_SCREEN_ORIENTATION .. ',-new'
     
         local evt = cc.EventCustom:new("WELCOME_OPEN_PROJECT_ARGS")
         evt:setDataString(commandline)
@@ -140,7 +181,7 @@ function SampleScene:createDemoButton(sample, x, y)
     
     local button = cc.ui.UIPushButton.new(demoImage, {scale9 = true})
                         :onButtonClicked(onButtonClick)
-                        :align(display.CENTER, x, y)
+                        :align(display.CENTER, 100, 65)
     return button
 end
 
@@ -162,7 +203,6 @@ function SampleScene:createLRButton()
         :addTo(self, 0, 100)
         :onButtonClicked(function()
             self:goLeftWall()
-            self:updateArrow()
         end)
 
     cc.ui.UIPushButton.new("arrow_right.png", {scale9 = true})
@@ -171,35 +211,36 @@ function SampleScene:createLRButton()
         :addTo(self, 0, 101)
         :onButtonClicked(function()
             self:goRightWall()
-            self:updateArrow()
         end)
 
     self:updateArrow()
 end
 
 function SampleScene:updateArrow()
-    local pageIdx = self.currentPageIndex - 1
-    if 0 == pageIdx then
-        self:getChildByTag(100):setVisible(false)
-        self:getChildByTag(101):setVisible(true)
+    local pageIdx = self.pageView:getCurPageIdx()
+    local isLeftButtonVisible = true
+    local isRightButtonVisible = true
+    if 1 == self.pageCount then
+        isLeftButtonVisible = false
+        isRightButtonVisible = false
     else
-        self:getChildByTag(100):setVisible(true)
-        self:getChildByTag(101):setVisible(false)
+        if 1 == pageIdx then
+            isLeftButtonVisible = false
+        elseif self.pageCount == pageIdx then
+            isRightButtonVisible = false
+        end
     end
+
+    self:getChildByTag(100):setVisible(isLeftButtonVisible)
+    self:getChildByTag(101):setVisible(isRightButtonVisible)
 end
 
 function SampleScene:goLeftWall()
-    if self.currentPageIndex > 1 then 
-        self.currentPageIndex = self.currentPageIndex - 1 
-    end
-    self:updateWall()
+    self.pageView:gotoPage(self.pageView:getCurPageIdx() - 1, true)
 end
 
 function SampleScene:goRightWall()
-    if self.currentPageIndex < self.pageCount then 
-        self.currentPageIndex = self.currentPageIndex + 1 
-    end
-    self:updateWall()
+    self.pageView:gotoPage(self.pageView:getCurPageIdx() + 1, true)
 end
 
 function SampleScene:updateWall()
