@@ -69,38 +69,6 @@ public:
     void addTouchableNode(Node *node);
     void removeTouchableNode(Node *node);
 
-    virtual void registerWithTouchDispatcher(void) {}
-    virtual void unregisterWithTouchDispatcher(void) {}
-
-    virtual bool isTouchEnabled() { return true; }
-    virtual void setTouchEnabled(bool value) { CC_UNUSED_PARAM(value); }
-
-    virtual void setTouchMode(int mode) { CC_UNUSED_PARAM(mode); }
-    virtual int getTouchMode() { return 0 /*kCCTouchesAllAtOnce*/; }
-
-    virtual bool isTouchCaptureEnabled() { return true; }
-    virtual void setTouchCaptureEnabled(bool value) { CC_UNUSED_PARAM(value); }
-    virtual bool isTouchSwallowEnabled() { return false; };
-    virtual void setTouchSwallowEnabled(bool value) { CC_UNUSED_PARAM(value); }
-
-    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent) {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-        return true;
-    };
-    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent) {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    };
-    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent) {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    };
-    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent) {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    };
-
     virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
     virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
     virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);

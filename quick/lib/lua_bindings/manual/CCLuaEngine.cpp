@@ -1091,26 +1091,40 @@ int LuaEngine::reload(const char* moduleFileName)
     return _stack->reload(moduleFileName);
 }
 
-static ScriptEventListenerPointsForEvent* getListeners(Node* pNode, int evt)
+static CCScriptEventListenersForEvent* getListeners(Node* pNode, int evt)
 {
-    CCScriptEventListenersForEvent &listeners = pNode->getScriptEventDispatcher()->getScriptEventListenersByEvent(evt);
-    long sz = listeners.size();
+    CCScriptEventListenersForEvent *listeners = pNode->getScriptEventDispatcher()->getAllScriptEventListeners();
+    if (!listeners) return nullptr;
+    long sz = listeners->size();
     if (sz<1) return nullptr;
-    ScriptEventListenerPointsForEvent* pls = new ScriptEventListenerPointsForEvent();
-    pls->reserve(sz);
+    CCScriptEventListenersForEvent* pls = new CCScriptEventListenersForEvent(sz);
+//    pls->reserve(sz);
     if (!pls) return nullptr;
     
-    auto it=listeners.begin();
-    for (; it!=listeners.end(); ++it) {
-        pls->push_back(&(*it));
+    CCScriptHandlePair *p;
+    auto it=listeners->begin();
+    for (; it!=listeners->end(); ++it) {
+        p = (*it);
+        if (p->event==evt) {
+            pls->pushBack(*it);
+        }
     }
 
     return pls;
 }
 
+static void cleanListeners(CCScriptEventListenersForEvent *listeners, Node* pNode, bool needClean)
+{
+    listeners->clear();
+    delete listeners;
+    if (needClean) {
+        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
+    }
+}
+
 int LuaEngine::executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, int phase)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, (phase == NODE_TOUCH_CAPTURING_PHASE) ? NODE_TOUCH_CAPTURE_EVENT : NODE_TOUCH_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, (phase == NODE_TOUCH_CAPTURING_PHASE) ? NODE_TOUCH_CAPTURE_EVENT : NODE_TOUCH_EVENT);
     if (!listeners) return 1;
     
     _stack->clean();
@@ -1197,9 +1211,7 @@ int LuaEngine::executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, 
         }
     }
     
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     
     //CCLOG("executeNodeTouchEvent %p, ret = %d, event = %d, phase = %d", pNode, ret, eventType, phase);
     _stack->clean();
@@ -1209,7 +1221,7 @@ int LuaEngine::executeNodeTouchEvent(Node* pNode, int eventType, Touch *pTouch, 
 
 int LuaEngine::executeNodeTouchesEvent(Node* pNode, int eventType, const std::vector<Touch*>& touches, int phase)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, phase == NODE_TOUCH_CAPTURING_PHASE ? NODE_TOUCH_CAPTURE_EVENT : NODE_TOUCH_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, phase == NODE_TOUCH_CAPTURING_PHASE ? NODE_TOUCH_CAPTURE_EVENT : NODE_TOUCH_EVENT);
     if (!listeners) return 1;
     
     _stack->clean();
@@ -1294,9 +1306,7 @@ int LuaEngine::executeNodeTouchesEvent(Node* pNode, int eventType, const std::ve
         _stack->settop(1);
     }
     
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     
     _stack->clean();
     
@@ -1305,7 +1315,7 @@ int LuaEngine::executeNodeTouchesEvent(Node* pNode, int eventType, const std::ve
 
 int LuaEngine::executeNodeEvent(Node* pNode, int nAction)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, NODE_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, NODE_EVENT);
     if (!listeners) return 1;
     
     LuaValueDict event;
@@ -1349,16 +1359,14 @@ int LuaEngine::executeNodeEvent(Node* pNode, int nAction)
         _stack->executeFunctionByHandler((*it)->listener, 1);
         _stack->settop(1);
     }
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     _stack->clean();
     return 0;
 }
 
 int LuaEngine::executeNodeEnterFrameEvent(Node* pNode, float dt)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, NODE_ENTER_FRAME_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, NODE_ENTER_FRAME_EVENT);
     if (!listeners) return 1;
     
     bool flagNeedClean = false;
@@ -1371,15 +1379,13 @@ int LuaEngine::executeNodeEnterFrameEvent(Node* pNode, float dt)
         _stack->executeFunctionByHandler((*it)->listener, 1);
         _stack->clean();
     }
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     return 0;
 }
 
 int LuaEngine::executeKeypadEvent(Node* pNode, int eventType)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, KEYPAD_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, KEYPAD_EVENT);
     if (!listeners) return 1;
     
     _stack->clean();
@@ -1411,16 +1417,14 @@ int LuaEngine::executeKeypadEvent(Node* pNode, int eventType)
         _stack->executeFunctionByHandler((*it)->listener, 1);
         _stack->settop(1);
     }
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     _stack->clean();
     return 0;
 }
 
 int LuaEngine::executeAccelerometerEvent(Node* pNode, Acceleration* pAccelerationValue)
 {
-    ScriptEventListenerPointsForEvent *listeners = getListeners(pNode, ACCELERATE_EVENT);
+    CCScriptEventListenersForEvent *listeners = getListeners(pNode, ACCELERATE_EVENT);
     if (!listeners) return 1;
     
     _stack->clean();
@@ -1442,9 +1446,7 @@ int LuaEngine::executeAccelerometerEvent(Node* pNode, Acceleration* pAcceleratio
         _stack->executeFunctionByHandler((*it)->listener, 1);
         _stack->settop(1);
     }
-    if (flagNeedClean) {
-        pNode->getScriptEventDispatcher()->cleanRemovedEvents();
-    }
+    cleanListeners(listeners, pNode, flagNeedClean);
     return 0;
 }
 
