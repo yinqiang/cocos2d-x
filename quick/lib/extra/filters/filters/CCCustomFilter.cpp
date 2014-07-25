@@ -85,7 +85,7 @@ void CustomFilter::setUniforms(GLProgram* $cgp)
          it != m_json.MemberonEnd(); ++it) {
         std::string name = it->name.GetString();
         //std::string val = it->value.GetString();
-        if (0 != name.compare("vert") && 0 != name.compare("frag")) {
+        if (0 != name.compare("vert") && 0 != name.compare("frag") && 0 != name.compare("shaderName")) {
             if (rapidjson::Type::kNumberType == it->value.GetType()) {
                 _pProgramState->setUniformFloat(name, it->value.GetDouble());
             } else if (rapidjson::Type::kArrayType == it->value.GetType()) {
