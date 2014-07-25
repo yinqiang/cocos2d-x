@@ -21,6 +21,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/tolua_fix.cpp \
           $(LOCAL_PATH)/auto/lua_cocos2dx_auto.cpp \
           $(LOCAL_PATH)/auto/lua_cocos2dx_extension_auto.cpp \
+          $(LOCAL_PATH)/auto/lua_cocos2dx_extension_filter_auto.cpp \
           $(LOCAL_PATH)/auto/lua_cocos2dx_physics_auto.cpp \
           $(LOCAL_PATH)/tolua/tolua_event.c \
           $(LOCAL_PATH)/tolua/tolua_is.c \
@@ -64,6 +65,7 @@ LOCAL_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/tolua \
                     $(QUICK_V3_LIB)/extra/native \
                     $(QUICK_V3_LIB)/extra/crypto \
                     $(QUICK_V3_LIB)/extra/network \
+                    $(QUICK_V3_LIB)/extra/filters \
                     $(QUICK_V3_LIB)/external \
                     $(COCOS2DX_ROOT)/external/xxtea
 

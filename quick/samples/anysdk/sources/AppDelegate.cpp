@@ -55,7 +55,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
     
     // set script path
-    string path = CCFileUtils::sharedFileUtils()->fullPathForFilename("scripts/main.lua");
+    string path = FileUtils::getInstance()->fullPathForFilename("scripts/main.lua");
 #else
     // load framework
     if (m_projectConfig.isLoadPrecompiledFramework())
