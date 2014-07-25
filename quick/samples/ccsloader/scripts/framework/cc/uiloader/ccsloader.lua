@@ -2,18 +2,22 @@
 local ccsloader = class("ccsloader")
 
 function ccsloader:load(jsonFile)
-	local jsonStr = cc.FileUtils:getInstance():getStringFromFile(jsonFile)
-	local json = json.decode(jsonStr)
+	local fileUtil = cc.FileUtils:getInstance()
+	local fullPath = fileUtil:fullPathForFilename(jsonFile)
+	print("fullPath:" .. fullPath)
+	local jsonStr = fileUtil:getStringFromFile(fullPath)
+	print("jsonStr:" .. jsonStr)
+	local jsonVal = json.decode(jsonStr)
 
-	for i,v in ipairs(json.textures) do
-		display.addSpriteFrames(v, json.texturesPng[i])
+	for i,v in ipairs(jsonVal.textures) do
+		display.addSpriteFrames(v, jsonVal.texturesPng[i])
 	end
 
-	return self:parserJson(json)
+	return self:parserJson(jsonVal)
 end
 
-function ccsloader:parserJson(json)
-	local root = json.nodeTree
+function ccsloader:parserJson(jsonVal)
+	local root = jsonVal.nodeTree
 	local uiRoot = self:generateUINode(root)
 
 	return uiRoot

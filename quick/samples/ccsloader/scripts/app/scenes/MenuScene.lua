@@ -4,6 +4,7 @@ local MenuScene = class("MenuScene", function()
 end)
 
 function MenuScene:ctor()
+	print("MenuScen ctor")
 	local node = cc.uiloader:load("Test_1.ExportJson")
 	self:addChild(node)
 
