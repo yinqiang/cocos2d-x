@@ -8,18 +8,22 @@ end)
 
 MainScene._FILTERS = {
 
+	-- custom
 	{"CUSTOM"},
 
-	{"CUSTOM", json.encode({frag = "Shaders/example_Flower.fsh",
-						center = {display.cx, display.cy},
-						resolution = {480, 320}})},
+	-- {"CUSTOM", json.encode({frag = "Shaders/example_Flower.fsh",
+	-- 					center = {display.cx, display.cy},
+	-- 					resolution = {480, 320}})},
 
 	{{"CUSTOM", "CUSTOM"},
 		{json.encode({frag = "Shaders/example_Blur.fsh",
+			shaderName = "blurShader",
 			resolution = {480,320},
 			blurRadius = 10,
 			sampleNum = 5}),
-		json.encode({frag = "Shaders/example_sepia.fsh"})}},
+		json.encode({frag = "Shaders/example_sepia.fsh",
+			shaderName = "sepiaShader",})}},
+
 	-- colors
 	{"GRAY",{0.2, 0.3, 0.5, 0.1}},
 	{"RGB",{1, 0.5, 0.3}},
@@ -44,11 +48,13 @@ MainScene._FILTERS = {
 }
 
 function MainScene:ctor()
-	-- 定制filter传入的参数
+	-- 定制filter传入的参数为json字符串
 	-- frag固定为fragment shader文件资源中的所在位置
 	-- vert固定为vert shader文件资源中的所在位置
+	-- shaderName为当前shader的名字,不同的shader,不同参数对应不同名字,
 	-- 其它值会认为是要传入的参数
 	local customParams = {frag = "Shaders/example_Noisy.fsh",
+						shaderName = "noisyShader",
 						-- u_outlineColor = {1.0, 0.2, 0.3},
 						-- u_radius = 0.01,
 						-- u_threshold = 1.75,
@@ -79,8 +85,14 @@ function MainScene:_addUI()
 		:align(display.BOTTOM_CENTER, display.cx+100, display.bottom)
 		:addTo(self, 0)
 		:onButtonClicked(handler(self, self._onNext))
-	
-	
+
+	cc.ui.UIPushButton.new("BlueBlock.png", {scale9 = true})
+		:setButtonSize(100, 30)
+		:setButtonLabel(cc.ui.UILabel.new({text = "clear filter", size = 22, color = cc.c3b(96, 200, 96)}))
+		:align(display.CENTER, display.cx, 100)
+		:addTo(self)
+		:onButtonClicked(handler(self, self._onClearFilter))
+
 	-- ui.newMenu({
 	-- 	ui.newTTFLabelMenuItem({
 	-- 			text="clear filter",

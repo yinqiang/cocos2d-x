@@ -22,7 +22,7 @@ CustomFilter* CustomFilter::create(std::string paramsStr)
 
 CustomFilter::CustomFilter()
 {
-	this->shaderName = kCCFilterShader_test;
+	this->shaderName = nullptr;
 }
 
 GLProgram* CustomFilter::loadShader()
@@ -71,6 +71,8 @@ void CustomFilter::setParameter(const char* paramsStr)
             m_vertFile = it->value.GetString();
         } else if(0 == name.compare("frag")) {
             m_fragFile = it->value.GetString();
+        } else if(0 == name.compare("shaderName")) {
+            shaderName = it->value.GetString();
         }
     }
     

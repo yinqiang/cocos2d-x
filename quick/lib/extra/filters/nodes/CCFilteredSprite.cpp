@@ -212,7 +212,7 @@ void FilteredSpriteWithOne::clearFilter()
 {
     _pFilters.clear();
     //CCLOG("FilteredSpriteWithOne::clearFilter");
-    setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+    setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP));
 }
 
 void FilteredSpriteWithOne::drawFilter()
