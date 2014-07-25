@@ -59,9 +59,21 @@ void Filter::initProgram()
         return;
     }
     
-	GLProgram* __pProgram = nullptr;
-    __pProgram = loadShader();
+    GLProgram* __pProgram = nullptr;
+    if (nullptr != shaderName) {
+        __pProgram = GLProgramCache::getInstance()->getGLProgram(shaderName);
+    }
+	//CCLOG("CCFilter::initProgram %s, program:%d", shaderName, __pProgram);
+	if (nullptr == __pProgram)
+	{
+		__pProgram = loadShader();
         
+        if (nullptr != shaderName) {
+            GLProgramCache::getInstance()->addGLProgram(__pProgram, this->shaderName);
+            __pProgram->release();
+        }
+	}
+
     _pProgramState = GLProgramState::getOrCreateWithGLProgram(__pProgram);
     _pProgramState->retain();
 }

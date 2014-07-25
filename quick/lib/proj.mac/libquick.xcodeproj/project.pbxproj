@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49386F9F197D24E200BF2EF5 /* Effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49386F9B197D24E200BF2EF5 /* Effect.cpp */; };
-		49386FA0197D24E200BF2EF5 /* Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 49386F9C197D24E200BF2EF5 /* Effect.h */; };
-		49386FA1197D24E200BF2EF5 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */; };
-		49386FA2197D24E200BF2EF5 /* EffectSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 49386F9E197D24E200BF2EF5 /* EffectSprite.h */; };
 		49BCF9F5197F4CE700F48FF6 /* cocos2dFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCF995197F4CE700F48FF6 /* cocos2dFilters.h */; };
 		49BCF9F6197F4CE700F48FF6 /* CCBlurFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49BCF997197F4CE700F48FF6 /* CCBlurFilter.cpp */; };
 		49BCF9F7197F4CE700F48FF6 /* CCBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCF998197F4CE700F48FF6 /* CCBlurFilter.h */; };
@@ -809,10 +805,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49386F9B197D24E200BF2EF5 /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effect.cpp; sourceTree = "<group>"; };
-		49386F9C197D24E200BF2EF5 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Effect.h; sourceTree = "<group>"; };
-		49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectSprite.cpp; sourceTree = "<group>"; };
-		49386F9E197D24E200BF2EF5 /* EffectSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectSprite.h; sourceTree = "<group>"; };
 		49BCF995197F4CE700F48FF6 /* cocos2dFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2dFilters.h; sourceTree = "<group>"; };
 		49BCF997197F4CE700F48FF6 /* CCBlurFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlurFilter.cpp; sourceTree = "<group>"; };
 		49BCF998197F4CE700F48FF6 /* CCBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBlurFilter.h; sourceTree = "<group>"; };
@@ -1695,10 +1687,6 @@
 				49BCF996197F4CE700F48FF6 /* filters */,
 				49BCF9B7197F4CE700F48FF6 /* nodes */,
 				49BCF9BA197F4CE700F48FF6 /* shaders */,
-				49386F9B197D24E200BF2EF5 /* Effect.cpp */,
-				49386F9C197D24E200BF2EF5 /* Effect.h */,
-				49386F9D197D24E200BF2EF5 /* EffectSprite.cpp */,
-				49386F9E197D24E200BF2EF5 /* EffectSprite.h */,
 			);
 			path = filters;
 			sourceTree = "<group>";
@@ -3605,7 +3593,6 @@
 				49BCFA25197F4CE700F48FF6 /* ccFilterShader_grass_frag.h in Headers */,
 				F41590B3196BD1D20046D7EE /* CCTouchTargetNode.h in Headers */,
 				DAF2827D196BDA7300959DA1 /* CCNative.h in Headers */,
-				49386FA0197D24E200BF2EF5 /* Effect.h in Headers */,
 				F4E0BD07196BA0460053EFD7 /* pow10.h in Headers */,
 				DAF28311196BDACB00959DA1 /* luasocket.h in Headers */,
 				F4E0BB24196BA00A0053EFD7 /* ftpfr.h in Headers */,
@@ -3889,7 +3876,6 @@
 				F4E0B52B196B9C7D0053EFD7 /* atitc.h in Headers */,
 				F4E0B311196B9C670053EFD7 /* CCTMXTiledMap.h in Headers */,
 				F4E0BB51196BA00A0053EFD7 /* svxf86nm.h in Headers */,
-				49386FA2197D24E200BF2EF5 /* EffectSprite.h in Headers */,
 				F4E0BB1C196BA00A0053EFD7 /* ftlist.h in Headers */,
 				49BCFA1A197F4CE700F48FF6 /* ccFilterShader_colorramp_frag.h in Headers */,
 				F4E0B594196B9C7D0053EFD7 /* CCMath.h in Headers */,
@@ -4010,7 +3996,6 @@
 				DAF282AB196BDA7300959DA1 /* CCStorePaymentTransaction.cpp in Sources */,
 				DAF282F6196BDACB00959DA1 /* fpconv.c in Sources */,
 				F41590B2196BD1D20046D7EE /* CCTouchTargetNode.cpp in Sources */,
-				49386F9F197D24E200BF2EF5 /* Effect.cpp in Sources */,
 				F4E0B308196B9C670053EFD7 /* CCTextFieldTTF.cpp in Sources */,
 				F4E0B710196B9EEB0053EFD7 /* cpSpaceStep.c in Sources */,
 				F4E0B31C196B9C670053EFD7 /* CCAnimate3D.cpp in Sources */,
@@ -4220,7 +4205,6 @@
 				F4E0B2A2196B9C660053EFD7 /* CCActionEase.cpp in Sources */,
 				F4E0B5AC196B9C7D0053EFD7 /* CCPhysicsContact.cpp in Sources */,
 				F4E0B2BE196B9C660053EFD7 /* CCClippingRegionNode.cpp in Sources */,
-				49386FA1197D24E200BF2EF5 /* EffectSprite.cpp in Sources */,
 				F4E0B6FB196B9EEB0053EFD7 /* cpGearJoint.c in Sources */,
 				F4E0B695196B9E4C0053EFD7 /* CCEditBoxImplMac.mm in Sources */,
 				F4E0C067196BA25D0053EFD7 /* CCLuaEngine.cpp in Sources */,
