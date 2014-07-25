@@ -62,6 +62,7 @@ function ccsloader:generateUINode(jsonNode)
 		end
 		uiNode:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
 			options.x or 0, options.y or 0)
+	else if clsName == "ImageView" then
 	else
 		if 0 ~= options.width and 0 ~= options.height then
 			uiNode:setContentSize(cc.size(options.width, options.height))
@@ -94,7 +95,9 @@ function ccsloader:createUINode(clsName, options)
 	elseif clsName == "Sprite" or clsName == "Scale9Sprite" then
 		node = cc.Sprite:create()
 	elseif clsName == "ImageView" then
-		node = cc.Sprite:create(options.fileNameData.path)
+		node = cc.ui.UIImage.new(
+			self:transResName(options.fileNameData.path),
+			{scale9 = true})
 	elseif clsName == "Button" then
 		node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
 			{scale9 = true})
@@ -108,13 +111,13 @@ end
 function ccsloader:getButtonStateImages(options)
 	local images = {}
 	if options.normalData and options.normalData.path then
-		images.normal = options.normalData.path
+		images.normal = self:transResName(options.normalData.path)
 	end
 	if options.pressedData and options.pressedData.path then
-		images.pressed = options.pressedData.path
+		images.pressed = self:transResName(options.pressedData.path)
 	end
 	if options.disabledData and options.disabledData.path then
-		images.disabled = options.disabledData.path
+		images.disabled = self:transResName(options.disabledData.path)
 	end
 
 	dump(images, "images:")
@@ -151,12 +154,21 @@ function ccsloader:getAnchorType(anchorX, anchorY)
 end
 
 function ccsloader:loadTexture(json)
-	cc.FileUtils:getInstance():addSearchPath("res/")
+	-- cc.FileUtils:getInstance():addSearchPath("res/")
 
 	for i,v in ipairs(json.textures) do
+		self.bUseTexture = true
 		display.addSpriteFrames(v, json.texturesPng[i])
 	end
 
+end
+
+function ccsloader:transResName(name)
+	if self.bUseTexture then
+		return "#" .. name
+	else
+		return name
+	end
 end
 
 return ccsloader
