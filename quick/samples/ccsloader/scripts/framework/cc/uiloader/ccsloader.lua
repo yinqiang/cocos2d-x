@@ -4,14 +4,13 @@ local ccsloader = class("ccsloader")
 function ccsloader:load(jsonFile)
 	local fileUtil = cc.FileUtils:getInstance()
 	local fullPath = fileUtil:fullPathForFilename(jsonFile)
-	print("fullPath:" .. fullPath)
 	local jsonStr = fileUtil:getStringFromFile(fullPath)
-	print("jsonStr:" .. jsonStr)
 	local jsonVal = json.decode(jsonStr)
 
-	for i,v in ipairs(jsonVal.textures) do
-		display.addSpriteFrames(v, jsonVal.texturesPng[i])
-	end
+	self:loadTexture(jsonVal)
+	-- for i,v in ipairs(jsonVal.textures) do
+	-- 	display.addSpriteFrames(v, jsonVal.texturesPng[i])
+	-- end
 
 	return self:parserJson(jsonVal)
 end
@@ -27,13 +26,15 @@ end
 function ccsloader:generateUINode(jsonNode)
 	local clsName = jsonNode.classname
 	local options = jsonNode.options
-	local uiNode = self:createUINode(clsName)
+	local uiNode = self:createUINode(clsName, options)
 	if not uiNode then
 		return
 	end
 
-	dump(options, "options:")
+	-- dump(options, "options:")
 	uiNode.name = options.name or "unknow node"
+
+	print("ccsloader set node params:" .. uiNode.name)
 
 	if options.fileName then
 		uiNode:setSpriteFrame(options.fileName)
@@ -47,21 +48,29 @@ function ccsloader:generateUINode(jsonNode)
 	end
 	uiNode:setRotation(options.rotation or 0)
 
-	uiNode:setPositionX(options.x or 0)
-	uiNode:setPositionY(options.y or 0)
-	print("htl scale x:", options.scaleX)
+	-- print("htl scale x:", options.scaleX)
 	uiNode:setScaleX(options.scaleX or 1)
-	print("htl scale y:", options.scaleY)
+	-- print("htl scale y:", options.scaleY)
 	uiNode:setScaleY(options.scaleY or 1)
 	uiNode:setVisible(options.visible or true)
 	uiNode:setLocalZOrder(options.ZOrder or 0)
-	if 0 ~= options.width and 0 ~= options.height then
-		print("htl set content size")
-		uiNode:setContentSize(cc.size(options.width, options.height))
-	end
 	uiNode:setTag(options.tag or 0)
-	uiNode:setAnchorPoint(
-		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	if clsName == "Button" then
+		if 0 ~= options.width and 0 ~= options.height then
+			uiNode:setButtonSize(options.width, options.height)
+		end
+		uiNode:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
+			options.x or 0, options.y or 0)
+	else
+		if 0 ~= options.width and 0 ~= options.height then
+			uiNode:setContentSize(cc.size(options.width, options.height))
+		end
+		uiNode:setPositionX(options.x or 0)
+		uiNode:setPositionY(options.y or 0)
+		uiNode:setAnchorPoint(
+			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+	end
 
 	local children = jsonNode.children
 	for i,v in ipairs(children) do
@@ -72,7 +81,7 @@ function ccsloader:generateUINode(jsonNode)
 	return uiNode
 end
 
-function ccsloader:createUINode(clsName)
+function ccsloader:createUINode(clsName, options)
 	if not clsName then
 		return
 	end
@@ -84,11 +93,70 @@ function ccsloader:createUINode(clsName)
 		node = cc.Node:create()
 	elseif clsName == "Sprite" or clsName == "Scale9Sprite" then
 		node = cc.Sprite:create()
+	elseif clsName == "ImageView" then
+		node = cc.Sprite:create(options.fileNameData.path)
+	elseif clsName == "Button" then
+		node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
+			{scale9 = true})
 	else
 		printError("ccsloader not support node:" .. clsName)
 	end
 
 	return node
+end
+
+function ccsloader:getButtonStateImages(options)
+	local images = {}
+	if options.normalData and options.normalData.path then
+		images.normal = options.normalData.path
+	end
+	if options.pressedData and options.pressedData.path then
+		images.pressed = options.pressedData.path
+	end
+	if options.disabledData and options.disabledData.path then
+		images.disabled = options.disabledData.path
+	end
+
+	dump(images, "images:")
+
+	return images
+end
+
+function ccsloader:getAnchorType(anchorX, anchorY)
+	if 1 == anchorX then
+		if 1 == anchorY then
+			return display.RIGHT_TOP
+		elseif 0.5 == anchorY then
+			return display.RIGHT_CENTER
+		else
+			return display.RIGHT_BOTTOM
+		end
+	elseif 0.5 == anchorX then
+		if 1 == anchorY then
+			return display.CENTER_TOP
+		elseif 0.5 == anchorY then
+			return display.CENTER
+		else
+			return display.CENTER_BOTTOM
+		end
+	else
+		if 1 == anchorY then
+			return display.LEFT_TOP
+		elseif 0.5 == anchorY then
+			return display.LEFT_CENTER
+		else
+			return display.LEFT_BOTTOM
+		end
+	end
+end
+
+function ccsloader:loadTexture(json)
+	cc.FileUtils:getInstance():addSearchPath("res/")
+
+	for i,v in ipairs(json.textures) do
+		display.addSpriteFrames(v, json.texturesPng[i])
+	end
+
 end
 
 return ccsloader

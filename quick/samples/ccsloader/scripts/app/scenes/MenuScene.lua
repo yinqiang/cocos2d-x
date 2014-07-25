@@ -21,6 +21,8 @@ function dumpUITree(node)
 		return
 	end
 
+	print("")
+
 	printLine(string.format("Name:%s", node.name))
 	printLine(string.format("Position:(%d, %d)", node:getPositionX(), node:getPositionY()))
 	local size = node:getContentSize()
