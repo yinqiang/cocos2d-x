@@ -54,6 +54,7 @@ extern "C" {
 #include "LuaScriptHandlerMgr.h"
 #include "lua_cocos2dx_auto.hpp"
 #include "lua_cocos2dx_extension_auto.hpp"
+#include "lua_cocos2dx_studio_auto.hpp"
 #include "lua_cocos2dx_manual.hpp"
 #include "LuaBasicConversions.h"
 //#include "lua_cocos2dx_extension_manual.h"
@@ -160,7 +161,7 @@ bool LuaStack::init(void)
     //register_cocos2dx_extension_CCBProxy(_state);
     //tolua_opengl_open(_state);
     //register_all_cocos2dx_ui(_state);
-    //register_all_cocos2dx_studio(_state);
+    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_manual(_state);
     //register_all_cocos2dx_extension_manual(_state);
 //    register_all_cocos2dx_manual_deprecated(_state);
