@@ -6,9 +6,11 @@ end)
 function MenuScene:ctor()
 	print("MenuScen ctor")
 	local node = cc.uiloader:load("Test_1.ExportJson")
-	self:addChild(node)
+	if node then
+		self:addChild(node)
 
-	dumpUITree(node)
+		dumpUITree(node)
+	end
 end
 
 function MenuScene:onEnter()
