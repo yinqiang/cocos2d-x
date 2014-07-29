@@ -55,6 +55,7 @@ extern "C" {
 #include "lua_cocos2dx_auto.hpp"
 #include "lua_cocos2dx_extension_auto.hpp"
 #include "lua_cocos2dx_studio_auto.hpp"
+#include "lua_cocos2dx_coco_studio_manual.hpp"
 #include "lua_cocos2dx_manual.hpp"
 #include "LuaBasicConversions.h"
 //#include "lua_cocos2dx_extension_manual.h"
@@ -165,7 +166,7 @@ bool LuaStack::init(void)
     register_all_cocos2dx_manual(_state);
     //register_all_cocos2dx_extension_manual(_state);
 //    register_all_cocos2dx_manual_deprecated(_state);
-    //register_all_cocos2dx_coco_studio_manual(_state);
+    register_all_cocos2dx_coco_studio_manual(_state);
     //register_all_cocos2dx_ui_manual(_state);
     //register_all_cocos2dx_spine(_state);
     //register_all_cocos2dx_spine_manual(_state);
