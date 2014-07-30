@@ -5,7 +5,7 @@ end)
 
 function MenuScene:ctor()
 	print("MenuScen ctor")
-	local node = cc.uiloader:load("Test_1.ExportJson")
+	local node = cc.uiloader:load("DemoLogin.ExportJson")
 	if node then
 		self:addChild(node)
 
@@ -26,6 +26,7 @@ function dumpUITree(node)
 	print("")
 
 	printLine(string.format("Name:%s", node.name))
+	printLine(string.format("Tag:%d", node:getTag()))
 	printLine(string.format("Position:(%d, %d)", node:getPositionX(), node:getPositionY()))
 	local size = node:getContentSize()
 	printLine(string.format("Size:(%d, %d)", size.width, size.height))

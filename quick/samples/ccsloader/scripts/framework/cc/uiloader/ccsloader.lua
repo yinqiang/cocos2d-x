@@ -23,13 +23,28 @@ function ccsloader:parserJson(jsonVal)
 end
 
 -- generate a ui node and invoke self to generate child ui node
-function ccsloader:generateUINode(jsonNode)
+function ccsloader:generateUINode(jsonNode, transX, transY)
+	transX = transX or 0
+	transY = transY or 0
+
 	local clsName = jsonNode.classname
 	local options = jsonNode.options
+
+	options.x = options.x or 0
+	options.y = options.y or 0
+	options.x = options.x + transX
+	options.y = options.y + transY
+
 	local uiNode = self:createUINode(clsName, options)
 	if not uiNode then
 		return
 	end
+
+	-- ccs中父节点的原点在父节点的锚点位置，这里用posTrans作转换
+	local posTrans = uiNode:getAnchorPoint()
+	local parentSize = uiNode:getContentSize()
+	posTrans.x = posTrans.x * parentSize.width
+	posTrans.y = posTrans.y * parentSize.height
 
 	-- dump(options, "options:")
 	uiNode.name = options.name or "unknow node"
@@ -48,9 +63,7 @@ function ccsloader:generateUINode(jsonNode)
 	end
 	uiNode:setRotation(options.rotation or 0)
 
-	-- print("htl scale x:", options.scaleX)
 	uiNode:setScaleX(options.scaleX or 1)
-	-- print("htl scale y:", options.scaleY)
 	uiNode:setScaleY(options.scaleY or 1)
 	uiNode:setVisible(options.visible or true)
 	uiNode:setLocalZOrder(options.ZOrder or 0)
@@ -65,30 +78,36 @@ function ccsloader:generateUINode(jsonNode)
 
 	local children = jsonNode.children
 	for i,v in ipairs(children) do
-		local childrenNode = self:generateUINode(v)
-
-		if "ScrollView" == clsName then
-			emptyNode:addChild(childrenNode)
-		elseif "ListView" == clsName then
-			local item = uiNode:newItem()
-			item:addContent(childrenNode)
-			local size = childrenNode:getContentSize()
-			dump(size, "children size:")
-			local layoutParameter = self:getChildOptionJson(v)
-			if layoutParameter then
-				item:setMargin({left = layoutParameter.marginLeft,
-					right = layoutParameter.marginRight,
-					top = layoutParameter.marginTop,
-					bottom = layoutParameter.marginDown})
+		local childrenNode = self:generateUINode(v, posTrans.x, posTrans.y)
+		if childrenNode then
+			if "ScrollView" == clsName then
+				emptyNode:addChild(childrenNode)
+			elseif "ListView" == clsName then
+				local item = uiNode:newItem()
+				item:addContent(childrenNode)
+				local size = childrenNode:getContentSize()
+				local layoutParameter = self:getChildOptionJson(v)
+				if layoutParameter then
+					item:setMargin({left = layoutParameter.marginLeft,
+						right = layoutParameter.marginRight,
+						top = layoutParameter.marginTop,
+						bottom = layoutParameter.marginDown})
+				end
+				item:setItemSize(size.width, size.height)
+				uiNode:addItem(item)
+			elseif "PageView" == clsName then
+				local item = uiNode:newItem()
+				childrenNode:setPosition(0, 0)
+				item:addChild(childrenNode)
+				item:setTag(10001)
+				uiNode:addItem(item)
+			else
+				uiNode:addChild(childrenNode)
 			end
-			item:setItemSize(size.width, size.height)
-			uiNode:addItem(item)
-		else
-			uiNode:addChild(childrenNode)
 		end
 	end
 
-	if "ListView" == clsName then
+	if "ListView" == clsName or "PageView" == clsName then
 		uiNode:reload()
 	end
 
@@ -141,6 +160,23 @@ function ccsloader:createUINode(clsName, options)
 		end
 		node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
 			options.x or 0, options.y or 0)
+	elseif clsName == "LoadingBar" then
+		local params = {}
+		params.image = self:transResName(options.textureData.path)
+		params.scale9 = options.scale9Enable
+		params.capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
+			options.capInsetsWidth, options.capInsetsHeight)
+		params.direction = options.direction
+		params.percent = options.percent
+		params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
+
+		node = cc.ui.UILoadingBar.new(params)
+
+		node:setPositionX(options.x or 0)
+		node:setPositionY(options.y or 0)
+		node:setContentSize(options.width, options.height)
+		node:setAnchorPoint(
+			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
 	elseif clsName == "Slider" then
 		node = cc.ui.UISlider.new(display.LEFT_TO_RIGHT,
 			{bar = self:transResName(options.barFileNameData.path),
@@ -188,28 +224,31 @@ function ccsloader:createUINode(clsName, options)
 			node:setLayoutSize(options.areaWidth, options.areaHeight)
 		end
 	elseif clsName == "Panel" then
-		if 1 == options.colorType then
-			-- single color
-			node = cc.LayerColor:create()
-			node:setColor(cc.c3b(options.bgColorR, options.bgColorG, options.bgColorB))
-		elseif 2 == options.colorType then
-			-- gradient
-			node = cc.LayerGradient:create()
-			node:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
-			node:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
-			node:setVector(cc.p(options.vectorX, options.vectorY))
-		else
-			node = cc.Node:create()
-		end
+		-- if 1 == options.colorType then
+		-- 	-- single color
+		-- 	node = cc.LayerColor:create()
+		-- 	node:setTouchEnabled(false)
+		-- 	node:setColor(cc.c3b(options.bgColorR, options.bgColorG, options.bgColorB))
+		-- elseif 2 == options.colorType then
+		-- 	-- gradient
+		-- 	node = cc.LayerGradient:create()
+		-- 	node:setTouchEnabled(false)
+		-- 	node:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
+		-- 	node:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
+		-- 	node:setVector(cc.p(options.vectorX, options.vectorY))
+		-- else
+		-- 	node = cc.Node:create()
+		-- end
 
-		if not options.ignoreSize then
-			node:setContentSize(cc.size(options.width, options.height))
-		end
-		node:setPositionX(options.x or 0)
-		node:setPositionY(options.y or 0)
-		node:setAnchorPoint(
-			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
-		node:setOpacity(options.bgColorOpacity)
+		-- if not options.ignoreSize then
+		-- 	node:setContentSize(cc.size(options.width, options.height))
+		-- end
+		-- node:setPositionX(options.x or 0)
+		-- node:setPositionY(options.y or 0)
+		-- node:setAnchorPoint(
+		-- 	cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+		-- node:setOpacity(options.bgColorOpacity)
+		node = self:createPanel(options)
 	elseif clsName == "ScrollView" then
 		local params =
 			{viewRect = cc.rect(options.x, options.y, options.innerWidth, options.innerHeight)}
@@ -261,8 +300,16 @@ function ccsloader:createUINode(clsName, options)
 		end
 		node:setDirection(dir)
 		node:setAlignment(options.gravity)
+	elseif clsName == "PageView" then
+		local params = {}
+		params.column = 1
+		params.row = 1
+		params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
+
+		node = cc.ui.UIPageView.new(params)
 	else
-		printError("ccsloader not support node:" .. clsName)
+		-- printError("ccsloader not support node:" .. clsName)
+		printInfo("ccsloader not support node:" .. clsName)
 	end
 
 	return node
@@ -270,6 +317,16 @@ end
 
 function ccsloader:getChildOptionJson(json)
 	return json.options.layoutParameter
+end
+
+function ccsloader:newWapperNode(oldNode, layoutParameter)
+	local newNode = display.newNode()
+	local size = oldNode:getContentSize()
+	size.width = size.width + layoutParameter.marginLeft + layoutParameter.marginRight
+	size.height = size.height + layoutParameter.marginTop + layoutParameter.marginDown
+	newNode:setContentSize(size)
+	newNode:addChild(oldNode)
+	oldNode:setPosition()
 end
 
 function ccsloader:getButtonStateImages(options)
@@ -377,6 +434,77 @@ function ccsloader:transResName(name)
 	else
 		return name
 	end
+end
+
+function ccsloader:createPanel(options)
+	local node = cc.Node:create()
+	local clrLayer
+	local bgLayer
+
+	if 1 == options.colorType then
+		-- single color
+		clrLayer = cc.LayerColor:create()
+		clrLayer:setTouchEnabled(false)
+		clrLayer:setColor(cc.c3b(options.bgColorR, options.bgColorG, options.bgColorB))
+	elseif 2 == options.colorType then
+		-- gradient
+		clrLayer = cc.LayerGradient:create()
+		clrLayer:setTouchEnabled(false)
+		clrLayer:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
+		clrLayer:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
+		clrLayer:setVector(cc.p(options.vectorX, options.vectorY))
+	end
+
+	if clrLayer then
+		clrLayer:setAnchorPoint(cc.p(0, 0))
+		clrLayer:setOpacity(options.bgColorOpacity)
+	end
+
+	-- background layer
+	if options.backGroundScale9Enable then
+		local capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
+					options.capInsetsWidth, options.capInsetsHeight)
+		if self.bUseTexture then
+			bgLayer = cc.Scale9Sprite:createWithSpriteFrameName(
+				options.backGroundImageData.path, capInsets)
+		else
+			bgLayer = cc.Scale9Sprite:create(
+				capInsets, options.backGroundImageData.path)
+		end
+	else
+		if options.backGroundImageData and options.backGroundImageData.path then
+			bgLayer = display.newSprite(
+				self:transResName(options.backGroundImageData.path))
+		end
+	end
+
+	if bgLayer then
+		bgLayer:setAnchorPoint(cc.p(0, 0))
+	end
+
+	local conSize = cc.size(options.width, options.height)
+	if not options.ignoreSize then
+		if clrLayer then
+			clrLayer:setContentSize(conSize)
+		end
+		if bgLayer then
+			bgLayer:setContentSize(conSize)
+		end
+	end
+	node:setContentSize(conSize)
+	if clrLayer then
+		node:addChild(clrLayer)
+	end
+	if bgLayer then
+		node:addChild(bgLayer)
+	end
+	node:setPositionX(options.x or 0)
+	node:setPositionY(options.y or 0)
+	node:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	print("htl add cleeeer")
+	return node
 end
 
 
