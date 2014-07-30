@@ -10,6 +10,8 @@ if (DS == '/')
 else
 {
     define('LUAJIT_BIN', BIN_DIR . '\\win32\\luajit.exe');
+    // wp8
+    // define('LUAJIT_BIN', BIN_DIR . '\\win32\\luac.exe');
 }
 
 // helper functions
@@ -160,6 +162,8 @@ function getScriptFileBytecodes($path, $tmpfile)
 
     @mkdir(pathinfo($tmpfile, PATHINFO_DIRNAME), 0777, true);
     $command = sprintf('%s -b -s "%s" "%s"', LUAJIT_BIN, $path, $tmpfile);
+    // wp8
+    // $command = sprintf('%s -o "%s" "%s"', LUAJIT_BIN, $tmpfile, $path);
     passthru($command);
 
     if (!file_exists($tmpfile))
