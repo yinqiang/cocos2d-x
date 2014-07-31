@@ -138,6 +138,8 @@ function ccsloader:createUINode(clsName, options)
     	node = self:createBMFontLabel(options)
     elseif clsName == "Label" then
     	node = self:createLabel(options)
+    elseif clsName == "LabelAtlas" then
+    	node = self:createLabelAtlas(options)
 	elseif clsName == "TextField" then
 		node = self:createEditBox(options)
 	elseif clsName == "Panel" then
@@ -412,6 +414,22 @@ function ccsloader:createLabel(options)
 	end
 
 	return node
+end
+
+function ccsloader:createLabelAtlas(options)
+	local labelAtlas = cc.LabelAtlas:_create()
+	labelAtlas:initWithString(options.stringValue,
+		options.charMapFileData.path,
+		options.itemWidth,
+		options.itemHeight,
+		string.byte(options.startCharMap))
+	labelAtlas:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+	labelAtlas:setPosition(options.x, options.y)
+	if not options.ignoreSize then
+		labelAtlas:setContentSize(options.width, options.height)
+	end
+	return labelAtlas
 end
 
 function ccsloader:createEditBox(options)
