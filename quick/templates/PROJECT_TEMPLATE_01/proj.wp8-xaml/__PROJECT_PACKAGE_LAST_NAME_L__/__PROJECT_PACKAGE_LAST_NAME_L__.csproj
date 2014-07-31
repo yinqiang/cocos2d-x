@@ -108,7 +108,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Resources\fonts\arial.ttf">
+    <None Include="Assets\Resources\res\fonts\arial.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>    
     <None Include="Assets\Resources\res\framework_precompiled.zip">
