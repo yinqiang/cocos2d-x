@@ -4,16 +4,16 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>Applications/CocoStudio.app/Contents/MacOS/EditorDefaultRes/GUI/loadingbar.png</key>
+			<key>Applications/CocoStudio.app/Contents/MacOS/EditorDefaultRes/GUI/image.png</key>
 			<dict>
 				<key>width</key>
-				<integer>350</integer>
+				<integer>80</integer>
 				<key>height</key>
-				<integer>24</integer>
+				<integer>80</integer>
 				<key>originalWidth</key>
-				<integer>350</integer>
+				<integer>80</integer>
 				<key>originalHeight</key>
-				<integer>24</integer>
+				<integer>80</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>

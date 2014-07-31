@@ -46,10 +46,9 @@ function ccsloader:generateUINode(jsonNode, transX, transY)
 	posTrans.x = posTrans.x * parentSize.width
 	posTrans.y = posTrans.y * parentSize.height
 
-	-- dump(options, "options:")
 	uiNode.name = options.name or "unknow node"
 
-	print("ccsloader set node params:" .. uiNode.name)
+	-- print("ccsloader set node params:" .. uiNode.name)
 
 	if options.fileName then
 		uiNode:setSpriteFrame(options.fileName)
@@ -65,7 +64,7 @@ function ccsloader:generateUINode(jsonNode, transX, transY)
 
 	uiNode:setScaleX(options.scaleX or 1)
 	uiNode:setScaleY(options.scaleY or 1)
-	uiNode:setVisible(options.visible or true)
+	uiNode:setVisible(options.visible)
 	uiNode:setLocalZOrder(options.ZOrder or 0)
 	uiNode:setTag(options.tag or 0)
 
@@ -121,192 +120,34 @@ function ccsloader:createUINode(clsName, options)
 
 	local node
 
-	printInfo("create node:" .. clsName)
 	if clsName == "Node" then
-		node = cc.Node:create()
-		if not options.ignoreSize then
-			node:setContentSize(cc.size(options.width, options.height))
-		end
-		node:setPositionX(options.x or 0)
-		node:setPositionY(options.y or 0)
-		node:setAnchorPoint(
-			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+		node = self:createNode(options)
 	elseif clsName == "Sprite" or clsName == "Scale9Sprite" then
-		node = cc.Sprite:create()
-		if not options.ignoreSize then
-			node:setContentSize(cc.size(options.width, options.height))
-		end
-		node:setPositionX(options.x or 0)
-		node:setPositionY(options.y or 0)
-		node:setAnchorPoint(
-			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+		node = self:createSprite(options)
 	elseif clsName == "ImageView" then
-		node = cc.ui.UIImage.new(
-			self:transResName(options.fileNameData.path),
-			{scale9 = not options.ignoreSize})
-
-		if not options.ignoreSize then
-			node:setLayoutSize(options.width, options.height)
-		end
-		node:setPositionX(options.x or 0)
-		node:setPositionY(options.y or 0)
-		node:setAnchorPoint(
-			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+		node = self:createImage(options)
 	elseif clsName == "Button" then
-		node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
-			{scale9 = not options.ignoreSize})
-		if not options.ignoreSize then
-			node:setButtonSize(options.width, options.height)
-		end
-		node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
-			options.x or 0, options.y or 0)
+		node = self:createButton(options)
 	elseif clsName == "LoadingBar" then
-		local params = {}
-		params.image = self:transResName(options.textureData.path)
-		params.scale9 = options.scale9Enable
-		params.capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
-			options.capInsetsWidth, options.capInsetsHeight)
-		params.direction = options.direction
-		params.percent = options.percent
-		params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
-
-		node = cc.ui.UILoadingBar.new(params)
-
-		node:setPositionX(options.x or 0)
-		node:setPositionY(options.y or 0)
-		node:setContentSize(options.width, options.height)
-		node:setAnchorPoint(
-			cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+		node = self:createLoadingBar(options)
 	elseif clsName == "Slider" then
-		node = cc.ui.UISlider.new(display.LEFT_TO_RIGHT,
-			{bar = self:transResName(options.barFileNameData.path),
-			button = self:transResName(options.ballNormalData.path)},
-			{scale9 = not options.ignoreSize})
-
-		if not options.ignoreSize then
-			node:setSliderSize(options.width, options.height)
-		end
-		node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
-			options.x or 0, options.y or 0)
-        node:setSliderValue(options.percent)
+		node = self:createSlider(options)
 	elseif clsName == "CheckBox" then
-		node = cc.ui.UICheckBoxButton.new(
-			self:getCheckBoxImages(options),
-			{scale9 = not options.ignoreSize})
-
-		if not options.ignoreSize then
-			node:setButtonSize(options.width, options.height)
-		end
-    	node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
-			options.x or 0, options.y or 0)
+		node = self:createCheckBox(options)
     elseif clsName == "LabelBMFont" then
-    	node = ui.newBMFontLabel({
-    		text = options.text,
-    		font = options.fileNameData.path,
-    		textAlign = ui.TEXT_ALIGN_CENTER,
-    		x = options.x,
-    		y = options.y})
-    	if 1 == options.anchorPointY then
-    		node:setAlignment(ui.TEXT_ALIGN_RIGHT)
-    	elseif 0.5 == options.anchorPointY then
-    	else
-    		node:setAlignment(ui.TEXT_ALIGN_RIGHT)
-    	end
+    	node = self:createBMFontLabel(options)
     elseif clsName == "Label" then
-    	node = cc.ui.UILabel.new({text = options.text,
-    		font = options.fontName,
-    		size = options.fontSize,
-    		color = cc.c4b(options.colorR, options.colorG, options.colorB, options.opacity),
-    		align = options.hAlignment,
-    		valign = options.vAlignment,
-    		x = options.x, y = options.y})
-		if not options.ignoreSize then
-			node:setLayoutSize(options.areaWidth, options.areaHeight)
-		end
+    	node = self:createLabel(options)
+	elseif clsName == "TextField" then
+		node = self:createEditBox(options)
 	elseif clsName == "Panel" then
-		-- if 1 == options.colorType then
-		-- 	-- single color
-		-- 	node = cc.LayerColor:create()
-		-- 	node:setTouchEnabled(false)
-		-- 	node:setColor(cc.c3b(options.bgColorR, options.bgColorG, options.bgColorB))
-		-- elseif 2 == options.colorType then
-		-- 	-- gradient
-		-- 	node = cc.LayerGradient:create()
-		-- 	node:setTouchEnabled(false)
-		-- 	node:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
-		-- 	node:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
-		-- 	node:setVector(cc.p(options.vectorX, options.vectorY))
-		-- else
-		-- 	node = cc.Node:create()
-		-- end
-
-		-- if not options.ignoreSize then
-		-- 	node:setContentSize(cc.size(options.width, options.height))
-		-- end
-		-- node:setPositionX(options.x or 0)
-		-- node:setPositionY(options.y or 0)
-		-- node:setAnchorPoint(
-		-- 	cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
-		-- node:setOpacity(options.bgColorOpacity)
 		node = self:createPanel(options)
 	elseif clsName == "ScrollView" then
-		local params =
-			{viewRect = cc.rect(options.x, options.y, options.innerWidth, options.innerHeight)}
-
-		if 1 == options.colorType then
-			-- single color
-			params.bgColor = cc.c4b(options.bgColorR, options.bgColorG, options.bgColorB, options.bgColorOpacity)
-		elseif 2 == options.colorType then
-			-- gradient
-			params.bgStartColor = cc.c4b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB, options.bgColorOpacity)
-			params.bgEndColor = cc.c4b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB, options.bgColorOpacity)
-			params.bgVector = cc.p(options.vectorX, options.vectorY)
-		end
-
-		node = cc.ui.UIScrollView.new(params)
-		local dir = options.direction
-		-- ccs中 0:none 1:vertical 2:horizontal 3:vertical and horizontal
-		-- quick 0:both 1:vertical 2:horizontal
-		if 0 == dir then
-			-- 让ccs中的none对应到vertical
-			dir = 1
-		elseif 3 == dir then
-			dir = 0
-		end
-		node:setDirection(dir)
+		node = self:createScrollView(options)
 	elseif clsName == "ListView" then
-		local params =
-			{viewRect = cc.rect(options.x, options.y, options.width, options.height)}
-
-		if 1 == options.colorType then
-			-- single color
-			params.bgColor = cc.c4b(options.bgColorR, options.bgColorG, options.bgColorB, options.bgColorOpacity)
-		elseif 2 == options.colorType then
-			-- gradient
-			params.bgStartColor = cc.c4b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB, options.bgColorOpacity)
-			params.bgEndColor = cc.c4b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB, options.bgColorOpacity)
-			params.bgVector = cc.p(options.vectorX, options.vectorY)
-		end
-
-		node = cc.ui.UIListView.new(params)
-		local dir = options.direction
-		-- ccs listView 0:none 1:vertical 2:horizontal 3:vertical and horizontal
-		-- quick 0:both 1:vertical 2:horizontal
-		if 0 == dir then
-			-- 让ccs中的none对应到vertical
-			dir = 1
-		elseif 3 == dir then
-			dir = 0
-		end
-		node:setDirection(dir)
-		node:setAlignment(options.gravity)
+		node = self:createListView(options)
 	elseif clsName == "PageView" then
-		local params = {}
-		params.column = 1
-		params.row = 1
-		params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
-
-		node = cc.ui.UIPageView.new(params)
+		node = self:createPageView(options)
 	else
 		-- printError("ccsloader not support node:" .. clsName)
 		printInfo("ccsloader not support node:" .. clsName)
@@ -436,6 +277,167 @@ function ccsloader:transResName(name)
 	end
 end
 
+function ccsloader:createNode(options)
+	local node = cc.Node:create()
+	if not options.ignoreSize then
+		node:setContentSize(cc.size(options.width, options.height))
+	end
+	node:setPositionX(options.x or 0)
+	node:setPositionY(options.y or 0)
+	node:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	return node
+end
+
+function ccsloader:createSprite(options)
+	local node = cc.Sprite:create()
+	if not options.ignoreSize then
+		node:setContentSize(cc.size(options.width, options.height))
+	end
+	node:setPositionX(options.x or 0)
+	node:setPositionY(options.y or 0)
+	node:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	return node
+end
+
+function ccsloader:createImage(options)
+	local node = cc.ui.UIImage.new(
+		self:transResName(options.fileNameData.path),
+		{scale9 = not options.ignoreSize})
+
+	if not options.ignoreSize then
+		node:setLayoutSize(options.width, options.height)
+	end
+	node:setPositionX(options.x or 0)
+	node:setPositionY(options.y or 0)
+	node:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	return node
+end
+
+function ccsloader:createButton(options)
+	local node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
+		{scale9 = not options.ignoreSize})
+	if not options.ignoreSize then
+		node:setButtonSize(options.width, options.height)
+	end
+	node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
+		options.x or 0, options.y or 0)
+
+	return node
+end
+
+function ccsloader:createLoadingBar(options)
+	local params = {}
+	params.image = self:transResName(options.textureData.path)
+	params.scale9 = options.scale9Enable
+	params.capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
+		options.capInsetsWidth, options.capInsetsHeight)
+	params.direction = options.direction
+	params.percent = options.percent
+	params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
+
+	local node = cc.ui.UILoadingBar.new(params)
+
+	node:setPositionX(options.x or 0)
+	node:setPositionY(options.y or 0)
+	node:setContentSize(options.width, options.height)
+	node:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+
+	return node
+end
+
+function ccsloader:createSlider(options)
+	local node = cc.ui.UISlider.new(display.LEFT_TO_RIGHT,
+		{bar = self:transResName(options.barFileNameData.path),
+		button = self:transResName(options.ballNormalData.path)},
+		{scale9 = not options.ignoreSize})
+
+	if not options.ignoreSize then
+		node:setSliderSize(options.width, options.height)
+	end
+	node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
+		options.x or 0, options.y or 0)
+    node:setSliderValue(options.percent)
+
+	return node
+end
+
+function ccsloader:createCheckBox(options)
+	local node = cc.ui.UICheckBoxButton.new(
+		self:getCheckBoxImages(options),
+		{scale9 = not options.ignoreSize})
+
+	if not options.ignoreSize then
+		node:setButtonSize(options.width, options.height)
+	end
+	node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
+		options.x or 0, options.y or 0)
+
+	return node
+end
+
+function ccsloader:createBMFontLabel(options)
+	local node = ui.newBMFontLabel({
+		text = options.text,
+		font = options.fileNameData.path,
+		textAlign = ui.TEXT_ALIGN_CENTER,
+		x = options.x,
+		y = options.y})
+	if 1 == options.anchorPointY then
+		node:setAlignment(ui.TEXT_ALIGN_RIGHT)
+	elseif 0.5 == options.anchorPointY then
+	else
+		node:setAlignment(ui.TEXT_ALIGN_RIGHT)
+	end
+
+	return node
+end
+
+function ccsloader:createLabel(options)
+	local node = cc.ui.UILabel.new({text = options.text,
+		font = options.fontName,
+		size = options.fontSize,
+		color = cc.c4b(options.colorR, options.colorG, options.colorB, options.opacity),
+		align = options.hAlignment,
+		valign = options.vAlignment,
+		x = options.x, y = options.y})
+	if not options.ignoreSize then
+		node:setLayoutSize(options.areaWidth, options.areaHeight)
+	end
+
+	return node
+end
+
+function ccsloader:createEditBox(options)
+	local editBox = ui.newEditBox({
+        size = cc.size(options.width, options.height)
+    })
+    editBox:setPlaceHolder(options.placeHolder)
+    editBox:setFontName(options.fontName)
+    editBox:setFontSize(options.fontSize)
+    editBox:setText(options.text)
+    editBox:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
+    if options.passwordEnable then
+    	editBox:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
+	end
+	if options.maxLengthEnable then
+		editBox:setMaxLength(options.maxLength)
+	end
+
+	editBox:setPosition(
+		options.x - options.width*options.anchorPointX,
+		options.y + options.fontSize/2)
+
+	return editBox
+end
+
 function ccsloader:createPanel(options)
 	local node = cc.Node:create()
 	local clrLayer
@@ -462,14 +464,16 @@ function ccsloader:createPanel(options)
 
 	-- background layer
 	if options.backGroundScale9Enable then
-		local capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
-					options.capInsetsWidth, options.capInsetsHeight)
-		if self.bUseTexture then
-			bgLayer = cc.Scale9Sprite:createWithSpriteFrameName(
-				options.backGroundImageData.path, capInsets)
-		else
-			bgLayer = cc.Scale9Sprite:create(
-				capInsets, options.backGroundImageData.path)
+		if options.backGroundImageData and options.backGroundImageData.path then
+			local capInsets = cc.rect(options.capInsetsX, options.capInsetsY,
+						options.capInsetsWidth, options.capInsetsHeight)
+			if self.bUseTexture then
+				bgLayer = cc.Scale9Sprite:createWithSpriteFrameName(
+					options.backGroundImageData.path, capInsets)
+			else
+				bgLayer = cc.Scale9Sprite:create(
+					capInsets, options.backGroundImageData.path)
+			end
 		end
 	else
 		if options.backGroundImageData and options.backGroundImageData.path then
@@ -478,18 +482,14 @@ function ccsloader:createPanel(options)
 		end
 	end
 
-	if bgLayer then
-		bgLayer:setAnchorPoint(cc.p(0, 0))
-	end
-
 	local conSize = cc.size(options.width, options.height)
 	if not options.ignoreSize then
 		if clrLayer then
 			clrLayer:setContentSize(conSize)
 		end
-		if bgLayer then
-			bgLayer:setContentSize(conSize)
-		end
+	end
+	if bgLayer then
+		bgLayer:setPosition(conSize.width/2, conSize.height/2)
 	end
 	node:setContentSize(conSize)
 	if clrLayer then
@@ -503,7 +503,96 @@ function ccsloader:createPanel(options)
 	node:setAnchorPoint(
 		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
 
-	print("htl add cleeeer")
+	-- local setVisibleOrg = node.setVisible
+	-- local setVisibleAll
+	-- setVisibleAll = function(self, bVisible)
+	-- 	if not self then
+	-- 		return
+	-- 	end
+
+	-- 	print("setvisible:" .. tostring(bVisible))
+
+	-- 	setVisibleOrg(self, bVisible)
+	-- 	local children = self:getChildren()
+	-- 	if not children then
+	-- 		return
+	-- 	end
+	-- 	for i,v in ipairs(children) do
+	-- 		setVisibleAll(v, bVisible)
+	-- 	end
+	-- end
+	-- node.setVisible = setVisibleAll
+
+	return node
+end
+
+function ccsloader:createScrollView(options)
+	local params =
+		{viewRect = cc.rect(options.x, options.y, options.width, options.height)}
+
+	if 1 == options.colorType then
+		-- single color
+		params.bgColor = cc.c4b(options.bgColorR, options.bgColorG, options.bgColorB, options.bgColorOpacity)
+	elseif 2 == options.colorType then
+		-- gradient
+		params.bgStartColor = cc.c4b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB, options.bgColorOpacity)
+		params.bgEndColor = cc.c4b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB, options.bgColorOpacity)
+		params.bgVector = cc.p(options.vectorX, options.vectorY)
+	end
+
+	local node = cc.ui.UIScrollView.new(params)
+	local dir = options.direction
+	-- ccs中 0:none 1:vertical 2:horizontal 3:vertical and horizontal
+	-- quick 0:both 1:vertical 2:horizontal
+	if 0 == dir then
+		-- 让ccs中的none对应到vertical
+		dir = 0
+	elseif 3 == dir then
+		dir = 0
+	end
+	node:setDirection(dir)
+
+	return node
+end
+
+function ccsloader:createListView(options)
+	local params =
+		{viewRect = cc.rect(options.x, options.y, options.width, options.height)}
+
+	if 1 == options.colorType then
+		-- single color
+		params.bgColor = cc.c4b(options.bgColorR, options.bgColorG, options.bgColorB, options.bgColorOpacity)
+	elseif 2 == options.colorType then
+		-- gradient
+		params.bgStartColor = cc.c4b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB, options.bgColorOpacity)
+		params.bgEndColor = cc.c4b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB, options.bgColorOpacity)
+		params.bgVector = cc.p(options.vectorX, options.vectorY)
+	end
+
+	local node = cc.ui.UIListView.new(params)
+	local dir = options.direction
+	-- ccs listView 0:none 1:vertical 2:horizontal 3:vertical and horizontal
+	-- quick 0:both 1:vertical 2:horizontal
+	if 0 == dir then
+		-- 让ccs中的none对应到vertical
+		dir = 1
+	elseif 3 == dir then
+		dir = 0
+	end
+	node:setDirection(dir)
+	node:setAlignment(options.gravity)
+
+	return node
+end
+
+function ccsloader:createPageView(options)
+	local params = {}
+	params.column = 1
+	params.row = 1
+	params.viewRect = cc.rect(options.x, options.y, options.width, options.height)
+
+	local node = cc.ui.UIPageView.new(params)
+
 	return node
 end
 

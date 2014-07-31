@@ -17,6 +17,7 @@ void ProjectConfig::resetToWelcome(void)
     string path = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
     //path.append("player/welcome");
     path.append("samples/ccsloader");
+    //path.append("samples/ui");
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
