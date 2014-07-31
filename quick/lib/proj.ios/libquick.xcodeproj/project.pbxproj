@@ -912,8 +912,8 @@
 		49BCFAA61982699900F48FF6 /* shadertoy_FireBall.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadertoy_FireBall.fsh; sourceTree = "<group>"; };
 		49BCFAA71982699900F48FF6 /* shadertoy_Glow.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadertoy_Glow.fsh; sourceTree = "<group>"; };
 		49BCFAA81982699900F48FF6 /* shadertoy_LensFlare.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadertoy_LensFlare.fsh; sourceTree = "<group>"; };
-		49BCFAEF19826B7D00F48FF6 /* lua_cocos2dx_extension_filter_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lua_cocos2dx_extension_filter_auto.cpp; path = "../../../../../../../Documents/Work/cocos2d-x/quick/lib/lua_bindings/auto/lua_cocos2dx_extension_filter_auto.cpp"; sourceTree = "<group>"; };
-		49BCFAF019826B7D00F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = lua_cocos2dx_extension_filter_auto.hpp; path = "../../../../../../../Documents/Work/cocos2d-x/quick/lib/lua_bindings/auto/lua_cocos2dx_extension_filter_auto.hpp"; sourceTree = "<group>"; };
+		49BCFAEF19826B7D00F48FF6 /* lua_cocos2dx_extension_filter_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_extension_filter_auto.cpp; sourceTree = "<group>"; };
+		49BCFAF019826B7D00F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_cocos2dx_extension_filter_auto.hpp; sourceTree = "<group>"; };
 		49E5774919597E0B00C26077 /* xxtea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xxtea.cpp; sourceTree = "<group>"; };
 		49E5774A19597E0B00C26077 /* xxtea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxtea.h; sourceTree = "<group>"; };
 		DA853F9B19501BC90057DF22 /* ioapi_mem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ioapi_mem.cpp; sourceTree = "<group>"; };
@@ -2042,8 +2042,7 @@
 				49BCFA6B1982699900F48FF6 /* nodes */,
 				49BCFA6E1982699900F48FF6 /* shaders */,
 			);
-			name = filters;
-			path = "../../../../../../Documents/Work/cocos2d-x/quick/lib/extra/filters";
+			path = filters;
 			sourceTree = "<group>";
 		};
 		49BCFA481982699900F48FF6 /* filters */ = {
@@ -2195,7 +2194,7 @@
 			);
 			name = libquick;
 			path = ..;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DAF28BE5196D082800959DA1 /* event */ = {
 			isa = PBXGroup;

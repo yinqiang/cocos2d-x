@@ -1,5 +1,5 @@
 #include "lua_cocos2dx_extension_filter_auto.hpp"
-#include "cocos2dFilters.h"
+#include "filters/cocos2dFilters.h"
 #include "tolua_fix.h"
 #include "LuaBasicConversions.h"
 

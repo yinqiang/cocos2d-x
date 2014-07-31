@@ -1494,6 +1494,10 @@ void Node::onExit()
         ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExit);
     }
 #endif
+    
+    if (isTouchEnabled()) {
+        unregisterWithTouchDispatcher();
+    }
 }
 
 void Node::setEventDispatcher(EventDispatcher* dispatcher)
@@ -2284,21 +2288,6 @@ int Node::addScriptEventListener(int event, int listener, int tag /* = 0 */, int
 }
 
 // ----------------------------------------
-
-Scene *Node::getScene()
-{
-//    if (!_running) return NULL;
-    Node *parent = getParent();
-    if (!parent) return NULL;
-    
-    Node *scene = parent;
-    while (parent)
-    {
-        parent = parent->getParent();
-        if (parent) scene = parent;
-    }
-    return dynamic_cast<Scene*>(scene);
-}
 
 void Node::registerWithTouchDispatcher()
 {
