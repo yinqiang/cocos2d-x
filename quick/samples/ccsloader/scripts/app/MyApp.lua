@@ -59,4 +59,13 @@ function MyApp:createNextButton(scene)
         :addTo(scene)
 end
 
+function MyApp:loadCCSJsonFile(scene, jsonFile)
+    local node = cc.uiloader:load(jsonFile)
+    if node then
+        node:setPosition((display.width - 480)/2, (display.height - 320)/2)
+        -- node:setPosition(0, 0)
+        scene:addChild(node)
+    end
+end
+
 return MyApp
