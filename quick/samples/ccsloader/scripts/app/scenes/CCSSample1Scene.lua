@@ -7,10 +7,8 @@ function CCSSample1Scene:ctor()
 	app:createTitle(self, "CCS Sample1")
 	app:createNextButton(self)
 
-	local node = cc.uiloader:load("DemoHead_UI.ExportJson")
-	if node then
-		self:addChild(node)
-	end
+	app:loadCCSJsonFile(self, "DemoHead_UI.ExportJson")
 end
+
 
 return CCSSample1Scene
