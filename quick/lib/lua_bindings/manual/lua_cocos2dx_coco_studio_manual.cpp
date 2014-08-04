@@ -29,8 +29,8 @@
 #include "CCLuaValue.h"
 //#include "CocoStudio.h"
 #include "CCLuaEngine.h"
-#include "cocostudio/CCArmature.h"
-#include "cocostudio/CCArmatureDataManager.h"
+#include "editor-support/cocostudio/CCArmature.h"
+#include "editor-support/cocostudio/CCArmatureDataManager.h"
 
 using namespace cocostudio;
 

@@ -1,6 +1,6 @@
 #include "lua_cocos2dx_studio_auto.hpp"
-#include "CCArmature.h"
-#include "CCSkin.h"
+#include "editor-support/cocostudio/CCArmature.h"
+#include "editor-support/cocostudio/CCSkin.h"
 #include "tolua_fix.h"
 #include "LuaBasicConversions.h"
 
