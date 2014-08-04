@@ -302,10 +302,10 @@ GLView* GLView::create(const std::string& viewName)
     return nullptr;
 }
 
-GLView* GLView::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable)
+GLView* GLView::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable, bool visible)
 {
     auto ret = new GLView;
-    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor, resizable)) {
+    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor, resizable, visible)) {
         ret->autorelease();
         return ret;
     }
@@ -336,12 +336,13 @@ GLView* GLView::createWithFullScreen(const std::string& viewName, const GLFWvidm
 }
 
 
-bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable)
+bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable, bool visible)
 {
     setViewName(viewName);
 
     _frameZoomFactor = frameZoomFactor;
 
+    glfwWindowHint(GLFW_VISIBLE, visible ? GL_TRUE : GL_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, resizable ? GL_TRUE : GL_FALSE);
 
     _mainWindow = glfwCreateWindow(rect.size.width * _frameZoomFactor,

@@ -76,7 +76,6 @@ void CCScriptEventDispatcher::removeScriptEventListener(int handle)
             if (it2->index == handle)
             {
                 ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(it2->listener);
-                LUALOG("[LUA] Remove script event listener: %d", it2->listener);
                 it->second.erase(it2);
                 return;
             }
@@ -97,7 +96,6 @@ void CCScriptEventDispatcher::removeScriptEventListenersByEvent(int event)
         for (; it2 != listeners.end(); ++it2)
         {
             engine->removeScriptHandler(it2->listener);
-            LUALOG("[LUA] Remove script event listener: %d", it2->listener);
         }
         m_scriptEventListeners->erase(it);
     }
@@ -128,7 +126,6 @@ void CCScriptEventDispatcher::removeAllScriptEventListeners()
         for (; it2 != it->second.end(); ++it2)
         {
             engine->removeScriptHandler(it2->listener);
-            LUALOG("[LUA] Remove script event listener: %d", it2->listener);
         }
     }
     m_scriptEventListeners->clear();

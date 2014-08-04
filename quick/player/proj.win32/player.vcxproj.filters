@@ -52,6 +52,9 @@
     <ClInclude Include="..\src\PlayerSettings.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="MenuServiceWin.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\PlayerProtocol.cpp">
@@ -73,6 +76,12 @@
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\PlayerSettings.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuServiceWin.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerMenuServiceProtocol.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

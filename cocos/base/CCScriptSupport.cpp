@@ -57,7 +57,6 @@ ScriptHandlerEntry::~ScriptHandlerEntry(void)
     if (_handler != 0 )
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_handler);
-        LUALOG("[LUA] Remove event handler: %d", _handler);
         _handler = 0;
     }
 }
@@ -78,14 +77,12 @@ bool SchedulerScriptHandlerEntry::init(float interval, bool paused)
     _timer = new TimerScriptHandler();
     _timer->initWithScriptHandler(_handler, interval);
     _paused = paused;
-    LUALOG("[LUA] ADD script schedule: %d, entryID: %d", _handler, _entryId);
     return true;
 }
 
 SchedulerScriptHandlerEntry::~SchedulerScriptHandlerEntry(void)
 {
     _timer->release();
-    LUALOG("[LUA] DEL script schedule %d, entryID: %d", _handler, _entryId);
 }
 
 

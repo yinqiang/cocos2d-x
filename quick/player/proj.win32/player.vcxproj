@@ -92,6 +92,7 @@
     <ClInclude Include="..\src\PlayerServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerSettings.h" />
     <ClInclude Include="..\src\PlayerUtils.h" />
+    <ClInclude Include="MenuServiceWin.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -99,10 +100,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AppDelegate.cpp" />
+    <ClCompile Include="..\src\PlayerMenuServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerProtocol.cpp" />
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerSettings.cpp" />
     <ClCompile Include="..\src\PlayerUtils.cpp" />
+    <ClCompile Include="MenuServiceWin.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

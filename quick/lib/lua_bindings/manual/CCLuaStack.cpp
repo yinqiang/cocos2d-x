@@ -144,7 +144,6 @@ bool LuaStack::init(void)
     // Register our version of the global "print" function
     const luaL_reg global_functions [] = {
         {"print", lua_print},
-        {"CCLuaLog", lua_print},
         {"LuaLoadChunksFromZIP", LuaStack::lua_loadChunksFromZIP},
         {NULL, NULL}
     };

@@ -228,17 +228,10 @@ public: virtual void set##funName(varType var)   \
 #define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
 #endif // COCOS2D_DEBUG
 
-// Lua engine debug
-#if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0 || CC_LUA_ENGINE_DEBUG == 0
-#define LUALOG(...)
-#else
-#define LUALOG(format, ...)     cocos2d::log(format, ##__VA_ARGS__)
-#endif // Lua engine debug
-
 // A macro to disallow the copy constructor and operator= functions
 // This should be used in the private: declarations for a class
 #if defined(__GNUC__) && ((__GNUC__ >= 5) || ((__GNUG__ == 4) && (__GNUC_MINOR__ >= 4))) \
-	|| (defined(__clang__) && (__clang_major__ >= 3)) || (_MSC_VER >= 1800)
+    || (defined(__clang__) && (__clang_major__ >= 3)) || (_MSC_VER >= 1800)
 #define CC_DISALLOW_COPY_AND_ASSIGN(TypeName) \
     TypeName(const TypeName &) = delete; \
     TypeName &operator =(const TypeName &) = delete;

@@ -22,9 +22,9 @@
 #include "glfw3native.h"
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPTSTR    lpCmdLine,
-    int       nCmdShow)
+                       HINSTANCE hPrevInstance,
+                       LPTSTR    lpCmdLine,
+                       int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -36,15 +36,24 @@ PLAYER_NS_BEGIN
 
 Player::Player()
 : _app(nullptr)
+, _hwnd(NULL)
 , _writeDebugLogFile(nullptr)
+, _menuService(nullptr)
 {
+    _luastack = LuaStack::create();
+    _luastack->retain();
 }
 
 Player::~Player()
 {
+    CC_SAFE_RELEASE(_luastack);
     if (_writeDebugLogFile)
     {
         fclose(_writeDebugLogFile);
+    }
+    if (_menuService)
+    {
+        delete _menuService;
     }
     if (_app)
     {
@@ -69,7 +78,7 @@ PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
 
 PlayerMenuServiceProtocol *Player::getMenuService()
 {
-    return nullptr;
+    return _menuService;
 }
 
 PlayerEditBoxServiceProtocol *Player::getEditBoxService()
@@ -144,20 +153,53 @@ int Player::run()
     // create opengl view
     const Size frameSize = _project.getFrameSize();
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, true);
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, true, false);
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
 
-    // prepare
-    _project.dump();
+    GLFWwindow *window = glview->getWindow();
+    _hwnd = glfwGetWin32Window(window);
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
+    // init player services
+    initServices();
+
+    // after update UI, resize window and show window
+    glfwSetWindowSize(window, width, height + GetSystemMetrics(SM_CYMENU));
+    glfwShowWindow(window);
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
-    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", std::bind(&Player::onWindowClose, this, std::placeholders::_1));
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(Player::onWindowClose, this));
 
     // startup message loop
+    _project.dump();
     auto app = Application::getInstance();
     return app->run();
+}
+
+// services
+void Player::initServices()
+{
+    CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
+    _menuService = new MenuServiceWin(_hwnd);
+
+    _menuService->addItem("FILE", "&File", 0);
+    _menuService->addItem("FILE_OPEN", "&Open", 0, "FILE");
+    _menuService->addItem("FILE_OPEN_RECENTS", "Open Recents", 0, "FILE");
+    _menuService->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", 0, "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", 0, "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", 0, "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", 0, "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_SEP1", "-", 0, "FILE");
+    _menuService->addItem("FILE_EXIT", "E&xit", 0, "FILE");
+
+    _menuService->addItem("VIEW", "&View", 0);
+    _menuService->addItem("VIEW_PORTRAIT", "&Portrait", 0, "VIEW");
+    _menuService->addItem("VIEW_LANDSCAPE", "&Landscape", 0, "VIEW");
+
+    _menuService->deleteItem("VIEW");
 }
 
 // event handlers

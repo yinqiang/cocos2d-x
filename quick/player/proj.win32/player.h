@@ -7,6 +7,7 @@ using namespace std;
 #include "resource.h"
 
 #include "cocos2d.h"
+#include "CCLuaStack.h"
 #include "ProjectConfig/ProjectConfig.h"
 #include "ProjectConfig/SimulatorConfig.h"
 
@@ -15,6 +16,7 @@ using namespace cocos2d;
 #include "PlayerMacros.h"
 #include "AppDelegate.h"
 #include "PlayerProtocol.h"
+#include "MenuServiceWin.h"
 
 PLAYER_NS_BEGIN
 
@@ -34,8 +36,15 @@ protected:
     Player();
 
     ProjectConfig _project;
+    HWND _hwnd;
     AppDelegate *_app;
     FILE *_writeDebugLogFile;
+    LuaStack *_luastack;
+
+    MenuServiceWin *_menuService;
+
+    // services
+    void initServices();
 
     // event handlers
     void onWindowClose(EventCustom* event);
