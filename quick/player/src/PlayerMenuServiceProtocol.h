@@ -54,6 +54,7 @@ public:
     static const int MAX_ORDER = 9999;
 
     virtual PlayerMenuItem *addItem(const string &menuId, const string &title, const string &parentId, int order = MAX_ORDER) = 0;
+    virtual PlayerMenuItem *addItem(const string &menuId, const string &title) = 0;
     virtual PlayerMenuItem *getItem(const string &menuId) = 0;
     virtual bool removeItem(const string &menuId) = 0;
 };

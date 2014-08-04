@@ -21,7 +21,7 @@ class PlayerMenuItemWin : public PlayerMenuItem
 {
 public:
     static PlayerMenuItemWin *create(const string &menuId,
-                                     const string &title);
+        const string &title);
 
     virtual ~PlayerMenuItemWin();
 
@@ -47,10 +47,8 @@ public:
     MenuServiceWin(HWND hwnd);
     virtual ~MenuServiceWin();
 
-    virtual PlayerMenuItem *addItem(const string &menuId,
-                                    const string &title,
-                                    const string &parentId,
-                                    int order = MAX_ORDER);
+    virtual PlayerMenuItem *addItem(const string &menuId, const string &title, const string &parentId, int order = MAX_ORDER);
+    virtual PlayerMenuItem *addItem(const string &menuId, const string &title);
     virtual PlayerMenuItem *getItem(const string &menuId);
     virtual bool removeItem(const string &menuId);
 
@@ -59,6 +57,7 @@ private:
 
     PlayerMenuItemWin _root;
     unordered_map<string, PlayerMenuItemWin*> _items;
+    unordered_map<UINT, string> _uid2id;
 };
 
 PLAYER_NS_END

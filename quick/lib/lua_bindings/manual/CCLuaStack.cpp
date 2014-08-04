@@ -163,11 +163,10 @@ bool LuaStack::init(void)
     //register_cocos2dx_extension_CCBProxy(_state);
     //tolua_opengl_open(_state);
     //register_all_cocos2dx_ui(_state);
-    register_all_cocos2dx_studio(_state);
+    //register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_extension_manual(_state);
-//    register_all_cocos2dx_manual_deprecated(_state);
-    register_all_cocos2dx_coco_studio_manual(_state);
+    //register_all_cocos2dx_coco_studio_manual(_state);
     //register_all_cocos2dx_ui_manual(_state);
     //register_all_cocos2dx_spine(_state);
     //register_all_cocos2dx_spine_manual(_state);

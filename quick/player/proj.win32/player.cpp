@@ -185,21 +185,21 @@ void Player::initServices()
     CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
     _menuService = new MenuServiceWin(_hwnd);
 
-    _menuService->addItem("FILE", "&File", 0);
-    _menuService->addItem("FILE_OPEN", "&Open", 0, "FILE");
-    _menuService->addItem("FILE_OPEN_RECENTS", "Open Recents", 0, "FILE");
-    _menuService->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", 0, "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", 0, "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", 0, "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", 0, "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_SEP1", "-", 0, "FILE");
-    _menuService->addItem("FILE_EXIT", "E&xit", 0, "FILE");
+    _menuService->addItem("FILE", "&File");
+    _menuService->addItem("FILE_OPEN", "&Open", "FILE");
+    _menuService->addItem("FILE_OPEN_RECENTS", "Open Recents", "FILE");
+    _menuService->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS");
+    _menuService->addItem("FILE_SEP1", "-", "FILE");
+    _menuService->addItem("FILE_EXIT", "E&xit", "FILE");
 
-    _menuService->addItem("VIEW", "&View", 0);
-    _menuService->addItem("VIEW_PORTRAIT", "&Portrait", 0, "VIEW");
-    _menuService->addItem("VIEW_LANDSCAPE", "&Landscape", 0, "VIEW");
+    _menuService->addItem("VIEW", "&View");
+    _menuService->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
+    _menuService->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
 
-    _menuService->deleteItem("VIEW");
+    _menuService->removeItem("VIEW");
 }
 
 // event handlers

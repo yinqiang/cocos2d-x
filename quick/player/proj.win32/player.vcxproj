@@ -64,6 +64,20 @@
     <Manifest>
       <AdditionalManifestFiles>DeclareDPIAware.manifest</AdditionalManifestFiles>
     </Manifest>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy $(QUICK_V3_ROOT)\external\curl\prebuilt\win32\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\sqlite3\libraries\win32\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\tiff\prebuilt\win32\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\websockets\prebuilt\win32\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\win32-specific\gles\prebuilt\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\win32-specific\icon\prebuilt\*.dll $(OutDir)
+copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
