@@ -1,26 +1,26 @@
 /****************************************************************************
- Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2010-2012 cocos2d-x.org
 
- http://www.cocos2d-x.org
+http://www.cocos2d-x.org
 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- ****************************************************************************/
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
 
 #include <algorithm>
 
@@ -29,13 +29,10 @@
 
 NS_CC_BEGIN
 
-CCScriptEventListenersForEvent CCScriptEventDispatcher::s_emptyListenersForEvent;
-CCScriptEventListenersForDispatcher CCScriptEventDispatcher::s_emptyListeners;
 int CCScriptEventDispatcher::s_nextScriptEventHandleIndex = 0;
-int CCScriptEventDispatcher::s_removeTag = 0;
 
 CCScriptEventDispatcher::CCScriptEventDispatcher()
-: m_scriptEventListeners(NULL)
+    : m_scriptEventListeners(NULL)
 {
 }
 
@@ -44,6 +41,7 @@ CCScriptEventDispatcher::~CCScriptEventDispatcher()
     if (m_scriptEventListeners)
     {
         removeAllScriptEventListeners();
+        m_scriptEventListeners->clear();
         delete m_scriptEventListeners;
     }
 }
@@ -52,13 +50,11 @@ int CCScriptEventDispatcher::addScriptEventListener(int event, int listener, int
 {
     if (!m_scriptEventListeners)
     {
-        m_scriptEventListeners = new CCScriptEventListenersForDispatcher();
+        m_scriptEventListeners = new CCScriptEventListenersForEvent(10);
     }
 
     s_nextScriptEventHandleIndex++;
-    CCScriptEventListenersForEvent &listeners = (*m_scriptEventListeners)[event];
-    listeners.push_back(CCScriptHandlePair(s_nextScriptEventHandleIndex, listener, tag, priority));
-    std::sort(listeners.begin(), listeners.end(), sortListenerCompare);
+    m_scriptEventListeners->pushBack(CCScriptHandlePair::create(s_nextScriptEventHandleIndex, event, listener, tag));
 
     return s_nextScriptEventHandleIndex;
 }
@@ -67,19 +63,19 @@ void CCScriptEventDispatcher::removeScriptEventListener(int handle)
 {
     if (!m_scriptEventListeners) return;
 
-    CCScriptEventListenersForDispatcherIterator it = m_scriptEventListeners->begin();
+    ScriptEngineProtocol *engine = ScriptEngineManager::getInstance()->getScriptEngine();
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
     for (; it != m_scriptEventListeners->end(); ++it)
     {
-        CCScriptEventListenersForEventIterator it2 = it->second.begin();
-        for (; it2 != it->second.end(); ++it2)
+        p = *it;
+        if (p->handle != handle) continue;
+        if (!p->removed)
         {
-            if (it2->index == handle)
-            {
-                ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(it2->listener);
-                it->second.erase(it2);
-                return;
-            }
+            p->removed = true;
+            engine->removeScriptHandler(p->listener);
         }
+        break;
     }
 }
 
@@ -88,16 +84,17 @@ void CCScriptEventDispatcher::removeScriptEventListenersByEvent(int event)
     if (!m_scriptEventListeners) return;
 
     ScriptEngineProtocol *engine = ScriptEngineManager::getInstance()->getScriptEngine();
-    CCScriptEventListenersForDispatcherIterator it = m_scriptEventListeners->find(event);
-    if (it != m_scriptEventListeners->end())
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
+    for (; it != m_scriptEventListeners->end(); ++it)
     {
-        CCScriptEventListenersForEvent &listeners = it->second;
-        CCScriptEventListenersForEventIterator it2 = listeners.begin();
-        for (; it2 != listeners.end(); ++it2)
+        p = *it;
+        if (p->event != event) continue;
+        if (!p->removed)
         {
-            engine->removeScriptHandler(it2->listener);
+            p->removed = true;
+            engine->removeScriptHandler(p->listener);
         }
-        m_scriptEventListeners->erase(it);
     }
 }
 
@@ -105,12 +102,18 @@ void CCScriptEventDispatcher::removeScriptEventListenersByTag(int tag)
 {
     if (!m_scriptEventListeners) return;
 
-    CCScriptEventListenersForDispatcherIterator it = m_scriptEventListeners->begin();
-    s_removeTag = tag;
+    ScriptEngineProtocol *engine = ScriptEngineManager::getInstance()->getScriptEngine();
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
     for (; it != m_scriptEventListeners->end(); ++it)
     {
-        CCScriptEventListenersForEvent &listeners = it->second;
-        remove_if(listeners.begin(), listeners.end(), removeListenerByTag);
+        p = *it;
+        if (p->tag != tag) continue;
+        if (!p->removed)
+        {
+            p->removed = true;
+            engine->removeScriptHandler(p->listener);
+        }
     }
 }
 
@@ -119,52 +122,61 @@ void CCScriptEventDispatcher::removeAllScriptEventListeners()
     if (!m_scriptEventListeners) return;
 
     ScriptEngineProtocol *engine = ScriptEngineManager::getInstance()->getScriptEngine();
-    CCScriptEventListenersForDispatcherIterator it = m_scriptEventListeners->begin();
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
     for (; it != m_scriptEventListeners->end(); ++it)
     {
-        CCScriptEventListenersForEventIterator it2 = it->second.begin();
-        for (; it2 != it->second.end(); ++it2)
+        p = *it;
+        if (!p->removed)
         {
-            engine->removeScriptHandler(it2->listener);
+            p->removed = true;
+            engine->removeScriptHandler(p->listener);
         }
     }
-    m_scriptEventListeners->clear();
+}
+
+void CCScriptEventDispatcher::cleanRemovedEvents()
+{
+    if (!m_scriptEventListeners) return;
+
+    CCScriptEventListenersForEvent eventsRemoved;
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
+    for (; it != m_scriptEventListeners->end(); ++it)
+    {
+        p = *it;
+        if (p->removed)
+        {
+            eventsRemoved.pushBack(p);
+        }
+    }
+    it = eventsRemoved.begin();
+    for (; it!=eventsRemoved.end(); ++it)
+    {
+        p = *it;
+        m_scriptEventListeners->eraseObject(p);
+    }
+    eventsRemoved.clear();
 }
 
 bool CCScriptEventDispatcher::hasScriptEventListener(int event)
 {
-    return m_scriptEventListeners && m_scriptEventListeners->find(event) != m_scriptEventListeners->end();
-}
+    if (!m_scriptEventListeners) return false;
 
-CCScriptEventListenersForEvent &CCScriptEventDispatcher::getScriptEventListenersByEvent(int event) const
-{
-    if (!m_scriptEventListeners) return s_emptyListenersForEvent;
-
-    CCScriptEventListenersForDispatcherIterator it = m_scriptEventListeners->find(event);
-    return  it != m_scriptEventListeners->end() ? it->second : s_emptyListenersForEvent;
-}
-
-CCScriptEventListenersForDispatcher &CCScriptEventDispatcher::getAllScriptEventListeners() const
-{
-    return m_scriptEventListeners ? *m_scriptEventListeners : s_emptyListeners;
-}
-
-bool CCScriptEventDispatcher::sortListenerCompare(const CCScriptHandlePair &a, const CCScriptHandlePair &b)
-{
-    return a.priority < b.priority;
-}
-
-bool CCScriptEventDispatcher::removeListenerByTag(CCScriptHandlePair &p)
-{
-    if (p.tag == s_removeTag)
+    CCScriptHandlePair *p;
+    auto it = m_scriptEventListeners->begin();
+    for (; it != m_scriptEventListeners->end(); ++it)
     {
-        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(p.listener);
+        p = *it;
+        if (p->event != event) continue;
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
+}
+
+CCScriptEventListenersForEvent *CCScriptEventDispatcher::getAllScriptEventListeners() const
+{
+    return m_scriptEventListeners;
 }
 
 NS_CC_END

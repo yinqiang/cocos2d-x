@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# set .bash_profile or .profile
+if [ -f ~/.bash_profile ]; then
+PROFILE_NAME=~/.bash_profile
+else
+PROFILE_NAME=~/.profile
+fi
+source $PROFILE_NAME
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 APP_ROOT="$DIR/.."
 APP_ANDROID_ROOT="$DIR"

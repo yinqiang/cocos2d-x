@@ -12,7 +12,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
     hellocpp/lua_anysdk_auto.cpp \
     hellocpp/lua_anysdk_manual.cpp \
     ../../sources/AppDelegate.cpp \
-    ../../sources/SimulatorConfig.cpp
+    $(QUICK_V3_LIB)/ProjectConfig/SimulatorConfig.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../sources \
                     $(COCOS2DX_ROOT)/external/json

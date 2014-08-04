@@ -1486,8 +1486,6 @@ public:
     virtual void setOpacityModifyRGB(bool value) {CC_UNUSED_PARAM(value);}
     virtual bool isOpacityModifyRGB() const { return false; };
 
-    virtual Scene *getScene();
-    
     virtual void registerWithTouchDispatcher(void);
     virtual void unregisterWithTouchDispatcher(void);
     CCScriptEventDispatcher *getScriptEventDispatcher();

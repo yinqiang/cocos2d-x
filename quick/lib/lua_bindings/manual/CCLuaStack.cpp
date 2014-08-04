@@ -54,16 +54,21 @@ extern "C" {
 #include "LuaScriptHandlerMgr.h"
 #include "lua_cocos2dx_auto.hpp"
 #include "lua_cocos2dx_extension_auto.hpp"
+#include "lua_cocos2dx_studio_auto.hpp"
+#include "lua_cocos2dx_coco_studio_manual.hpp"
 #include "lua_cocos2dx_manual.hpp"
 #include "LuaBasicConversions.h"
-//#include "lua_cocos2dx_extension_manual.h"
+#include "lua_cocos2dx_extension_manual.h"
 //#include "lua_cocos2dx_deprecated.h"
 //#include "lua_xml_http_request.h"
 #include "lua_cocos2dx_physics_auto.hpp"
 #include "lua_cocos2dx_physics_manual.hpp"
-//#include "luabinding/cocos2dx_extra_luabinding.h"
-//#include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
-//#include "luabinding/HelperFunc_luabinding.h"
+/*
+#include "luabinding/cocos2dx_extra_luabinding.h"
+#include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
+#include "luabinding/HelperFunc_luabinding.h"
+#include "lua_cocos2dx_extension_filter_auto.hpp"
+*/
 
 namespace {
 int lua_print(lua_State * luastate)
@@ -158,15 +163,16 @@ bool LuaStack::init(void)
     //register_cocos2dx_extension_CCBProxy(_state);
     //tolua_opengl_open(_state);
     //register_all_cocos2dx_ui(_state);
-    //register_all_cocos2dx_studio(_state);
+    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_manual(_state);
-    //register_all_cocos2dx_extension_manual(_state);
+    register_all_cocos2dx_extension_manual(_state);
 //    register_all_cocos2dx_manual_deprecated(_state);
-    //register_all_cocos2dx_coco_studio_manual(_state);
+    register_all_cocos2dx_coco_studio_manual(_state);
     //register_all_cocos2dx_ui_manual(_state);
     //register_all_cocos2dx_spine(_state);
     //register_all_cocos2dx_spine_manual(_state);
     //register_glnode_manual(_state);
+    // register_all_cocos2dx_extension_filter(_state);
     //luaopen_cocos2dx_extra_luabinding(_state);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     luaopen_cocos2dx_extra_ios_iap_luabinding(_state);

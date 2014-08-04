@@ -308,10 +308,11 @@ void ScriptEventCenter::sortAllTouchableNodes(Vector<Node*>& nodes)
 
     // debug
 //        CCLOG("----------------------------------------");
+//        Node *tempItem;
 //        for(i=0; i<length; i++)
 //        {
 //            tempItem = nodes.at(i);
-//            log("[%03d] m_drawOrder = %u, w = %0.2f, h = %0.2f", i, tempItem->m_drawOrder, tempItem->getCascadeBoundingBox().size.width, tempItem->getCascadeBoundingBox().size.height);
+//            log("[%03ld] m_drawOrder = %u, w = %0.2f, h = %0.2f", i, tempItem->m_drawOrder, tempItem->getCascadeBoundingBox().size.width, tempItem->getCascadeBoundingBox().size.height);
 //        }
 }
 
