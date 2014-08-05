@@ -80,7 +80,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>box.png</key>
+			<key>border.png</key>
 			<dict>
 				<key>width</key>
 				<integer>412</integer>
