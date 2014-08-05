@@ -27,6 +27,7 @@ PlayerMenuItemWin::~PlayerMenuItemWin()
     {
         DestroyMenu(_hmenu);
     }
+    CCLOG("PlayerMenuItemWin::~PlayerMenuItemWin() - %s", _menuId.c_str());
 }
 
 void PlayerMenuItemWin::setTitle(const string &title)
@@ -196,7 +197,7 @@ PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &titl
     // update menu state
     parent->_children.insert(order, item);
     _items[item->_menuId] = item;
-    _uid2id[item->_commandId] = item->_menuId;
+    _commandId2menuId[item->_commandId] = item->_menuId;
 
     return item;
 }
@@ -258,6 +259,7 @@ bool MenuServiceWin::removeItem(const string &menuId)
 
         // remove menu id mapping
         _items.erase(menuId);
+        _commandId2menuId.erase(item->_commandId);
         DrawMenuBar(_hwnd);
         return true;
     }

@@ -58,7 +58,7 @@ private:
     HWND _hwnd;
     PlayerMenuItemWin _root;
     unordered_map<string, PlayerMenuItemWin*> _items;
-    unordered_map<UINT, string> _uid2id;
+    unordered_map<UINT, string> _commandId2menuId;
 };
 
 PLAYER_NS_END

@@ -194,11 +194,11 @@ void Player::initServices()
     PlayerMenuServiceProtocol *service = getMenuService();
     service->addItem("FILE", "&File");
     service->addItem("FILE_OPEN", "&Open", "FILE");
-    service->addItem("FILE_OPEN_RECENTS", "Open Recents", "FILE");
-    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS");
-    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE");
+    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
+    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
     service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
-    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
     service->addItem("FILE_SEP1", "-", "FILE");
     service->addItem("FILE_EXIT", "E&xit", "FILE");
 
