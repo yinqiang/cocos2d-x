@@ -31,17 +31,62 @@ PlayerMenuItemWin::~PlayerMenuItemWin()
 
 void PlayerMenuItemWin::setTitle(const string &title)
 {
+    if (title.length() == 0)
+    {
+        CCLOG("MenuServiceWin::setTitle() - can not set menu title to empty, menu id (%s)", _menuId.c_str());
+        return;
+    }
 
+    MENUITEMINFO menuitem;
+    menuitem.cbSize = sizeof(menuitem);
+    menuitem.fMask = MIIM_FTYPE | MIIM_STRING;
+    menuitem.fType = (title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
+    menuitem.dwTypeData = (LPTSTR)u16title.c_str();
+    if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
+    {
+        _title = title;
+    }
+    else
+    {
+        DWORD err = GetLastError();
+        CCLOG("MenuServiceWin::setTitle() - set menu title failed, menu id (%s). error code = %u", _menuId.c_str(), err);
+    }
 }
 
 void PlayerMenuItemWin::setEnabled(bool enabled)
 {
-
+    MENUITEMINFO menuitem;
+    menuitem.cbSize = sizeof(menuitem);
+    menuitem.fMask = MIIM_STATE;
+    menuitem.fState = (enabled) ? MFS_ENABLED : MFS_DISABLED;
+    if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
+    {
+        _isEnabled = enabled;
+    }
+    else
+    {
+        DWORD err = GetLastError();
+        CCLOG("MenuServiceWin::setEnabled() - set menu enabled failed, menu id (%s). error code = %u", _menuId.c_str(), err);
+    }
 }
 
 void PlayerMenuItemWin::setChecked(bool checked)
 {
-
+    MENUITEMINFO menuitem;
+    menuitem.cbSize = sizeof(menuitem);
+    menuitem.fMask = MIIM_STATE;
+    menuitem.fState = (checked) ? MFS_CHECKED : MFS_UNCHECKED;
+    if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
+    {
+        _isChecked = checked;
+    }
+    else
+    {
+        DWORD err = GetLastError();
+        CCLOG("MenuServiceWin::setChecked() - set menu checked failed, menu id (%s). error code = %u", _menuId.c_str(), err);
+    }
 }
 
 void PlayerMenuItemWin::setShortcut(const string &shortcut)
@@ -123,7 +168,7 @@ PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &titl
     menuitem.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STATE | MIIM_STRING;
     menuitem.fType = (item->_title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
     menuitem.fState = (item->_isEnabled) ? MFS_ENABLED : MFS_DISABLED;
-    menuitem.fState = (item->_isChecked) ? MFS_CHECKED : MFS_UNCHECKED;
+    menuitem.fState |= (item->_isChecked) ? MFS_CHECKED : MFS_UNCHECKED;
     std::u16string u16title;
     cocos2d::StringUtils::UTF8ToUTF16(item->_title, u16title);
     menuitem.dwTypeData = (LPTSTR)u16title.c_str();
