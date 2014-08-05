@@ -150,6 +150,7 @@ PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &titl
     // update menu state
     parent->_children.insert(order, item);
     _items[item->_menuId] = item;
+	_uid2id[item->_commandId] = item->_menuId;
 
     return item;
 }
