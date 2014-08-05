@@ -29,8 +29,8 @@ public:
 
     virtual PlayerFileDialogServiceProtocol *getFileDialogService();
     virtual PlayerMessageBoxServiceProtocol *getMessageBoxService();
-    virtual PlayerMenuServiceProtocol       *getMenuService();
-    virtual PlayerEditBoxServiceProtocol    *getEditBoxService();
+    virtual PlayerMenuServiceProtocol *getMenuService();
+    virtual PlayerEditBoxServiceProtocol *getEditBoxService();
 
 protected:
     Player();

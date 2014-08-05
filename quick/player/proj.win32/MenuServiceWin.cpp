@@ -54,6 +54,7 @@ void PlayerMenuItemWin::setShortcut(const string &shortcut)
 UINT MenuServiceWin::_newCommandId = 0x1000;
 
 MenuServiceWin::MenuServiceWin(HWND hwnd)
+    : _hwnd(hwnd)
 {
     // create menu
     _root._commandId = 0;
@@ -162,69 +163,75 @@ PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &titl
 
 PlayerMenuItem *MenuServiceWin::getItem(const string &menuId)
 {
+    auto it = _items.find(menuId);
+    if (it == _items.end())
+    {
+        CCLOG("MenuServiceWin::getItem() - Invalid menu id (%s)", menuId.c_str());
+        return nullptr;
+    }
 
-    return nullptr;
+    return it->second;
 }
 
 bool MenuServiceWin::removeItem(const string &menuId)
 {
+    auto it = _items.find(menuId);
+    if (it == _items.end())
+    {
+        CCLOG("MenuServiceWin::removeItem() - Invalid menu id (%s)", menuId.c_str());
+        return false;
+    }
+
+    PlayerMenuItemWin *item = it->second;
+    if (item->_children.size() == 0)
+    {
+        if (!DeleteMenu(item->_parent->_hmenu, item->_commandId, MF_BYCOMMAND))
+        {
+            DWORD err = GetLastError();
+            CCLOG("MenuServiceWin::removeItem() - remove menu item failed, menu id (%s). error code = %u", item->_menuId.c_str(), err);
+            return false;
+        }
+
+        // remove item from parent
+        bool removed = false;
+        auto *children = &item->_parent->_children;
+        for (auto it = children->begin(); it != children->end(); ++it)
+        {
+            if ((*it)->_commandId == item->_commandId)
+            {
+                CCLOG("MenuServiceWin::removeItem() - remove menu item (%s)", item->_menuId.c_str());
+                children->erase(it);
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed)
+        {
+            CCLOG("MenuServiceWin::removeItem() - remove menu item (%s) failed, not found command id from parent->children", item->_menuId.c_str());
+        }
+
+        // remove menu id mapping
+        _items.erase(menuId);
+        DrawMenuBar(_hwnd);
+        return true;
+    }
+    else
+    {
+        // remove all children
+        while (item->_children.size() != 0)
+        {
+            PlayerMenuItemWin *child = *item->_children.begin();
+            if (!removeItem(child->_menuId.c_str()))
+            {
+                break;
+                return false;
+            }
+        }
+        return removeItem(menuId);
+    }
 
     return false;
 }
-
-//bool MenuServiceWin::deleteItem(const string &menuId)
-//{
-//    if (!menuId)
-//    {
-//        CCLOG("MenuServiceWin::deleteItem() - Invalid menu id");
-//        return false;
-//    }
-//
-//    auto it = _items.find(menuId);
-//    if (it == _items.end())
-//    {
-//        CCLOG("MenuServiceWin::deleteItem() - Invalid menu id (%s)", menuId);
-//        return false;
-//    }
-//
-//    PlayerMenuItemWin *itemwin = it->second;
-//    if (itemwin->children.size() == 0)
-//    {
-//        if (!DeleteMenu(itemwin->parent->hmenu, itemwin->uid, MF_BYCOMMAND))
-//        {
-//            DWORD err = GetLastError();
-//            CCLOG("MenuServiceWin::deleteItem() - remove menu item failed, menu id (%s). error code = %u", itemwin->item.menuId.c_str(), err);
-//            return false;
-//        }
-//
-//        // remove item from parent
-//        auto *children = &itemwin->parent->children;
-//        for (auto it = children->begin(); it != children->end(); ++it)
-//        {
-//            if ((*it).uid == itemwin->uid)
-//            {
-//                CCLOG("MenuServiceWin::deleteItem() - remove menu item (%s)", itemwin->item.menuId.c_str());
-//                children->erase(it);
-//                break;
-//            }
-//        }
-//        // remove menu id mapping
-//        _items.erase(menuId);
-//        return true;
-//    }
-//    else
-//    {
-//        while (itemwin->children.size() != 0)
-//        {
-//            PlayerMenuItemWin *child = &(*itemwin->children.begin());
-//            if (!deleteItem(child->item.menuId.c_str()))
-//            {
-//                break;
-//                return false;
-//            }
-//        }
-//        return deleteItem(menuId);
-//    }
-//}
 
 PLAYER_NS_END

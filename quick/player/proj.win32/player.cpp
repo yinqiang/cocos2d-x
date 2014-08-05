@@ -153,7 +153,7 @@ int Player::run()
     // create opengl view
     const Size frameSize = _project.getFrameSize();
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, true, false);
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, false, false);
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
 
@@ -167,6 +167,12 @@ int Player::run()
 
     // after update UI, resize window and show window
     glfwSetWindowSize(window, width, height + GetSystemMetrics(SM_CYMENU));
+
+    // Force update window, -_-#
+    RECT rect;
+    GetWindowRect(_hwnd, &rect);
+    MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, FALSE);
+
     glfwShowWindow(window);
 
     // register event handlers
@@ -185,21 +191,23 @@ void Player::initServices()
     CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
     _menuService = new MenuServiceWin(_hwnd);
 
-    _menuService->addItem("FILE", "&File");
-    _menuService->addItem("FILE_OPEN", "&Open", "FILE");
-    _menuService->addItem("FILE_OPEN_RECENTS", "Open Recents", "FILE");
-    _menuService->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS");
-    _menuService->addItem("FILE_SEP1", "-", "FILE");
-    _menuService->addItem("FILE_EXIT", "E&xit", "FILE");
+    PlayerMenuServiceProtocol *service = getMenuService();
+    service->addItem("FILE", "&File");
+    service->addItem("FILE_OPEN", "&Open", "FILE");
+    service->addItem("FILE_OPEN_RECENTS", "Open Recents", "FILE");
+    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_SEP1", "-", "FILE");
+    service->addItem("FILE_EXIT", "E&xit", "FILE");
 
-    _menuService->addItem("VIEW", "&View");
-    _menuService->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
-    _menuService->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
+    service->addItem("VIEW", "&View");
+    service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
+    service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
 
-    _menuService->removeItem("VIEW");
+    service->removeItem("VIEW");
+    service->removeItem("FILE_OPEN_RECENTS_3");
 }
 
 // event handlers

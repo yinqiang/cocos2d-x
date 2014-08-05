@@ -55,6 +55,7 @@ public:
 private:
     static UINT _newCommandId;
 
+    HWND _hwnd;
     PlayerMenuItemWin _root;
     unordered_map<string, PlayerMenuItemWin*> _items;
     unordered_map<UINT, string> _uid2id;
