@@ -391,7 +391,7 @@
               "backGroundImage": null,
               "backGroundImageData": {
                 "resourceType": 1,
-                "path": "box.png",
+                "path": "border.png",
                 "plistFile": ""
               },
               "clipAble": false,

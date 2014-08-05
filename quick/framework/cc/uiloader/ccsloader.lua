@@ -17,6 +17,13 @@ end
 
 function ccsloader:parserJson(jsonVal)
 	local root = jsonVal.nodeTree
+	if not root then
+		root = jsonVal.widgetTree
+	end
+	if not root then
+		printInfo("ccsloader - parserJson havn't found root noe")
+		return
+	end
 	local uiRoot = self:generateUINode(root)
 
 	return uiRoot
