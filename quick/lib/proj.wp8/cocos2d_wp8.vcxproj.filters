@@ -184,6 +184,9 @@
     <Filter Include="libquick\extra\filters\shaders">
       <UniqueIdentifier>{3d1e116a-c0f0-4825-b527-9463d2e10f25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocos\platform\wp8\shaders">
+      <UniqueIdentifier>{b046ed4e-f914-4b64-bcba-b3d4b634b39f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\physics\CCPhysicsBody.cpp">
@@ -2372,6 +2375,9 @@
     <ClInclude Include="..\extra\filters\nodes\CCFilteredSprite.h">
       <Filter>libquick\extra\filters\nodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cocos\platform\wp8\shaders\precompiledshaders.h">
+      <Filter>cocos\platform\wp8\shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(QUICK_V3_ROOT)cocos\math\Mat4.inl">
@@ -2535,6 +2541,9 @@
     </None>
     <None Include="..\extra\filters\shaders\shadertoy_LensFlare.fsh">
       <Filter>libquick\extra\filters\shaders</Filter>
+    </None>
+    <None Include="..\..\..\cocos\renderer\example_greyScale.frag">
+      <Filter>cocos\renderer\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

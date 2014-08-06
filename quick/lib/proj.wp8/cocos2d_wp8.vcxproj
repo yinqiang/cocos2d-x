@@ -1322,6 +1322,7 @@
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCTransitionPageTurn.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCTransitionProgress.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCTweenFunction.h" />
+    <ClInclude Include="..\..\..\cocos\platform\wp8\shaders\precompiledshaders.h" />
     <ClInclude Include="..\extra\filters\cocos2dFilters.h" />
     <ClInclude Include="..\extra\filters\filters\CCBlurFilter.h" />
     <ClInclude Include="..\extra\filters\filters\CCBrightnessFilter.h" />
