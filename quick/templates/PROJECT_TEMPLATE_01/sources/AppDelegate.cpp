@@ -25,10 +25,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto glview = director->getOpenGLView();
     if(!glview) {
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #else
         Size viewSize = m_projectConfig.getFrameSize();
-        glview = GLView::createWithRect("xx", Rect(0,0,viewSize.width,viewSize.height));
+        glview = GLView::createWithRect("__PROJECT_PACKAGE_LAST_NAME_L__", Rect(0,0,viewSize.width,viewSize.height));
         director->setOpenGLView(glview);
 #endif
     }
@@ -45,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     LuaStack *pStack = pEngine->getLuaStack();
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     // load framework
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
     

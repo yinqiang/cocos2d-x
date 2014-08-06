@@ -77,6 +77,7 @@ namespace PhoneDirect3DXamlAppInterop
                         displayOrientation = DisplayOrientations.Landscape;
                         break;
                 }
+
                 m_d3dInterop = new Direct3DInterop(displayOrientation);
 
                 // Set WindowBounds to size of DrawingSurface

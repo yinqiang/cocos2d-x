@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 extern "C" {
 #include "lua.h"
-#include "xxtea.h"
+#include "xxtea/xxtea.h"
 }
 #include "CCLuaEngine.h"
 #include "HelperFunc.h"
