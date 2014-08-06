@@ -4,36 +4,33 @@
 
 #include "PlayerMacros.h"
 
-#include <sstream>
 #include <string>
+#include <vector>
 
+using namespace std;
 
 PLAYER_NS_BEGIN
 
-
-struct split
+template<class T>
+vector<T> splitString(T str, T pattern)
 {
-    enum empties_t { empties_ok, no_empties };
-};
+    T::size_type pos;
+    vector<T> result;
+    str += pattern;
+    size_t size = str.size();
 
-template <typename Container>
-Container& split_s(
-                 Container&                                 result,
-                 const typename Container::value_type&      s,
-                 typename Container::value_type::value_type delimiter,
-                 split::empties_t                           empties = split::empties_ok)
-{
-    result.clear();
-    std::istringstream ss( s );
-    while (!ss.eof())
+    for (size_t i = 0; i < size; i++)
     {
-        typename Container::value_type field;
-        getline( ss, field, delimiter );
-        if ((empties == split::no_empties) && field.empty()) continue;
-        result.push_back( field );
+        pos = str.find(pattern, i);
+        if (pos < size)
+        {
+            T s = str.substr(i, pos - i);
+            result.push_back(s);
+            i = pos + pattern.size() - 1;
+        }
     }
     return result;
-}
+};
 
 PLAYER_NS_END
 

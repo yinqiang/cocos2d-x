@@ -18,6 +18,7 @@ using namespace cocos2d;
 #include "PlayerProtocol.h"
 #include "PlayerMenuServiceWin.h"
 #include "PlayerMessageBoxServiceWin.h"
+#include "PlayerFileDialogServiceWin.h"
 
 PLAYER_NS_BEGIN
 
@@ -44,6 +45,7 @@ protected:
 
     PlayerMenuServiceWin *_menuService;
     PlayerMessageBoxServiceWin *_messageBoxService;
+    PlayerFileDialogServiceWin *_fileDialogService;
 
     // services
     void initServices();

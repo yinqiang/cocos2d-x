@@ -10,10 +10,10 @@ PlayerMessageBoxServiceWin::PlayerMessageBoxServiceWin(HWND hwnd)
 
 int PlayerMessageBoxServiceWin::showMessageBox(const string &title, const string &message, int buttonsType /* = BUTTONS_OK */)
 {
-    std::u16string u16title;
-    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
-    std::u16string u16message;
-    cocos2d::StringUtils::UTF8ToUTF16(message, u16message);
+    u16string u16title;
+    StringUtils::UTF8ToUTF16(title, u16title);
+    u16string u16message;
+    StringUtils::UTF8ToUTF16(message, u16message);
 
     CCLOG("PlayerMessageBoxServiceWin::showMessageBox() - title = %s, message = %s", title.c_str(), message.c_str());
 

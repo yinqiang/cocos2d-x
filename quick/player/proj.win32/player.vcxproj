@@ -106,6 +106,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClInclude Include="..\src\PlayerServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerSettings.h" />
     <ClInclude Include="..\src\PlayerUtils.h" />
+    <ClInclude Include="PlayerFileDialogServiceWin.h" />
     <ClInclude Include="PlayerMenuServiceWin.h" />
     <ClInclude Include="PlayerWin.h" />
     <ClInclude Include="PlayerMessageBoxServiceWin.h" />
@@ -120,6 +121,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerSettings.cpp" />
     <ClCompile Include="..\src\PlayerUtils.cpp" />
+    <ClCompile Include="PlayerFileDialogServiceWin.cpp" />
     <ClCompile Include="PlayerMenuServiceWin.cpp" />
     <ClCompile Include="PlayerWin.cpp" />
     <ClCompile Include="PlayerMessageBoxServiceWin.cpp" />

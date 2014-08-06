@@ -15,10 +15,13 @@ PLAYER_NS_BEGIN
 class PlayerFileDialogServiceProtocol : public PlayerServiceProtocol
 {
 public:
-    virtual string openFile(const char *title, const char *directory = NULL, const char *extensions = NULL) const = 0;
-    virtual string openDirectory(const char *title, const char *directory = NULL) const = 0;
-    virtual vector<string> openMultiple(const char *title, const char *directory = NULL) const = 0;
-    virtual string saveFile(const char *title, const char *filename, const char *directory) const = 0;
+    /**
+     * extensions = "Lua Script File|*.lua;JSON File|*.json";
+     */
+    virtual string openFile(const string &title, const string &directory, const string &extensions) const = 0;
+    virtual vector<string> openMultiple(const string &title, const string &directory, const string &extensions) const = 0;
+    virtual string saveFile(const string &title, const string &path) const = 0;
+    virtual string openDirectory(const string &title, const string &directory) const = 0;
 };
 
 PLAYER_NS_END

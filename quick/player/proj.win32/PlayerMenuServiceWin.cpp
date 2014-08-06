@@ -45,8 +45,8 @@ void PlayerMenuItemWin::setTitle(const string &title)
     menuitem.cbSize = sizeof(menuitem);
     menuitem.fMask = MIIM_FTYPE | MIIM_STRING;
     menuitem.fType = (title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
-    std::u16string u16title;
-    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
+    u16string u16title;
+    StringUtils::UTF8ToUTF16(title, u16title);
     menuitem.dwTypeData = (LPTSTR)u16title.c_str();
     if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
     {
@@ -173,8 +173,8 @@ PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string
     menuitem.fType = (item->_title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
     menuitem.fState = (item->_isEnabled) ? MFS_ENABLED : MFS_DISABLED;
     menuitem.fState |= (item->_isChecked) ? MFS_CHECKED : MFS_UNCHECKED;
-    std::u16string u16title;
-    cocos2d::StringUtils::UTF8ToUTF16(item->_title, u16title);
+    u16string u16title;
+    StringUtils::UTF8ToUTF16(item->_title, u16title);
     menuitem.dwTypeData = (LPTSTR)u16title.c_str();
     menuitem.wID = _newCommandId;
 

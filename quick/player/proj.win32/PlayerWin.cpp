@@ -49,17 +49,13 @@ Player::Player()
 Player::~Player()
 {
     CC_SAFE_RELEASE(_luastack);
+    CC_SAFE_DELETE(_menuService);
+    CC_SAFE_DELETE(_messageBoxService);
+    CC_SAFE_DELETE(_fileDialogService);
+    CC_SAFE_DELETE(_app);
     if (_writeDebugLogFile)
     {
         fclose(_writeDebugLogFile);
-    }
-    if (_menuService)
-    {
-        delete _menuService;
-    }
-    if (_app)
-    {
-        delete _app;
     }
 }
 
@@ -193,24 +189,34 @@ void Player::initServices()
     CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
     _menuService = new PlayerMenuServiceWin(_hwnd);
     _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
+    _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
 
-    PlayerMenuServiceProtocol *service = getMenuService();
-    service->addItem("FILE", "&File");
-    service->addItem("FILE_OPEN", "&Open", "FILE");
-    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE")->setEnabled(false);
-    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
-    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
-    service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
-    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
-    service->addItem("FILE_SEP1", "-", "FILE");
-    service->addItem("FILE_EXIT", "E&xit", "FILE");
 
-    service->addItem("VIEW", "&View");
-    service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
-    service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
+    //CCLOG("saveFile = %s", _fileDialogService->saveFile("TITLE", "C:\\Work\\hello.lua").c_str());
 
-    service->removeItem("VIEW");
-    service->removeItem("FILE_OPEN_RECENTS_3");
+    //vector<string> files = _fileDialogService->openMultiple("中文描述内容", "C:\\Work", "Lua Script File|*.lua;JSON File|*.json");
+    //for (auto it = files.begin(); it != files.end(); ++it)
+    //{
+    //    CCLOG("openMultiple = %s", (*it).c_str());
+    //}
+
+    //PlayerMenuServiceProtocol *service = getMenuService();
+    //service->addItem("FILE", "&File");
+    //service->addItem("FILE_OPEN", "&Open", "FILE");
+    //service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE")->setEnabled(true);
+    //service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
+    //service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
+    //service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
+    //service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
+    //service->addItem("FILE_SEP1", "-", "FILE");
+    //service->addItem("FILE_EXIT", "E&xit", "FILE");
+
+    //service->addItem("VIEW", "&View");
+    //service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
+    //service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
+
+    //service->removeItem("VIEW");
+    //service->removeItem("FILE_OPEN_RECENTS_3");
 }
 
 // event handlers
