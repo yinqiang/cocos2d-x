@@ -16,7 +16,8 @@ using namespace cocos2d;
 #include "PlayerMacros.h"
 #include "AppDelegate.h"
 #include "PlayerProtocol.h"
-#include "MenuServiceWin.h"
+#include "PlayerMenuServiceWin.h"
+#include "PlayerMessageBoxServiceWin.h"
 
 PLAYER_NS_BEGIN
 
@@ -41,7 +42,8 @@ protected:
     FILE *_writeDebugLogFile;
     LuaStack *_luastack;
 
-    MenuServiceWin *_menuService;
+    PlayerMenuServiceWin *_menuService;
+    PlayerMessageBoxServiceWin *_messageBoxService;
 
     // services
     void initServices();

@@ -57,7 +57,7 @@ public:
     virtual PlayerMenuItem *addItem(const string &menuId, const string &title) = 0;
     virtual PlayerMenuItem *getItem(const string &menuId) = 0;
     virtual bool removeItem(const string &menuId) = 0;
-};
+}; 
 
 PLAYER_NS_END
 

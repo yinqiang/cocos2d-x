@@ -3,7 +3,6 @@
 #pragma comment(linker, "\"/manifestdependency:type='Win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='X86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include "stdafx.h"
-#include "player.h"
 #include <io.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,6 +16,8 @@
 #include <objidl.h>
 #include <shlguid.h>
 #include <shellapi.h>
+
+#include "PlayerWin.h"
 
 #include "glfw3.h"
 #include "glfw3native.h"
@@ -39,6 +40,7 @@ Player::Player()
 , _hwnd(NULL)
 , _writeDebugLogFile(nullptr)
 , _menuService(nullptr)
+, _messageBoxService(nullptr)
 {
     _luastack = LuaStack::create();
     _luastack->retain();
@@ -189,12 +191,13 @@ int Player::run()
 void Player::initServices()
 {
     CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
-    _menuService = new MenuServiceWin(_hwnd);
+    _menuService = new PlayerMenuServiceWin(_hwnd);
+    _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
 
     PlayerMenuServiceProtocol *service = getMenuService();
     service->addItem("FILE", "&File");
     service->addItem("FILE_OPEN", "&Open", "FILE");
-    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE");
+    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE")->setEnabled(false);
     service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
     service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
     service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");

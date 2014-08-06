@@ -1,6 +1,5 @@
 
-#include "MenuServiceWin.h"
-#include "cocos2d.h"
+#include "PlayerMenuServiceWin.h"
 
 PLAYER_NS_BEGIN
 
@@ -97,9 +96,9 @@ void PlayerMenuItemWin::setShortcut(const string &shortcut)
 
 // MenuServiceWin
 
-UINT MenuServiceWin::_newCommandId = 0x1000;
+UINT PlayerMenuServiceWin::_newCommandId = 0x1000;
 
-MenuServiceWin::MenuServiceWin(HWND hwnd)
+PlayerMenuServiceWin::PlayerMenuServiceWin(HWND hwnd)
     : _hwnd(hwnd)
 {
     // create menu
@@ -108,11 +107,11 @@ MenuServiceWin::MenuServiceWin(HWND hwnd)
     SetMenu(hwnd, _root._hmenu);
 }
 
-MenuServiceWin::~MenuServiceWin()
+PlayerMenuServiceWin::~PlayerMenuServiceWin()
 {
 }
 
-PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &title, const string &parentId, int order /* = MAX_ORDER */)
+PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string &title, const string &parentId, int order /* = MAX_ORDER */)
 {
     if (menuId.length() == 0 || title.length() == 0)
     {
@@ -202,12 +201,12 @@ PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &titl
     return item;
 }
 
-PlayerMenuItem *MenuServiceWin::addItem(const string &menuId, const string &title)
+PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string &title)
 {
     return addItem(menuId, title, "");
 }
 
-PlayerMenuItem *MenuServiceWin::getItem(const string &menuId)
+PlayerMenuItem *PlayerMenuServiceWin::getItem(const string &menuId)
 {
     auto it = _items.find(menuId);
     if (it == _items.end())
@@ -219,7 +218,7 @@ PlayerMenuItem *MenuServiceWin::getItem(const string &menuId)
     return it->second;
 }
 
-bool MenuServiceWin::removeItem(const string &menuId)
+bool PlayerMenuServiceWin::removeItem(const string &menuId)
 {
     auto it = _items.find(menuId);
     if (it == _items.end())

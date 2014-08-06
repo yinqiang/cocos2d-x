@@ -1,10 +1,9 @@
 
-#ifndef __MENU_SERVICE_WIN_H_
-#define __MENU_SERVICE_WIN_H_
+#ifndef __PLAYER_MENU_SERVICE_WIN_H_
+#define __PLAYER_MENU_SERVICE_WIN_H_
 
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 using namespace std;
 
@@ -38,14 +37,14 @@ protected:
     HMENU _hmenu;
     Vector<PlayerMenuItemWin*> _children;
 
-    friend class MenuServiceWin;
+    friend class PlayerMenuServiceWin;
 };
 
-class MenuServiceWin : public PlayerMenuServiceProtocol
+class PlayerMenuServiceWin : public PlayerMenuServiceProtocol
 {
 public:
-    MenuServiceWin(HWND hwnd);
-    virtual ~MenuServiceWin();
+    PlayerMenuServiceWin(HWND hwnd);
+    virtual ~PlayerMenuServiceWin();
 
     virtual PlayerMenuItem *addItem(const string &menuId, const string &title, const string &parentId, int order = MAX_ORDER);
     virtual PlayerMenuItem *addItem(const string &menuId, const string &title);
@@ -63,4 +62,4 @@ private:
 
 PLAYER_NS_END
 
-#endif // __MENU_SERVICE_WIN_H_
+#endif // __PLAYER_MENU_SERVICE_WIN_H_
