@@ -14,7 +14,7 @@ function CCSSample4Scene:ctor()
 		-- dump(event, "event:")
 	end)
 
-	local rankView = cc.uiloader:seekNodeByTag(self, 8)
+	local rankView = cc.uiloader:seekNodeByName(self, "ranking_ScrollView")
 	rankView:onScroll(function(event)
 		print("CCSSample4Scene rank scroll")
 		-- dump(event, "event:")
