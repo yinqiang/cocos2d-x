@@ -25,9 +25,13 @@ PlayerMenuItemWin::~PlayerMenuItemWin()
     CC_SAFE_RELEASE(_parent);
     if (_hmenu)
     {
+        CCLOG("PlayerMenuItemWin::~PlayerMenuItemWin() - %s (HMENU)", _menuId.c_str());
         DestroyMenu(_hmenu);
     }
-    CCLOG("PlayerMenuItemWin::~PlayerMenuItemWin() - %s", _menuId.c_str());
+    else
+    {
+        CCLOG("PlayerMenuItemWin::~PlayerMenuItemWin() - %s", _menuId.c_str());
+    }
 }
 
 void PlayerMenuItemWin::setTitle(const string &title)
