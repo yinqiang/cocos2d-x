@@ -16,6 +16,13 @@ local data =
     },
 
     {
+        title       = "Filters Test",
+        description = "Filter演示",
+        path        = "samples/filters",
+        image       = "filters_ss.png"
+    },
+
+    {
         title       = "sprite 3D",
         description = "3D 精灵演示",
         path        = "samples/sprite3d",
