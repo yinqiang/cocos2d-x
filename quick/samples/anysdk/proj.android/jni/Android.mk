@@ -1,5 +1,6 @@
 LOCAL_PATH := $(call my-dir)
-$(call import-add-path,$(LOCAL_PATH)/../)
+
+$(call import-add-path, $(QUICK_V3_LIB)/extra/anysdk/)
 
 include $(CLEAR_VARS)
 
@@ -8,14 +9,11 @@ LOCAL_MODULE := game_shared
 LOCAL_MODULE_FILENAME := libgame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-    hellocpp/AnySDKListener.cpp \
-    hellocpp/lua_anysdk_auto.cpp \
-    hellocpp/lua_anysdk_manual.cpp \
     ../../sources/AppDelegate.cpp \
     $(QUICK_V3_LIB)/ProjectConfig/SimulatorConfig.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../sources \
-                    $(COCOS2DX_ROOT)/external/json
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../sources
 
 
 #LOCAL_CFLAGS += -std=c++11 -Wno-psabi -DCC_LUA_ENGINE_ENABLED=1 $(ANDROID_COCOS2D_BUILD_FLAGS)
