@@ -28,6 +28,8 @@ public:
     virtual void setEnabled(bool enabled);
     virtual void setChecked(bool checked);
     virtual void setShortcut(const string &shortcut);
+    virtual void setOrder(int order);
+    virtual int getOrder() const;
 
 protected:
     PlayerMenuItemWin();

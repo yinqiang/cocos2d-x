@@ -98,6 +98,17 @@ void PlayerMenuItemWin::setShortcut(const string &shortcut)
 
 }
 
+void PlayerMenuItemWin::setOrder(int order)
+{
+
+}
+
+int PlayerMenuItemWin::getOrder() const
+{
+
+}
+
+
 // MenuServiceWin
 
 UINT PlayerMenuServiceWin::_newCommandId = 0x1000;

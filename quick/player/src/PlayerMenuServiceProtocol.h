@@ -36,6 +36,8 @@ public:
     virtual void setEnabled(bool enabled) = 0;
     virtual void setChecked(bool checked) = 0;
     virtual void setShortcut(const string &shortcut) = 0;
+    virtual void setOrder(int order) = 0;
+    virtual int getOrder() const = 0;
 
 protected:
     PlayerMenuItem();
