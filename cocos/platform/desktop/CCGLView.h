@@ -37,7 +37,7 @@ class CC_DLL GLView : public GLViewProtocol, public Ref
 {
 public:
     static GLView* create(const std::string& viewName);
-    static GLView* createWithRect(const std::string& viewName, Rect size, float frameZoomFactor = 1.0f, bool resizable = false, bool visible = true);
+    static GLView* createWithRect(const std::string& viewName, Rect size, float frameZoomFactor = 1.0f, bool resizable = false, bool visible = true, bool decorated = true);
     static GLView* createWithFullScreen(const std::string& viewName);
     static GLView* createWithFullScreen(const std::string& viewName, const GLFWvidmode &videoMode, GLFWmonitor *monitor);
 
@@ -84,7 +84,7 @@ protected:
     GLView();
     virtual ~GLView();
 
-    bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizeble = false, bool visible = true);
+    bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizeble = false, bool visible = true, bool decorated = true);
     bool initWithFullScreen(const std::string& viewName);
     bool initWithFullscreen(const std::string& viewname, const GLFWvidmode &videoMode, GLFWmonitor *monitor);
 

@@ -88,6 +88,9 @@ public:
     void parseCommandLine(const vector<string> &args);
     string makeCommandLine(unsigned int mask = kProjectConfigAll) const;
 
+    bool isDialog() const;
+    bool isResizeWindow() const;
+
     bool validate() const;
     void dump();
 
@@ -105,6 +108,8 @@ private:
     bool    _restartProcess;
     Vec2	_windowOffset;
     int     _debuggerType;
+    bool    _isDialog;
+    bool    _isResizeWindow;
 
     void normalize();
     string replaceProjectDirToMacro(const string &path) const;

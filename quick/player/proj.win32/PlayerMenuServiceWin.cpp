@@ -98,16 +98,6 @@ void PlayerMenuItemWin::setShortcut(const string &shortcut)
 
 }
 
-void PlayerMenuItemWin::setOrder(int order)
-{
-
-}
-
-int PlayerMenuItemWin::getOrder() const
-{
-
-}
-
 
 // MenuServiceWin
 
@@ -212,6 +202,7 @@ PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string
     parent->_children.insert(order, item);
     _items[item->_menuId] = item;
     _commandId2menuId[item->_commandId] = item->_menuId;
+    updateChildrenOrder(parent);
 
     return item;
 }
@@ -234,6 +225,11 @@ PlayerMenuItem *PlayerMenuServiceWin::getItem(const string &menuId)
 }
 
 bool PlayerMenuServiceWin::removeItem(const string &menuId)
+{
+    return removeItemInternal(menuId, true);
+}
+
+bool PlayerMenuServiceWin::removeItemInternal(const string &menuId, bool isUpdateChildrenOrder)
 {
     auto it = _items.find(menuId);
     if (it == _items.end())
@@ -274,6 +270,10 @@ bool PlayerMenuServiceWin::removeItem(const string &menuId)
         // remove menu id mapping
         _items.erase(menuId);
         _commandId2menuId.erase(item->_commandId);
+        if (isUpdateChildrenOrder)
+        {
+            updateChildrenOrder(item->_parent);
+        }
         DrawMenuBar(_hwnd);
         return true;
     }
@@ -283,16 +283,28 @@ bool PlayerMenuServiceWin::removeItem(const string &menuId)
         while (item->_children.size() != 0)
         {
             PlayerMenuItemWin *child = *item->_children.begin();
-            if (!removeItem(child->_menuId.c_str()))
+            if (!removeItemInternal(child->_menuId.c_str(), false))
             {
                 break;
                 return false;
             }
         }
-        return removeItem(menuId);
+        return removeItemInternal(menuId, true);
     }
 
     return false;
+}
+
+
+void PlayerMenuServiceWin::updateChildrenOrder(PlayerMenuItemWin *parent)
+{
+    auto *children = &parent->_children;
+    int order = 0;
+    for (auto it = children->begin(); it != children->end(); ++it)
+    {
+        (*it)->_order = order;
+        order++;
+    }
 }
 
 PLAYER_NS_END

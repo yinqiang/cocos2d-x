@@ -28,8 +28,6 @@ public:
     virtual void setEnabled(bool enabled);
     virtual void setChecked(bool checked);
     virtual void setShortcut(const string &shortcut);
-    virtual void setOrder(int order);
-    virtual int getOrder() const;
 
 protected:
     PlayerMenuItemWin();
@@ -60,6 +58,9 @@ private:
     PlayerMenuItemWin _root;
     unordered_map<string, PlayerMenuItemWin*> _items;
     unordered_map<UINT, string> _commandId2menuId;
+
+    bool removeItemInternal(const string &menuId, bool isUpdateChildrenOrder);
+    void updateChildrenOrder(PlayerMenuItemWin *parent);
 };
 
 PLAYER_NS_END

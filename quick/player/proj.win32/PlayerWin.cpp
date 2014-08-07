@@ -151,7 +151,9 @@ int Player::run()
     // create opengl view
     const Size frameSize = _project.getFrameSize();
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, true, false);
+    bool isResize = (!_project.isDialog()) && _project.isResizeWindow();
+    bool isDecorated = !_project.isDialog();
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, isResize, false, isDecorated);
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
 
@@ -163,13 +165,16 @@ int Player::run()
     // init player services
     initServices();
 
-    // after update UI, resize window and show window
-    glfwSetWindowSize(window, width, height + GetSystemMetrics(SM_CYMENU));
+    if (isDecorated && GetMenu(_hwnd))
+    {
+        // after create MenuBar, resize window and show window
+        glfwSetWindowSize(window, width, height + GetSystemMetrics(SM_CYMENU));
 
-    // Force update window, -_-#
-    RECT rect;
-    GetWindowRect(_hwnd, &rect);
-    MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, FALSE);
+        // Force update window, -_-#
+        RECT rect;
+        GetWindowRect(_hwnd, &rect);
+        MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, FALSE);
+    }
 
     glfwShowWindow(window);
 
@@ -191,6 +196,11 @@ void Player::initServices()
     _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
     _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
 
+    if (_project.isDialog())
+    {
+        // remove menu
+        SetMenu(_hwnd, NULL);
+    }
 
     //CCLOG("saveFile = %s", _fileDialogService->saveFile("TITLE", "C:\\Work\\hello.lua").c_str());
 
@@ -208,12 +218,24 @@ void Player::initServices()
     service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
     service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
     service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
+    service->addItem("FILE_SAVE", "&Save", "FILE");
+    service->addItem("FILE_SAVE_AS", "Save &As...", "FILE");
     service->addItem("FILE_SEP1", "-", "FILE");
     service->addItem("FILE_EXIT", "E&xit", "FILE");
 
     service->addItem("VIEW", "&View");
     service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
     service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
+
+    CCLOG("------------------------");
+    CCLOG("FILE order = %d", service->getItem("FILE")->getOrder());
+    CCLOG("FILE_OPEN order = %d", service->getItem("FILE_OPEN")->getOrder());
+    CCLOG("FILE_OPEN_RECENTS order = %d", service->getItem("FILE_OPEN_RECENTS")->getOrder());
+    CCLOG("FILE_SAVE order = %d", service->getItem("FILE_SAVE")->getOrder());
+    CCLOG("FILE_SAVE_AS order = %d", service->getItem("FILE_SAVE_AS")->getOrder());
+    CCLOG("FILE_SEP1 order = %d", service->getItem("FILE_SEP1")->getOrder());
+    CCLOG("FILE_EXIT order = %d", service->getItem("FILE_EXIT")->getOrder());
+    CCLOG("------------------------");
 
     service->removeItem("VIEW");
     service->removeItem("FILE_OPEN_RECENTS_3");

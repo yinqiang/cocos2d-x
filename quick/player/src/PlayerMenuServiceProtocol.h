@@ -27,6 +27,7 @@ public:
 
     string getMenuId() const;
     string getTitle() const;
+    int getOrder() const;
     bool isGroup() const;
     bool isEnabled() const;
     bool isChecked() const;
@@ -36,14 +37,13 @@ public:
     virtual void setEnabled(bool enabled) = 0;
     virtual void setChecked(bool checked) = 0;
     virtual void setShortcut(const string &shortcut) = 0;
-    virtual void setOrder(int order) = 0;
-    virtual int getOrder() const = 0;
 
 protected:
     PlayerMenuItem();
 
     string _menuId;
     string _title;
+    int _order;
     bool _isGroup;
     bool _isEnabled;
     bool _isChecked; // ignored when isGroup = true

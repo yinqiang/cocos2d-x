@@ -28,6 +28,8 @@ ProjectConfig::ProjectConfig()
     , _writeDebugLogToFile(true)
     , _windowOffset(0, 0)
     , _debuggerType(kCCLuaDebuggerNone)
+    , _isDialog(false)
+    , _isResizeWindow(false)
 {
     normalize();
 }
@@ -376,6 +378,14 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             setDebuggerType(kCCLuaDebuggerNone);
         }
+        else if (arg.compare("-dialog") == 0)
+        {
+            _isDialog = true;
+        }
+        else if (arg.compare("-resize-window") == 0)
+        {
+            _isResizeWindow = true;
+        }
 
         ++it;
     }
@@ -517,11 +527,21 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
     return buff.str();
 }
 
+bool ProjectConfig::isDialog() const
+{
+    return _isDialog;
+}
+
+bool ProjectConfig::isResizeWindow() const
+{
+    return _isResizeWindow;
+}
+
 bool ProjectConfig::validate() const
 {
     auto utils = FileUtils::getInstance();
-    //if (!utils->isDirectoryExist(_projectDir)) return false;
-    //if (!utils->isDirectoryExist(getWritableRealPath())) return false;
+    if (!utils->isDirectoryExist(_projectDir)) return false;
+    if (!utils->isDirectoryExist(getWritableRealPath())) return false;
     if (!utils->isFileExist(getScriptFileRealPath())) return false;
     return true;
 }

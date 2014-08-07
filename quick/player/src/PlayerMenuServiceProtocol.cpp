@@ -5,7 +5,8 @@
 PLAYER_NS_BEGIN
 
 PlayerMenuItem::PlayerMenuItem()
-: _isGroup(false)
+: _order(0)
+, _isGroup(false)
 , _isEnabled(true)
 , _isChecked(false)
 {
@@ -23,6 +24,11 @@ string PlayerMenuItem::getMenuId() const
 string PlayerMenuItem::getTitle() const
 {
     return _title;
+}
+
+int PlayerMenuItem::getOrder() const
+{
+    return _order;
 }
 
 bool PlayerMenuItem::isGroup() const
