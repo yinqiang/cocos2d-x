@@ -31,7 +31,7 @@ extern "C" {
 #include "tolua++.h"
 #include "lualib.h"
 #include "lauxlib.h"
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #include "lua_extensions.h"
 #endif
 #include "xxtea/xxtea.h"
@@ -47,7 +47,7 @@ extern "C" {
 #include "platform/android/CCLuaJavaBridge.h"
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #include "Lua_web_socket.h"
 #endif
 //#include "LuaOpengl.h"
@@ -69,6 +69,12 @@ extern "C" {
 #include "luabinding/HelperFunc_luabinding.h"
 #include "lua_cocos2dx_extension_filter_auto.hpp"
 */
+
+
+#if defined(ANYSDK_DEFINE)
+#include "src/lua_anysdk_auto.hpp"
+#include "src/lua_anysdk_manual.hpp"
+#endif
 
 namespace {
 int lua_print(lua_State * luastate)
@@ -153,7 +159,7 @@ bool LuaStack::init(void)
         {NULL, NULL}
     };
     luaL_register(_state, "_G", global_functions);
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     luaopen_lua_extensions(_state);
 #endif
     g_luaType.clear();
@@ -192,6 +198,11 @@ bool LuaStack::init(void)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
     tolua_web_socket_open(_state);
     register_web_socket_manual(_state);
+#endif
+
+#ifdef ANYSDK_DEFINE
+    register_all_anysdk(_state);
+    register_all_anysdk_manual(_state);
 #endif
     
     //register_xml_http_request(_state);
@@ -283,27 +294,19 @@ int LuaStack::executeString(const char *codes)
 
 int LuaStack::executeScriptFile(const char* filename)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    std::string code("require \"");
-    code.append(filename);
-    code.append("\"");
-    return executeString(code.c_str());
-#else
+    CCAssert(filename, "CCLuaStack::executeScriptFile() - invalid filename");
+
     std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filename);
-    ++_callFromLua;
-    int nRet = luaL_dofile(_state, fullPath.c_str());
-    --_callFromLua;
-    CC_ASSERT(_callFromLua >= 0);
-    // lua_gc(_state, LUA_GCCOLLECT, 0);
-    
-    if (nRet != 0)
-    {
-        CCLOG("[LUA ERROR] %s", lua_tostring(_state, -1));
-        lua_pop(_state, 1);
-        return nRet;
+    ssize_t chunkSize = 0;
+    unsigned char *chunk = FileUtils::getInstance()->getFileData(fullPath.c_str(), "rb", &chunkSize);
+    int rn = 0;
+    if (chunk) {
+        if (luaLoadBuffer(_state, (const char*)chunk, (int)chunkSize, fullPath.c_str()) == 0) {
+            rn = executeFunction(0);
+        }
+        delete chunk;
     }
-    return 0;
-#endif
+    return rn;
 }
 
 int LuaStack::executeGlobalFunction(const char* functionName)

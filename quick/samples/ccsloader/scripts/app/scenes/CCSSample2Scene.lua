@@ -16,10 +16,9 @@ function CCSSample2Scene:ctor()
 		-- dump(event, "login button:")
 	end)
 
-	local editBox = cc.uiloader:seekNodeByTag(self, 8)
+	local editBox = cc.uiloader:seekNodeByName(self, "name_TextField")
 	editBox:registerScriptEditBoxHandler(function(event, editbox)
 		print("CCSSample2Scene editbox input")
-		-- dump(event, "editbox:")
 	end)
 end
 

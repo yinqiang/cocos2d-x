@@ -14,9 +14,20 @@ function CCSSample4Scene:ctor()
 		-- dump(event, "event:")
 	end)
 
-	local rankView = cc.uiloader:seekNodeByTag(self, 8)
+	local rankView = cc.uiloader:seekNodeByName(self, "ranking_ScrollView")
 	rankView:onScroll(function(event)
 		print("CCSSample4Scene rank scroll")
+		-- dump(event, "event:")
+	end)
+
+	local buttonView = cc.uiloader:seekNodeByTag(self, 13)
+	buttonView:onButtonClicked(function(event)
+		if not rankView:isItemInViewRect(buttonView) then
+			print("CCSSample4Scene button not in view rect")
+			return
+		end
+
+		print("CCSSample4Scene button click")
 		-- dump(event, "event:")
 	end)
 end

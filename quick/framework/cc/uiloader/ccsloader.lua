@@ -17,6 +17,13 @@ end
 
 function ccsloader:parserJson(jsonVal)
 	local root = jsonVal.nodeTree
+	if not root then
+		root = jsonVal.widgetTree
+	end
+	if not root then
+		printInfo("ccsloader - parserJson havn't found root noe")
+		return
+	end
 	local uiRoot = self:generateUINode(root)
 
 	return uiRoot
@@ -407,7 +414,7 @@ function ccsloader:createLabel(options)
 	local node = cc.ui.UILabel.new({text = options.text,
 		font = options.fontName,
 		size = options.fontSize,
-		color = cc.c4b(options.colorR, options.colorG, options.colorB, options.opacity),
+		color = cc.c3b(options.colorR, options.colorG, options.colorB),
 		align = options.hAlignment,
 		valign = options.vAlignment,
 		x = options.x, y = options.y})
@@ -419,12 +426,23 @@ function ccsloader:createLabel(options)
 end
 
 function ccsloader:createLabelAtlas(options)
-	local labelAtlas = cc.LabelAtlas:_create()
-	labelAtlas:initWithString(options.stringValue,
-		options.charMapFileData.path,
-		options.itemWidth,
-		options.itemHeight,
-		string.byte(options.startCharMap))
+	local labelAtlas
+	if "function" == type(cc.LabelAtlas._create) then
+		labelAtlas = cc.LabelAtlas:_create()
+		labelAtlas:initWithString(options.stringValue,
+			options.charMapFileData.path,
+			options.itemWidth,
+			options.itemHeight,
+			string.byte(options.startCharMap))
+	else
+		labelAtlas = cc.LabelAtlas:create(
+			options.stringValue,
+			options.charMapFileData.path,
+			options.itemWidth,
+			options.itemHeight,
+			string.byte(options.startCharMap))
+	end
+
 	labelAtlas:setAnchorPoint(
 		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
 	labelAtlas:setPosition(options.x, options.y)

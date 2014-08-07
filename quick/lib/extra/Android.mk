@@ -34,7 +34,16 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/filters/filters/CCTestFilter.cpp \
     $(LOCAL_PATH)/filters/filters/CCCustomFilter.cpp \
     $(LOCAL_PATH)/filters/nodes/CCFilteredSprite.cpp \
-    $(LOCAL_PATH)/filters/shaders/ccFilterShaders.cpp 
+    $(LOCAL_PATH)/filters/shaders/ccFilterShaders.cpp
+
+ifdef $(ANYSDK_DEFINE)
+
+LOCAL_SRC_FILES += \
+    $(LOCAL_PATH)/anysdk/src/AnySDKListener.cpp \
+    $(LOCAL_PATH)/anysdk/src/lua_anysdk_auto.cpp \
+    $(LOCAL_PATH)/anysdk/src/lua_anysdk_manual.cpp
+
+endif
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
@@ -54,7 +63,10 @@ LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
                     $(QUICK_V3_LIB)/lua_bindings/tolua \
                     $(COCOS2DX_ROOT) \
                     $(COCOS2DX_ROOT)/extensions \
-                    $(COCOS2DX_CORE)/filters
+                    $(COCOS2DX_CORE)/filters \
+                    $(QUICK_V3_LIB)/extra/anysdk/protocols/include \
+                    $(COCOS2DX_ROOT)/external/json
+
 
 
 LOCAL_CFLAGS := -Wno-psabi -DUSE_FILE32API -DCC_LUA_ENGINE_ENABLED=1 $(ANDROID_COCOS2D_BUILD_FLAGS) -std=c++11

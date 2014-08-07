@@ -1,5 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
+$(call import-add-path, $(QUICK_V3_LIB)/extra/anysdk/)
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := game_shared
@@ -27,7 +29,9 @@ LOCAL_EXPORT_LDLIBS := -lGLESv1_CM \
                        -landroid
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos_lua_static
+LOCAL_WHOLE_STATIC_LIBRARIES += PluginProtocolStatic
 
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,lua_bindings)
+$(call import-module,protocols/android)
