@@ -43,6 +43,7 @@ LOCAL_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/tolua \
                     $(QUICK_V3_LIB)/extra/crypto \
                     $(QUICK_V3_LIB)/extra/network \
                     $(QUICK_V3_LIB)/extra/filters \
+                    $(QUICK_V3_LIB)/extra/anysdk \
                     $(QUICK_V3_LIB)/external \
                     $(COCOS2DX_ROOT)/external/xxtea
 

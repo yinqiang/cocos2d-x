@@ -68,6 +68,12 @@ extern "C" {
 #include "luabinding/HelperFunc_luabinding.h"
 #include "lua_cocos2dx_extension_filter_auto.hpp"
 
+
+#if defined(ANYSDK_DEFINE)
+#include "src/lua_anysdk_auto.hpp"
+#include "src/lua_anysdk_manual.hpp"
+#endif
+
 namespace {
 int lua_print(lua_State * luastate)
 {
@@ -192,6 +198,11 @@ bool LuaStack::init(void)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
     tolua_web_socket_open(_state);
     register_web_socket_manual(_state);
+#endif
+
+#ifdef ANYSDK_DEFINE
+    register_all_anysdk(_state);
+    register_all_anysdk_manual(_state);
 #endif
     
     //register_xml_http_request(_state);
