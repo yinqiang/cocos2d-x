@@ -242,7 +242,7 @@ class ProjectCreator
 
         while (($file = readdir($dh)) !== false)
         {
-            if ($file{0} == '.')
+            if ($file == "." || $file == "..")
             {
                 continue;
             }
