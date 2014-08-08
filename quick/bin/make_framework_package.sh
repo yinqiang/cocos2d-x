@@ -17,6 +17,20 @@ do
     cp lib/framework_precompiled/framework_precompiled.zip $dest
 done
 
+"$DIR/compile_scripts.sh" -i framework -o lib/framework_precompiled/framework_precompiled_wp8.zip -p framework -m zip -luac
+
+echo ""
+echo "updating all framework_precompiled_wp8.zip"
+echo ""
+echo templates/PROJECT_TEMPLATE_01/res/framework_precompiled_wp8.zip
+cp lib/framework_precompiled/framework_precompiled_wp8.zip templates/PROJECT_TEMPLATE_01/res/
+
+for dest in `find samples -type f | grep "/res/framework_precompiled_wp8.zip"`
+do
+    echo $dest
+    cp lib/framework_precompiled/framework_precompiled_wp8.zip $dest
+done
+
 echo ""
 echo "DONE"
 echo ""

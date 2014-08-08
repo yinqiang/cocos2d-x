@@ -45,12 +45,20 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     LuaStack *pStack = pEngine->getLuaStack();
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // load framework
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
     
     // set script path
     string path = FileUtils::getInstance()->fullPathForFilename("scripts/main.lua");
+
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+    // load framework
+    pStack->loadChunksFromZIP("res/framework_precompiled_wp8.zip");
+    
+    // set script path
+    string path = FileUtils::getInstance()->fullPathForFilename("scripts/main.lua");
+    
 #else
     // load framework
     if (m_projectConfig.isLoadPrecompiledFramework())
