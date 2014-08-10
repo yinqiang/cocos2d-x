@@ -4,8 +4,6 @@
 
 #include <string>
 
-using namespace std;
-
 #include "cocos2d.h"
 #include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
@@ -22,29 +20,29 @@ class PlayerMenuItem : public cocos2d::Ref
 public:
     virtual ~PlayerMenuItem();
 
-    string getMenuId() const;
-    string getTitle() const;
+    std::string getMenuId() const;
+    std::string getTitle() const;
     int getOrder() const;
     bool isGroup() const;
     bool isEnabled() const;
     bool isChecked() const;
-    string getShortcut() const;
+    std::string getShortcut() const;
 
-    virtual void setTitle(const string &title) = 0;
+    virtual void setTitle(const std::string &title) = 0;
     virtual void setEnabled(bool enabled) = 0;
     virtual void setChecked(bool checked) = 0;
-    virtual void setShortcut(const string &shortcut) = 0;
+    virtual void setShortcut(const std::string &shortcut) = 0;
 
 protected:
     PlayerMenuItem();
 
-    string _menuId;
-    string _title;
+    std::string _menuId;
+    std::string _title;
     int _order;
     bool _isGroup;
     bool _isEnabled;
     bool _isChecked; // ignored when isGroup = true
-    string _shortcut; // ignored when isGroup = true
+    std::string _shortcut; // ignored when isGroup = true
 };
 
 class PlayerMenuServiceProtocol : public PlayerServiceProtocol
@@ -52,11 +50,15 @@ class PlayerMenuServiceProtocol : public PlayerServiceProtocol
 public:
     static const int MAX_ORDER = 9999;
 
-    virtual PlayerMenuItem *addItem(const string &menuId, const string &title, const string &parentId, int order = MAX_ORDER) = 0;
-    virtual PlayerMenuItem *addItem(const string &menuId, const string &title) = 0;
-    virtual PlayerMenuItem *getItem(const string &menuId) = 0;
-    virtual bool removeItem(const string &menuId) = 0;
-}; 
+    virtual PlayerMenuItem *addItem(const std::string &menuId,
+                                    const std::string &title,
+                                    const std::string &parentId,
+                                    int order = MAX_ORDER) = 0;
+    virtual PlayerMenuItem *addItem(const std::string &menuId,
+                                    const std::string &title) = 0;
+    virtual PlayerMenuItem *getItem(const std::string &menuId) = 0;
+    virtual bool removeItem(const std::string &menuId) = 0;
+};
 
 PLAYER_NS_END
 

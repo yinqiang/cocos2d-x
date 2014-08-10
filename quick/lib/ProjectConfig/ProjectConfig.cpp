@@ -48,12 +48,12 @@ void ProjectConfig::resetToWelcome()
     setProjectDir(path);
     setWritablePath(path);
     setScriptFile("$(PROJDIR)/scripts/main.lua");
-    setFrameSize(Size(960, 640));
+    setFrameSize(cocos2d::Size(960, 640));
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
     setShowConsole(true);
-    setWindowOffset(Vec2::ZERO);
+    setWindowOffset(cocos2d::Vec2::ZERO);
     setWriteDebugLogToFile(false);
 }
 
@@ -159,12 +159,12 @@ vector<string> ProjectConfig::getPackagePathArray() const
     return arr;
 }
 
-Size ProjectConfig::getFrameSize() const
+cocos2d::Size ProjectConfig::getFrameSize() const
 {
     return _frameSize;
 }
 
-void ProjectConfig::setFrameSize(const Size &frameSize)
+void ProjectConfig::setFrameSize(const cocos2d::Size &frameSize)
 {
     if (frameSize.width > 0 && frameSize.height > 0)
     {
@@ -249,12 +249,12 @@ string ProjectConfig::getDebugLogFilePath() const
     return path;
 }
 
-Vec2 ProjectConfig::getWindowOffset() const
+cocos2d::Vec2 ProjectConfig::getWindowOffset() const
 {
     return _windowOffset;
 }
 
-void ProjectConfig::setWindowOffset(const Vec2 &windowOffset)
+void ProjectConfig::setWindowOffset(const cocos2d::Vec2 &windowOffset)
 {
     _windowOffset = windowOffset;
 }
@@ -309,11 +309,11 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         }
         else if (arg.compare("-landscape") == 0)
         {
-            setFrameSize(Size(DEFAULT_HEIGHT, DEFAULT_WIDTH));
+            setFrameSize(cocos2d::Size(DEFAULT_HEIGHT, DEFAULT_WIDTH));
         }
         else if (arg.compare("-portrait") == 0)
         {
-            setFrameSize(Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+            setFrameSize(cocos2d::Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         }
         else if (arg.compare("-size") == 0)
         {
@@ -330,7 +330,7 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
                 heightStr.assign(sizeStr, pos + 1, sizeStr.length() - pos);
                 width = atoi(widthStr.c_str());
                 height = atoi(heightStr.c_str());
-                setFrameSize(Size(width, height));
+                setFrameSize(cocos2d::Size(width, height));
             }
         }
         else if (arg.compare("-scale") == 0)
@@ -368,7 +368,7 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             ++it;
             if (it == args.end()) break;
-            setWindowOffset(PointFromString((*it).c_str()));
+            setWindowOffset(cocos2d::PointFromString((*it).c_str()));
         }
         else if (arg.compare("-debugger-ldt") == 0)
         {
@@ -539,7 +539,7 @@ bool ProjectConfig::isResizeWindow() const
 
 bool ProjectConfig::validate() const
 {
-    auto utils = FileUtils::getInstance();
+    auto utils = cocos2d::FileUtils::getInstance();
     if (!utils->isDirectoryExist(_projectDir)) return false;
     if (!utils->isDirectoryExist(getWritableRealPath())) return false;
     if (!utils->isFileExist(getScriptFileRealPath())) return false;
@@ -548,18 +548,18 @@ bool ProjectConfig::validate() const
 
 void ProjectConfig::dump()
 {
-    log("Project Config:");
-    log("    quick root path: %s", SimulatorConfig::getInstance()->getQuickCocos2dxRootPath().c_str());
-    log("    project dir: %s", _projectDir.c_str());
-    log("    writable path: %s", _writablePath.length() ? _writablePath.c_str() : "-");
-    log("    script file: %s", _scriptFile.c_str());
-    log("    package.path: %s", _packagePath.length() ? _packagePath.c_str() : "-");
-    log("    frame size: %0.0f x %0.0f", _frameSize.width, _frameSize.height);
-    log("    frame scale: %0.2f", _frameScale);
-    log("    show console: %s", _showConsole ? "YES" : "NO");
-    log("    write debug log: %s", _writeDebugLogToFile ? "YES" : "NO");
-    log("    debugger: %s", _debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
-    log("\n\n");
+    CCLOG("Project Config:");
+    CCLOG("    quick root path: %s", SimulatorConfig::getInstance()->getQuickCocos2dxRootPath().c_str());
+    CCLOG("    project dir: %s", _projectDir.c_str());
+    CCLOG("    writable path: %s", _writablePath.length() ? _writablePath.c_str() : "-");
+    CCLOG("    script file: %s", _scriptFile.c_str());
+    CCLOG("    package.path: %s", _packagePath.length() ? _packagePath.c_str() : "-");
+    CCLOG("    frame size: %0.0f x %0.0f", _frameSize.width, _frameSize.height);
+    CCLOG("    frame scale: %0.2f", _frameScale);
+    CCLOG("    show console: %s", _showConsole ? "YES" : "NO");
+    CCLOG("    write debug log: %s", _writeDebugLogToFile ? "YES" : "NO");
+    CCLOG("    debugger: %s", _debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
+    CCLOG("\n\n");
 }
 
 void ProjectConfig::normalize()

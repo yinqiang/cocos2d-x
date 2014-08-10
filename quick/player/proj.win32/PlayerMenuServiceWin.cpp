@@ -3,7 +3,7 @@
 
 PLAYER_NS_BEGIN
 
-PlayerMenuItemWin *PlayerMenuItemWin::create(const string &menuId, const string &title)
+PlayerMenuItemWin *PlayerMenuItemWin::create(const std::string &menuId, const std::string &title)
 {
     PlayerMenuItemWin *item = new PlayerMenuItemWin();
     item->_menuId = menuId;
@@ -33,7 +33,7 @@ PlayerMenuItemWin::~PlayerMenuItemWin()
     }
 }
 
-void PlayerMenuItemWin::setTitle(const string &title)
+void PlayerMenuItemWin::setTitle(const std::string &title)
 {
     if (title.length() == 0)
     {
@@ -45,8 +45,8 @@ void PlayerMenuItemWin::setTitle(const string &title)
     menuitem.cbSize = sizeof(menuitem);
     menuitem.fMask = MIIM_FTYPE | MIIM_STRING;
     menuitem.fType = (title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
-    u16string u16title;
-    StringUtils::UTF8ToUTF16(title, u16title);
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
     menuitem.dwTypeData = (LPTSTR)u16title.c_str();
     if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
     {
@@ -93,7 +93,7 @@ void PlayerMenuItemWin::setChecked(bool checked)
     }
 }
 
-void PlayerMenuItemWin::setShortcut(const string &shortcut)
+void PlayerMenuItemWin::setShortcut(const std::string &shortcut)
 {
 
 }
@@ -116,7 +116,10 @@ PlayerMenuServiceWin::~PlayerMenuServiceWin()
 {
 }
 
-PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string &title, const string &parentId, int order /* = MAX_ORDER */)
+PlayerMenuItem *PlayerMenuServiceWin::addItem(const std::string &menuId,
+                                              const std::string &title,
+                                              const std::string &parentId,
+                                              int order /* = MAX_ORDER */)
 {
     if (menuId.length() == 0 || title.length() == 0)
     {
@@ -174,8 +177,8 @@ PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string
     menuitem.fType = (item->_title.compare("-") == 0) ? MFT_SEPARATOR : MFT_STRING;
     menuitem.fState = (item->_isEnabled) ? MFS_ENABLED : MFS_DISABLED;
     menuitem.fState |= (item->_isChecked) ? MFS_CHECKED : MFS_UNCHECKED;
-    u16string u16title;
-    StringUtils::UTF8ToUTF16(item->_title, u16title);
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(item->_title, u16title);
     menuitem.dwTypeData = (LPTSTR)u16title.c_str();
     menuitem.wID = _newCommandId;
 
@@ -207,12 +210,13 @@ PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string
     return item;
 }
 
-PlayerMenuItem *PlayerMenuServiceWin::addItem(const string &menuId, const string &title)
+PlayerMenuItem *PlayerMenuServiceWin::addItem(const std::string &menuId,
+                                              const std::string &title)
 {
     return addItem(menuId, title, "");
 }
 
-PlayerMenuItem *PlayerMenuServiceWin::getItem(const string &menuId)
+PlayerMenuItem *PlayerMenuServiceWin::getItem(const std::string &menuId)
 {
     auto it = _items.find(menuId);
     if (it == _items.end())
@@ -224,12 +228,12 @@ PlayerMenuItem *PlayerMenuServiceWin::getItem(const string &menuId)
     return it->second;
 }
 
-bool PlayerMenuServiceWin::removeItem(const string &menuId)
+bool PlayerMenuServiceWin::removeItem(const std::string &menuId)
 {
     return removeItemInternal(menuId, true);
 }
 
-bool PlayerMenuServiceWin::removeItemInternal(const string &menuId, bool isUpdateChildrenOrder)
+bool PlayerMenuServiceWin::removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder)
 {
     auto it = _items.find(menuId);
     if (it == _items.end())

@@ -7,9 +7,6 @@
 #include <Commdlg.h>
 
 #include "cocos2d.h"
-
-using namespace cocos2d;
-
 #include "PlayerUtils.h"
 #include "PlayerFileDialogServiceWin.h"
 
@@ -20,31 +17,36 @@ PlayerFileDialogServiceWin::PlayerFileDialogServiceWin(HWND hwnd)
 {
 }
 
-string PlayerFileDialogServiceWin::openFile(const string &title, const string &directory, const string &extensions) const
+std::string PlayerFileDialogServiceWin::openFile(const std::string &title,
+                                                 const std::string &directory,
+                                                 const std::string &extensions) const
 {
-    vector<string> result = openMultipleInternal(title, directory, extensions, false);
+    vector<std::string> result = openMultipleInternal(title, directory, extensions, false);
     if (result.size())
     {
         return result.at(0);
     }
-    return string();
+    return std::string();
 }
 
-vector<string> PlayerFileDialogServiceWin::openMultiple(const string &title, const string &directory, const string &extensions) const
+std::vector<std::string> PlayerFileDialogServiceWin::openMultiple(const std::string &title,
+                                                                  const std::string &directory,
+                                                                  const std::string &extensions) const
 {
     return openMultipleInternal(title, directory, extensions, true);
 }
 
-string PlayerFileDialogServiceWin::saveFile(const string &title, const string &path) const
+std::string PlayerFileDialogServiceWin::saveFile(const std::string &title,
+                                                 const std::string &path) const
 {
-    u16string u16title;
-    StringUtils::UTF8ToUTF16(title, u16title);
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
 
     WCHAR buff[MAX_PATH + 1] = {0};
     if (path.length() > 0)
     {
-        u16string u16filename;
-        StringUtils::UTF8ToUTF16(path, u16filename);
+        std::u16string u16filename;
+        cocos2d::StringUtils::UTF8ToUTF16(path, u16filename);
         wcscpy_s(buff, (WCHAR*)u16filename.c_str());
     }
 
@@ -57,7 +59,7 @@ string PlayerFileDialogServiceWin::saveFile(const string &title, const string &p
     ofn.lpstrFile = buff;
     ofn.nMaxFile = MAX_PATH;
 
-    string result;
+    std::string result;
     if (!GetSaveFileName(&ofn))
     {
         // user cancel dialog, GetOpenFileName(will return FALSE
@@ -69,7 +71,7 @@ string PlayerFileDialogServiceWin::saveFile(const string &title, const string &p
         return result;
     }
 
-    StringUtils::UTF16ToUTF8((char16_t*)buff, result);
+    cocos2d::StringUtils::UTF16ToUTF8((char16_t*)buff, result);
     return result;
 }
 
@@ -84,16 +86,17 @@ int CALLBACK BrowseFolderCallback(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lp
     return 0;
 }
 
-string PlayerFileDialogServiceWin::openDirectory(const string &title, const string &directory) const
+std::string PlayerFileDialogServiceWin::openDirectory(const std::string &title,
+                                                      const std::string &directory) const
 {
-    u16string u16title;
-    StringUtils::UTF8ToUTF16(title, u16title);
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
 
     WCHAR basedir[MAX_PATH + 1];
     if (directory.length())
     {
-        u16string u16directory;
-        StringUtils::UTF8ToUTF16(directory, u16directory);
+        std::u16string u16directory;
+        cocos2d::StringUtils::UTF8ToUTF16(directory, u16directory);
         wcscpy_s(basedir, (WCHAR*)u16directory.c_str());
     }
     else
@@ -114,17 +117,17 @@ string PlayerFileDialogServiceWin::openDirectory(const string &title, const stri
     if (pid)
     {
         SHGetPathFromIDList(pid, buff);
-        string result;
-        StringUtils::UTF16ToUTF8((char16_t*)buff, result);
+        std::string result;
+        cocos2d::StringUtils::UTF16ToUTF8((char16_t*)buff, result);
         return result;
     }
     else
     {
-        return string("");
+        return std::string("");
     }
 }
 
-LPTSTR PlayerFileDialogServiceWin::parseExtensions(const string &extensions) const
+LPTSTR PlayerFileDialogServiceWin::parseExtensions(const std::string &extensions) const
 {
     static WCHAR *defaultExtensions = L"All Files (*.*)\0*.*\0";
     if (extensions.length() == 0)
@@ -137,11 +140,11 @@ LPTSTR PlayerFileDialogServiceWin::parseExtensions(const string &extensions) con
     // "Lua Script File|*.lua;JSON File|*.json"
     // to
     // "Lua Script File (*.lua)\0*.lua\0JSON File (*.json)\0*.json\0";
-    u16string u16extensions;
-    u16string split1((char16_t*)L";");
-    u16string split2((char16_t*)L"|");
-    StringUtils::UTF8ToUTF16(extensions, u16extensions);
-    vector<u16string> pairs = splitString(u16extensions, split1);
+    std::u16string u16extensions;
+    std::u16string split1((char16_t*)L";");
+    std::u16string split2((char16_t*)L"|");
+    cocos2d::StringUtils::UTF8ToUTF16(extensions, u16extensions);
+    vector<std::u16string> pairs = splitString(u16extensions, split1);
 
     size_t buffsize = extensions.length() * 6;
     WCHAR *buff = new WCHAR[buffsize];
@@ -149,8 +152,8 @@ LPTSTR PlayerFileDialogServiceWin::parseExtensions(const string &extensions) con
     size_t offset = 0;
     for (auto it = pairs.begin(); it != pairs.end(); ++it)
     {
-        vector<u16string> p = splitString(*it, split2);
-        u16string descr, ext;
+        vector<std::u16string> p = splitString(*it, split2);
+        std::u16string descr, ext;
         if (p.size() < 2)
         {
             descr = ext = *it;
@@ -169,20 +172,23 @@ LPTSTR PlayerFileDialogServiceWin::parseExtensions(const string &extensions) con
         wcscat(buff + offset, (WCHAR*)ext.c_str());
         offset += ext.length() + 1;
     }
-    
+
     return buff;
 }
 
-vector<string> PlayerFileDialogServiceWin::openMultipleInternal(const string &title, const string &directory, const string &extensions, bool isMulti) const
+std::vector<std::string> PlayerFileDialogServiceWin::openMultipleInternal(const std::string &title,
+                                                                          const std::string &directory,
+                                                                          const std::string &extensions,
+                                                                          bool isMulti) const
 {
-    u16string u16title;
-    StringUtils::UTF8ToUTF16(title, u16title);
+    std::u16string u16title;
+    cocos2d::StringUtils::UTF8ToUTF16(title, u16title);
 
     WCHAR basedir[MAX_PATH + 1];
     if (directory.length())
     {
-        u16string u16directory;
-        StringUtils::UTF8ToUTF16(directory, u16directory);
+        std::u16string u16directory;
+        cocos2d::StringUtils::UTF8ToUTF16(directory, u16directory);
         wcscpy_s(basedir, (WCHAR*)u16directory.c_str());
     }
     else
@@ -206,7 +212,7 @@ vector<string> PlayerFileDialogServiceWin::openMultipleInternal(const string &ti
     ofn.lpstrFile = buff;
     ofn.nMaxFile = buffsize;
 
-    vector<string> result;
+    vector<std::string> result;
     BOOL ret = GetOpenFileName(&ofn);
     delete[] ofn.lpstrFilter;
     if (!ret)
@@ -224,12 +230,12 @@ vector<string> PlayerFileDialogServiceWin::openMultipleInternal(const string &ti
     if (isMulti)
     {
         WORD offset = 0;
-        string path;
+        std::string path;
         while (buff[offset] != '\0')
         {
-            string filename;
-            u16string u16filename((char16_t*)(buff + offset));
-            StringUtils::UTF16ToUTF8(u16filename, filename);
+            std::string filename;
+            std::u16string u16filename((char16_t*)(buff + offset));
+            cocos2d::StringUtils::UTF16ToUTF8(u16filename, filename);
 
             if (offset == 0)
             {
@@ -248,8 +254,8 @@ vector<string> PlayerFileDialogServiceWin::openMultipleInternal(const string &ti
     }
     else
     {
-        string path;
-        StringUtils::UTF16ToUTF8((char16_t*)buff, path);
+        std::string path;
+        cocos2d::StringUtils::UTF16ToUTF8((char16_t*)buff, path);
         result.push_back(path);
     }
     delete[] buff;

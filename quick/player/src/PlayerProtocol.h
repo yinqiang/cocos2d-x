@@ -3,14 +3,12 @@
 #define __PLAYER_PROTOCOL_H_
 
 #include "PlayerMacros.h"
+#include "PlayerSettings.h"
 
 #include "PlayerFileDialogServiceProtocol.h"
 #include "PlayerMessageBoxServiceProtocol.h"
 #include "PlayerMenuServiceProtocol.h"
 #include "PlayerEditBoxServiceProtocol.h"
-
-#include "PlayerUtils.h"
-#include "PlayerSettings.h"
 
 PLAYER_NS_BEGIN
 
@@ -34,11 +32,6 @@ protected:
     PlayerProtocol(); // avoid create instance from outside
 
     PlayerSettings _settings;
-
-    PlayerFileDialogServiceProtocol *_fileDialogService;
-    PlayerMessageBoxServiceProtocol *_messageBoxService;
-    PlayerMenuServiceProtocol       *_menuService;
-    PlayerEditBoxServiceProtocol    *_editBoxService;
 
 private:
     static PlayerProtocol *_instance;

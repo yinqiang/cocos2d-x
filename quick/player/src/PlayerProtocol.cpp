@@ -7,10 +7,6 @@ PLAYER_NS_BEGIN
 PlayerProtocol *PlayerProtocol::_instance = nullptr;
 
 PlayerProtocol::PlayerProtocol()
-: _fileDialogService(nullptr)
-, _messageBoxService(nullptr)
-, _menuService(nullptr)
-, _editBoxService(nullptr)
 {
     CCASSERT(_instance == nullptr, "CAN NOT CREATE MORE PLAYER INSTANCE");
     _instance = this;
@@ -18,10 +14,6 @@ PlayerProtocol::PlayerProtocol()
 
 PlayerProtocol::~PlayerProtocol()
 {
-    PLAYER_SAFE_DELETE(_fileDialogService);
-    PLAYER_SAFE_DELETE(_messageBoxService);
-    PLAYER_SAFE_DELETE(_menuService);
-    PLAYER_SAFE_DELETE(_editBoxService);
     _instance = nullptr;
 }
 
@@ -32,7 +24,7 @@ PlayerProtocol *PlayerProtocol::getInstance()
 
 void PlayerProtocol::purgeInstance()
 {
-    PLAYER_SAFE_DELETE(_instance);
+    if (_instance) delete _instance;
 }
 
 void PlayerProtocol::setPlayerSettings(const PlayerSettings &settings)

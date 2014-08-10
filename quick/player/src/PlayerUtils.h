@@ -14,14 +14,13 @@ PLAYER_NS_BEGIN
 template<class T>
 vector<T> splitString(T str, T pattern)
 {
-    typename T::size_t pos;
     vector<T> result;
     str += pattern;
     size_t size = str.size();
 
     for (size_t i = 0; i < size; i++)
     {
-        pos = str.find(pattern, i);
+        size_t pos = str.find(pattern, i);
         if (pos < size)
         {
             T s = str.substr(i, pos - i);

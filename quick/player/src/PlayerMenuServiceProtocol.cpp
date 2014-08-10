@@ -1,6 +1,5 @@
 
 #include "PlayerMenuServiceProtocol.h"
-#include "CCLuaEngine.h"
 
 PLAYER_NS_BEGIN
 
@@ -16,12 +15,12 @@ PlayerMenuItem::~PlayerMenuItem()
 {
 }
 
-string PlayerMenuItem::getMenuId() const
+std::string PlayerMenuItem::getMenuId() const
 {
     return _menuId;
 }
 
-string PlayerMenuItem::getTitle() const
+std::string PlayerMenuItem::getTitle() const
 {
     return _title;
 }
@@ -46,7 +45,7 @@ bool PlayerMenuItem::isChecked() const
     return _isChecked;
 }
 
-string PlayerMenuItem::getShortcut() const
+std::string PlayerMenuItem::getShortcut() const
 {
     return _shortcut;
 }

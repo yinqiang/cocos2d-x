@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
-
 #include <Commdlg.h>
 #include <Shlobj.h>
 #include <winnls.h>
@@ -42,13 +41,10 @@ Player::Player()
 , _menuService(nullptr)
 , _messageBoxService(nullptr)
 {
-    _luastack = LuaStack::create();
-    _luastack->retain();
 }
 
 Player::~Player()
 {
-    CC_SAFE_RELEASE(_luastack);
     CC_SAFE_DELETE(_menuService);
     CC_SAFE_DELETE(_messageBoxService);
     CC_SAFE_DELETE(_fileDialogService);
@@ -195,6 +191,7 @@ void Player::initServices()
     _menuService = new PlayerMenuServiceWin(_hwnd);
     _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
     _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
+    _editboxService = new PlayerEditBoxServiceWin(_hwnd);
 
     if (_project.isDialog())
     {
@@ -253,10 +250,14 @@ void Player::onWindowClose(EventCustom* event)
     forwardEvent.setDataString(buf.str());
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
 
-    if (forwardEvent.getResult().compare("cancel") != 0)
-    {
-        glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
-    }
+    cocos2d::Rect rect(100, 50, 500, 380);
+    _editboxService->setFont("Microsoft YaHei", 11);
+    _editboxService->showMultiLineEditBox(rect);
+
+    //if (forwardEvent.getResult().compare("cancel") != 0)
+    //{
+    glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 0);
+    //}
 }
 
 // debug log

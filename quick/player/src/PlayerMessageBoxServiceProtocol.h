@@ -3,9 +3,6 @@
 #define __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
 
 #include <string>
-#include <vector>
-
-using namespace std;
 
 #include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
@@ -28,7 +25,9 @@ public:
     // Show a message box, return index of user clicked button
     //
     // @return int first button index is 0
-    virtual int showMessageBox(const string &title, const string &message, int buttonsType = BUTTONS_OK) = 0;
+    virtual int showMessageBox(const std::string &title,
+                               const std::string &message,
+                               int buttonsType = BUTTONS_OK) = 0;
 };
 
 PLAYER_NS_END
