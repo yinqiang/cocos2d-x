@@ -9,8 +9,6 @@ using namespace std;
 
 #include "cocos2d.h"
 
-using namespace cocos2d;
-
 #if defined(_WINDOWS)
 #define DIRECTORY_SEPARATOR "\\"
 #define DIRECTORY_SEPARATOR_CHAR '\\'
@@ -43,7 +41,7 @@ public:
     // predefined screen size
     int getScreenSizeCount() const;
     SimulatorScreenSize getScreenSize(int index) const;
-    int checkScreenSize(const Size &size) const;
+    int checkScreenSize(const cocos2d::Size &size) const;
 
     // set quick-cocos2d-x root path
     void setQuickCocos2dxRootPath(const string &path);

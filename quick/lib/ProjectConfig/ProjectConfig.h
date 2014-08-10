@@ -10,8 +10,6 @@ using namespace std;
 #include "cocos2d.h"
 #include "lua_bindings/manual/CCLuaStack.h"
 
-using namespace cocos2d;
-
 #define kProjectConfigQuickRootPath             1       // -quick "PATH"
 #define kProjectConfigProjectDir                2       // -workdir "PATH"
 #define kProjectConfigScriptFile                4       // -script "FILENAME"
@@ -58,8 +56,8 @@ public:
     void addPackagePath(const string &packagePath);
     vector<string> getPackagePathArray() const;
 
-    Size getFrameSize() const;
-    void setFrameSize(const Size &frameSize);
+    cocos2d::Size getFrameSize() const;
+    void setFrameSize(const cocos2d::Size &frameSize);
     bool isLandscapeFrame() const;
     bool isPortraitFrame() const;
     void changeFrameOrientation();
@@ -79,8 +77,8 @@ public:
     void setWriteDebugLogToFile(bool writeDebugLogToFile);
     string getDebugLogFilePath() const;
 
-    Vec2 getWindowOffset() const;
-    void setWindowOffset(const Vec2 &windowOffset);
+    cocos2d::Vec2 getWindowOffset() const;
+    void setWindowOffset(const cocos2d::Vec2 &windowOffset);
 
     int getDebuggerType() const;
     void setDebuggerType(int debuggerType);
@@ -95,21 +93,21 @@ public:
     void dump();
 
 private:
-    bool    _isWelcome;
-    string  _projectDir;
-    string  _scriptFile;
-    string  _packagePath;
-    string  _writablePath;
-    Size    _frameSize;
-    float   _frameScale;
-    bool    _showConsole;
-    bool    _loadPrecompiledFramework;
-    bool    _writeDebugLogToFile;
-    bool    _restartProcess;
-    Vec2	_windowOffset;
-    int     _debuggerType;
-    bool    _isDialog;
-    bool    _isResizeWindow;
+    bool _isWelcome;
+    string _projectDir;
+    string _scriptFile;
+    string _packagePath;
+    string _writablePath;
+    cocos2d::Size _frameSize;
+    float _frameScale;
+    bool _showConsole;
+    bool _loadPrecompiledFramework;
+    bool _writeDebugLogToFile;
+    bool _restartProcess;
+    cocos2d::Vec2 _windowOffset;
+    int _debuggerType;
+    bool _isDialog;
+    bool _isResizeWindow;
 
     void normalize();
     string replaceProjectDirToMacro(const string &path) const;

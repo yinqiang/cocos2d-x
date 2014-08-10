@@ -14,7 +14,7 @@ PLAYER_NS_BEGIN
 template<class T>
 vector<T> splitString(T str, T pattern)
 {
-    T::size_type pos;
+    typename T::size_t pos;
     vector<T> result;
     str += pattern;
     size_t size = str.size();

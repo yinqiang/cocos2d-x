@@ -5,12 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-using namespace std;
-
 #include "cocos2d.h"
-
-using namespace cocos2d;
-
 #include "stdafx.h"
 #include "PlayerMenuServiceProtocol.h"
 
@@ -19,9 +14,7 @@ PLAYER_NS_BEGIN
 class PlayerMenuItemWin : public PlayerMenuItem
 {
 public:
-    static PlayerMenuItemWin *create(const string &menuId,
-        const string &title);
-
+    static PlayerMenuItemWin *create(const string &menuId, const string &title);
     virtual ~PlayerMenuItemWin();
 
     virtual void setTitle(const string &title);
@@ -35,7 +28,7 @@ protected:
     PlayerMenuItemWin *_parent;
     UINT _commandId;
     HMENU _hmenu;
-    Vector<PlayerMenuItemWin*> _children;
+    cocos2d::Vector<PlayerMenuItemWin*> _children;
 
     friend class PlayerMenuServiceWin;
 };

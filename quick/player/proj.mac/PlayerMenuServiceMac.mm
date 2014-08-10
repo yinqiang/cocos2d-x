@@ -1,9 +1,5 @@
-//
-//  MenuServiceMac.mm
-//  quick-x-player
-//
 
-#include "MenuServiceMac.h"
+#include "PlayerMenuServiceMac.h"
 #include "PlayerUtils.h"
 
 #include "CCLuaEngine.h"
@@ -90,19 +86,19 @@ PLAYER_NS_BEGIN
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MenuServiceMac::MenuServiceMac()
+PlayerMenuServiceMac::PlayerMenuServiceMac()
 {
 //    m_id2Menu = [[NSMutableDictionary alloc] init];
 }
 
-MenuServiceMac::~MenuServiceMac()
+PlayerMenuServiceMac::~PlayerMenuServiceMac()
 {
 //    [m_id2Menu release];
     m_menu2Id.clear();
     m_id2Menu.clear();
 }
 
-void MenuServiceMac::addItem( const PlayerMenuItem &item,
+void PlayerMenuServiceMac::addItem( const PlayerMenuItem &item,
                               std::string    parentId,
                               int index)
 {
@@ -177,7 +173,7 @@ void MenuServiceMac::addItem( const PlayerMenuItem &item,
     modifyItem(item);
 }
 
-void MenuServiceMac::modifyItem(const PlayerMenuItem &item)
+void PlayerMenuServiceMac::modifyItem(const PlayerMenuItem &item)
 {
     std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(item.itemId);
     if (it != m_id2Menu.end())
@@ -216,7 +212,7 @@ void MenuServiceMac::modifyItem(const PlayerMenuItem &item)
     }
 }
 
-void MenuServiceMac::deleteItem(const PlayerMenuItem &item)
+void PlayerMenuServiceMac::deleteItem(const PlayerMenuItem &item)
 {
     std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(item.itemId);
     if (it != m_id2Menu.end())
@@ -230,7 +226,7 @@ void MenuServiceMac::deleteItem(const PlayerMenuItem &item)
 
 #pragma mark - private -
 
-void MenuServiceMac::removeIdRecursion(NSMenuItem *menuItem)
+void PlayerMenuServiceMac::removeIdRecursion(NSMenuItem *menuItem)
 {
     NSMenu *menu = [menuItem submenu];
     if (menu)
@@ -243,14 +239,14 @@ void MenuServiceMac::removeIdRecursion(NSMenuItem *menuItem)
     removeId(menuItem);
 }
 
-void MenuServiceMac::removeId(NSMenuItem *menuItem)
+void PlayerMenuServiceMac::removeId(NSMenuItem *menuItem)
 {
     std::string itemId = m_menu2Id[menuItem];
     m_id2Menu.erase(itemId);
     m_menu2Id.erase(menuItem);
 }
 
-void MenuServiceMac::addId(const std::string &menuIt, NSMenuItem *menuItem)
+void PlayerMenuServiceMac::addId(const std::string &menuIt, NSMenuItem *menuItem)
 {
     m_id2Menu[menuIt]   = menuItem;
     m_menu2Id[menuItem] = menuIt;

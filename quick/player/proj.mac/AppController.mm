@@ -22,7 +22,7 @@ USING_NS_CC;
 USING_NS_CC_EXTRA;
 
 // player interface
-#include "player_tolua.h"
+//#include "player_tolua.h"
 #include "PlayerProtocol.h"
 
 @implementation AppController
@@ -63,7 +63,7 @@ USING_NS_CC_EXTRA;
     
     env = [env stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     env = [NSString stringWithFormat:@"%@/quick", env];
-    SimulatorConfig::sharedDefaults()->setQuickCocos2dxRootPath([env cStringUsingEncoding:NSUTF8StringEncoding]);
+    SimulatorConfig::getInstance()->setQuickCocos2dxRootPath([env cStringUsingEncoding:NSUTF8StringEncoding]);
     
     [self loadLuaConfig];
     [self updateProjectConfigFromCommandLineArgs:&projectConfig];

@@ -7,9 +7,6 @@
 using namespace std;
 
 #include "cocos2d.h"
-
-using namespace cocos2d;
-
 #include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 
@@ -20,7 +17,7 @@ PLAYER_NS_BEGIN
 #define kPlayerCtrlModifyKey  "ctrl"
 #define kPlayerAltModifyKey   "alt"
 
-class PlayerMenuItem : public Ref
+class PlayerMenuItem : public cocos2d::Ref
 {
 public:
     virtual ~PlayerMenuItem();
