@@ -65,7 +65,7 @@ THE SOFTWARE.
 
 /**
  Position of the FPS
- 
+
  Default: 0,0 (bottom-left corner)
  */
 #ifndef CC_DIRECTOR_STATS_POSITION
@@ -134,6 +134,7 @@ bool Director::init(void)
     _openGLView = nullptr;
 
     _contentScaleFactor = 1.0f;
+    _screenScale = 1.0f;
 
     // scheduler
     _scheduler = new Scheduler();
@@ -177,7 +178,7 @@ Director::~Director(void)
     CC_SAFE_RELEASE(_notificationNode);
     CC_SAFE_RELEASE(_scheduler);
     CC_SAFE_RELEASE(_actionManager);
-    
+
     CC_SAFE_RELEASE(_scriptEventCenter);
 
     delete _eventAfterUpdate;
@@ -192,7 +193,7 @@ Director::~Director(void)
 #endif
 
     CC_SAFE_RELEASE(_eventDispatcher);
-    
+
     // delete _lastUpdate
     CC_SAFE_DELETE(_lastUpdate);
 
@@ -227,9 +228,9 @@ void Director::setDefaultValues(void)
     std::string pixel_format = conf->getValue("cocos2d.x.texture.pixel_format_for_png", Value("rgba8888")).asString();
     if (pixel_format == "rgba8888")
         Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA8888);
-    else if(pixel_format == "rgba4444")
+    else if (pixel_format == "rgba4444")
         Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA4444);
-    else if(pixel_format == "rgba5551")
+    else if (pixel_format == "rgba5551")
         Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGB5A1);
 
     // PVR v2 has alpha premultiplied ?
@@ -257,9 +258,9 @@ void Director::drawScene()
 {
     // calculate "global" dt
     calculateDeltaTime();
-    
+
     // skip one flame when _deltaTime equal to zero.
-    if(_deltaTime < FLT_EPSILON)
+    if (_deltaTime < FLT_EPSILON)
     {
         return;
     }
@@ -270,7 +271,7 @@ void Director::drawScene()
     }
 
     //tick before glClear: issue #533
-    if (! _paused)
+    if (!_paused)
     {
         _scheduler->update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
@@ -370,9 +371,9 @@ void Director::setOpenGLView(GLView *openGLView)
         // Configuration. Gather GPU info
         Configuration *conf = Configuration::getInstance();
         conf->gatherGPUInfo();
-        CCLOG("%s\n",conf->getInfo().c_str());
+        CCLOG("%s\n", conf->getInfo().c_str());
 
-        if(_openGLView)
+        if (_openGLView)
             _openGLView->release();
         _openGLView = openGLView;
         _openGLView->retain();
@@ -433,24 +434,24 @@ void Director::setNextDeltaTimeZero(bool nextDeltaTimeZero)
 {
     _nextDeltaTimeZero = nextDeltaTimeZero;
 }
-   
+
 void Director::initMatrixStack()
 {
     while (!_modelViewMatrixStack.empty())
     {
         _modelViewMatrixStack.pop();
     }
-    
+
     while (!_projectionMatrixStack.empty())
     {
         _projectionMatrixStack.pop();
     }
-    
+
     while (!_textureMatrixStack.empty())
     {
         _textureMatrixStack.pop();
     }
-    
+
     _modelViewMatrixStack.push(Mat4::IDENTITY);
     _projectionMatrixStack.push(Mat4::IDENTITY);
     _textureMatrixStack.push(Mat4::IDENTITY);
@@ -463,15 +464,15 @@ void Director::resetMatrixStack()
 
 void Director::popMatrix(MATRIX_STACK_TYPE type)
 {
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         _modelViewMatrixStack.pop();
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         _projectionMatrixStack.pop();
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         _textureMatrixStack.pop();
     }
@@ -483,15 +484,15 @@ void Director::popMatrix(MATRIX_STACK_TYPE type)
 
 void Director::loadIdentityMatrix(MATRIX_STACK_TYPE type)
 {
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         _modelViewMatrixStack.top() = Mat4::IDENTITY;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         _projectionMatrixStack.top() = Mat4::IDENTITY;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         _textureMatrixStack.top() = Mat4::IDENTITY;
     }
@@ -503,15 +504,15 @@ void Director::loadIdentityMatrix(MATRIX_STACK_TYPE type)
 
 void Director::loadMatrix(MATRIX_STACK_TYPE type, const Mat4& mat)
 {
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         _modelViewMatrixStack.top() = mat;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         _projectionMatrixStack.top() = mat;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         _textureMatrixStack.top() = mat;
     }
@@ -523,15 +524,15 @@ void Director::loadMatrix(MATRIX_STACK_TYPE type, const Mat4& mat)
 
 void Director::multiplyMatrix(MATRIX_STACK_TYPE type, const Mat4& mat)
 {
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         _modelViewMatrixStack.top() *= mat;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         _projectionMatrixStack.top() *= mat;
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         _textureMatrixStack.top() *= mat;
     }
@@ -543,15 +544,15 @@ void Director::multiplyMatrix(MATRIX_STACK_TYPE type, const Mat4& mat)
 
 void Director::pushMatrix(MATRIX_STACK_TYPE type)
 {
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         _modelViewMatrixStack.push(_modelViewMatrixStack.top());
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         _projectionMatrixStack.push(_projectionMatrixStack.top());
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         _textureMatrixStack.push(_textureMatrixStack.top());
     }
@@ -564,32 +565,32 @@ void Director::pushMatrix(MATRIX_STACK_TYPE type)
 Mat4 Director::getMatrix(MATRIX_STACK_TYPE type)
 {
     Mat4 result;
-    if(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
+    if (MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW == type)
     {
         result = _modelViewMatrixStack.top();
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION == type)
     {
         result = _projectionMatrixStack.top();
     }
-    else if(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
+    else if (MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE == type)
     {
         result = _textureMatrixStack.top();
     }
     else
     {
         CCASSERT(false, "unknow matrix stack type, will return modelview matrix instead");
-        result =  _modelViewMatrixStack.top();
+        result = _modelViewMatrixStack.top();
     }
-//    float diffResult(0);
-//    for (int index = 0; index <16; ++index)
-//    {
-//        diffResult += abs(result2.mat[index] - result.mat[index]);
-//    }
-//    if(diffResult > 1e-30)
-//    {
-//        CCASSERT(false, "Error in director matrix stack");
-//    }
+    //    float diffResult(0);
+    //    for (int index = 0; index <16; ++index)
+    //    {
+    //        diffResult += abs(result2.mat[index] - result.mat[index]);
+    //    }
+    //    if(diffResult > 1e-30)
+    //    {
+    //        CCASSERT(false, "Error in director matrix stack");
+    //    }
     return result;
 }
 
@@ -601,59 +602,59 @@ void Director::setProjection(Projection projection)
 
     switch (projection)
     {
-        case Projection::_2D:
-        {
-            loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+    case Projection::_2D:
+    {
+        loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
-            if(getOpenGLView() != nullptr)
-            {
-                multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, getOpenGLView()->getOrientationMatrix());
-            }
-#endif
-            Mat4 orthoMatrix;
-            Mat4::createOrthographicOffCenter(0, size.width, 0, size.height, -1024, 1024, &orthoMatrix);
-            multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
-            loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-            break;
-        }
-            
-        case Projection::_3D:
+        if(getOpenGLView() != nullptr)
         {
-            float zeye = this->getZEye();
-
-            Mat4 matrixPerspective, matrixLookup;
-
-            loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-            
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
-            //if needed, we need to add a rotation for Landscape orientations on Windows Phone 8 since it is always in Portrait Mode
-            GLView* view = getOpenGLView();
-            if(getOpenGLView() != nullptr)
-            {
-                multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, getOpenGLView()->getOrientationMatrix());
-            }
+            multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, getOpenGLView()->getOrientationMatrix());
+    }
 #endif
-            // issue #1334
-            Mat4::createPerspective(60, (GLfloat)size.width/size.height, 10, zeye+size.height/2, &matrixPerspective);
+        Mat4 orthoMatrix;
+        Mat4::createOrthographicOffCenter(0, size.width, 0, size.height, -1024, 1024, &orthoMatrix);
+        multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
+        loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+        break;
+    }
 
-            multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, matrixPerspective);
+    case Projection::_3D:
+    {
+        float zeye = this->getZEye();
 
-            Vec3 eye(size.width/2, size.height/2, zeye), center(size.width/2, size.height/2, 0.0f), up(0.0f, 1.0f, 0.0f);
-            Mat4::createLookAt(eye, center, up, &matrixLookup);
-            multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, matrixLookup);
-            
-            loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-            break;
-        }
+        Mat4 matrixPerspective, matrixLookup;
 
-        case Projection::CUSTOM:
-            // Projection Delegate is no longer needed
-            // since the event "PROJECTION CHANGED" is emitted
-            break;
+        loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 
-        default:
-            CCLOG("cocos2d: Director: unrecognized projection");
-            break;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
+        //if needed, we need to add a rotation for Landscape orientations on Windows Phone 8 since it is always in Portrait Mode
+        GLView* view = getOpenGLView();
+        if(getOpenGLView() != nullptr)
+        {
+            multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, getOpenGLView()->getOrientationMatrix());
+    }
+#endif
+        // issue #1334
+        Mat4::createPerspective(60, (GLfloat)size.width / size.height, 10, zeye + size.height / 2, &matrixPerspective);
+
+        multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, matrixPerspective);
+
+        Vec3 eye(size.width / 2, size.height / 2, zeye), center(size.width / 2, size.height / 2, 0.0f), up(0.0f, 1.0f, 0.0f);
+        Mat4::createLookAt(eye, center, up, &matrixLookup);
+        multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, matrixLookup);
+
+        loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+        break;
+}
+
+    case Projection::CUSTOM:
+        // Projection Delegate is no longer needed
+        // since the event "PROJECTION CHANGED" is emitted
+        break;
+
+    default:
+        CCLOG("cocos2d: Director: unrecognized projection");
+        break;
     }
 
     _projection = projection;
@@ -705,7 +706,7 @@ void Director::setDepthTest(bool on)
         glClearDepth(1.0f);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
-//        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        //        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
     else
     {
@@ -716,11 +717,11 @@ void Director::setDepthTest(bool on)
 
 static void GLToClipTransform(Mat4 *transformOut)
 {
-    if(nullptr == transformOut) return;
-    
+    if (nullptr == transformOut) return;
+
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when seting matrix stack");
-    
+
     Mat4 projection;
     projection = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 
@@ -742,15 +743,15 @@ Vec2 Director::convertToGL(const Vec2& uiPoint)
     Mat4 transformInv = transform.getInversed();
 
     // Calculate z=0 using -> transform*[0, 0, 0, 1]/w
-    float zClip = transform.m[14]/transform.m[15];
+    float zClip = transform.m[14] / transform.m[15];
 
     Size glSize = _openGLView->getDesignResolutionSize();
-    Vec4 clipCoord(2.0f*uiPoint.x/glSize.width - 1.0f, 1.0f - 2.0f*uiPoint.y/glSize.height, zClip, 1);
+    Vec4 clipCoord(2.0f*uiPoint.x / glSize.width - 1.0f, 1.0f - 2.0f*uiPoint.y / glSize.height, zClip, 1);
 
     Vec4 glCoord;
     //transformInv.transformPoint(clipCoord, &glCoord);
     transformInv.transformVector(clipCoord, &glCoord);
-    float factor = 1.0/glCoord.w;
+    float factor = 1.0 / glCoord.w;
     return Vec2(glCoord.x * factor, glCoord.y * factor);
 }
 
@@ -764,20 +765,20 @@ Vec2 Director::convertToUI(const Vec2& glPoint)
     Vec4 glCoord(glPoint.x, glPoint.y, 0.0, 1);
     transform.transformVector(glCoord, &clipCoord);
 
-	/*
-	BUG-FIX #5506
+    /*
+    BUG-FIX #5506
 
-	a = (Vx, Vy, Vz, 1)
-	b = (a×M)T
-	Out = 1 ⁄ bw(bx, by, bz)
-	*/
-	
-	clipCoord.x = clipCoord.x / clipCoord.w;
-	clipCoord.y = clipCoord.y / clipCoord.w;
-	clipCoord.z = clipCoord.z / clipCoord.w;
+    a = (Vx, Vy, Vz, 1)
+    b = (a×M)T
+    Out = 1 ⁄ bw(bx, by, bz)
+    */
+
+    clipCoord.x = clipCoord.x / clipCoord.w;
+    clipCoord.y = clipCoord.y / clipCoord.w;
+    clipCoord.z = clipCoord.z / clipCoord.w;
 
     Size glSize = _openGLView->getDesignResolutionSize();
-    float factor = 1.0/glCoord.w;
+    float factor = 1.0 / glCoord.w;
     return Vec2(glSize.width*(clipCoord.x*0.5 + 0.5) * factor, glSize.height*(-clipCoord.y*0.5 + 0.5) * factor);
 }
 
@@ -830,10 +831,10 @@ void Director::replaceScene(Scene *scene)
 {
     CCASSERT(_runningScene, "Use runWithScene: instead to start the director");
     CCASSERT(scene != nullptr, "the scene should not be null");
-    
+
     if (scene == _nextScene)
         return;
-    
+
     if (_nextScene)
     {
         if (_nextScene->isRunning())
@@ -938,7 +939,7 @@ void Director::purgeDirector()
 {
     // cleanup scheduler
     getScheduler()->unscheduleAll();
-    
+
     // Disable event dispatching
     if (_eventDispatcher)
     {
@@ -951,7 +952,7 @@ void Director::purgeDirector()
         _runningScene->cleanup();
         _runningScene->release();
     }
-    
+
     _runningScene = nullptr;
     _nextScene = nullptr;
 
@@ -981,13 +982,13 @@ void Director::purgeDirector()
 
     // cocos2d-x specific data structures
     UserDefault::destroyInstance();
-    
+
     GL::invalidateStateCache();
-    
+
     destroyTextureCache();
 
     CHECK_GL_ERROR_DEBUG();
-    
+
     // OpenGL view
     if (_openGLView)
     {
@@ -1005,21 +1006,21 @@ void Director::setNextScene()
     bool newIsTransition = dynamic_cast<TransitionScene*>(_nextScene) != nullptr;
 
     // If it is not a transition, call onExit/cleanup
-     if (! newIsTransition)
-     {
-         if (_runningScene)
-         {
-             _runningScene->onExitTransitionDidStart();
-             _runningScene->onExit();
-         }
- 
-         // issue #709. the root node (scene) should receive the cleanup message too
-         // otherwise it might be leaked.
-         if (_sendCleanupToScene && _runningScene)
-         {
-             _runningScene->cleanup();
-         }
-     }
+    if (!newIsTransition)
+    {
+        if (_runningScene)
+        {
+            _runningScene->onExitTransitionDidStart();
+            _runningScene->onExit();
+        }
+
+        // issue #709. the root node (scene) should receive the cleanup message too
+        // otherwise it might be leaked.
+        if (_sendCleanupToScene && _runningScene)
+        {
+            _runningScene->cleanup();
+        }
+    }
 
     if (_runningScene)
     {
@@ -1029,7 +1030,7 @@ void Director::setNextScene()
     _nextScene->retain();
     _nextScene = nullptr;
 
-    if ((! runningIsTransition) && _runningScene)
+    if ((!runningIsTransition) && _runningScene)
     {
         _runningScene->onEnter();
         _runningScene->onEnterTransitionDidFinish();
@@ -1052,7 +1053,7 @@ void Director::pause()
 
 void Director::resume()
 {
-    if (! _paused)
+    if (!_paused)
     {
         return;
     }
@@ -1074,7 +1075,7 @@ void Director::showStats()
 
     ++_frames;
     _accumDt += _deltaTime;
-    
+
     if (_displayStats && _FPSLabel && _drawnBatchesLabel && _drawnVerticesLabel)
     {
         char buffer[30];
@@ -1091,13 +1092,13 @@ void Director::showStats()
 
         auto currentCalls = (unsigned long)_renderer->getDrawnBatches();
         auto currentVerts = (unsigned long)_renderer->getDrawnVertices();
-        if( currentCalls != prevCalls ) {
+        if (currentCalls != prevCalls) {
             sprintf(buffer, "GL calls:%6lu", currentCalls);
             _drawnBatchesLabel->setString(buffer);
             prevCalls = currentCalls;
         }
 
-        if( currentVerts != prevVerts) {
+        if (currentVerts != prevVerts) {
             sprintf(buffer, "GL verts:%6lu", currentVerts);
             _drawnVerticesLabel->setString(buffer);
             prevVerts = currentVerts;
@@ -1115,7 +1116,7 @@ void Director::calculateMPF()
 {
     struct timeval now;
     gettimeofday(&now, nullptr);
-    
+
     _secondsPerFrame = (now.tv_sec - _lastUpdate->tv_sec) + (now.tv_usec - _lastUpdate->tv_usec) / 1000000.0f;
 }
 
@@ -1148,7 +1149,7 @@ void Director::createStatsLabel()
 
     Image* image = new Image();
     bool isOK = image->initWithImageData(data, dataLength);
-    if (! isOK) {
+    if (!isOK) {
         CCLOGERROR("%s", "Fails: init fps_images");
         return;
     }
@@ -1157,9 +1158,9 @@ void Director::createStatsLabel()
     CC_SAFE_RELEASE(image);
 
     /*
-     We want to use an image which is stored in the file named ccFPSImage.c 
-     for any design resolutions and all resource resolutions. 
-     
+     We want to use an image which is stored in the file named ccFPSImage.c
+     for any design resolutions and all resource resolutions.
+
      To achieve this, we need to ignore 'contentScaleFactor' in 'AtlasNode' and 'LabelAtlas'.
      So I added a new method called 'setIgnoreContentScaleFactor' for 'AtlasNode',
      this is not exposed to game developers, it's only used for displaying FPS now.
@@ -1169,7 +1170,7 @@ void Director::createStatsLabel()
     _FPSLabel = LabelAtlas::create();
     _FPSLabel->retain();
     _FPSLabel->setIgnoreContentScaleFactor(true);
-    _FPSLabel->initWithString("00.0", texture, 12, 32 , '.');
+    _FPSLabel->initWithString("00.0", texture, 12, 32, '.');
     _FPSLabel->setScale(scaleFactor);
 
     _drawnBatchesLabel = LabelAtlas::create();
@@ -1188,9 +1189,9 @@ void Director::createStatsLabel()
     Texture2D::setDefaultAlphaPixelFormat(currentFormat);
 
     const int height_spacing = 22 / CC_CONTENT_SCALE_FACTOR();
-    _drawnVerticesLabel->setPosition(Vec2(0, height_spacing*2) + CC_DIRECTOR_STATS_POSITION);
-    _drawnBatchesLabel->setPosition(Vec2(0, height_spacing*1) + CC_DIRECTOR_STATS_POSITION);
-    _FPSLabel->setPosition(Vec2(0, height_spacing*0)+CC_DIRECTOR_STATS_POSITION);
+    _drawnVerticesLabel->setPosition(Vec2(0, height_spacing * 2) + CC_DIRECTOR_STATS_POSITION);
+    _drawnBatchesLabel->setPosition(Vec2(0, height_spacing * 1) + CC_DIRECTOR_STATS_POSITION);
+    _FPSLabel->setPosition(Vec2(0, height_spacing * 0) + CC_DIRECTOR_STATS_POSITION);
 }
 
 void Director::setContentScaleFactor(float scaleFactor)
@@ -1226,7 +1227,7 @@ void Director::setActionManager(ActionManager* actionManager)
         CC_SAFE_RETAIN(actionManager);
         CC_SAFE_RELEASE(_actionManager);
         _actionManager = actionManager;
-    }    
+    }
 }
 
 void Director::setEventDispatcher(EventDispatcher* dispatcher)
@@ -1256,7 +1257,7 @@ void DisplayLinkDirector::startAnimation()
     _invalid = false;
 
     Application::getInstance()->setAnimationInterval(_animationInterval);
-    
+
     // fix issue #3509, skip one fps to avoid incorrect time calculation.
     setNextDeltaTimeZero(true);
 }
@@ -1268,11 +1269,11 @@ void DisplayLinkDirector::mainLoop()
         _purgeDirectorInNextLoop = false;
         purgeDirector();
     }
-    else if (! _invalid)
+    else if (!_invalid)
     {
         Node::g_drawOrder = 0;
         drawScene();
-     
+
         // release the objects
         PoolManager::getInstance()->getCurrentPool()->clear();
     }
@@ -1286,11 +1287,11 @@ void DisplayLinkDirector::stopAnimation()
 void DisplayLinkDirector::setAnimationInterval(double interval)
 {
     _animationInterval = interval;
-    if (! _invalid)
+    if (!_invalid)
     {
         stopAnimation();
         startAnimation();
-    }    
+    }
 }
 
 NS_CC_END

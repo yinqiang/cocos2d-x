@@ -53,16 +53,19 @@ void PlayerEditBoxServiceWin::setFont(const std::string &name, int size)
 
     std::u16string u16name;
     cocos2d::StringUtils::UTF8ToUTF16(name, u16name);
+
     HDC hdc = GetDC(_hwnd);
-    int height = -MulDiv(size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+    size = -MulDiv(size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
     ReleaseDC(_hwnd, hdc);
-    _hfont = CreateFont(height, size, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+
+    _hfont = CreateFont(size, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                         0, OUT_DEFAULT_PRECIS, FW_NORMAL, DEFAULT_QUALITY, DEFAULT_PITCH,
                         (LPCTSTR)u16name.c_str());
     if (!_hfont)
     {
         DWORD err = GetLastError();
-        CCLOG("PlayerEditBoxServiceWin::setFont() - create HFONT for font \"%s\" failed, error code = 0x%08x", name.c_str(), err);
+        CCLOG("PlayerEditBoxServiceWin::setFont() - create HFONT for font \"%s\" failed, error code = 0x%08x",
+              name.c_str(), err);
     }
     else
     {

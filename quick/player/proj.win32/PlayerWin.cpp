@@ -143,6 +143,7 @@ int Player::run()
     {
         screenScale = 2.0f;
     }
+    CCLOG("SCREEN DPI = %d, SCREEN SCALE = %0.2f", dpi, screenScale);
 
     // create opengl view
     const Size frameSize = _project.getFrameSize();
@@ -152,6 +153,7 @@ int Player::run()
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, isResize, false, isDecorated);
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
+    director->setScreenScale(screenScale);
 
     GLFWwindow *window = glview->getWindow();
     _hwnd = glfwGetWin32Window(window);
