@@ -289,8 +289,6 @@
 		F4E0B2DB196B9C670053EFD7 /* CCLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B23C196B9C660053EFD7 /* CCLabel.h */; };
 		F4E0B2DC196B9C670053EFD7 /* CCLabelAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */; };
 		F4E0B2DD196B9C670053EFD7 /* CCLabelAtlas.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */; };
-		F4E0B2DE196B9C670053EFD7 /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */; };
-		F4E0B2DF196B9C670053EFD7 /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */; };
 		F4E0B2E0196B9C670053EFD7 /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */; };
 		F4E0B2E1196B9C670053EFD7 /* CCLabelTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */; };
 		F4E0B2E2196B9C670053EFD7 /* CCLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */; };
@@ -1152,8 +1150,6 @@
 		F4E0B23C196B9C660053EFD7 /* CCLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabel.h; sourceTree = "<group>"; };
 		F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelAtlas.cpp; sourceTree = "<group>"; };
 		F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelAtlas.h; sourceTree = "<group>"; };
-		F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelBMFont.cpp; sourceTree = "<group>"; };
-		F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFont.h; sourceTree = "<group>"; };
 		F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTextFormatter.cpp; sourceTree = "<group>"; };
 		F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTextFormatter.h; sourceTree = "<group>"; };
 		F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTTF.cpp; sourceTree = "<group>"; };
@@ -2320,8 +2316,6 @@
 				F4E0B23C196B9C660053EFD7 /* CCLabel.h */,
 				F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */,
 				F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */,
-				F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */,
-				F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */,
 				F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */,
 				F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */,
 				F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */,
@@ -3949,7 +3943,6 @@
 				F4E0BB4D196BA00A0053EFD7 /* svttcmap.h in Headers */,
 				F4E0BB2C196BA00A0053EFD7 /* ftttdrv.h in Headers */,
 				F4E0B30B196B9C670053EFD7 /* CCTileMapAtlas.h in Headers */,
-				F4E0B2DF196B9C670053EFD7 /* CCLabelBMFont.h in Headers */,
 				F4E0B54C196B9C7D0053EFD7 /* CCEventListenerAcceleration.h in Headers */,
 				F4E0B2A5196B9C660053EFD7 /* CCActionGrid.h in Headers */,
 				F4E0B2FF196B9C670053EFD7 /* CCScene.h in Headers */,
@@ -4285,7 +4278,6 @@
 				DAF28312196BDACB00959DA1 /* luasocket_buffer.c in Sources */,
 				DA02C8C319862EA800E2687A /* CCArmatureAnimation.cpp in Sources */,
 				F4E0B64B196B9C7D0053EFD7 /* ccGLStateCache.cpp in Sources */,
-				F4E0B2DE196B9C670053EFD7 /* CCLabelBMFont.cpp in Sources */,
 				49BCFA16197F4CE700F48FF6 /* CCFilteredSprite.cpp in Sources */,
 				DAF2831A196BDACB00959DA1 /* select.c in Sources */,
 				F4E0B55C196B9C7D0053EFD7 /* ccFPSImages.c in Sources */,
