@@ -1379,11 +1379,11 @@ void Node::onEnter()
         _onEnterCallback();
 
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnEnter))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnEnter))
+//            return;
+//    }
 #endif
     
     _isTransitionFinished = false;
@@ -1413,11 +1413,11 @@ void Node::onEnterTransitionDidFinish()
         _onEnterTransitionDidFinishCallback();
         
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnEnterTransitionDidFinish))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnEnterTransitionDidFinish))
+//            return;
+//    }
 #endif
 
     _isTransitionFinished = true;
@@ -1442,11 +1442,11 @@ void Node::onExitTransitionDidStart()
         _onExitTransitionDidStartCallback();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExitTransitionDidStart))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExitTransitionDidStart))
+//            return;
+//    }
 #endif
     
     for( const auto &child: _children)
@@ -1470,11 +1470,11 @@ void Node::onExit()
         _onExitCallback();
     
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExit))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExit))
+//            return;
+//    }
 #endif
     
     this->pause();

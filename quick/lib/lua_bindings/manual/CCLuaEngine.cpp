@@ -186,11 +186,11 @@ int LuaEngine::sendEvent(ScriptEvent* evt)
     
     switch (evt->type)
     {
-        case kNodeEvent:
-            {
-               return handleNodeEvent(evt->data);
-            }
-            break;
+//        case kNodeEvent:
+//            {
+//               return handleNodeEvent(evt->data);
+//            }
+//            break;
         case kCallFuncEvent:
             {
                 return handleCallFuncActionEvent(evt->data);
@@ -201,26 +201,26 @@ int LuaEngine::sendEvent(ScriptEvent* evt)
                 return handleScheduler(evt->data);
             }
             break;
-        case kTouchEvent:
-            {
-                return handleTouchEvent(evt->data);
-            }
-            break;
-        case kTouchesEvent:
-            {
-                return handleTouchesEvent(evt->data);
-            }
-            break;
-        case kKeypadEvent:
-            {
-                return handleKeypadEvent(evt->data);
-            }
-            break;
-        case kAccelerometerEvent:
-            {
-                return handleAccelerometerEvent(evt->data);
-            }
-            break;
+//        case kTouchEvent:
+//            {
+//                return handleTouchEvent(evt->data);
+//            }
+//            break;
+//        case kTouchesEvent:
+//            {
+//                return handleTouchesEvent(evt->data);
+//            }
+//            break;
+//        case kKeypadEvent:
+//            {
+//                return handleKeypadEvent(evt->data);
+//            }
+//            break;
+//        case kAccelerometerEvent:
+//            {
+//                return handleAccelerometerEvent(evt->data);
+//            }
+//            break;
         case kCommonEvent:
             {
                 return handleCommonEvent(evt->data);
@@ -236,68 +236,6 @@ int LuaEngine::sendEvent(ScriptEvent* evt)
     }
     
     return 0;
-}
-
-int LuaEngine::handleNodeEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    BasicScriptData* basicScriptData = (BasicScriptData*)data;
-    if (NULL == basicScriptData->nativeObject || NULL == basicScriptData->value)
-        return 0;
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler(basicScriptData->nativeObject, ScriptHandlerMgr::HandlerType::NODE);
-    
-    if (0 == handler)
-    {
-        if (!_stack->pushFunctionByName("NodeEventDispatcher"))
-        {
-            return 0;
-        }
-        _stack->pushObject(static_cast<Ref*>(basicScriptData->nativeObject), "CCNode");
-        _stack->pushInt(kNodeEvent);
-    }
-    
-    int action = *((int*)(basicScriptData->value));
-    switch (action)
-    {
-        case kNodeOnEnter:
-            _stack->pushString("enter");
-            break;
-            
-        case kNodeOnExit:
-            _stack->pushString("exit");
-            break;
-            
-        case kNodeOnEnterTransitionDidFinish:
-            _stack->pushString("enterTransitionFinish");
-            break;
-            
-        case kNodeOnExitTransitionDidStart:
-            _stack->pushString("exitTransitionStart");
-            break;
-            
-        case kNodeOnCleanup:
-            _stack->pushString("cleanup");
-            break;
-            
-        default:
-            return 0;
-    }
-    
-    int ret;
-    if ((0 == handler))
-    {
-        ret = _stack->executeFunction(3);
-        return ret;
-    }
-    else
-    {
-        ret = _stack->executeFunctionByHandler(handler, 1);
-    }
-    _stack->clean();
-    return ret;
 }
 
 int LuaEngine::handleCallFuncActionEvent(void* data)
@@ -354,62 +292,6 @@ int LuaEngine::handleScheduler(void* data)
     return ret;
 }
 
-int LuaEngine::handleKeypadEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    KeypadScriptData* keypadScriptData = static_cast<KeypadScriptData*>(data);
-    if (NULL == keypadScriptData->nativeObject)
-        return 0;
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler(keypadScriptData->nativeObject, ScriptHandlerMgr::HandlerType::KEYPAD);
-    
-    if (0 == handler)
-        return 0;
-    
-    EventKeyboard::KeyCode action = keypadScriptData->actionType;
-
-    switch(action)
-    {
-        case EventKeyboard::KeyCode::KEY_BACKSPACE:
-			_stack->pushString("backClicked");
-			break;
-		case EventKeyboard::KeyCode::KEY_MENU:
-            _stack->pushString("menuClicked");
-			break;
-		default:
-			break;
-    }
-
-    int ret = _stack->executeFunctionByHandler(handler, 1);
-    _stack->clean();
-    return ret;
-}
-
-int LuaEngine::handleAccelerometerEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    BasicScriptData* basicScriptData = static_cast<BasicScriptData*>(data);
-    if (NULL == basicScriptData->nativeObject || NULL == basicScriptData->value)
-        return 0;
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler(basicScriptData->nativeObject, ScriptHandlerMgr::HandlerType::ACCELEROMETER);
-    if (0 == handler)
-        return 0;
-    
-    Acceleration* accelerationValue = static_cast<Acceleration*>(basicScriptData->value);
-    _stack->pushFloat(accelerationValue->x);
-    _stack->pushFloat(accelerationValue->y);
-    _stack->pushFloat(accelerationValue->z);
-    _stack->pushFloat(accelerationValue->timestamp);
-    int ret = _stack->executeFunctionByHandler(handler, 4);
-    _stack->clean();
-    return ret;
-}
-
 int LuaEngine::handleCommonEvent(void* data)
 {
     if (NULL == data)
@@ -432,113 +314,6 @@ int LuaEngine::handleCommonEvent(void* data)
         }
     }
     int ret = _stack->executeFunctionByHandler(commonInfo->handler, commonInfo->eventSource ? 2 : 1);
-    _stack->clean();
-    return ret;
-}
-
-int LuaEngine::handleTouchEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    TouchScriptData* touchScriptData = static_cast<TouchScriptData*>(data);
-    if (NULL == touchScriptData->nativeObject || NULL == touchScriptData->touch)
-        return 0;
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler((void*)touchScriptData->nativeObject, ScriptHandlerMgr::HandlerType::TOUCHES);
-    
-    if (0 == handler)
-        return 0;
-    
-    switch (touchScriptData->actionType)
-    {
-        case EventTouch::EventCode::BEGAN:
-            _stack->pushString("began");
-            break;
-            
-        case EventTouch::EventCode::MOVED:
-            _stack->pushString("moved");
-            break;
-            
-        case EventTouch::EventCode::ENDED:
-            _stack->pushString("ended");
-            break;
-            
-        case EventTouch::EventCode::CANCELLED:
-            _stack->pushString("cancelled");
-            break;
-            
-        default:
-            return 0;
-    }
-
-    int ret = 0;
-
-    Touch* touch = touchScriptData->touch;
-    if (NULL != touch) {
-        const cocos2d::Vec2 pt = Director::getInstance()->convertToGL(touch->getLocationInView());
-        _stack->pushFloat(pt.x);
-        _stack->pushFloat(pt.y);
-        ret = _stack->executeFunctionByHandler(handler, 3);
-    }
-    _stack->clean();
-    return ret;
-}
-
-int LuaEngine::handleTouchesEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    TouchesScriptData* touchesScriptData = static_cast<TouchesScriptData*>(data);
-    if (NULL == touchesScriptData->nativeObject || touchesScriptData->touches.size() == 0)
-        return 0;
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler((void*)touchesScriptData->nativeObject, ScriptHandlerMgr::HandlerType::TOUCHES);
-    
-    if (0 == handler)
-        return 0;
-    
-    switch (touchesScriptData->actionType)
-    {
-        case EventTouch::EventCode::BEGAN:
-            _stack->pushString("began");
-            break;
-            
-        case EventTouch::EventCode::MOVED:
-            _stack->pushString("moved");
-            break;
-            
-        case EventTouch::EventCode::ENDED:
-            _stack->pushString("ended");
-            break;
-            
-        case EventTouch::EventCode::CANCELLED:
-            _stack->pushString("cancelled");
-            break;
-            
-        default:
-            return 0;
-    }
-    
-    Director* pDirector = Director::getInstance();
-    lua_State *L = _stack->getLuaState();
-    int ret = 0;
-
-    lua_newtable(L);
-    int i = 1;
-    for (auto& touch : touchesScriptData->touches)
-    {
-        cocos2d::Vec2 pt = pDirector->convertToGL(touch->getLocationInView());
-        lua_pushnumber(L, pt.x);
-        lua_rawseti(L, -2, i++);
-        lua_pushnumber(L, pt.y);
-        lua_rawseti(L, -2, i++);
-        lua_pushinteger(L, touch->getID());
-        lua_rawseti(L, -2, i++);
-    }
-    ret = _stack->executeFunctionByHandler(handler, 2);
-
     _stack->clean();
     return ret;
 }

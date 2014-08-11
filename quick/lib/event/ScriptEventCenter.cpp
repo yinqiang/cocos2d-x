@@ -328,7 +328,7 @@ void ScriptEventCenter::enableTouchDispatching()
         _touchListener->onTouchesMoved = CC_CALLBACK_2(ScriptEventCenter::onTouchesMoved, this);
         _touchListener->onTouchesEnded = CC_CALLBACK_2(ScriptEventCenter::onTouchesEnded, this);
         _touchListener->onTouchesCancelled = CC_CALLBACK_2(ScriptEventCenter::onTouchesCancelled, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+        _eventDispatcher->addEventListenerWithFixedPriority(_touchListener, -1);
     }
     m_touchDispatchingEnabled = true;
 }

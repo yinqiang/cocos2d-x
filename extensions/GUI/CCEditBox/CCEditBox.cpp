@@ -330,11 +330,11 @@ void EditBox::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t pa
 void EditBox::onEnter(void)
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
+//            return;
+//    }
 #endif
     
     ControlButton::onEnter();
