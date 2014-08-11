@@ -99,25 +99,32 @@ if CONFIG_SCREEN_AUTOSCALE then
         scaleX, scaleY = CONFIG_SCREEN_AUTOSCALE_CALLBACK(w, h, device.model)
     end
 
-    if not scaleX or not scaleY then
-        scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
-    end
-
-    if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
-        scale = scaleX
-        CONFIG_SCREEN_HEIGHT = h / scale
-    elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
-        scale = scaleY
-        CONFIG_SCREEN_WIDTH = w / scale
-    else
+    if CONFIG_SCREEN_AUTOSCALE == "FILL_ALL" then
+        CONFIG_SCREEN_WIDTH = w
+        CONFIG_SCREEN_HEIGHT = h
         scale = 1.0
-        printError(string.format("display - invalid CONFIG_SCREEN_AUTOSCALE \"%s\"", CONFIG_SCREEN_AUTOSCALE))
-    end
+        glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.FILL_ALL)
+    else
+        if not scaleX or not scaleY then
+            scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
+        end
 
-    glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
+        if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
+            scale = scaleX
+            CONFIG_SCREEN_HEIGHT = h / scale
+        elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
+            scale = scaleY
+            CONFIG_SCREEN_WIDTH = w / scale
+        else
+            scale = 1.0
+            printError(string.format("display - invalid CONFIG_SCREEN_AUTOSCALE \"%s\"", CONFIG_SCREEN_AUTOSCALE))
+        end
+        glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
+    end
 end
 
 local winSize = sharedDirector:getWinSize()
+display.screenScale        = 2.0
 display.contentScaleFactor = scale
 display.size               = {width = winSize.width, height = winSize.height}
 display.width              = display.size.width
