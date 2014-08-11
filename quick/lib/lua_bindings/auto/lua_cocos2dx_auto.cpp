@@ -17235,25 +17235,6 @@ int lua_register_cocos2dx_UserDefault(lua_State* tolua_S)
     return 1;
 }
 
-static int lua_cocos2dx_EventListenerKeyboard_finalize(lua_State* tolua_S)
-{
-    printf("luabindings: finalizing LUA object (EventListenerKeyboard)");
-    return 0;
-}
-
-int lua_register_cocos2dx_EventListenerKeyboard(lua_State* tolua_S)
-{
-    tolua_usertype(tolua_S,"cc.EventListenerKeyboard");
-    tolua_cclass(tolua_S,"EventListenerKeyboard","cc.EventListenerKeyboard","cc.EventListener",nullptr);
-
-    tolua_beginmodule(tolua_S,"EventListenerKeyboard");
-    tolua_endmodule(tolua_S);
-    std::string typeName = typeid(cocos2d::EventListenerKeyboard).name();
-    g_luaType[typeName] = "cc.EventListenerKeyboard";
-    g_typeCast["EventListenerKeyboard"] = "cc.EventListenerKeyboard";
-    return 1;
-}
-
 int lua_cocos2dx_EventMouse_getMouseButton(lua_State* tolua_S)
 {
     int argc = 0;
@@ -17718,25 +17699,6 @@ int lua_register_cocos2dx_EventAcceleration(lua_State* tolua_S)
     std::string typeName = typeid(cocos2d::EventAcceleration).name();
     g_luaType[typeName] = "cc.EventAcceleration";
     g_typeCast["EventAcceleration"] = "cc.EventAcceleration";
-    return 1;
-}
-
-static int lua_cocos2dx_EventListenerAcceleration_finalize(lua_State* tolua_S)
-{
-    printf("luabindings: finalizing LUA object (EventListenerAcceleration)");
-    return 0;
-}
-
-int lua_register_cocos2dx_EventListenerAcceleration(lua_State* tolua_S)
-{
-    tolua_usertype(tolua_S,"cc.EventListenerAcceleration");
-    tolua_cclass(tolua_S,"EventListenerAcceleration","cc.EventListenerAcceleration","cc.EventListener",nullptr);
-
-    tolua_beginmodule(tolua_S,"EventListenerAcceleration");
-    tolua_endmodule(tolua_S);
-    std::string typeName = typeid(cocos2d::EventListenerAcceleration).name();
-    g_luaType[typeName] = "cc.EventListenerAcceleration";
-    g_typeCast["EventListenerAcceleration"] = "cc.EventListenerAcceleration";
     return 1;
 }
 
@@ -65543,8 +65505,6 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_MoveBy(tolua_S);
 	lua_register_cocos2dx_MoveTo(tolua_S);
 	lua_register_cocos2dx_JumpBy(tolua_S);
-	lua_register_cocos2dx_EventListener(tolua_S);
-	lua_register_cocos2dx_EventListenerKeyboard(tolua_S);
 	lua_register_cocos2dx_ActionEase(tolua_S);
 	lua_register_cocos2dx_EaseBounce(tolua_S);
 	lua_register_cocos2dx_EaseBounceIn(tolua_S);
@@ -65576,6 +65536,7 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_FadeTo(tolua_S);
 	lua_register_cocos2dx_FadeIn(tolua_S);
 	lua_register_cocos2dx_ShakyTiles3D(tolua_S);
+	lua_register_cocos2dx_EventListener(tolua_S);
 	lua_register_cocos2dx_EventListenerCustom(tolua_S);
 	lua_register_cocos2dx_FlipX3D(tolua_S);
 	lua_register_cocos2dx_FlipY3D(tolua_S);
@@ -65625,7 +65586,6 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_Timer(tolua_S);
 	lua_register_cocos2dx_RepeatForever(tolua_S);
 	lua_register_cocos2dx_Place(tolua_S);
-	lua_register_cocos2dx_EventListenerAcceleration(tolua_S);
 	lua_register_cocos2dx_GLProgram(tolua_S);
 	lua_register_cocos2dx_EaseBounceOut(tolua_S);
 	lua_register_cocos2dx_RenderTexture(tolua_S);
