@@ -53,6 +53,9 @@ enum class ResolutionPolicy
     // aspect ratios
     FIXED_WIDTH,
 
+    //
+    FILL_ALL,
+
     UNKNOWN,
 };
 

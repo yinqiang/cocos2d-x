@@ -704,18 +704,16 @@ void GLView::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int heig
 {
     if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)
     {
+        GLViewProtocol::setFrameSize(width, height);
         updateDesignResolutionSize();
         Director::getInstance()->setViewport();
-        
-        cocos2d::EventCustom event("APP.EVENT");
-        std::stringstream buf;
-        
-        buf << "{\"name\":\"resize\",\"width\":" << width;
-        buf << ",\"height\":" << height << "}";
-        
-        event.setDataString(buf.str());
-        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
+    cocos2d::EventCustom event("APP.WINDOW_RESIZE_EVENT");
+    std::stringstream buf;
+    buf << "{\"width\":" << width;
+    buf << ",\"height\":" << height << "}";
+    event.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 void GLView::onGLFWWindowcloseCallback(GLFWwindow *window)

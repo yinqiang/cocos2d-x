@@ -30,6 +30,7 @@ ProjectConfig::ProjectConfig()
     , _debuggerType(kCCLuaDebuggerNone)
     , _isDialog(false)
     , _isResizeWindow(false)
+    , _isRetinaDisplay(false)
 {
     normalize();
 }
@@ -386,6 +387,10 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             _isResizeWindow = true;
         }
+        else if (arg.compare("-retina-display") == 0)
+        {
+            _isRetinaDisplay = true;
+        }
 
         ++it;
     }
@@ -535,6 +540,11 @@ bool ProjectConfig::isDialog() const
 bool ProjectConfig::isResizeWindow() const
 {
     return _isResizeWindow;
+}
+
+bool ProjectConfig::isRetinaDisplay() const
+{
+    return _isRetinaDisplay;
 }
 
 bool ProjectConfig::validate() const

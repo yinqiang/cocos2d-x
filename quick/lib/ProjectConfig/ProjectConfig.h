@@ -88,6 +88,7 @@ public:
 
     bool isDialog() const;
     bool isResizeWindow() const;
+    bool isRetinaDisplay() const;
 
     bool validate() const;
     void dump();
@@ -108,6 +109,7 @@ private:
     int _debuggerType;
     bool _isDialog;
     bool _isResizeWindow;
+    bool _isRetinaDisplay;
 
     void normalize();
     string replaceProjectDirToMacro(const string &path) const;

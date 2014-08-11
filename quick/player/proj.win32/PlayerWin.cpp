@@ -28,13 +28,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-    auto player = player::Player::create();
+    auto player = player::PlayerWin::create();
     return player->run();
 }
 
 PLAYER_NS_BEGIN
 
-Player::Player()
+PlayerWin::PlayerWin()
 : _app(nullptr)
 , _hwnd(NULL)
 , _writeDebugLogFile(nullptr)
@@ -43,7 +43,7 @@ Player::Player()
 {
 }
 
-Player::~Player()
+PlayerWin::~PlayerWin()
 {
     CC_SAFE_DELETE(_menuService);
     CC_SAFE_DELETE(_messageBoxService);
@@ -55,32 +55,32 @@ Player::~Player()
     }
 }
 
-Player *Player::create()
+PlayerWin *PlayerWin::create()
 {
-    return new Player();
+    return new PlayerWin();
 }
 
-PlayerFileDialogServiceProtocol *Player::getFileDialogService()
-{
-    return nullptr;
-}
-
-PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
+PlayerFileDialogServiceProtocol *PlayerWin::getFileDialogService()
 {
     return nullptr;
 }
 
-PlayerMenuServiceProtocol *Player::getMenuService()
+PlayerMessageBoxServiceProtocol *PlayerWin::getMessageBoxService()
+{
+    return nullptr;
+}
+
+PlayerMenuServiceProtocol *PlayerWin::getMenuService()
 {
     return _menuService;
 }
 
-PlayerEditBoxServiceProtocol *Player::getEditBoxService()
+PlayerEditBoxServiceProtocol *PlayerWin::getEditBoxService()
 {
     return nullptr;
 }
 
-int Player::run()
+int PlayerWin::run()
 {
     INITCOMMONCONTROLSEX InitCtrls;
     InitCtrls.dwSize = sizeof(InitCtrls);
@@ -146,14 +146,28 @@ int Player::run()
     CCLOG("SCREEN DPI = %d, SCREEN SCALE = %0.2f", dpi, screenScale);
 
     // create opengl view
-    const Size frameSize = _project.getFrameSize();
+    Size frameSize = _project.getFrameSize();
+    float frameScale = 1.0f;
+    if (_project.isRetinaDisplay())
+    {
+        frameSize.width *= screenScale;
+        frameSize.height *= screenScale;
+    }
+    else
+    {
+        frameScale = screenScale;
+    }
+
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
     bool isResize = (!_project.isDialog()) && _project.isResizeWindow();
     bool isDecorated = !_project.isDialog();
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, screenScale, isResize, false, isDecorated);
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, isDecorated);
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
-    director->setScreenScale(screenScale);
+    director->setScreenScale(frameScale);
+    ResolutionPolicy policy = _project.isResizeWindow() ? ResolutionPolicy::FILL_ALL : ResolutionPolicy::NO_BORDER;
+    director->setContentScaleFactor(screenScale);
+    glview->setDesignResolutionSize(frameSize.width, frameSize.height, policy);
 
     GLFWwindow *window = glview->getWindow();
     _hwnd = glfwGetWin32Window(window);
@@ -171,14 +185,19 @@ int Player::run()
         // Force update window, -_-#
         RECT rect;
         GetWindowRect(_hwnd, &rect);
-        MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, FALSE);
+        MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, TRUE);
+        HWND hwndCallback = _hwnd;
+        director->getScheduler()->schedule([hwndCallback, rect](float dt) {
+            CCLOG("SHOW_WINDOW_CALLBACK %0.2f", dt);
+            MoveWindow(hwndCallback, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
+            glfwShowWindow(Director::getInstance()->getOpenGLView()->getWindow());
+        }, this, 1.0f / 60.0f, 0, 0.0f, false, "SHOW_WINDOW_CALLBACK");
     }
-
-    glfwShowWindow(window);
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
-    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(Player::onWindowClose, this));
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
+    eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowResize, this));
 
     // startup message loop
     _project.dump();
@@ -187,7 +206,7 @@ int Player::run()
 }
 
 // services
-void Player::initServices()
+void PlayerWin::initServices()
 {
     CCASSERT(_menuService == nullptr, "CAN'T INITIALIZATION SERVICES MORE THAN ONCE");
     _menuService = new PlayerMenuServiceWin(_hwnd);
@@ -241,7 +260,7 @@ void Player::initServices()
 }
 
 // event handlers
-void Player::onWindowClose(EventCustom* event)
+void PlayerWin::onWindowClose(EventCustom* event)
 {
     CCLOG("APP.WINDOW_CLOSE_EVENT");
 
@@ -262,9 +281,15 @@ void Player::onWindowClose(EventCustom* event)
     //}
 }
 
-// debug log
+void PlayerWin::onWindowResize(EventCustom* event)
+{
+    RECT rect;
+    GetClientRect(_hwnd, &rect);
+    CCLOG("width = %d, height = %d", rect.right - rect.left, rect.bottom - rect.top);
+}
 
-void Player::writeDebugLog(const char *log)
+// debug log
+void PlayerWin::writeDebugLog(const char *log)
 {
 
 }

@@ -16,11 +16,11 @@
 
 PLAYER_NS_BEGIN
 
-class CC_DLL Player : public PlayerProtocol
+class CC_DLL PlayerWin : public PlayerProtocol, public cocos2d::Ref
 {
 public:
-    static Player *create();
-    virtual ~Player();
+    static PlayerWin *create();
+    virtual ~PlayerWin();
     int run();
 
     virtual PlayerFileDialogServiceProtocol *getFileDialogService();
@@ -29,7 +29,7 @@ public:
     virtual PlayerEditBoxServiceProtocol *getEditBoxService();
 
 protected:
-    Player();
+    PlayerWin();
 
     ProjectConfig _project;
     HWND _hwnd;
@@ -46,6 +46,7 @@ protected:
 
     // event handlers
     void onWindowClose(EventCustom* event);
+    void onWindowResize(EventCustom* event);
 
     // debug log
     void writeDebugLog(const char *log);
