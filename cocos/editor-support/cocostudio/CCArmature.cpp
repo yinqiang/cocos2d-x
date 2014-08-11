@@ -526,6 +526,25 @@ Rect Armature::getBoundingBox() const
     return RectApplyTransform(boundingBox, getNodeToParentTransform());
 }
 
+Rect CCArmature::getCascadeBoundingBox(void)
+{
+    Rect cbb;
+    if (m_cascadeBoundingBox.size.width > 0 && m_cascadeBoundingBox.size.height > 0)
+    {
+        // if cascade bounding box set by user, ignore all childrens bounding box
+        cbb = m_cascadeBoundingBox;
+    }
+    else
+    {
+        cbb = boundingBox();
+        if (_parent != NULL)
+        {
+            cbb = RectApplyAffineTransform(cbb, _parent->nodeToWorldTransform());
+        }
+    }
+    return cbb;
+}
+
 Bone *Armature::getBoneAtPoint(float x, float y) const 
 {
     long length = _children.size();
