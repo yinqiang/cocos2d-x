@@ -191,11 +191,6 @@ int LuaEngine::sendEvent(ScriptEvent* evt)
                return handleNodeEvent(evt->data);
             }
             break;
-        case kMenuClickedEvent:
-            {
-                return handleMenuClickedEvent(evt->data);
-            }
-            break;
         case kCallFuncEvent:
             {
                 return handleCallFuncActionEvent(evt->data);
@@ -301,28 +296,6 @@ int LuaEngine::handleNodeEvent(void* data)
     {
         ret = _stack->executeFunctionByHandler(handler, 1);
     }
-    _stack->clean();
-    return ret;
-}
-
-int LuaEngine::handleMenuClickedEvent(void* data)
-{
-    if (NULL == data)
-        return 0;
-    
-    BasicScriptData* basicScriptData = (BasicScriptData*)data;
-    if (NULL == basicScriptData->nativeObject)
-        return 0;
-        
-    MenuItem* menuItem = static_cast<MenuItem*>(basicScriptData->nativeObject);
-    
-    int handler = ScriptHandlerMgr::getInstance()->getObjectHandler(menuItem, ScriptHandlerMgr::HandlerType::MENU_CLICKED);
-    if (0 == handler)
-        return 0;
-    
-    _stack->pushInt(menuItem->getTag());
-    _stack->pushObject(menuItem, "cc.MenuItem");
-    int ret = _stack->executeFunctionByHandler(handler, 2);
     _stack->clean();
     return ret;
 }

@@ -138,7 +138,6 @@ private:
     }
     bool init(void);
     int handleNodeEvent(void* data);
-    int handleMenuClickedEvent(void* data);
     int handleCallFuncActionEvent(void* data);
     int handleScheduler(void* data);
     int handleKeypadEvent(void* data);
