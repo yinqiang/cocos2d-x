@@ -159,49 +159,44 @@ int PlayerWin::run()
     }
 
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    bool isResize = (!_project.isDialog()) && _project.isResizeWindow();
-    bool isDecorated = !_project.isDialog();
+    const bool isResize = (!_project.isDialog()) && _project.isResizeWindow();
+    const bool isDecorated = !_project.isDialog();
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, isDecorated);
+    _hwnd = glfwGetWin32Window(glview->getWindow());
+
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
-    director->setScreenScale(frameScale);
-    ResolutionPolicy policy = _project.isResizeWindow() ? ResolutionPolicy::FILL_ALL : ResolutionPolicy::NO_BORDER;
-    director->setContentScaleFactor(screenScale);
-    glview->setDesignResolutionSize(frameSize.width, frameSize.height, policy);
-
-    GLFWwindow *window = glview->getWindow();
-    _hwnd = glfwGetWin32Window(window);
-    int width, height;
-    glfwGetWindowSize(window, &width, &height);
+    director->setScreenScale(screenScale);
 
     // init player services
     initServices();
-
-    if (isDecorated && GetMenu(_hwnd))
-    {
-        // after create MenuBar, resize window and show window
-        glfwSetWindowSize(window, width, height + GetSystemMetrics(SM_CYMENU));
-
-        // Force update window, -_-#
-        RECT rect;
-        GetWindowRect(_hwnd, &rect);
-        MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + 1, TRUE);
-        HWND hwndCallback = _hwnd;
-        director->getScheduler()->schedule([hwndCallback, rect](float dt) {
-            CCLOG("SHOW_WINDOW_CALLBACK %0.2f", dt);
-            MoveWindow(hwndCallback, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
-            glfwShowWindow(Director::getInstance()->getOpenGLView()->getWindow());
-        }, this, 1.0f / 60.0f, 0, 0.0f, false, "SHOW_WINDOW_CALLBACK");
-    }
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
     eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowResize, this));
 
-    // startup message loop
+    // prepare
     _project.dump();
     auto app = Application::getInstance();
+
+    HWND hwnd = _hwnd;
+    director->getScheduler()->schedule([isDecorated, hwnd, frameRect, frameScale](float dt) {
+        CC_UNUSED_PARAM(dt);
+        CCLOG("SHOW_WINDOW_CALLBACK");
+
+        if (isDecorated && GetMenu(hwnd))
+        {
+            // update window size
+            RECT rect;
+            GetWindowRect(hwnd, &rect);
+            MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), TRUE);
+        }
+        GLFWwindow *window = Director::getInstance()->getOpenGLView()->getWindow();
+        glfwShowWindow(window);
+    }, this, 0.0f, 0, 0.0f, false, "SHOW_WINDOW_CALLBACK");
+
+    // startup message loop
     return app->run();
 }
 
@@ -270,22 +265,14 @@ void PlayerWin::onWindowClose(EventCustom* event)
     buf << "{\"name\":\"close\"}";
     forwardEvent.setDataString(buf.str());
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
-
-    cocos2d::Rect rect(100, 50, 500, 380);
-    _editboxService->setFont("Microsoft YaHei", 11);
-    _editboxService->showMultiLineEditBox(rect);
-
-    //if (forwardEvent.getResult().compare("cancel") != 0)
-    //{
-    glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 0);
-    //}
+    if (forwardEvent.getResult().compare("cancel") != 0)
+    {
+        glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
+    }
 }
 
 void PlayerWin::onWindowResize(EventCustom* event)
 {
-    RECT rect;
-    GetClientRect(_hwnd, &rect);
-    CCLOG("width = %d, height = %d", rect.right - rect.left, rect.bottom - rect.top);
 }
 
 // debug log
