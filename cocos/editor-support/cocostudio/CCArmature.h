@@ -150,6 +150,8 @@ public:
      */
     virtual cocos2d::Rect getBoundingBox() const override;
 
+    virtual cocos2d::Rect getCascadeBoundingBox(void);
+
     Bone *getBoneAtPoint(float x, float y) const;
 
     // overrides
