@@ -2,7 +2,10 @@
 #include "CCLuaEngine.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
-
+#if (COCOS2D_DEBUG>0)
+#include "codeIDE/runtime/Runtime.h"
+#include "codeIDE/ConfigParser.h"
+#endif
 
 using namespace CocosDenshion;
 
@@ -20,6 +23,16 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+#if (COCOS2D_DEBUG>0)
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerIDE) {
+        initRuntime();
+    }
+#endif
+    
+    if (!ConfigParser::getInstance()->isInit()) {
+        ConfigParser::getInstance()->readConfig();
+    }
+    
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -69,6 +82,13 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     // set script path
     string path = FileUtils::getInstance()->fullPathForFilename(m_projectConfig.getScriptFileRealPath().c_str());
+#endif
+    
+#if (COCOS2D_DEBUG>0)
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerIDE) {
+        if (startRuntime())
+            return true;
+    }
 #endif
     
     size_t pos;
