@@ -149,6 +149,14 @@ std::string getCurAppPath(void)
         FileUtils::getInstance()->setWritablePath(writablePath.c_str());
     }
 
+    EventDispatcher *eventDispatcher = Director::getInstance()->getEventDispatcher();
+    EventListenerCustom *_listener2 = EventListenerCustom::create("APP.EVENT", [=](EventCustom* event){
+        if (event->getDataString().compare("{\"name\":\"close\"}") == 0) {
+            Director::getInstance()->end();
+        }
+    });
+    eventDispatcher->addEventListenerWithFixedPriority(_listener2, 1);
+    
     app = new AppDelegate();
     app->setProjectConfig(projectConfig);
     app->run();
