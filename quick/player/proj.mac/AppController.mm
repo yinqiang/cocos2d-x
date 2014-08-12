@@ -27,11 +27,6 @@ USING_NS_CC_EXTRA;
 
 @implementation AppController
 
-std::string getCurAppPath(void)
-{
-    return [[[NSBundle mainBundle] bundlePath] UTF8String];
-}
-
 - (void) dealloc
 {
     if (buildTask)

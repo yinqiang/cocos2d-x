@@ -504,7 +504,7 @@ const string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfi
 
 bool ProjectConfig::validate(void)
 {
-    FileUtils *utils = FileUtils::sharedFileUtils();
+    FileUtils *utils = FileUtils::getInstance();
 //    if (!utils->isDirectoryExist(m_projectDir)) return false;
 //    if (!utils->isDirectoryExist(getWritableRealPath())) return false;
     if (!utils->isFileExist(getScriptFileRealPath())) return false;
@@ -513,6 +513,11 @@ bool ProjectConfig::validate(void)
 
 void ProjectConfig::dump(void)
 {
+    const char * debugTypes[] = {
+        "NONE",
+        "Eclipse LDT",
+        "Eclipse IDE"
+    };
     log("Project Config:");
     log("    quick root path: %s", SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath().c_str());
     log("    project dir: %s", m_projectDir.c_str());
@@ -523,7 +528,7 @@ void ProjectConfig::dump(void)
     log("    frame scale: %0.2f", m_frameScale);
     log("    show console: %s", m_showConsole ? "YES" : "NO");
     log("    write debug log: %s", m_writeDebugLogToFile ? "YES" : "NO");
-    log("    debugger: %s", m_debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
+    log("    debugger: %s", debugTypes[m_debuggerType]);
     log("\n\n");
 }
 

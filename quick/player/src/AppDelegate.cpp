@@ -2,8 +2,6 @@
 #include "CCLuaEngine.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
-#include "Runtime.h"
-#include "ConfigParser.h"
 
 using namespace CocosDenshion;
 
@@ -21,19 +19,9 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-#if (COCOS2D_DEBUG>0)
-    initRuntime();
-#endif
-    
-    if (!ConfigParser::getInstance()->isInit()) {
-        ConfigParser::getInstance()->readConfig();
-    }
-    
     // initialize director
     auto director = Director::getInstance();
-//    auto console = director->getConsole();
-//    console->listenOnTCP(6010);
-    auto glview = director->getOpenGLView();
+    auto glview = director->getOpenGLView();    
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #else
@@ -142,11 +130,6 @@ void StartupCall::startup()
         const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
         pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
     }
-    
-#if (COCOS2D_DEBUG>0)
-    if (startRuntime())
-        return;
-#endif
     
     // set default scene
     Scene *scene = Scene::create();

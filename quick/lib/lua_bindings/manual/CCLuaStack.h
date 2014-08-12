@@ -42,6 +42,7 @@ typedef CCLuaStackMap::iterator CCLuaStackMapIterator;
 
 #define kCCLuaDebuggerNone      0
 #define kCCLuaDebuggerLDT       1
+#define kCCLuaDebuggerIDE       2
 #define kCCLuaDebuggerGlobalKey "DEBUG_DISABLE_QUICK_LUA_LOADER"
 
 class LuaStack : public Ref
