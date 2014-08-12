@@ -120,6 +120,8 @@
 		DA02C8F41986370F00E2687A /* DictionaryHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA02C8F21986370F00E2687A /* DictionaryHelper.cpp */; };
 		DA02C8F61986375D00E2687A /* CCDecorativeDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA02C8F51986375D00E2687A /* CCDecorativeDisplay.cpp */; };
 		DA02C8F81986379F00E2687A /* CCUtilMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA02C8F71986379F00E2687A /* CCUtilMath.cpp */; };
+		DA0D6E011999A58C00EAAB9E /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0D6DFF1999A58C00EAAB9E /* CCLabelBMFont.cpp */; };
+		DA0D6E021999A58C00EAAB9E /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0D6E001999A58C00EAAB9E /* CCLabelBMFont.h */; };
 		DA76D53A19877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA76D53819877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.cpp */; };
 		DA76D53B19877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.hpp in Headers */ = {isa = PBXBuildFile; fileRef = DA76D53919877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.hpp */; };
 		DA9FAA03197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */; };
@@ -289,18 +291,12 @@
 		F4E0B2DB196B9C670053EFD7 /* CCLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B23C196B9C660053EFD7 /* CCLabel.h */; };
 		F4E0B2DC196B9C670053EFD7 /* CCLabelAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */; };
 		F4E0B2DD196B9C670053EFD7 /* CCLabelAtlas.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */; };
-		F4E0B2DE196B9C670053EFD7 /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */; };
-		F4E0B2DF196B9C670053EFD7 /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */; };
 		F4E0B2E0196B9C670053EFD7 /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */; };
 		F4E0B2E1196B9C670053EFD7 /* CCLabelTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */; };
 		F4E0B2E2196B9C670053EFD7 /* CCLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */; };
 		F4E0B2E3196B9C670053EFD7 /* CCLabelTTF.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B244196B9C660053EFD7 /* CCLabelTTF.h */; };
 		F4E0B2E4196B9C670053EFD7 /* CCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B245196B9C660053EFD7 /* CCLayer.cpp */; };
 		F4E0B2E5196B9C670053EFD7 /* CCLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B246196B9C660053EFD7 /* CCLayer.h */; };
-		F4E0B2E6196B9C670053EFD7 /* CCMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B247196B9C660053EFD7 /* CCMenu.cpp */; };
-		F4E0B2E7196B9C670053EFD7 /* CCMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B248196B9C660053EFD7 /* CCMenu.h */; };
-		F4E0B2E8196B9C670053EFD7 /* CCMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B249196B9C660053EFD7 /* CCMenuItem.cpp */; };
-		F4E0B2E9196B9C670053EFD7 /* CCMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B24A196B9C660053EFD7 /* CCMenuItem.h */; };
 		F4E0B2EA196B9C670053EFD7 /* CCMotionStreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B24B196B9C660053EFD7 /* CCMotionStreak.cpp */; };
 		F4E0B2EB196B9C670053EFD7 /* CCMotionStreak.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E0B24C196B9C660053EFD7 /* CCMotionStreak.h */; };
 		F4E0B2EC196B9C670053EFD7 /* CCNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4E0B24D196B9C660053EFD7 /* CCNode.cpp */; };
@@ -986,6 +982,8 @@
 		DA02C8F21986370F00E2687A /* DictionaryHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictionaryHelper.cpp; sourceTree = "<group>"; };
 		DA02C8F51986375D00E2687A /* CCDecorativeDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDecorativeDisplay.cpp; sourceTree = "<group>"; };
 		DA02C8F71986379F00E2687A /* CCUtilMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtilMath.cpp; sourceTree = "<group>"; };
+		DA0D6DFF1999A58C00EAAB9E /* CCLabelBMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelBMFont.cpp; sourceTree = "<group>"; };
+		DA0D6E001999A58C00EAAB9E /* CCLabelBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFont.h; sourceTree = "<group>"; };
 		DA76D53819877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_coco_studio_manual.cpp; sourceTree = "<group>"; };
 		DA76D53919877854009EB3C1 /* lua_cocos2dx_coco_studio_manual.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_cocos2dx_coco_studio_manual.hpp; sourceTree = "<group>"; };
 		DA9FA9FB197377AC006A0B4C /* cocos2dx_extra_luabinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cocos2dx_extra_luabinding.cpp; sourceTree = "<group>"; };
@@ -1156,18 +1154,12 @@
 		F4E0B23C196B9C660053EFD7 /* CCLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabel.h; sourceTree = "<group>"; };
 		F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelAtlas.cpp; sourceTree = "<group>"; };
 		F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelAtlas.h; sourceTree = "<group>"; };
-		F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelBMFont.cpp; sourceTree = "<group>"; };
-		F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFont.h; sourceTree = "<group>"; };
 		F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTextFormatter.cpp; sourceTree = "<group>"; };
 		F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTextFormatter.h; sourceTree = "<group>"; };
 		F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTTF.cpp; sourceTree = "<group>"; };
 		F4E0B244196B9C660053EFD7 /* CCLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTTF.h; sourceTree = "<group>"; };
 		F4E0B245196B9C660053EFD7 /* CCLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayer.cpp; sourceTree = "<group>"; };
 		F4E0B246196B9C660053EFD7 /* CCLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLayer.h; sourceTree = "<group>"; };
-		F4E0B247196B9C660053EFD7 /* CCMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMenu.cpp; sourceTree = "<group>"; };
-		F4E0B248196B9C660053EFD7 /* CCMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMenu.h; sourceTree = "<group>"; };
-		F4E0B249196B9C660053EFD7 /* CCMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMenuItem.cpp; sourceTree = "<group>"; };
-		F4E0B24A196B9C660053EFD7 /* CCMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMenuItem.h; sourceTree = "<group>"; };
 		F4E0B24B196B9C660053EFD7 /* CCMotionStreak.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMotionStreak.cpp; sourceTree = "<group>"; };
 		F4E0B24C196B9C660053EFD7 /* CCMotionStreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMotionStreak.h; sourceTree = "<group>"; };
 		F4E0B24D196B9C660053EFD7 /* CCNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNode.cpp; sourceTree = "<group>"; };
@@ -2258,6 +2250,8 @@
 		F4E0B1FC196B9C660053EFD7 /* 2d */ = {
 			isa = PBXGroup;
 			children = (
+				DA0D6DFF1999A58C00EAAB9E /* CCLabelBMFont.cpp */,
+				DA0D6E001999A58C00EAAB9E /* CCLabelBMFont.h */,
 				DAF2834F196CEE5A00959DA1 /* CCFastTMXLayer.cpp */,
 				DAF28350196CEE5A00959DA1 /* CCFastTMXLayer.h */,
 				DAF28351196CEE5A00959DA1 /* CCFastTMXTiledMap.cpp */,
@@ -2328,18 +2322,12 @@
 				F4E0B23C196B9C660053EFD7 /* CCLabel.h */,
 				F4E0B23D196B9C660053EFD7 /* CCLabelAtlas.cpp */,
 				F4E0B23E196B9C660053EFD7 /* CCLabelAtlas.h */,
-				F4E0B23F196B9C660053EFD7 /* CCLabelBMFont.cpp */,
-				F4E0B240196B9C660053EFD7 /* CCLabelBMFont.h */,
 				F4E0B241196B9C660053EFD7 /* CCLabelTextFormatter.cpp */,
 				F4E0B242196B9C660053EFD7 /* CCLabelTextFormatter.h */,
 				F4E0B243196B9C660053EFD7 /* CCLabelTTF.cpp */,
 				F4E0B244196B9C660053EFD7 /* CCLabelTTF.h */,
 				F4E0B245196B9C660053EFD7 /* CCLayer.cpp */,
 				F4E0B246196B9C660053EFD7 /* CCLayer.h */,
-				F4E0B247196B9C660053EFD7 /* CCMenu.cpp */,
-				F4E0B248196B9C660053EFD7 /* CCMenu.h */,
-				F4E0B249196B9C660053EFD7 /* CCMenuItem.cpp */,
-				F4E0B24A196B9C660053EFD7 /* CCMenuItem.h */,
 				F4E0B24B196B9C660053EFD7 /* CCMotionStreak.cpp */,
 				F4E0B24C196B9C660053EFD7 /* CCMotionStreak.h */,
 				F4E0B24D196B9C660053EFD7 /* CCNode.cpp */,
@@ -3785,7 +3773,6 @@
 				F4E0B650196B9C7D0053EFD7 /* CCMeshCommand.h in Headers */,
 				F4E0B59F196B9C7D0053EFD7 /* TransformUtils.h in Headers */,
 				DAF28303196BDACB00959DA1 /* lsqlite3.h in Headers */,
-				F4E0B2E7196B9C670053EFD7 /* CCMenu.h in Headers */,
 				F4E0C076196BA25D0053EFD7 /* lua_cocos2dx_manual.hpp in Headers */,
 				DAF282AC196BDA7300959DA1 /* CCStorePaymentTransaction.h in Headers */,
 				F4E0B2C7196B9C660053EFD7 /* CCDrawNode.h in Headers */,
@@ -3962,7 +3949,6 @@
 				F4E0BB4D196BA00A0053EFD7 /* svttcmap.h in Headers */,
 				F4E0BB2C196BA00A0053EFD7 /* ftttdrv.h in Headers */,
 				F4E0B30B196B9C670053EFD7 /* CCTileMapAtlas.h in Headers */,
-				F4E0B2DF196B9C670053EFD7 /* CCLabelBMFont.h in Headers */,
 				F4E0B54C196B9C7D0053EFD7 /* CCEventListenerAcceleration.h in Headers */,
 				F4E0B2A5196B9C660053EFD7 /* CCActionGrid.h in Headers */,
 				F4E0B2FF196B9C670053EFD7 /* CCScene.h in Headers */,
@@ -4019,6 +4005,7 @@
 				F4E0B59D196B9C7D0053EFD7 /* Quaternion.h in Headers */,
 				F4E0BCE8196BA0450053EFD7 /* jpeglib.h in Headers */,
 				F4E0B5BC196B9C7D0053EFD7 /* CCPhysicsShapeInfo_chipmunk.h in Headers */,
+				DA0D6E021999A58C00EAAB9E /* CCLabelBMFont.h in Headers */,
 				F4E0B58D196B9C7D0053EFD7 /* cocos2d-prefix.pch in Headers */,
 				F4E0B5AB196B9C7D0053EFD7 /* CCPhysicsBody.h in Headers */,
 				DA02C8CB19862EA800E2687A /* CCBone.h in Headers */,
@@ -4079,7 +4066,6 @@
 				DAF282F9196BDACB00959DA1 /* lua_cjson.h in Headers */,
 				F4E0C072196BA25D0053EFD7 /* lua_cocos2dx_extension_manual.h in Headers */,
 				DAF2827B196BDA7300959DA1 /* md5.h in Headers */,
-				F4E0B2E9196B9C670053EFD7 /* CCMenuItem.h in Headers */,
 				F4E0B53C196B9C7D0053EFD7 /* CCDirector.h in Headers */,
 				F4E0B71A196B9F4E0053EFD7 /* ConvertUTF.h in Headers */,
 				F4E0B550196B9C7D0053EFD7 /* CCEventListenerFocus.h in Headers */,
@@ -4160,7 +4146,6 @@
 				F4E0B53B196B9C7D0053EFD7 /* CCDirector.cpp in Sources */,
 				F4E0C08C196BA25D0053EFD7 /* tolua_event.c in Sources */,
 				F4E0B2C4196B9C660053EFD7 /* CCDrawingPrimitives.cpp in Sources */,
-				F4E0B2E6196B9C670053EFD7 /* CCMenu.cpp in Sources */,
 				F4E0B59C196B9C7D0053EFD7 /* Quaternion.cpp in Sources */,
 				F4E0B641196B9C7D0053EFD7 /* CCCustomCommand.cpp in Sources */,
 				DAF282AB196BDA7300959DA1 /* CCStorePaymentTransaction.cpp in Sources */,
@@ -4300,7 +4285,6 @@
 				DAF28312196BDACB00959DA1 /* luasocket_buffer.c in Sources */,
 				DA02C8C319862EA800E2687A /* CCArmatureAnimation.cpp in Sources */,
 				F4E0B64B196B9C7D0053EFD7 /* ccGLStateCache.cpp in Sources */,
-				F4E0B2DE196B9C670053EFD7 /* CCLabelBMFont.cpp in Sources */,
 				49BCFA16197F4CE700F48FF6 /* CCFilteredSprite.cpp in Sources */,
 				DAF2831A196BDACB00959DA1 /* select.c in Sources */,
 				F4E0B55C196B9C7D0053EFD7 /* ccFPSImages.c in Sources */,
@@ -4448,7 +4432,6 @@
 				49BCFA12197F4CE700F48FF6 /* CCSharpenFilter.cpp in Sources */,
 				F4E0B658196B9C7D0053EFD7 /* ccShaders.cpp in Sources */,
 				F4E0B2E0196B9C670053EFD7 /* CCLabelTextFormatter.cpp in Sources */,
-				F4E0B2E8196B9C670053EFD7 /* CCMenuItem.cpp in Sources */,
 				F4E0B2C8196B9C660053EFD7 /* CCFont.cpp in Sources */,
 				49BCFA06197F4CE700F48FF6 /* CCHazeFilter.cpp in Sources */,
 				F4E0B5B4196B9C7D0053EFD7 /* CCPhysicsBodyInfo_chipmunk.cpp in Sources */,
@@ -4457,6 +4440,7 @@
 				F4E0B57D196B9C7D0053EFD7 /* CCValue.cpp in Sources */,
 				49BCFA14197F4CE700F48FF6 /* CCTestFilter.cpp in Sources */,
 				F4E0B2FC196B9C670053EFD7 /* CCRenderTexture.cpp in Sources */,
+				DA0D6E011999A58C00EAAB9E /* CCLabelBMFont.cpp in Sources */,
 				F4E0B645196B9C7D0053EFD7 /* CCGLProgramCache.cpp in Sources */,
 				F4E0B617196B9C7D0053EFD7 /* CCCommon.mm in Sources */,
 				F4E0B32A196B9C670053EFD7 /* CCSprite3D.cpp in Sources */,

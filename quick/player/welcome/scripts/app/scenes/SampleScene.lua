@@ -18,7 +18,7 @@ function SampleScene:createLogo()
     cc.ui.UIPushButton.new("LogoBanner.png")
         :onButtonClicked(function() 
             local evt = cc.EventCustom:new("WELCOME_APP")
-            self:getEventDispatcher():dispatchEvent(evt)
+            cc.Director:getInstance():getEventDispatcher():dispatchEvent(evt)
         end)
         :align(display.LEFT_TOP, display.left + 20, display.top - 4)
         :addTo(self, 1)
@@ -174,7 +174,7 @@ function SampleScene:createDemoButton(sample)
     
         local evt = cc.EventCustom:new("WELCOME_OPEN_PROJECT_ARGS")
         evt:setDataString(commandline)
-        self:getEventDispatcher():dispatchEvent(evt)
+        cc.Director:getInstance():getEventDispatcher():dispatchEvent(evt)
     end
 
     local demoImage = sample.image or "ListSamplesButton_zh.png"

@@ -143,11 +143,11 @@ bool ClippingNode::init(Node *stencil)
 void ClippingNode::onEnter()
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
+//            return;
+//    }
 #endif
     
     Node::onEnter();

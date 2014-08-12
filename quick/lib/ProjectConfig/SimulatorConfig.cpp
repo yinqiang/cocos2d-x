@@ -248,6 +248,7 @@ void ProjectConfig::parseCommandLine(vector<string>& args)
     while (it != args.end())
     {
         const string& arg = *it;
+//        log("----parseCommandLine: %s", arg.c_str());
 
         if (arg.compare("-quick") == 0)
         {
