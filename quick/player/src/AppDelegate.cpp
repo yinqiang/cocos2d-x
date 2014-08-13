@@ -130,7 +130,7 @@ void StartupCall::startup()
     }
 
     // Code IDE
-    if (projectConfig.getDebuggerType() == kCCLuaDebuggerCodeIDE)
+    if (project.getDebuggerType() == kCCLuaDebuggerCodeIDE)
     {
         if (startRuntime()) return;
     }

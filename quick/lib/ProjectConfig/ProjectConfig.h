@@ -86,7 +86,6 @@ public:
     void parseCommandLine(const vector<string> &args);
     string makeCommandLine(unsigned int mask = kProjectConfigAll) const;
 
-    bool isDialog() const;
     bool isResizeWindow() const;
     bool isRetinaDisplay() const;
 
@@ -107,7 +106,6 @@ private:
     bool _restartProcess;
     cocos2d::Vec2 _windowOffset;
     int _debuggerType;
-    bool _isDialog;
     bool _isResizeWindow;
     bool _isRetinaDisplay;
 

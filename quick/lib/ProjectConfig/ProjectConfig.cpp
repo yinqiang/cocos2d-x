@@ -17,20 +17,19 @@
 #endif
 
 ProjectConfig::ProjectConfig()
-    : _isWelcome(false)
-    , _scriptFile("$(PROJDIR)/scripts/main.lua")
-    , _writablePath("")
-    , _packagePath("")
-    , _frameSize(960, 640)
-    , _frameScale(1.0f)
-    , _showConsole(true)
-    , _loadPrecompiledFramework(true)
-    , _writeDebugLogToFile(true)
-    , _windowOffset(0, 0)
-    , _debuggerType(kCCLuaDebuggerNone)
-    , _isDialog(false)
-    , _isResizeWindow(false)
-    , _isRetinaDisplay(false)
+: _isWelcome(false)
+, _scriptFile("$(PROJDIR)/scripts/main.lua")
+, _writablePath("")
+, _packagePath("")
+, _frameSize(960, 640)
+, _frameScale(1.0f)
+, _showConsole(true)
+, _loadPrecompiledFramework(true)
+, _writeDebugLogToFile(true)
+, _windowOffset(0, 0)
+, _debuggerType(kCCLuaDebuggerNone)
+, _isResizeWindow(false)
+, _isRetinaDisplay(false)
 {
     normalize();
 }
@@ -375,13 +374,13 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             setDebuggerType(kCCLuaDebuggerLDT);
         }
+        else if (arg.compare("-debugger-codeide") == 0)
+        {
+            setDebuggerType(kCCLuaDebuggerCodeIDE);
+        }
         else if (arg.compare("-disable-debugger") == 0)
         {
             setDebuggerType(kCCLuaDebuggerNone);
-        }
-        else if (arg.compare("-dialog") == 0)
-        {
-            _isDialog = true;
         }
         else if (arg.compare("-resize-window") == 0)
         {
@@ -520,21 +519,18 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
     {
         switch (getDebuggerType())
         {
-        case kCCLuaDebuggerLDT:
-            buff << " -debugger-ldt";
-            break;
-        case kCCLuaDebuggerNone:
-        default:
-            buff << " -disable-debugger";
+            case kCCLuaDebuggerLDT:
+                buff << " -debugger-ldt";
+                break;
+            case kCCLuaDebuggerCodeIDE:
+                buff << " -debugger-codeide";
+                break;
+            default:
+                buff << " -disable-debugger";
         }
     }
 
     return buff.str();
-}
-
-bool ProjectConfig::isDialog() const
-{
-    return _isDialog;
 }
 
 bool ProjectConfig::isResizeWindow() const
@@ -568,7 +564,18 @@ void ProjectConfig::dump()
     CCLOG("    frame scale: %0.2f", _frameScale);
     CCLOG("    show console: %s", _showConsole ? "YES" : "NO");
     CCLOG("    write debug log: %s", _writeDebugLogToFile ? "YES" : "NO");
-    CCLOG("    debugger: %s", _debuggerType == kCCLuaDebuggerLDT ? "Eclipse LDT" : "NONE");
+    if (_debuggerType == kCCLuaDebuggerLDT)
+    {
+        CCLOG("    debugger: Eclipse LDT");
+    }
+    else if (_debuggerType == kCCLuaDebuggerCodeIDE)
+    {
+        CCLOG("    debugger: Cocos Code IDE");
+    }
+    else
+    {
+        CCLOG("    debugger: none");
+    }
     CCLOG("\n\n");
 }
 

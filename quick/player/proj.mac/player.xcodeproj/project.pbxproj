@@ -64,7 +64,7 @@
 		9F6D88E31959645800B36BA2 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(SRCROOT)/../mac";
+			dstPath = "$(SRCROOT)/../../..";
 			dstSubfolderSpec = 0;
 			files = (
 				9F6D88E61959647800B36BA2 /* player3.app in CopyFiles */,
@@ -332,7 +332,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player3" */;
+			buildConfigurationList = 9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -606,7 +606,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player3" */ = {
+		9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F1C8D5E194DE61E0068C99B /* Debug */,
