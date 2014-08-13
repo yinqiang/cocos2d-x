@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by player.rc
+// Used by player3.rc
 //
 #define IDC_MYICON                      2
 #define IDD_PLAYER_DIALOG               102
