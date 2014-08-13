@@ -35,6 +35,7 @@ using namespace std;
 
 NS_CC_EXT_BEGIN
 
+
 enum
 {
     kZoomActionTag = 0xCCCB0001,
@@ -73,7 +74,7 @@ bool ControlButton::initWithLabelAndBackgroundSprite(Node* node, Scale9Sprite* b
     {
         CCASSERT(node != nullptr, "node must not be nil.");
         LabelProtocol* label = dynamic_cast<LabelProtocol*>(node);
-        //CCASSERT(backgroundSprite != nullptr, "Background sprite must not be nil.");
+        CCASSERT(backgroundSprite != nullptr, "Background sprite must not be nil.");
         CCASSERT(label != nullptr, "label must not be nil.");
         
         _parentInited = true;
