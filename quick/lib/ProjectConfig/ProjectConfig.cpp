@@ -17,19 +17,20 @@
 #endif
 
 ProjectConfig::ProjectConfig()
-: _isWelcome(false)
-, _scriptFile("$(PROJDIR)/scripts/main.lua")
-, _writablePath("")
-, _packagePath("")
-, _frameSize(960, 640)
-, _frameScale(1.0f)
-, _showConsole(true)
-, _loadPrecompiledFramework(true)
-, _writeDebugLogToFile(true)
-, _windowOffset(0, 0)
-, _debuggerType(kCCLuaDebuggerNone)
-, _isResizeWindow(false)
-, _isRetinaDisplay(false)
+    : _isWelcome(false)
+    , _scriptFile("$(PROJDIR)/scripts/main.lua")
+    , _writablePath("")
+    , _packagePath("")
+    , _frameSize(960, 640)
+    , _frameScale(1.0f)
+    , _showConsole(true)
+    , _loadPrecompiledFramework(true)
+    , _writeDebugLogToFile(true)
+    , _windowOffset(0, 0)
+    , _debuggerType(kCCLuaDebuggerNone)
+    , _isAppMenu(false)
+    , _isResizeWindow(false)
+    , _isRetinaDisplay(false)
 {
     normalize();
 }
@@ -52,9 +53,33 @@ void ProjectConfig::resetToWelcome()
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(true);
+    setShowConsole(false);
     setWindowOffset(cocos2d::Vec2::ZERO);
     setWriteDebugLogToFile(false);
+    _isAppMenu = false;
+    _isResizeWindow = false;
+    _isRetinaDisplay = true;
+}
+
+void ProjectConfig::resetToCreator()
+{
+    _isWelcome = true;
+    auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+    path.append("quick/creator");
+    SimulatorConfig::makeNormalizePath(&path);
+    setProjectDir(path);
+    setWritablePath(path);
+    setScriptFile("$(PROJDIR)/scripts/main.lua");
+    setFrameSize(cocos2d::Size(960, 640));
+    setFrameScale(1.0f);
+    setLoadPrecompiledFramework(true);
+    setPackagePath("");
+    setShowConsole(false);
+    setWindowOffset(cocos2d::Vec2::ZERO);
+    setWriteDebugLogToFile(false);
+    _isAppMenu = true;
+    _isResizeWindow = true;
+    _isRetinaDisplay = true;
 }
 
 string ProjectConfig::getProjectDir() const
@@ -382,6 +407,10 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             setDebuggerType(kCCLuaDebuggerNone);
         }
+        else if (arg.compare("-app-menu") == 0)
+        {
+            _isAppMenu = true;
+        }
         else if (arg.compare("-resize-window") == 0)
         {
             _isResizeWindow = true;
@@ -519,14 +548,14 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
     {
         switch (getDebuggerType())
         {
-            case kCCLuaDebuggerLDT:
-                buff << " -debugger-ldt";
-                break;
-            case kCCLuaDebuggerCodeIDE:
-                buff << " -debugger-codeide";
-                break;
-            default:
-                buff << " -disable-debugger";
+        case kCCLuaDebuggerLDT:
+            buff << " -debugger-ldt";
+            break;
+        case kCCLuaDebuggerCodeIDE:
+            buff << " -debugger-codeide";
+            break;
+        default:
+            buff << " -disable-debugger";
         }
     }
 

@@ -38,6 +38,7 @@ public:
 
     bool isWelcome();
     void resetToWelcome();
+    void resetToCreator();
 
     string getProjectDir() const;
     void setProjectDir(const string &projectDir);
@@ -86,6 +87,7 @@ public:
     void parseCommandLine(const vector<string> &args);
     string makeCommandLine(unsigned int mask = kProjectConfigAll) const;
 
+    bool isAppMenu() const;
     bool isResizeWindow() const;
     bool isRetinaDisplay() const;
 
@@ -106,6 +108,7 @@ private:
     bool _restartProcess;
     cocos2d::Vec2 _windowOffset;
     int _debuggerType;
+    bool _isAppMenu;
     bool _isResizeWindow;
     bool _isRetinaDisplay;
 

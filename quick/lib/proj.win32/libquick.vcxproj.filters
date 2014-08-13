@@ -390,12 +390,6 @@
     <ClInclude Include="..\..\..\cocos\2d\CCLayer.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cocos\2d\CCMenu.h">
-      <Filter>cocos\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\cocos\2d\CCMenuItem.h">
-      <Filter>cocos\2d</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\cocos\2d\CCMotionStreak.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
@@ -1683,12 +1677,6 @@
       <Filter>cocos\2d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\2d\CCLayer.cpp">
-      <Filter>cocos\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\2d\CCMenu.cpp">
-      <Filter>cocos\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\cocos\2d\CCMenuItem.cpp">
       <Filter>cocos\2d</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\2d\CCMotionStreak.cpp">

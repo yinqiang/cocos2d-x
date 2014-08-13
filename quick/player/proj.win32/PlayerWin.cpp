@@ -159,8 +159,8 @@ int PlayerWin::run()
     }
 
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
-    const bool isResize = (!_project.isDialog()) && _project.isResizeWindow();
-    const bool isDecorated = !_project.isDialog();
+    const bool isResize = _project.isResizeWindow();
+    const bool isDecorated = _project.isAppMenu() || _project.isResizeWindow();
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, isDecorated);
     _hwnd = glfwGetWin32Window(glview->getWindow());
 
@@ -209,7 +209,7 @@ void PlayerWin::initServices()
     _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
     _editboxService = new PlayerEditBoxServiceWin(_hwnd);
 
-    if (_project.isDialog())
+    if (!_project.isAppMenu())
     {
         // remove menu
         SetMenu(_hwnd, NULL);

@@ -111,8 +111,6 @@
     <ClInclude Include="..\..\..\cocos\2d\CCLabelTextFormatter.h" />
     <ClInclude Include="..\..\..\cocos\2d\CCLabelTTF.h" />
     <ClInclude Include="..\..\..\cocos\2d\CCLayer.h" />
-    <ClInclude Include="..\..\..\cocos\2d\CCMenu.h" />
-    <ClInclude Include="..\..\..\cocos\2d\CCMenuItem.h" />
     <ClInclude Include="..\..\..\cocos\2d\CCMotionStreak.h" />
     <ClInclude Include="..\..\..\cocos\2d\CCNode.h" />
     <ClInclude Include="..\..\..\cocos\2d\CCNodeGrid.h" />
@@ -544,8 +542,6 @@
     <ClCompile Include="..\..\..\cocos\2d\CCLabelTextFormatter.cpp" />
     <ClCompile Include="..\..\..\cocos\2d\CCLabelTTF.cpp" />
     <ClCompile Include="..\..\..\cocos\2d\CCLayer.cpp" />
-    <ClCompile Include="..\..\..\cocos\2d\CCMenu.cpp" />
-    <ClCompile Include="..\..\..\cocos\2d\CCMenuItem.cpp" />
     <ClCompile Include="..\..\..\cocos\2d\CCMotionStreak.cpp" />
     <ClCompile Include="..\..\..\cocos\2d\CCNode.cpp" />
     <ClCompile Include="..\..\..\cocos\2d\CCNodeGrid.cpp" />
