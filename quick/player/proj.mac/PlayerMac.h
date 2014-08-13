@@ -4,13 +4,21 @@
 
 #include "PlayerProtocol.h"
 
+#include "PlayerEditBoxServiceMac.h"
+#include "PlayerFileDialogServiceMac.h"
+#include "PlayerMenuServiceMac.h"
+#include "PlayerMessageBoxServiceMac.h"
+
+#include "player_tolua.h"
+#include "PlayerUtils.h"
+
 PLAYER_NS_BEGIN
 
-class PlayerMac : public PlayerProtocol
+class Player : public PlayerProtocol
 {
 public:
-    PlayerMac();
-    virtual ~PlayerMac();
+    static Player *create();
+    virtual ~Player();
 
     virtual PlayerFileDialogServiceProtocol *getFileDialogService();
 
@@ -19,8 +27,14 @@ public:
     virtual PlayerMenuServiceProtocol       *getMenuService();
     
     virtual PlayerEditBoxServiceProtocol    *getEditBoxService();
-protected:
     
+protected:
+    Player();
+    
+    PlayerMenuServiceMac        *_menuService;
+    PlayerMessageBoxServiceMac  *_messageBoxService;
+    PlayerFileDialogServiceMac  *_fileDialogService;
+    PlayerEditBoxServiceMac     *_editBoxService;
 };
 
 PLAYER_NS_END

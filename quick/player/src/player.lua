@@ -173,23 +173,28 @@ function player.registerEventHandler()
     -- for app event
     local eventDispatcher = player.eventNode:getEventDispatcher()
     local event = function(e)
-        local t = json.decode(e:getDataString())
-        if t == nil then return end
+        
+        print(e:getDataString())
 
-        if t.name == "close" then
-            -- player.trackEvent("exit")
-            print("exit")
-            eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
-            -- cc.Director:getInstance():endToLua()
-        elseif t.name == "resize" then
-            -- <code here> t.w,t.h
-        elseif t.name == "focusIn" then
-            -- cc.Director:getInstance():resume()
-        elseif t.name == "focusOut" then
-            -- cc.Director:getInstance():pause()
-        elseif t.name == "keyPress" then
-            -- t.key = "tab"
-            -- t.key = "return"
+        if json ~= nil then
+            local t = json.decode(e:getDataString())
+            if t == nil then return end
+
+            if t.name == "close" then
+                -- player.trackEvent("exit")
+                print("exit")
+                eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
+                -- cc.Director:getInstance():endToLua()
+            elseif t.name == "resize" then
+                -- <code here> t.w,t.h
+            elseif t.name == "focusIn" then
+                -- cc.Director:getInstance():resume()
+            elseif t.name == "focusOut" then
+                -- cc.Director:getInstance():pause()
+            elseif t.name == "keyPress" then
+                -- t.key = "tab"
+                -- t.key = "return"
+            end
         end
     end
 

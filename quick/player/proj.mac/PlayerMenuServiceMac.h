@@ -8,23 +8,45 @@
 #include "PlayerMacros.h"
 #include "PlayerMenuServiceProtocol.h"
 
+//
+// Menu item Helper
+//
+
+PLAYER_NS_BEGIN
+class PlayerMenuItemMac;
+PLAYER_NS_END
+
+@interface NNMenuItem : NSMenuItem
+@property (nonatomic) int scriptHandler;
+@property (nonatomic) const player::PlayerMenuItemMac *macMenuItem;
+
++(id) createMenuItem:(const player::PlayerMenuItemMac *) macMenuItem;
+@end
+
+
+//
+// PlayerMenuItemMac
+//
+
 PLAYER_NS_BEGIN
 
 class PlayerMenuItemMac : public PlayerMenuItem
 {
 public:
-    static PlayerMenuItemMac *create(const string &menuId, const string &title);
+    static PlayerMenuItemMac *create(const std::string &menuId, const std::string &title);
     virtual ~PlayerMenuItemMac();
-
-    virtual void setTitle(const string &title);
+    
+    virtual void setTitle(const std::string &title);
     virtual void setEnabled(bool enabled);
     virtual void setChecked(bool checked);
-    virtual void setShortcut(const string &shortcut);
+    virtual void setShortcut(const std::string &shortcut);
 
 protected:
     PlayerMenuItemMac();
-
+    
     PlayerMenuItemMac *_parent;
+    NNMenuItem *_menuItem;
+    NSMenu     *_menu;
     cocos2d::Vector<PlayerMenuItemMac*> _children;
 
     friend class PlayerMenuServiceMac;
@@ -36,19 +58,18 @@ public:
     PlayerMenuServiceMac();
     virtual ~PlayerMenuServiceMac();
 
-    virtual PlayerMenuItem *addItem(const string &menuId, const string &title, const string &parentId, int order = MAX_ORDER);
-    virtual PlayerMenuItem *addItem(const string &menuId, const string &title);
-    virtual PlayerMenuItem *getItem(const string &menuId);
-    virtual bool removeItem(const string &menuId);
+    virtual PlayerMenuItem *addItem(const std::string &menuId, const std::string &title, const std::string &parentId, int order = MAX_ORDER);
+    virtual PlayerMenuItem *addItem(const std::string &menuId, const std::string &title);
+    virtual PlayerMenuItem *getItem(const std::string &menuId);
+    virtual bool removeItem(const std::string &menuId);
 
 private:
-    void removeIdRecursion(NSMenuItem *menuItem);
-    void removeId(NSMenuItem *menuItem);
-    void addId(const std::string &menuIt, NSMenuItem *menuItem);
-
+    bool removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder);
+    void updateChildrenOrder(PlayerMenuItemMac *parent);
+    
 private:
-    std::unordered_map<std::string, id> m_id2Menu;
-    std::unordered_map<id, std::string> m_menu2Id;
+    PlayerMenuItemMac _root;
+    std::unordered_map<std::string, PlayerMenuItemMac*> _items;
 };
 
 PLAYER_NS_END

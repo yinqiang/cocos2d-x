@@ -18,12 +18,11 @@
 #include "cocos2d.h"
 #include "native/CCNative.h"
 #include "CCLuaEngine.h"
+
+#include "PlayerMac.h"
+
 USING_NS_CC;
 USING_NS_CC_EXTRA;
-
-// player interface
-//#include "player_tolua.h"
-#include "PlayerProtocol.h"
 
 @implementation AppController
 
@@ -39,6 +38,8 @@ USING_NS_CC_EXTRA;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    player::Player::create();
+    
     waitForRestart = NO;
     isAlwaysOnTop = NO;
     isMaximized = NO;
@@ -62,7 +63,7 @@ USING_NS_CC_EXTRA;
     }
     
     env = [env stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    env = [NSString stringWithFormat:@"%@/quick", env];
+//    env = [NSString stringWithFormat:@"%@/quick", env];
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath([env cStringUsingEncoding:NSUTF8StringEncoding]);
     
     [self loadLuaConfig];
@@ -117,7 +118,7 @@ USING_NS_CC_EXTRA;
 {
     NSMutableArray *recents = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"recents"]];
     
-    NSString *welcomeTitle = [NSString stringWithFormat:@"%splayer/welcome/", SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath().c_str()];
+    NSString *welcomeTitle = [NSString stringWithFormat:@"%splayer/welcome/", SimulatorConfig::getInstance()->getQuickCocos2dxRootPath().c_str()];
     
     for (NSInteger i = [recents count] - 1; i >= 0; --i)
     {
@@ -129,7 +130,7 @@ USING_NS_CC_EXTRA;
         }
         
         NSString *title = [recentItem objectForKey:@"title"];
-        if (!title || [title length] == 0 || [welcomeTitle compare:title] == NSOrderedSame /*|| !CCFileUtils::sharedFileUtils()->isDirectoryExist([title cStringUsingEncoding:NSUTF8StringEncoding])*/)
+        if (!title || [title length] == 0 || [welcomeTitle compare:title] == NSOrderedSame || !FileUtils::getInstance()->isDirectoryExist([title cStringUsingEncoding:NSUTF8StringEncoding]))
         {
             [recents removeObjectAtIndex:i];
         }
@@ -158,7 +159,7 @@ USING_NS_CC_EXTRA;
 {
     NSMenu *submenu = [[[window menu] itemWithTitle:@"Screen"] submenu];
     
-    SimulatorConfig *config = SimulatorConfig::sharedDefaults();
+    SimulatorConfig *config = SimulatorConfig::getInstance();
     int current = config->checkScreenSize(projectConfig.getFrameSize());
     for (int i = config->getScreenSizeCount() - 1; i >= 0; --i)
     {
@@ -189,6 +190,14 @@ USING_NS_CC_EXTRA;
 
 - (void) updateUI
 {
+    [window setTitle:[NSString stringWithFormat:@"quick-x-player (%0.0f%%)", projectConfig.getFrameScale() * 100]];
+    return;
+    
+    
+    //
+    // move to lua
+    //
+    
     NSMenu *menuPlayer = [[[window menu] itemWithTitle:@"Player"] submenu];
     NSMenuItem *itemWriteDebugLogToFile = [menuPlayer itemWithTitle:@"Write Debug Log to File"];
     [itemWriteDebugLogToFile setState:projectConfig.isWriteDebugLogToFile() ? NSOnState : NSOffState];
@@ -251,8 +260,6 @@ USING_NS_CC_EXTRA;
                                                 keyEquivalent:@""] autorelease];
         [menuRecents insertItem:item atIndex:0];
     }
-    
-    [window setTitle:[NSString stringWithFormat:@"quick-x-player (%0.0f%%)", projectConfig.getFrameScale() * 100]];
 }
 
 
@@ -358,26 +365,25 @@ USING_NS_CC_EXTRA;
 {
     LuaEngine* pEngine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
-    
-    tolua_player_luabinding_open(pEngine->getLuaStack()->getLuaState());
+
+    luaopen_player_luabinding(pEngine->getLuaStack()->getLuaState());
     
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/"];
-    
+
     // set user home dir
     lua_pushstring(pEngine->getLuaStack()->getLuaState(), path.UTF8String);
     lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
-    
+
     [path appendString:@".quick_player.lua"];
-    
+
 
     NSString *luaCorePath = [[NSBundle mainBundle] pathForResource:@"player" ofType:@"lua"];
     pEngine->getLuaStack()->executeScriptFile(luaCorePath.UTF8String);
-    
-    player::PlayerSettings &settings = player::PlayerProtocol::getInstance()->getPlayerSettings();
+
+    const player::PlayerSettings &settings = player::PlayerProtocol::getInstance()->getPlayerSettings();
 
     projectConfig.setWindowOffset(Vec2(settings.offsetX, settings.offsetY));
-    projectConfig.setFrameSize(cocos2d::Size(settings.windowWidth, settings.windowHeight));
 }
 
 #pragma mark -
@@ -389,7 +395,7 @@ USING_NS_CC_EXTRA;
     int height = projectConfig.getFrameSize().height;
     float scale = projectConfig.getFrameScale();
     
-    eglView = GLView::createWithRect("quick-x-player", cocos2d::Rect(0, 0, width, height), scale, false);
+    eglView = GLView::createWithRect("quick-x-player", cocos2d::Rect(0, 0, width, height), scale, projectConfig.isResizeWindow());
     Director::getInstance()->setOpenGLView(eglView);
     
     window = glfwGetCocoaWindow(eglView->getWindow());
@@ -419,29 +425,28 @@ USING_NS_CC_EXTRA;
     LuaEngine* pEngine = LuaEngine::getInstance();
     
     // set quick-cocos2d-x root path
-    std::string quickPath = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
+    std::string quickPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
     lua_pushstring(pEngine->getLuaStack()->getLuaState(), quickPath.c_str());
     lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G__QUICK_PATH__");
     
-    std::string command = projectConfig.makeCommandLine();
-    std::vector <std::string> fields;
-    player::split(fields, command, ' ');
-    
-    LuaValueArray array;
-    for (size_t i = 0; i < fields.size(); i++)
-    {
-        array.push_back(LuaValue::stringValue(fields.at(i)));
-    }
-    pEngine->getLuaStack()->pushFunctionByName("__PLAYER_OPEN__");
-    pEngine->getLuaStack()->pushLuaValue(LuaValue::stringValue(projectConfig.getProjectDir()));
-    pEngine->getLuaStack()->pushLuaValueArray(array);
-    pEngine->getLuaStack()->executeFunction(2);
+//    std::string command = projectConfig.makeCommandLine();
+//    std::vector <std::string> fields = player::splitString(command, std::string(" "));
+//    
+//    LuaValueArray array;
+//    for (size_t i = 0; i < fields.size(); i++)
+//    {
+//        array.push_back(LuaValue::stringValue(fields.at(i)));
+//    }
+//    pEngine->getLuaStack()->pushFunctionByName("__PLAYER_OPEN__");
+//    pEngine->getLuaStack()->pushLuaValue(LuaValue::stringValue(projectConfig.getProjectDir()));
+//    pEngine->getLuaStack()->pushLuaValueArray(array);
+//    pEngine->getLuaStack()->executeFunction(2);
 
 }
 
 - (void) startup
 {
-    std::string path = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
+    std::string path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
     if (path.length() <= 0)
     {
         [self showPreferences:YES];
@@ -471,12 +476,11 @@ USING_NS_CC_EXTRA;
     app = new AppDelegate();
     bridge = new AppControllerBridge(self);
     
-    EventDispatcher *eventDispatcher = Director::getInstance()->getEventDispatcher();
+    auto eventDispatcher = Director::getInstance()->getEventDispatcher();
     EventListenerCustom *_listener = EventListenerCustom::create("WELCOME_OPEN_PROJECT_ARGS", [=](EventCustom* event){
         if (event->getDataString().length() > 0)
         {
-            std::vector<std::string> args;
-            player::split(args, event->getDataString(), ',');
+            std::vector<std::string> args = player::splitString( event->getDataString(), std::string(","));
             
             if (args.at(args.size()-1) == "-new")
             {
@@ -524,29 +528,64 @@ USING_NS_CC_EXTRA;
         [consoleController close];
         glfwHideWindow(eglView->getWindow());
     }), 1);
-//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeNewProject), "WELCOME_NEW_PROJECT", NULL);
-//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeOpen), "WELCOME_OPEN_PROJECT", NULL);
-//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetStarted), "WELCOME_OPEN_DOCUMENTS", NULL);
-//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeGetCommunity), "WELCOME_OPEN_COMMUNITY", NULL);
-//    NotificationCenter::getInstance()->addObserver(bridge, callfuncO_selector(AppControllerBridge::onWelcomeOpenRecent), "WELCOME_OPEN_PROJECT_ARGS", NULL);
     
-    
-    // send recent to Lua
-    LuaValueArray titleArray;
-    NSArray *recents = [[NSUserDefaults standardUserDefaults] arrayForKey:@"recents"];
-    for (NSInteger i = 0; i < [recents count]; i++)
-    {
-        NSDictionary *recentItem = [recents objectAtIndex:i];
-        titleArray.push_back(LuaValue::stringValue([[recentItem objectForKey:@"title"] UTF8String]));
-    }
-    app->setOpenRecents(titleArray);
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", [=](EventCustom* event) {
+        // If script set event's result to "cancel", ignore window close event
+        EventCustom forwardEvent("APP.EVENT");
+        stringstream buf;
+        buf << "{\"name\":\"close\"}";
+        forwardEvent.setDataString(buf.str());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
+        if (forwardEvent.getResult().compare("cancel") != 0)
+        {
+            glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
+        }
+    });
+    eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", [=](EventCustom* event) {
+
+    });
+
+    [self initServices];
     
     app->setProjectConfig(projectConfig);
     app->run();
-//    Application::getInstance()->run();
+
     
     // After run, application needs to be terminated immediately.
     [NSApp terminate: self];
+}
+
+- (void) initServices
+{
+    auto service = player::PlayerProtocol::getInstance()->getMenuService();
+    service->addItem("FILE", "&File");
+    service->addItem("FILE_OPEN", "&Open", "FILE");
+    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE")->setEnabled(true);
+    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
+    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
+    service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
+    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
+    service->addItem("FILE_SAVE", "&Save", "FILE");
+    service->addItem("FILE_SAVE_AS", "Save &As...", "FILE");
+    service->addItem("FILE_SEP1", "-", "FILE");
+    service->addItem("FILE_EXIT", "E&xit", "FILE");
+    
+    service->addItem("VIEW", "&View");
+    service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
+    service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
+    
+    log("------------------------");
+    log("FILE order = %d", service->getItem("FILE")->getOrder());
+    log("FILE_OPEN order = %d", service->getItem("FILE_OPEN")->getOrder());
+    log("FILE_OPEN_RECENTS order = %d", service->getItem("FILE_OPEN_RECENTS")->getOrder());
+    log("FILE_SAVE order = %d", service->getItem("FILE_SAVE")->getOrder());
+    log("FILE_SAVE_AS order = %d", service->getItem("FILE_SAVE_AS")->getOrder());
+    log("FILE_SEP1 order = %d", service->getItem("FILE_SEP1")->getOrder());
+    log("FILE_EXIT order = %d", service->getItem("FILE_EXIT")->getOrder());
+    log("------------------------");
+    
+    service->removeItem("VIEW");
+    service->removeItem("FILE_OPEN_RECENTS_3");
 }
 
 - (void) openConsoleWindow
@@ -650,7 +689,7 @@ USING_NS_CC_EXTRA;
         [controller release];
         
         NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:@"QUICK_COCOS2DX_ROOT"];
-        SimulatorConfig::sharedDefaults()->setQuickCocos2dxRootPath([path cStringUsingEncoding:NSUTF8StringEncoding]);
+        SimulatorConfig::getInstance()->setQuickCocos2dxRootPath([path cStringUsingEncoding:NSUTF8StringEncoding]);
         
         if (relaunch)
         {
@@ -707,7 +746,7 @@ USING_NS_CC_EXTRA;
 
 - (void) welcomeSamples
 {
-    string path = SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath();
+    string path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
     if (path.length())
     {
         path.append("samples");
@@ -812,7 +851,7 @@ USING_NS_CC_EXTRA;
 - (IBAction) onFileClose:(id)sender
 {
     // send close event to lua
-    cocos2d::EventCustom event("APP.EVENT");
+    cocos2d::EventCustom event("APP.WINDOW_CLOSE_EVENT");
     std::string data = "{\"name\":\"close\"}";
     event.setDataString(data);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
@@ -863,9 +902,9 @@ USING_NS_CC_EXTRA;
 - (IBAction) onScreenChangeFrameSize:(id)sender
 {
     NSInteger i = [sender tag];
-    if (i >= 0 && i < SimulatorConfig::sharedDefaults()->getScreenSizeCount())
+    if (i >= 0 && i < SimulatorConfig::getInstance()->getScreenSizeCount())
     {
-        SimulatorScreenSize size = SimulatorConfig::sharedDefaults()->getScreenSize((int)i);
+        SimulatorScreenSize size = SimulatorConfig::getInstance()->getScreenSize((int)i);
         projectConfig.setFrameSize(projectConfig.isLandscapeFrame() ? cocos2d::Size(size.height, size.width) : cocos2d::Size(size.width, size.height));
         projectConfig.setFrameScale(1.0f);
         [self relaunch];

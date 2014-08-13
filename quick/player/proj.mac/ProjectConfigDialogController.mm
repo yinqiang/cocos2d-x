@@ -82,7 +82,7 @@
     [textFieldScreenSizeHeight setFormatter:[[[OnlyIntegerValueFormatter alloc] init] autorelease]];
 
     [popupScreenSize removeAllItems];
-    SimulatorConfig *config = SimulatorConfig::sharedDefaults();
+    SimulatorConfig *config = SimulatorConfig::getInstance();
     for (int i = 0; i < config->getScreenSizeCount(); ++i)
     {
         [popupScreenSize addItemWithTitle:[NSString stringWithCString:config->getScreenSize(i).title.c_str() encoding:NSUTF8StringEncoding]];
@@ -97,7 +97,7 @@
     [textFieldScriptFile setStringValue:[NSString stringWithCString:projectConfig.getScriptFile().c_str() encoding:NSUTF8StringEncoding]];
 
     const cocos2d::Size frameSzie = projectConfig.getFrameSize();
-    SimulatorConfig *config = SimulatorConfig::sharedDefaults();
+    SimulatorConfig *config = SimulatorConfig::getInstance();
     int i = config->checkScreenSize(frameSzie);
     if (i >= 0)
     {
@@ -187,7 +187,7 @@
 - (IBAction) onScreenSizeChanged:(id)sender
 {
     int i = (int)[popupScreenSize indexOfSelectedItem];
-    SimulatorConfig *config = SimulatorConfig::sharedDefaults();
+    SimulatorConfig *config = SimulatorConfig::getInstance();
     if (i >= 0 && i < config->getScreenSizeCount())
     {
         [textFieldScreenSizeWidth setEnabled:NO];

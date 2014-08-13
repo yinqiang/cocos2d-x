@@ -79,6 +79,8 @@
 		49BCFA3C197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 49BCFA3A197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */; };
 		49BCFA3F1980DABA00F48FF6 /* CCCustomFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49BCFA3D1980DABA00F48FF6 /* CCCustomFilter.cpp */; };
 		49BCFA401980DABA00F48FF6 /* CCCustomFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCFA3E1980DABA00F48FF6 /* CCCustomFilter.h */; };
+		9F1CF4041998AC3C00497F21 /* ProjectConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F1CF4021998AC3C00497F21 /* ProjectConfig.cpp */; };
+		9F1CF4051998AC3C00497F21 /* ProjectConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F1CF4031998AC3C00497F21 /* ProjectConfig.h */; };
 		DA02C8A919861DC300E2687A /* CCArmature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA02C8A719861DC300E2687A /* CCArmature.cpp */; };
 		DA02C8AA19861DC300E2687A /* CCArmature.h in Headers */ = {isa = PBXBuildFile; fileRef = DA02C8A819861DC300E2687A /* CCArmature.h */; };
 		DA02C8AD19862D9500E2687A /* lua_cocos2dx_studio_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA02C8AB19862D9500E2687A /* lua_cocos2dx_studio_auto.cpp */; };
@@ -945,6 +947,8 @@
 		49BCFA3A197F4D3600F48FF6 /* lua_cocos2dx_extension_filter_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_cocos2dx_extension_filter_auto.hpp; sourceTree = "<group>"; };
 		49BCFA3D1980DABA00F48FF6 /* CCCustomFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCustomFilter.cpp; sourceTree = "<group>"; };
 		49BCFA3E1980DABA00F48FF6 /* CCCustomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCustomFilter.h; sourceTree = "<group>"; };
+		9F1CF4021998AC3C00497F21 /* ProjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectConfig.cpp; sourceTree = "<group>"; };
+		9F1CF4031998AC3C00497F21 /* ProjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectConfig.h; sourceTree = "<group>"; };
 		DA02C8A719861DC300E2687A /* CCArmature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArmature.cpp; sourceTree = "<group>"; };
 		DA02C8A819861DC300E2687A /* CCArmature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArmature.h; sourceTree = "<group>"; };
 		DA02C8AB19862D9500E2687A /* lua_cocos2dx_studio_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_studio_auto.cpp; sourceTree = "<group>"; };
@@ -3579,6 +3583,8 @@
 		F4E0C092196BA2A60053EFD7 /* ProjectConfig */ = {
 			isa = PBXGroup;
 			children = (
+				9F1CF4021998AC3C00497F21 /* ProjectConfig.cpp */,
+				9F1CF4031998AC3C00497F21 /* ProjectConfig.h */,
 				F4E0C093196BA2A60053EFD7 /* SimulatorConfig.cpp */,
 				F4E0C094196BA2A60053EFD7 /* SimulatorConfig.h */,
 			);
@@ -4052,6 +4058,7 @@
 				DAF282B1196BDA7300959DA1 /* CCStoreTransactionObserver.h in Headers */,
 				DA02C8C819862EA800E2687A /* CCArmatureDefine.h in Headers */,
 				F4E0B2CB196B9C670053EFD7 /* CCFontAtlas.h in Headers */,
+				9F1CF4051998AC3C00497F21 /* ProjectConfig.h in Headers */,
 				F4E0BB49196BA00A0053EFD7 /* svprop.h in Headers */,
 				DA02C8C419862EA800E2687A /* CCArmatureAnimation.h in Headers */,
 				49BCFA36197F4CE700F48FF6 /* ccFilterShaders.h in Headers */,
@@ -4242,6 +4249,7 @@
 				F41590B4196BD1D20046D7EE /* ScriptEventCenter.cpp in Sources */,
 				DAF28355196CEE5A00959DA1 /* CCFastTMXTiledMap.cpp in Sources */,
 				F4E0B703196B9EEB0053EFD7 /* cpArbiter.c in Sources */,
+				9F1CF4041998AC3C00497F21 /* ProjectConfig.cpp in Sources */,
 				F4E0B580196B9C7D0053EFD7 /* etc1.cpp in Sources */,
 				DAF28306196BDACB00959DA1 /* lua_extensions.c in Sources */,
 				F4E0B5FD196B9C7D0053EFD7 /* CCSAXParser.cpp in Sources */,

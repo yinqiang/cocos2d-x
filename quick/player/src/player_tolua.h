@@ -1,8 +1,13 @@
-/*
-** Lua binding: player_luabinding
-** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:26:27 2014.
-*/
 
-/* Exported function */
-TOLUA_API int  tolua_player_luabinding_open (lua_State* tolua_S);
+#ifndef __PLAYER_TOLUA_H_
+#define __PLAYER_TOLUA_H_
 
+extern "C" {
+#include "lua.h"
+#include "tolua++.h"
+#include "tolua_fix.h"
+}
+
+TOLUA_API int luaopen_player_luabinding(lua_State* tolua_S);
+
+#endif // __PLAYER_TOLUA_H_

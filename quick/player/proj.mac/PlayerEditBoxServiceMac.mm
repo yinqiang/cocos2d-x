@@ -3,7 +3,7 @@
 //  quick-x-player
 //
 
-#include "EditBoxServiceMac.h"
+#include "PlayerEditBoxServiceMac.h"
 
 #include "cocos2d.h"
 #include "glfw3native.h"
@@ -244,62 +244,64 @@ PLAYER_NS_BEGIN;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EditBoxServiceMac::EditBoxServiceMac()
+PlayerEditBoxServiceMac::PlayerEditBoxServiceMac()
 {
     NSRect rect =  NSMakeRect(0, 0, 100, 20);
     _sysEdit = [[EditBoxServiceImplMac alloc] initWithFrame:rect editBox:this];
 }
 
-EditBoxServiceMac::~EditBoxServiceMac()
+PlayerEditBoxServiceMac::~PlayerEditBoxServiceMac()
 {
     [_sysEdit release];
 }
 
-void EditBoxServiceMac::setPosition(int x, int y)
+void PlayerEditBoxServiceMac::showSingleLineEditBox(const cocos2d::Rect &rect)
 {
-    [_sysEdit setPosition:NSMakePoint(x, y)];
+    [[_sysEdit.textField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+    [[_sysEdit.textField cell] setTruncatesLastVisibleLine:YES];
+    
+    [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
+    [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
 }
 
-void EditBoxServiceMac::setSize(int width, int height)
+void PlayerEditBoxServiceMac::showMultiLineEditBox(const cocos2d::Rect &rect)
 {
-    [_sysEdit setContentSize:NSMakeSize(width, height)];
+    [[_sysEdit.textField cell] setLineBreakMode:NSLineBreakByCharWrapping];
+    [[_sysEdit.textField cell] setTruncatesLastVisibleLine:NO];
+    
+    [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
+    [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
 }
 
-void EditBoxServiceMac::setRect(int x, int y, int width, int height)
-{
-    setPosition(x, y);
-    setSize(width, height);
-}
-
-void EditBoxServiceMac::setText(std::string text)
+void PlayerEditBoxServiceMac::setText(const std::string &text)
 {
     _sysEdit.textField.stringValue = [NSString stringWithUTF8String:text.c_str()];
 }
 
-void EditBoxServiceMac::setFont(const char* pFontName, int fontSize)
+void PlayerEditBoxServiceMac::setFont(const std::string &name, int size)
 {
-    NSString *fntName = [NSString stringWithUTF8String:pFontName];
-	NSFont *textFont = [NSFont fontWithName:fntName size:fontSize];
+    NSString *fntName = [NSString stringWithUTF8String:name.c_str()];
+	NSFont *textFont = [NSFont fontWithName:fntName size:size];
 	if (textFont != nil)
     {
 		[_sysEdit.textField setFont:textFont];
     }
 }
 
-void EditBoxServiceMac::setFontColor(int r, int g, int b)
+void PlayerEditBoxServiceMac::setFontColor(const cocos2d::Color3B &color)
 {
-    NSColor *color = [NSColor colorWithCalibratedRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:1.0f];
-    _sysEdit.textField.textColor = color;
+    NSColor *textColor = [NSColor colorWithCalibratedRed:color.r / 255.0f green:color.g / 255.0f blue:color.b / 255.0f alpha:1.0f];
+    _sysEdit.textField.textColor = textColor;
 }
 
 // hide editbox
-void EditBoxServiceMac::hide()
+void PlayerEditBoxServiceMac::hide()
 {
     [_sysEdit.textField setHidden:YES];
     [_sysEdit closeKeyboard];
 }
 
-void EditBoxServiceMac::show()
+void PlayerEditBoxServiceMac::show()
 {
     [_sysEdit.textField setHidden:NO];
     [_sysEdit openKeyboard];

@@ -3,33 +3,45 @@
 #include "PlayerUtils.h"
 
 #include "CCLuaEngine.h"
+#include "cocos2d.h"
 
+USING_NS_CC;
 
 ///////////////////////////////////////  menu helper  //////////////////////////////////////////////
-
-
-@interface NNMenuItem : NSMenuItem
-@property (nonatomic) int scriptHandler;
-@end
 
 @implementation NNMenuItem
 
 
--(id) initWithData:(const player::PlayerMenuItem &) itemData
++(id) createMenuItem:(const player::PlayerMenuItemMac *) macMenuItem
 {
-    NSString *title = [NSString stringWithUTF8String:itemData.title.c_str()];
+    if (macMenuItem->getTitle().compare("-") == 0)
+    {
+        return [NSMenuItem separatorItem];
+    }
+    else
+    {
+        return [[[NNMenuItem alloc] initWithMenuItem:macMenuItem] autorelease];
+    }
+    
+    return NULL;
+}
+
+-(id) initWithMenuItem:(const player::PlayerMenuItemMac *) menuItem
+{
+    NSString *title = [NSString stringWithUTF8String:menuItem->getTitle().c_str()];
+    title = [title stringByReplacingOccurrencesOfString:@"&" withString:@""];
     if ([super initWithTitle:title action:@selector(onClicked:) keyEquivalent:@""])
     {
-        self.scriptHandler = itemData.scriptHandlerId;
         self.target = self;
     }
+    self.macMenuItem = menuItem;
+    
     return self;
 }
 
 -(void) setShortcut:(std::string) shortcut
 {
-    std::vector <std::string> fields;
-    player::split(fields, shortcut, '+');
+    std::vector <std::string> fields = player::splitString(shortcut, std::string("+"));
     
     NSUInteger mask = [self keyEquivalentModifierMask];
     for (auto cut : fields)
@@ -71,11 +83,12 @@
 
 -(void) onClicked:(id)sender
 {
-    if (self.scriptHandler != 0)
-    {
-        cocos2d::LuaEngine::getInstance()->getLuaStack()->pushString("{}");
-        cocos2d::LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(self.scriptHandler, 1);
-    }
+    cocos2d::EventCustom event("APP.EVENT");
+    std::stringstream buf;
+    buf << "{\"data\":\"" << self.macMenuItem->getMenuId().c_str() << "\"";
+    buf << ",\"name\":" << "\"menuClicked\"" << "}";
+    event.setDataString(buf.str());
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 @end
 
@@ -83,173 +96,250 @@
 
 PLAYER_NS_BEGIN
 
+//
+
+PlayerMenuItemMac *PlayerMenuItemMac::create(const std::string &menuId, const std::string &title)
+{
+    PlayerMenuItemMac *item = new PlayerMenuItemMac();
+    item->_menuId = menuId;
+    item->_title = title;
+    item->autorelease();
+    return item;
+}
+
+PlayerMenuItemMac::PlayerMenuItemMac()
+    : _parent(nullptr)
+    , _menuItem(nullptr)
+    , _menu(nullptr)
+{
+}
+
+PlayerMenuItemMac::~PlayerMenuItemMac()
+{
+    if (_menuItem)
+    {
+        [_parent->_menu removeItem:_menuItem];
+    }
+    
+    CCLOG("PlayerMenuItemWin::~PlayerMenuItemWin() - %s", _menuId.c_str());
+}
+
+void PlayerMenuItemMac::setTitle(const std::string &title)
+{
+    if (title.length() == 0)
+    {
+        CCLOG("MenuServiceWin::setTitle() - can not set menu title to empty, menu id (%s)", _menuId.c_str());
+        return;
+    }
+    
+    _menuItem.title = [NSString stringWithUTF8String:title.c_str()];
+    if (_menu)
+    {
+        _menu.title = _menuItem.title;
+    }
+}
+
+void PlayerMenuItemMac::setEnabled(bool enabled)
+{
+    if (enabled)
+    {
+        [_menuItem setAction:@selector(onClicked:)];
+    }
+    else
+    {
+        [_menuItem setAction:nil];
+    }
+}
+
+void PlayerMenuItemMac::setChecked(bool checked)
+{
+    [_menuItem setState:checked ? NSOnState : NSOffState];
+}
+
+void PlayerMenuItemMac::setShortcut(const std::string &shortcut)
+{
+    [_menuItem setShortcut:shortcut];
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 PlayerMenuServiceMac::PlayerMenuServiceMac()
 {
-//    m_id2Menu = [[NSMutableDictionary alloc] init];
+    // @TODO: build menu with **EDIT** menu
+    
+    NSApplication *thisApp = [NSApplication sharedApplication];
+    _root._menu = [thisApp mainMenu];
 }
 
 PlayerMenuServiceMac::~PlayerMenuServiceMac()
 {
-//    [m_id2Menu release];
-    m_menu2Id.clear();
-    m_id2Menu.clear();
+    log("~PlayerMenuServiceMac");
+    _items.clear();
 }
 
-void PlayerMenuServiceMac::addItem( const PlayerMenuItem &item,
-                              std::string    parentId,
-                              int index)
+PlayerMenuItem* PlayerMenuServiceMac::addItem(const std::string &menuId, const std::string &title,
+                                              const std::string &parentId, int order)
 {
-    NSMenu *menu             = NULL;
-
-    std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(item.itemId);
-    if (it != m_id2Menu.end())
+    if (menuId.length() == 0 || title.length() == 0)
     {
-        CCLOG("[add menuItem] item (%s) has been exist.", item.itemId.c_str());
-        return ;
+        CCLOG("PlayerMenuServiceMac::addItem() - menuId and title must is non-empty");
+        return nullptr;
     }
     
-    if (item.isGroup)
+    // check menu id is exists
+    if (_items.find(menuId) != _items.end())
     {
-        if (parentId.length() <= 0)
-        {
-            NSApplication *thisApp = [NSApplication sharedApplication];
-            menu = [thisApp mainMenu];
-        }
-        else
-        {
-            if (it != m_id2Menu.end())
-            {
-                menu = [(it->second) submenu];
-            }
-        }
-        
-        if (!menu)
-        {
-            CCLOG("[add menuItem] parent (%s) menu is not exist.", parentId.c_str());
-            return ;
-        }
-        
-
-        if (index < 0 || index > [menu itemArray].count) {
-            index = (int)[menu itemArray].count;
-        }
-        
-        
-        NSString *title        = [NSString stringWithUTF8String:item.title.c_str()];
-        NSMenu *nsmenu         = [[NSMenu alloc] initWithTitle:title];
-        NSMenuItem *nsMenuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
-        
-
-        [menu insertItem:nsMenuItem atIndex:index];
-        [menu setSubmenu:nsmenu forItem:nsMenuItem];
-        
-        addId(item.itemId, nsMenuItem);
+        CCLOG("PlayerMenuServiceMac::addItem() - menu id (%s) is exists", menuId.c_str());
+        return nullptr;
     }
-    else
+    
+    // set parent
+    PlayerMenuItemMac *parent = &_root;
+    if (parentId.length())
     {
-        std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(parentId);
-        if (it != m_id2Menu.end())
+        // query parent menu
+        auto it = _items.find(parentId);
+        if (it != _items.end())
         {
-            menu = [it->second submenu];
-            if (index < 0 || index > [menu itemArray].count) {
-                index = (int)[menu itemArray].count;
-            }
-            
-            NNMenuItem *newItem = [[[NNMenuItem alloc] initWithData:item] autorelease];
-            [menu insertItem:newItem atIndex:index];
-            
-            addId(item.itemId, newItem);
-            
-        }
-        else
-        {
-            CCLOG("[add menuItem] parent (%s) menu is not exist.", parentId.c_str());
+            parent = it->second;
         }
     }
     
-    modifyItem(item);
+    if (!parent->_menu)
+    {
+        NSMenu *nsmenu = [[NSMenu alloc] initWithTitle:[parent->_menuItem title]];
+        [parent->_parent->_menu setSubmenu:nsmenu forItem:parent->_menuItem];
+        parent->_menu = nsmenu;
+    }
+
+
+    // create new menu item
+    PlayerMenuItemMac *item = PlayerMenuItemMac::create(menuId, title);
+    item->_parent = parent;
+    
+    // check new menu item position
+    int childSize = (int) [parent->_menu itemArray].count;
+    childSize = (int) parent->_children.size();
+    if (order > childSize)
+    {
+        order = childSize;
+    }
+    else if (order < 0)
+    {
+        order = 0;
+    }
+
+    
+    // add menu item to menu bar
+    int newIndex = order;
+    if (parent == &_root)
+    {
+        newIndex += 1;
+    }
+    NNMenuItem *newItem = [NNMenuItem createMenuItem:item];
+    [parent->_menu insertItem:newItem atIndex:newIndex];
+    item->_menuItem = newItem;
+
+    
+    // update menu state
+    parent->_children.insert(order, item);
+    _items[item->_menuId] = item;
+    updateChildrenOrder(parent);
+    
+    return item;
 }
 
-void PlayerMenuServiceMac::modifyItem(const PlayerMenuItem &item)
+PlayerMenuItem* PlayerMenuServiceMac::addItem(const std::string &menuId, const std::string &title)
 {
-    std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(item.itemId);
-    if (it != m_id2Menu.end())
-    {
-        NNMenuItem *menuObj = it->second;
-        NSString *title     = [NSString stringWithUTF8String:item.title.c_str()];
-        if (item.isGroup)
-        {
-            [[menuObj submenu] setTitle:title];
-        }
-        else
-        {
-            [menuObj setTitle:title];
-            
-            menuObj.scriptHandler = item.scriptHandlerId;
-            [menuObj setState:item.isChecked ? NSOnState : NSOffState];
-            [menuObj setShortcut:item.shortcut];
-            
-            if (item.isEnabled)
-            {
-                [menuObj setAction:@selector(onClicked:)];
-            }
-            else
-            {
-                [menuObj setAction:nil];
-            }
-        }
-        
-        [menuObj setEnabled:item.isEnabled ? YES : NO];
-
-        // more date update
-    }
-    else
-    {
-        CCLOG("[modifyItem] item (%s) is not exist.", item.itemId.c_str());
-    }
+    return addItem(menuId, title, "");
 }
 
-void PlayerMenuServiceMac::deleteItem(const PlayerMenuItem &item)
+PlayerMenuItem* PlayerMenuServiceMac::getItem(const std::string &menuId)
 {
-    std::unordered_map<std::string, id>::iterator it = m_id2Menu.find(item.itemId);
-    if (it != m_id2Menu.end())
+    auto it = _items.find(menuId);
+    if (it == _items.end())
     {
-        NNMenuItem *menuObj = it->second;
-        
-        removeIdRecursion(menuObj);
-        [[menuObj menu] removeItem:menuObj];
+        CCLOG("MenuServiceWin::getItem() - Invalid menu id (%s)", menuId.c_str());
+        return nullptr;
     }
+    
+    return it->second;
+}
+
+bool PlayerMenuServiceMac::removeItem(const std::string &menuId)
+{
+    return removeItemInternal(menuId, true);;
 }
 
 #pragma mark - private -
 
-void PlayerMenuServiceMac::removeIdRecursion(NSMenuItem *menuItem)
+bool PlayerMenuServiceMac::removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder)
 {
-    NSMenu *menu = [menuItem submenu];
-    if (menu)
+    auto it = _items.find(menuId);
+    if (it == _items.end())
     {
-        for (NSMenuItem *oneItem in [menu itemArray]) {
-            removeIdRecursion(oneItem);
+        CCLOG("MenuServiceWin::removeItem() - Invalid menu id (%s)", menuId.c_str());
+        return false;
+    }
+
+    PlayerMenuItemMac *item = it->second;
+    if (item->_children.size() == 0)
+    {
+        // remove item from parent
+        bool removed = false;
+        auto *theChildren = &item->_parent->_children;
+        for (auto it = theChildren->begin(); it != theChildren->end(); ++it)
+        {
+            if ((*it)->_menuItem == item->_menuItem)
+            {
+                theChildren->erase(it);
+                removed = true;
+                break;
+            }
         }
+        
+        if (!removed)
+        {
+            CCLOG("MenuServiceWin::removeItem() - remove menu item (%s) failed, not found command id from parent->children", item->_menuId.c_str());
+        }
+
+        // remove menu id mapping
+        _items.erase(menuId);
+        if (isUpdateChildrenOrder)
+        {
+            updateChildrenOrder(item->_parent);
+        }
+        return true;
+    }
+    else
+    {
+        // remove all children
+        while (item->_children.size() != 0)
+        {
+            PlayerMenuItemMac *child = *item->_children.begin();
+            if (!removeItemInternal(child->_menuId.c_str(), false))
+            {
+                break;
+                return false;
+            }
+         }
+        return removeItemInternal(menuId, true);
     }
     
-    removeId(menuItem);
+    return false;
 }
 
-void PlayerMenuServiceMac::removeId(NSMenuItem *menuItem)
+void PlayerMenuServiceMac::updateChildrenOrder(PlayerMenuItemMac *parent)
 {
-    std::string itemId = m_menu2Id[menuItem];
-    m_id2Menu.erase(itemId);
-    m_menu2Id.erase(menuItem);
-}
-
-void PlayerMenuServiceMac::addId(const std::string &menuIt, NSMenuItem *menuItem)
-{
-    m_id2Menu[menuIt]   = menuItem;
-    m_menu2Id[menuItem] = menuIt;
+    auto *children = &parent->_children;
+    int order = 0;
+    for (auto it = children->begin(); it != children->end(); ++it)
+    {
+        (*it)->_order = order;
+        order++;
+    }
 }
 
 PLAYER_NS_END

@@ -100,7 +100,8 @@
     //
         
         // run script
-        NSString *createProjectShellFilePath = [NSString stringWithFormat:@"%s%@", SimulatorConfig::sharedDefaults()->getQuickCocos2dxRootPath().c_str(),@"bin/create_project.sh"];
+        const std::string& quickRoot = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+        NSString *createProjectShellFilePath = [NSString stringWithFormat:@"%s%@", quickRoot.c_str(),@"quick/bin/create_project.sh"];
         NSString *commandLine = [NSString stringWithFormat:@"%@ -f -p %@ -o %@", createProjectShellFilePath, packageName, projectLocation];
         [[[textView textStorage] mutableString] appendString:commandLine];
 

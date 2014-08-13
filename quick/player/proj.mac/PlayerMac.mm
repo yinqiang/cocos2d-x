@@ -1,60 +1,69 @@
 
 
 #include "PlayerMac.h"
-#include "FileDialogServiceMac.h"
-#include "MessageBoxServiceMac.h"
-#include "MenuServiceMac.h"
-#include "EditBoxServiceMac.h"
+
 
 PLAYER_NS_BEGIN
 
-PlayerMac::PlayerMac()
+Player* Player::create()
 {
-    assert(!getInstance() && "just init once!");
-    setInstance(this);
+    return new Player();
 }
 
 
-PlayerMac::~PlayerMac()
+Player::Player()
+: PlayerProtocol()
+, _fileDialogService(nullptr)
+, _messageBoxService(nullptr)
+, _menuService(nullptr)
+, _editBoxService(nullptr)
 {
 }
 
-PlayerFileDialogServiceProtocol *PlayerMac::getFileDialogService()
+
+Player::~Player()
 {
-    if (!m_fileDialogService)
+    CC_SAFE_DELETE(_fileDialogService);
+    CC_SAFE_DELETE(_fileDialogService);
+    CC_SAFE_DELETE(_messageBoxService);
+    CC_SAFE_DELETE(_menuService);
+    CC_SAFE_DELETE(_editBoxService);
+}
+
+PlayerFileDialogServiceProtocol *Player::getFileDialogService()
+{
+    if (!_fileDialogService)
     {
-        m_fileDialogService = new FileDialogServiceMac();
+        _fileDialogService = new PlayerFileDialogServiceMac();
     }
-    return m_fileDialogService;
+    return _fileDialogService;
 }
 
-PlayerMessageBoxServiceProtocol *PlayerMac::getMessageBoxService()
+PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
 {
-    if (!m_messageBoxService)
+    if (!_messageBoxService)
     {
-        m_messageBoxService = new MessageBoxServiceMac();
+        _messageBoxService = new PlayerMessageBoxServiceMac();
     }
-    return m_messageBoxService;
+    return _messageBoxService;
 }
 
-PlayerMenuServiceProtocol *PlayerMac::getMenuService()
+PlayerMenuServiceProtocol *Player::getMenuService()
 {
-    if (!m_menuService)
+    if (!_menuService)
     {
-        m_menuService = new MenuServiceMac();
+        _menuService = new PlayerMenuServiceMac();
     }
-    return m_menuService;
+    return _menuService;
 }
 
-PlayerEditBoxServiceProtocol *PlayerMac::getEditBoxService()
+PlayerEditBoxServiceProtocol *Player::getEditBoxService()
 {
-    if (!m_editBoxService)
+    if (!_editBoxService)
     {
-        m_editBoxService = new EditBoxServiceMac();
+        _editBoxService = new PlayerEditBoxServiceMac();
     }
-    return m_editBoxService;
+    return _editBoxService;
 }
-
-PLAYER_DECLARE_GLOBAL_INSTANCE(PlayerMac, __mac_player);
 
 PLAYER_NS_END

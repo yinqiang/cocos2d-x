@@ -33,21 +33,22 @@
 
 
 PLAYER_NS_BEGIN
-class EditBoxServiceMac : public PlayerEditBoxServiceProtocol
+class PlayerEditBoxServiceMac : public PlayerEditBoxServiceProtocol
 {
 public:
-    EditBoxServiceMac();
-    virtual ~EditBoxServiceMac();
+    PlayerEditBoxServiceMac();
+    virtual ~PlayerEditBoxServiceMac();
     
-    void setPosition(int x, int y);
-    void setSize(int width, int height);
-    void setRect(int x, int y, int width, int height);
-    void setText(std::string text);
-    void setFont(const char* pFontName, int fontSize);
-    void setFontColor(int r, int g, int b);
+    // overwrite
+    virtual void showSingleLineEditBox(const cocos2d::Rect &rect) ;
+    virtual void showMultiLineEditBox(const cocos2d::Rect &rect)  ;
+    virtual void hide() ;
     
-    // hide editbox
-    void hide();
+    virtual void setText(const std::string &text);
+    virtual void setFont(const std::string &name, int size);
+    virtual void setFontColor(const cocos2d::Color3B &color);
+    
+private:
     void show();
     
 private:

@@ -3,54 +3,56 @@
 //  quick-x-player
 //
 
-#include "MessageBoxServiceMac.h"
+#include "PlayerMessageBoxServiceMac.h"
 
 PLAYER_NS_BEGIN
 
 
-int MessageBoxServiceMac::showMessageBox(const char *title, const char *message, MessageBoxButtonsType buttons)
+int PlayerMessageBoxServiceMac::showMessageBox(const std::string &title,
+                                         const std::string &message,
+                                         int buttonsType)
 {
     NSAlert *alert = [[NSAlert alloc] init];
 
-    std::vector<std::string> titles = getTitles(buttons);
-    for (string& title : titles)
+    std::vector<std::string> titles = getTitles(buttonsType);
+    for (std::string& title : titles)
     {
         [alert addButtonWithTitle:[NSString stringWithUTF8String:title.c_str()]];
     }
     
-    [alert setMessageText:[NSString stringWithUTF8String:title]];
-    [alert setInformativeText:[NSString stringWithUTF8String:message]];
+    [alert setMessageText:[NSString stringWithUTF8String:title.c_str()]];
+    [alert setInformativeText:[NSString stringWithUTF8String:message.c_str()]];
     [alert setAlertStyle:NSWarningAlertStyle];
     
     int buttonId = (int)[alert runModal] - NSAlertFirstButtonReturn;
     return buttonId;
 }
 
-std::vector<std::string> MessageBoxServiceMac::getTitles(MessageBoxButtonsType buttons)
+std::vector<std::string> PlayerMessageBoxServiceMac::getTitles(int buttons)
 {
     std::vector<std::string> titles;
     
     switch (buttons) {
-        case MessageBoxOK:
+        case BUTTONS_OK:
             titles.push_back("OK");
             break;
             
-        case MessageBoxOKCancel:
+        case BUTTONS_OK_CANCEL:
             titles.push_back("OK");
             titles.push_back("Cancel");
             break;
             
-        case MessageBoxYesNo:
+        case BUTTONS_YES_NO:
             titles.push_back("Yes");
             titles.push_back("No");
             break;
             
-        case MessageBoxYesNoCancel:
+        case BUTTONS_YES_NO_CANCEL:
             titles.push_back("Yes");
             titles.push_back("No");
             titles.push_back("Cancel");
             break;
-            
+
         default:
             break;
     }

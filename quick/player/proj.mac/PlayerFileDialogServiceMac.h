@@ -6,7 +6,7 @@
 
 PLAYER_NS_BEGIN
 
-class FileDialogServiceMac : public PlayerFileDialogServiceProtocol
+class PlayerFileDialogServiceMac : public PlayerFileDialogServiceProtocol
 {
 public:
     // 选择一个已有的文件，并返回文件的完整路径
@@ -21,28 +21,28 @@ public:
     // @param extensions 用于限制可以打开的文件类型
     //
     // extensions 示例：
-    // "Markdown File|md,mdown\nHTML File|htm,html"
+    // extensions = "Lua Script File|*.lua;JSON File|*.json";
     //
     // 每一种类型分为“描述”和“扩展名”两部分，用“|”分隔
     // 扩展名如果有多个，则用“,”分隔
-    // 不同类型用“\n”分隔
+    // 不同类型用“;”分隔
     //
     // 如果 extensions 参数为空，则表示可以选择任何扩展名的文件。
     //
-    virtual string openFile(const char *title,
-                            const char *directory = NULL,
-                            const char *extensions = NULL);
-
-    virtual string openDirectory(const char *title,
-                                const char *directory = NULL);
-
-    virtual vector<string> openMultiple(const char *title,
-                                        const char *directory = NULL);
-
-    virtual string saveFile(const char *title,
-                            const char *filename,
-                            const char *directory);
-
+    
+    virtual std::string openFile(const std::string &title,
+                                 const std::string &directory,
+                                 const std::string &extensions) const;
+    
+    virtual std::vector<std::string> openMultiple(const std::string &title,
+                                                  const std::string &directory,
+                                                  const std::string &extensions) const;
+    
+    virtual std::string saveFile(const std::string &title,
+                                 const std::string &path) const;
+    
+    virtual std::string openDirectory(const std::string &title,
+                                      const std::string &directory)const;
 };
 
 PLAYER_NS_END
