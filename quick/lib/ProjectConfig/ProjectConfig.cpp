@@ -562,6 +562,11 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
     return buff.str();
 }
 
+bool ProjectConfig::isAppMenu() const
+{
+    return _isAppMenu;
+}
+
 bool ProjectConfig::isResizeWindow() const
 {
     return _isResizeWindow;

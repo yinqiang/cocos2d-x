@@ -160,8 +160,7 @@ int PlayerWin::run()
 
     const Rect frameRect = Rect(0, 0, frameSize.width, frameSize.height);
     const bool isResize = _project.isResizeWindow();
-    const bool isDecorated = _project.isAppMenu() || _project.isResizeWindow();
-    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, isDecorated);
+    auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, true);
     _hwnd = glfwGetWin32Window(glview->getWindow());
 
     auto director = Director::getInstance();
@@ -181,11 +180,12 @@ int PlayerWin::run()
     auto app = Application::getInstance();
 
     HWND hwnd = _hwnd;
-    director->getScheduler()->schedule([isDecorated, hwnd, frameRect, frameScale](float dt) {
+    BOOL isAppMenu = _project.isAppMenu();
+    director->getScheduler()->schedule([hwnd, isAppMenu, frameRect, frameScale](float dt) {
         CC_UNUSED_PARAM(dt);
         CCLOG("SHOW_WINDOW_CALLBACK");
 
-        if (isDecorated && GetMenu(hwnd))
+        if (isAppMenu && GetMenu(hwnd))
         {
             // update window size
             RECT rect;

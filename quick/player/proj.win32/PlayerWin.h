@@ -52,4 +52,5 @@ protected:
     void writeDebugLog(const char *log);
 };
 
+
 PLAYER_NS_END

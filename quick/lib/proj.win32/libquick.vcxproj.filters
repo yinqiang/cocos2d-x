@@ -304,6 +304,33 @@
     <Filter Include="libquick\extra\platform\win32">
       <UniqueIdentifier>{b7306df9-8797-4c30-87c9-a609743d1ff6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libquick\codeide">
+      <UniqueIdentifier>{003d9c2d-c937-49e3-8f0e-f229e74ca887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\runtime">
+      <UniqueIdentifier>{185a0cd5-aae4-4f67-aca9-5bf515bea219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\protobuf-lite">
+      <UniqueIdentifier>{f4663516-d615-4bae-8cf7-5df4684a8b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\protobuf-lite\google">
+      <UniqueIdentifier>{a73ec572-0e16-43e7-84bc-8f356275e934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\protobuf-lite\google\protobuf">
+      <UniqueIdentifier>{a1e809e0-03a6-4946-b8cb-3546eb327439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\protobuf-lite\google\protobuf\io">
+      <UniqueIdentifier>{bbaa34e4-724d-43f2-8ce9-015d0fb3cdf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\protobuf-lite\google\protobuf\stubs">
+      <UniqueIdentifier>{8921664a-d87b-4425-aba1-d7130e80656c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\platform">
+      <UniqueIdentifier>{10f66c1b-aea8-460c-a04d-df6d12e1489c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\codeide\platform\win">
+      <UniqueIdentifier>{adfb4a10-472c-4268-b393-f9eedc60a5aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cocos\2d\CCActionManager.h">
@@ -1593,6 +1620,105 @@
     <ClInclude Include="..\..\..\cocos\base\CCUserDefault.h">
       <Filter>cocos\base</Filter>
     </ClInclude>
+    <ClInclude Include="..\codeide\ConfigParser.h">
+      <Filter>libquick\codeide</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\VisibleRect.h">
+      <Filter>libquick\codeide</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\runtime\Protos.pb.h">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\runtime\ResData.h">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\runtime\Runtime.h">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\config.h">
+      <Filter>libquick\codeide\protobuf-lite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\extension_set.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\generated_message_util.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\message_lite.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\repeated_field.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\wire_format_lite.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\wire_format_lite_inl.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\io\coded_stream_inl.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\io\zero_copy_stream.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\io\zero_copy_stream_impl.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\io\zero_copy_stream_impl_lite.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\io\coded_stream.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_x86_gcc.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_x86_msvc.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\common.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\hash.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\map-util.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\once.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\platform_macros.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\stl_util.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\stringprintf.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\template_util.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\type_traits.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_arm_gcc.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_atomicword_compat.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_generic_gcc.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_macosx.h">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -2395,6 +2521,75 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cocos\base\CCUserDefault.cpp">
       <Filter>cocos\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\ConfigParser.cpp">
+      <Filter>libquick\codeide</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\VisibleRect.cpp">
+      <Filter>libquick\codeide</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\PlayDisable_png.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\PlayEnable_png.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\Portrait_png.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\Protos.pb.cc">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\Runtime.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\Shine_png.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\runtime\Landscape_png.cpp">
+      <Filter>libquick\codeide\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\extension_set.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\generated_message_util.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\message_lite.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\repeated_field.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\wire_format_lite.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\io\zero_copy_stream.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\io\zero_copy_stream_impl_lite.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\io\coded_stream.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_x86_msvc.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\stubs\common.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\stubs\once.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\stubs\stringprintf.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_x86_gcc.cc">
+      <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codeide\platform\win\Runtime_win32.cpp">
+      <Filter>libquick\codeide\platform\win</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
