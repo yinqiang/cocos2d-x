@@ -5,15 +5,15 @@ require("framework.init")
 local WelcomeApp = class("WelcomeApp", cc.mvc.AppBase)
 
 function WelcomeApp:run()
-    self.eventNode = cc.Node:create()
+    -- self.eventNode = cc.Node:create()
 
     cc.FileUtils:getInstance():addSearchPath("res/")
 
     local evl = cc.EventListenerCustom:create("WELCOME_LIST_SAMPLES", function() self:enterSampleScene() end )
-    self.eventNode:getEventDispatcher():addEventListenerWithFixedPriority(evl,1)
+    cc.Director:getInstance():getEventDispatcher():addEventListenerWithFixedPriority(evl,1)
 
     evl = cc.EventListenerCustom:create("WELCOME_APP", function() self:enterMainFrame() end )
-    self.eventNode:getEventDispatcher():addEventListenerWithFixedPriority(evl,1)
+    cc.Director:getInstance():getEventDispatcher():addEventListenerWithFixedPriority(evl,1)
 
     self:enterScene("WelcomeScene")
 end

@@ -2,7 +2,10 @@
 #include "CCLuaEngine.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
-
+#if (COCOS2D_DEBUG>0)
+#include "codeIDE/runtime/Runtime.h"
+#include "codeIDE/ConfigParser.h"
+#endif
 
 using namespace CocosDenshion;
 
@@ -20,6 +23,20 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+
+#if (COCOS2D_DEBUG>0)
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
+        initRuntime(m_projectConfig.getProjectDir());
+    }
+#endif
+    
+    if (!ConfigParser::getInstance()->isInit()) {
+        ConfigParser::getInstance()->readConfig();
+    }
+    
+#endif //CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -45,12 +62,20 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     LuaStack *pStack = pEngine->getLuaStack();
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // load framework
     pStack->loadChunksFromZIP("res/framework_precompiled.zip");
     
     // set script path
     string path = FileUtils::getInstance()->fullPathForFilename("scripts/main.lua");
+
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+    // load framework
+    pStack->loadChunksFromZIP("res/framework_precompiled_wp8.zip");
+    
+    // set script path
+    string path = FileUtils::getInstance()->fullPathForFilename("scripts/main.lua");
+    
 #else
     // load framework
     if (m_projectConfig.isLoadPrecompiledFramework())
@@ -62,6 +87,17 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set script path
     string path = FileUtils::getInstance()->fullPathForFilename(m_projectConfig.getScriptFileRealPath().c_str());
 #endif
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    
+#if (COCOS2D_DEBUG>0)
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
+        if (startRuntime())
+            return true;
+    }
+#endif
+
+#endif //CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
     size_t pos;
     while ((pos = path.find_first_of("\\")) != std::string::npos)

@@ -530,6 +530,7 @@
 					GLFW_EXPOSE_NATIVE_COCOA,
 					GLFW_EXPOSE_NATIVE_NSGL,
 					CC_TARGET_OS_MAC,
+					"COCOS2D_DEBUG=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -571,6 +572,7 @@
 					GLFW_EXPOSE_NATIVE_COCOA,
 					GLFW_EXPOSE_NATIVE_NSGL,
 					CC_TARGET_OS_MAC,
+					"COCOS2D_DEBUG=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

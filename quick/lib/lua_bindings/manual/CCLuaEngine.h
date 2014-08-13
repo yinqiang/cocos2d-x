@@ -135,15 +135,14 @@ private:
     {
     }
     bool init(void);
-    int handleNodeEvent(void* data);
-    int handleMenuClickedEvent(void* data);
+//    int handleNodeEvent(void* data);
     int handleCallFuncActionEvent(void* data);
     int handleScheduler(void* data);
-    int handleKeypadEvent(void* data);
-    int handleAccelerometerEvent(void* data);
+//    int handleKeypadEvent(void* data);
+//    int handleAccelerometerEvent(void* data);
     int handleCommonEvent(void* data);
-    int handleTouchEvent(void* data);
-    int handleTouchesEvent(void* data);
+//    int handleTouchEvent(void* data);
+//    int handleTouchesEvent(void* data);
     int handlerControlEvent(void* data);
     int handleEvenCustom(void* data);
     int handleAssetsManagerEvent(ScriptHandlerMgr::HandlerType type,void* data);

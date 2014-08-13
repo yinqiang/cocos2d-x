@@ -24,6 +24,7 @@ function ccsloader:parserJson(jsonVal)
 		printInfo("ccsloader - parserJson havn't found root noe")
 		return
 	end
+	self:prettyJson(root)
 	local uiRoot = self:generateUINode(root)
 
 	return uiRoot
@@ -73,6 +74,7 @@ function ccsloader:generateUINode(jsonNode, transX, transY)
 	uiNode:setScaleY(options.scaleY or 1)
 	uiNode:setVisible(options.visible)
 	uiNode:setLocalZOrder(options.ZOrder or 0)
+	-- uiNode:setGlobalZOrder(options.ZOrder or 0)
 	uiNode:setTag(options.tag or 0)
 
 	local emptyNode
@@ -266,9 +268,18 @@ end
 function ccsloader:loadTexture(json)
 	-- cc.FileUtils:getInstance():addSearchPath("res/")
 
+	local png
 	for i,v in ipairs(json.textures) do
 		self.bUseTexture = true
-		display.addSpriteFrames(v, json.texturesPng[i])
+		if json.texturesPng then
+			png = json.texturesPng[i]
+		end
+		if not png then
+			png = io.pathinfo(json.textures[i]).basename .. ".png"
+		end
+		if png then
+			display.addSpriteFrames(v, png)
+		end
 	end
 
 end
@@ -317,7 +328,7 @@ end
 function ccsloader:createImage(options)
 	local node = cc.ui.UIImage.new(
 		self:transResName(options.fileNameData.path),
-		{scale9 = not options.ignoreSize})
+		{scale9 = options.scale9Enable})
 
 	if not options.ignoreSize then
 		node:setLayoutSize(options.width, options.height)
@@ -333,10 +344,17 @@ end
 function ccsloader:createButton(options)
 	local node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
 		{scale9 = not options.ignoreSize})
+
+	if options.text then
+		node:setButtonLabel(
+			cc.ui.UILabel.new({text = options.text,
+				size = options.fontSize,
+				color = cc.c3b(options.textColorR, options.textColorG, options.textColorG)}))
+	end
 	if not options.ignoreSize then
 		node:setButtonSize(options.width, options.height)
 	end
-	node:align(self:getAnchorType(options.anchorPointX, options.anchorPointY),
+	node:align(self:getAnchorType(options.anchorPointX or 0.5, options.anchorPointY or 0.5),
 		options.x or 0, options.y or 0)
 
 	return node
@@ -415,8 +433,8 @@ function ccsloader:createLabel(options)
 		font = options.fontName,
 		size = options.fontSize,
 		color = cc.c3b(options.colorR, options.colorG, options.colorB),
-		align = options.hAlignment,
-		valign = options.vAlignment,
+		align = options.hAlignment or cc.TEXT_ALIGNMENT_RIGHT,
+		valign = options.vAlignment or cc.VERTICAL_TEXT_ALIGNMENT_TOP,
 		x = options.x, y = options.y})
 	if not options.ignoreSize then
 		node:setLayoutSize(options.areaWidth, options.areaHeight)
@@ -477,7 +495,7 @@ function ccsloader:createEditBox(options)
 end
 
 function ccsloader:createPanel(options)
-	local node = cc.Node:create()
+	local node = cc.ClippingRegionNode:create()
 	local clrLayer
 	local bgLayer
 
@@ -521,6 +539,7 @@ function ccsloader:createPanel(options)
 	end
 
 	local conSize = cc.size(options.width, options.height)
+	node:setClippingRegion(conSize)
 	if not options.ignoreSize then
 		if clrLayer then
 			clrLayer:setContentSize(conSize)
@@ -634,5 +653,28 @@ function ccsloader:createPageView(options)
 	return node
 end
 
+function ccsloader:prettyJson(json)
+	local setZOrder
+	setZOrder = function(node, isParentScale)
+		if isParentScale then
+        	node.options.ZOrder = node.options.ZOrder or 0 + 3
+		end
+
+		if not node.children then
+			print("ccsloader children is nil")
+			return
+		end
+		if 0 == #node.children then
+			print("ccsloader children count is 0")
+			return
+		end
+
+        for i,v in ipairs(node.children) do
+			setZOrder(v, node.options.scale9Enable)
+        end
+	end
+
+	setZOrder(json)
+end
 
 return ccsloader

@@ -4,6 +4,9 @@
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 
+#include "codeIDE/runtime/Runtime.h"
+#include "codeIDE/ConfigParser.h"
+
 using namespace CocosDenshion;
 
 AppDelegate::AppDelegate()
@@ -17,6 +20,15 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+    if (_project.getDebuggerType() == kCCLuaDebuggerCodeIDE)
+    {
+        initRuntime(_project.getProjectDir());
+        if (!ConfigParser::getInstance()->isInit())
+        {
+            ConfigParser::getInstance()->readConfig();
+        }
+    }
+
     // initialize director
     auto director = Director::getInstance();
     director->setProjection(Director::Projection::_2D);
@@ -33,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
     
     StartupCall *call = StartupCall::create(this);
-    if (_project.getDebuggerType() != kCCLuaDebuggerNone)
+    if (_project.getDebuggerType() == kCCLuaDebuggerLDT)
     {
         auto scene = Scene::create();
         auto label = Label::createWithSystemFont("WAITING FOR CONNECT TO DEBUGGER...", "Arial", 32);
@@ -116,10 +128,16 @@ void StartupCall::startup()
         const string precompiledFrameworkPath = SimulatorConfig::getInstance()->getPrecompiledFrameworkPath();
         stack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
     }
-    
+
+    // Code IDE
+    if (projectConfig.getDebuggerType() == kCCLuaDebuggerCodeIDE)
+    {
+        if (startRuntime()) return;
+    }
+
     // set default scene
     Scene *scene = Scene::create();
-    if (Director::getInstance()->getRunningScene())
+    if (Director::getInstance()->getRunningScene()) 
     {
         Director::getInstance()->replaceScene(scene);
     }

@@ -439,11 +439,11 @@ void Armature::draw(cocos2d::Renderer *renderer, const Mat4 &transform, uint32_t
 void Armature::onEnter()
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
-            return;
-    }
+//    if (_scriptType == kScriptTypeJavascript)
+//    {
+//        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
+//            return;
+//    }
 #endif
     
     Node::onEnter();
@@ -524,6 +524,25 @@ Rect Armature::getBoundingBox() const
     }
 
     return RectApplyTransform(boundingBox, getNodeToParentTransform());
+}
+
+Rect CCArmature::getCascadeBoundingBox(void)
+{
+    Rect cbb;
+    if (m_cascadeBoundingBox.size.width > 0 && m_cascadeBoundingBox.size.height > 0)
+    {
+        // if cascade bounding box set by user, ignore all childrens bounding box
+        cbb = m_cascadeBoundingBox;
+    }
+    else
+    {
+        cbb = boundingBox();
+        if (_parent != NULL)
+        {
+            cbb = RectApplyAffineTransform(cbb, _parent->nodeToWorldTransform());
+        }
+    }
+    return cbb;
 }
 
 Bone *Armature::getBoneAtPoint(float x, float y) const 

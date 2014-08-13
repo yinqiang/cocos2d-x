@@ -328,7 +328,7 @@ void ScriptEventCenter::enableTouchDispatching()
         _touchListener->onTouchesMoved = CC_CALLBACK_2(ScriptEventCenter::onTouchesMoved, this);
         _touchListener->onTouchesEnded = CC_CALLBACK_2(ScriptEventCenter::onTouchesEnded, this);
         _touchListener->onTouchesCancelled = CC_CALLBACK_2(ScriptEventCenter::onTouchesCancelled, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+        _eventDispatcher->addEventListenerWithFixedPriority(_touchListener, -1);
     }
     m_touchDispatchingEnabled = true;
 }
@@ -382,9 +382,9 @@ void ScriptEventCenter::dispatchingTouchEvent(const std::vector<Touch*>& touches
 
         // phase: capturing
         // from parent to child
-        for (long i = path.size() - 1; i >= 0; --i)
+        for (long j = path.size() - 1; j >= 0; --j)
         {
-            node = path.at(i);
+            node = path.at(j);
             if (touchMode == Node::modeTouchesAllAtOnce)
             {
                 switch (event)
@@ -425,9 +425,16 @@ void ScriptEventCenter::dispatchingTouchEvent(const std::vector<Touch*>& touches
                     case CCTOUCHCANCELLED:
                         node->ccTouchCaptureCancelled(touch, touchTarget->getNode());
                         break;
+
+                    case CCTOUCHREMOVED:
+                        if (touch->getID() == touchTarget->getTouchId())
+                        {
+                            node->ccTouchCaptureEnded(touch, touchTarget->getNode());
+                        }
+                        break;
                 }
             }
-        }
+        } // for (long j = path.size() - 1; j >= 0; --j)
 
         // phase: targeting
         node = touchTarget->getNode();
@@ -470,6 +477,18 @@ void ScriptEventCenter::dispatchingTouchEvent(const std::vector<Touch*>& touches
                     
                 case CCTOUCHCANCELLED:
                     node->ccTouchCancelled(touch, pEvent);
+                    break;
+
+                case CCTOUCHREMOVED:
+                    if (touch->getID() == touchTarget->getTouchId())
+                    {
+                        node->ccTouchEnded(touch, pEvent);
+                        // target touching ended, remove it
+//                        CCLOG("REMOVE TARGET [%u]", i);
+                        _touchingTargets.erase(i);
+                        --count;
+                        --i;
+                    }
                     break;
             }
         }

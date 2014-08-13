@@ -168,10 +168,10 @@ function player.init()
 end
 
 function player.registerEventHandler()
-    player.eventNode = cc.Node:create()
+    -- player.eventNode = cc.Node:create()
     
     -- for app event
-    local eventDispatcher = player.eventNode:getEventDispatcher()
+    local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
     local event = function(e)
         
         print(e:getDataString())

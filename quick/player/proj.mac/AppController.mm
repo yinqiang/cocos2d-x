@@ -26,6 +26,11 @@ USING_NS_CC_EXTRA;
 
 @implementation AppController
 
+std::string getCurAppPath(void)
+{
+    return [[[NSBundle mainBundle] bundlePath] UTF8String];
+}
+
 - (void) dealloc
 {
     if (buildTask)
@@ -300,12 +305,18 @@ USING_NS_CC_EXTRA;
 - (void) updateProjectConfigFromCommandLineArgs:(ProjectConfig *)config
 {
     NSArray *nsargs = [[NSProcessInfo processInfo] arguments];
-    vector<string> args;
-    for (int i = 0; i < [nsargs count]; ++i)
-    {
-        args.push_back([[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding]);
+    long n = [nsargs count];
+    if (n == 2) {
+        config->setProjectDir([[nsargs objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
+        config->setDebuggerType(kCCLuaDebuggerCodeIDE);
+    } else {
+        vector<string> args;
+        for (int i = 0; i < [nsargs count]; ++i)
+        {
+            args.push_back([[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        config->parseCommandLine(args);
     }
-    config->parseCommandLine(args);
     
     if (config->getProjectDir().length() == 0)
     {

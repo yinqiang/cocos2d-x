@@ -502,17 +502,17 @@ public:
      * @js NA
      * @lua NA
      */
-    static bool sendNodeEventToJS(Node* node, int action);
+//    static bool sendNodeEventToJS(Node* node, int action);
     /**
      * @js NA
      * @lua NA
      */
-    static bool sendNodeEventToJSExtended(Node* node, int action);
+//    static bool sendNodeEventToJSExtended(Node* node, int action);
     /**
      * @js NA
      * @lua NA
      */
-    static void sendNodeEventToLua(Node* node, int action);
+//    static void sendNodeEventToLua(Node* node, int action);
     /**
      * @js NA
      * @lua NA
