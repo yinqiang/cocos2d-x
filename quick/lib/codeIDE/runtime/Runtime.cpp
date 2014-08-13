@@ -1067,7 +1067,7 @@ static void register_runtime_override_function(lua_State* tolua_S)
     lua_pop(tolua_S, 1);
 }
 
-bool initRuntime()
+bool initRuntime(const string& workPath)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) 
 #ifndef _DEBUG 
@@ -1086,15 +1086,20 @@ bool initRuntime()
     vector<string> searchPathArray;
     searchPathArray=FileUtils::getInstance()->getSearchPaths();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    extern std::string getCurAppPath();
-    string resourcePath = getCurAppPath();
-    if (g_resourcePath.empty())
-    {
+    string resourcePath;
+    if (workPath.empty()) {
+        extern std::string getCurAppPath();
+        resourcePath = getCurAppPath();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
         resourcePath.append("/../../");
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
         resourcePath.append("/../../../");
 #endif
+    } else {
+        resourcePath = workPath;
+    }
+    if (g_resourcePath.empty())
+    {
         resourcePath =replaceAll(resourcePath,"\\","/");
         g_resourcePath = resourcePath;
     }

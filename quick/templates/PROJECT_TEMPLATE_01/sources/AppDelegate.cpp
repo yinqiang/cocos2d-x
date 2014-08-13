@@ -26,8 +26,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #if (COCOS2D_DEBUG>0)
-    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerIDE) {
-        initRuntime();
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
+        initRuntime(m_projectConfig.getProjectDir());
     }
 #endif
     
@@ -91,7 +91,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 #if (COCOS2D_DEBUG>0)
-    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerIDE) {
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
         if (startRuntime())
             return true;
     }

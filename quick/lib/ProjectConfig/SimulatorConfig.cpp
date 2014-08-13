@@ -345,6 +345,10 @@ void ProjectConfig::parseCommandLine(vector<string>& args)
             Point pos = PointFromString((*it).c_str());
             setWindowOffset(pos);
         }
+        else if (arg.compare("-debugger-codeIDE") == 0)
+        {
+            setDebuggerType(kCCLuaDebuggerCodeIDE);
+        }
         else if (arg.compare("-debugger-ldt") == 0)
         {
             setDebuggerType(kCCLuaDebuggerLDT);
