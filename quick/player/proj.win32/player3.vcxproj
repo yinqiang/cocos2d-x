@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -135,10 +135,10 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="player.rc" />
+    <ResourceCompile Include="player3.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="player.ico" />
+    <Image Include="player3.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\proj.win32\libquick.vcxproj">
