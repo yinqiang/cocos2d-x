@@ -3,6 +3,9 @@
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 
+#include "codeIDE/runtime/Runtime.h"
+#include "codeIDE/ConfigParser.h"
+
 using namespace CocosDenshion;
 
 USING_NS_CC;
@@ -19,6 +22,20 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+
+#if (COCOS2D_DEBUG>0)
+    if (m_projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
+        initRuntime(m_projectConfig.getProjectDir());
+    }
+#endif
+    
+    if (!ConfigParser::getInstance()->isInit()) {
+        ConfigParser::getInstance()->readConfig();
+    }
+    
+#endif //CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();    
@@ -41,7 +58,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
     
     StartupCall *call = StartupCall::create(this);
-    if (m_projectConfig.getDebuggerType() != kCCLuaDebuggerNone)
+    if (m_projectConfig.getDebuggerType() == kCCLuaDebuggerLDT)
     {
         Scene *scene = Scene::create();
         Label *label = Label::createWithSystemFont("WAITING FOR CONNECT TO DEBUGGER...", "Arial", 32);
@@ -130,6 +147,17 @@ void StartupCall::startup()
         const string precompiledFrameworkPath = SimulatorConfig::sharedDefaults()->getPrecompiledFrameworkPath();
         pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());
     }
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    
+#if (COCOS2D_DEBUG>0)
+    if (projectConfig.getDebuggerType()==kCCLuaDebuggerCodeIDE) {
+        if (startRuntime())
+            return;
+    }
+#endif
+    
+#endif //CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
     // set default scene
     Scene *scene = Scene::create();
