@@ -217,10 +217,6 @@ std::string getCurAppPath(void)
             [_window setFrameOrigin:NSMakePoint(pos.x, pos.y)];
         }
     }
-
-    [_window becomeFirstResponder];
-    [_window makeKeyAndOrderFront:self];
-    [_window setAcceptsMouseMovedEvents:NO];
 }
 
 - (void) startup
