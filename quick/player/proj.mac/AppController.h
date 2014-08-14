@@ -1,71 +1,33 @@
-//
-//  AppDelegate.h
-//  quick-x-player
-//
 
 #import <Cocoa/Cocoa.h>
 
 #import "ConsoleWindowController.h"
-
-#include "ProjectConfig/SimulatorConfig.h"
+#include "ProjectConfig/ProjectConfig.h"
 #include "AppDelegate.h"
 
 class AppControllerBridge;
 
 @interface AppController : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
-    NSWindow *window;
-    
-    BOOL waitForRestart;
-    BOOL isAlwaysOnTop;
-    BOOL isMaximized;
-    
-    AppDelegate *app;
-    GLView      *eglView;
-    ProjectConfig projectConfig;
-    BOOL hasPopupDialog;
-    
-    int debugLogFile;
-    
-    AppControllerBridge *bridge;
-    
+    NSWindow *_window;
+    BOOL _isAlwaysOnTop;
+    AppDelegate *_app;
+    ProjectConfig _project;
+    int _debugLogFile;
+
     //log file
-    ConsoleWindowController *consoleController;
-    NSFileHandle *fileHandle;
+    ConsoleWindowController *_consoleController;
+    NSFileHandle *_fileHandle;
     //console pipe
-    NSPipe *pipe;
-    NSFileHandle *pipeReadHandle;
-    
+    NSPipe *_pipe;
+    NSFileHandle *_pipeReadHandle;
+
     // build task
-    NSTask *buildTask;
-    bool isBuildingFinished;
-    NSAlert *buildAlert;
+    NSTask *_buildTask;
+    bool _isBuildingFinished;
+    NSAlert *_buildAlert;
 }
-//@property (assign) IBOutlet NSWindow *window;
 
 - (void) relaunch:(NSArray*)args;
 
-- (IBAction) onServicePreferences:(id)sender;
-
-- (IBAction) onFileNewProject:(id)sender;
-- (IBAction) onFileNewPlayer:(id)sender;
-- (IBAction) onFileOpen:(id)sender;
-- (IBAction) onFileOpenRecentClearMenu:(id)sender;
-- (IBAction) onFileWelcome:(id)sender;
-- (IBAction) onFileClose:(id)sender;
-
-- (IBAction) onPlayerWriteDebugLogToFile:(id)sender;
-- (IBAction) onPlayerOpenDebugLog:(id)sender;
-- (IBAction) onPlayerRelaunch:(id)sender;
-- (IBAction) onPlayerShowProjectSandbox:(id)sender;
-- (IBAction) onPlayerShowProjectFiles:(id)sender;
-
-- (IBAction) onScreenPortait:(id)sender;
-- (IBAction) onScreenLandscape:(id)sender;
-- (IBAction) onScreenZoomOut:(id)sender;
-
-- (IBAction) onWindowAlwaysOnTop:(id)sender;
-
-- (IBAction) fileBuildAndroid:(id)sender;
-- (IBAction) fileBuildIOS:(id)sender;
 @end
