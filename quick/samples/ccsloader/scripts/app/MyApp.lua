@@ -1,7 +1,7 @@
 
 require("config")
 require("framework.init")
-require("framework.utilitys")
+-- require("framework.utilitys")
 
 local MyApp = class("MyApp", cc.mvc.AppBase)
 
