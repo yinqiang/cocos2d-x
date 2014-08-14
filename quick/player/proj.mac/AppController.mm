@@ -217,10 +217,6 @@ std::string getCurAppPath(void)
             [_window setFrameOrigin:NSMakePoint(pos.x, pos.y)];
         }
     }
-
-    [_window becomeFirstResponder];
-    [_window makeKeyAndOrderFront:self];
-    [_window setAcceptsMouseMovedEvents:NO];
 }
 
 - (void) startup
@@ -351,22 +347,34 @@ std::string getCurAppPath(void)
 //    _isAlwaysOnTop = alwaysOnTop;
 //}
 
-- (void) buildAndroidInBackground:(NSString *) scriptAbsPath
+- (void) runScriptAsyn:(NSString *)absScriptPath withArguments:(NSArray *) arguments
 {
+    [self performSelectorInBackground:@selector(runScriptSync:withArguments:)
+                          withObjects:absScriptPath, arguments, nil];
+}
+
+- (void) runScriptSync:(NSString *)absScriptPath withArguments:(NSArray *)arguments
+{
+    if (!absScriptPath)
+    {
+        CCLOG("Please check your script (%s)", absScriptPath.UTF8String);
+        return ;
+    }
+    
     _buildTask = [[NSTask alloc] init];
-    [_buildTask setLaunchPath: [NSString stringWithUTF8String:scriptAbsPath.UTF8String]];
+    [_buildTask setLaunchPath: absScriptPath];
 
-    [_buildTask setArguments: [NSArray array]];
-
+    if (!arguments)
+    {
+        arguments = [NSArray array];
+    }
+    [_buildTask setArguments: arguments];
     [_buildTask launch];
 
     [_buildTask waitUntilExit];
 
-    int exitCode = [_buildTask terminationStatus];
     [_buildTask release];
     _buildTask = nil;
-
-    [self performSelectorOnMainThread:@selector(updateAlertUI:) withObject:@(exitCode) waitUntilDone:YES];
 }
 //
 //- (void) updateAlertUI:(NSString*) errCodeString
@@ -382,6 +390,30 @@ std::string getCurAppPath(void)
 //    [[[buildAlert buttons] objectAtIndex:1] setHidden:hide];
 //}
 
+-(void)performSelectorInBackground:(SEL)selector withObjects:(id)object, ...
+{
+    NSMethodSignature *signature = [self methodSignatureForSelector:selector];
+    
+    // setup the invocation
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.target = self;
+    invocation.selector = selector;
+    
+    // associate the arguments
+    va_list objects;
+    va_start(objects, object);
+    unsigned int objectCounter = 2;
+    for (id obj = object; obj != nil; obj = va_arg(objects, id))
+    {
+        [invocation setArgument:&obj atIndex:objectCounter++];
+    }
+    va_end(objects);
+    
+    // make sure to invoke on a background queue
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithInvocation:invocation];
+    NSOperationQueue *backgroundQueue = [[NSOperationQueue alloc] init];
+    [backgroundQueue addOperation:operation];
+}
 
 #pragma mark -
 #pragma mark IB Actions
