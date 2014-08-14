@@ -631,12 +631,7 @@ function display.newTilesSprite(filename, rect)
         return
     end
 
-    local tp = ccTexParams()
-    tp.minFilter = 9729
-    tp.magFilter = 9729
-    tp.wrapS = 10497
-    tp.wrapT = 10497
-    sprite:getTexture():setTexParameters(tp)
+    sprite:getTexture():setTexParameters(9729, 9729, 10497, 10497)
 
     display.align(sprite, display.LEFT_BOTTOM, 0, 0)
 
