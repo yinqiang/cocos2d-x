@@ -1,6 +1,7 @@
 
 require("config")
 require("framework.init")
+require("framework.utilitys")
 
 local MyApp = class("MyApp", cc.mvc.AppBase)
 
@@ -11,6 +12,8 @@ function MyApp:ctor()
         "CCSSample2Scene",
         "CCSSample3Scene",
         "CCSSample4Scene",
+        "CCSSample5Scene",
+        "CCSSample6Scene",
     }
 end
 
@@ -41,7 +44,7 @@ end
 function MyApp:createTitle(scene, title)
     cc.ui.UILabel.new({text = "-- " .. title .. " --", size = 24, color = display.COLOR_WHITE})
         :align(display.CENTER, display.cx, display.top - 20)
-        :addTo(scene)
+        :addTo(scene, 10)
 end
 
 function MyApp:createNextButton(scene)
@@ -56,15 +59,18 @@ function MyApp:createNextButton(scene)
             self:enterNextScene()
         end)
         :align(display.RIGHT_BOTTOM, display.right - 20, display.bottom + 20)
-        :addTo(scene)
+        :addTo(scene, 10)
 end
 
 function MyApp:loadCCSJsonFile(scene, jsonFile)
-    local node = cc.uiloader:load(jsonFile)
+    local node, width, height = cc.uiloader:load(jsonFile)
     if node then
-        node:setPosition((display.width - 480)/2, (display.height - 320)/2)
+        node:setPosition((display.width - width)/2, (display.height - height)/2)
         -- node:setPosition(0, 0)
         scene:addChild(node)
+
+        -- dumpUITree(node)
+        -- drawUIRegion(node, scene, 6)
     end
 end
 
