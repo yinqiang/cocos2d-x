@@ -107,10 +107,12 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClInclude Include="..\src\PlayerProtocol.h" />
     <ClInclude Include="..\src\PlayerServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerSettings.h" />
+    <ClInclude Include="..\src\PlayerTaskServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerUtils.h" />
     <ClInclude Include="PlayerEditBoxServiceWin.h" />
     <ClInclude Include="PlayerFileDialogServiceWin.h" />
     <ClInclude Include="PlayerMenuServiceWin.h" />
+    <ClInclude Include="PlayerTaskServiceWin.h" />
     <ClInclude Include="PlayerWin.h" />
     <ClInclude Include="PlayerMessageBoxServiceWin.h" />
     <ClInclude Include="Resource.h" />
@@ -127,6 +129,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClCompile Include="PlayerEditBoxServiceWin.cpp" />
     <ClCompile Include="PlayerFileDialogServiceWin.cpp" />
     <ClCompile Include="PlayerMenuServiceWin.cpp" />
+    <ClCompile Include="PlayerTaskServiceWin.cpp" />
     <ClCompile Include="PlayerWin.cpp" />
     <ClCompile Include="PlayerMessageBoxServiceWin.cpp" />
     <ClCompile Include="stdafx.cpp">

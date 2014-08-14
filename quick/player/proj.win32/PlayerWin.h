@@ -33,6 +33,7 @@ protected:
 
     ProjectConfig _project;
     HWND _hwnd;
+    HWND _hwndConsole;
     AppDelegate *_app;
     FILE *_writeDebugLogFile;
 

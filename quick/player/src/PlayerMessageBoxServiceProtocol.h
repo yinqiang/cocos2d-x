@@ -32,4 +32,4 @@ public:
 
 PLAYER_NS_END
 
-#endif
+#endif // __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
