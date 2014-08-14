@@ -8,10 +8,17 @@ LOCAL_MODULE_FILENAME := libluabindingsauto
 LOCAL_SRC_FILES := \
           $(LOCAL_PATH)/lua_cocos2dx_auto.cpp \
           $(LOCAL_PATH)/lua_cocos2dx_extension_auto.cpp \
-          $(LOCAL_PATH)/lua_cocos2dx_extension_filter_auto.cpp \
           $(LOCAL_PATH)/lua_cocos2dx_physics_auto.cpp \
-          $(LOCAL_PATH)/lua_cocos2dx_studio_auto.cpp \
 
+ifneq ($(QUICK_NO_CCS_ARMATURE),1)
+LOCAL_SRC_FILES += \
+          $(LOCAL_PATH)/lua_cocos2dx_studio_auto.cpp
+endif
+
+ifneq ($(QUICK_NO_EXTRA_FILTERS),1)
+LOCAL_SRC_FILES += \
+          $(LOCAL_PATH)/lua_cocos2dx_extension_filter_auto.cpp
+endif
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(QUICK_V3_LIB)/lua_bindings/manual
@@ -23,7 +30,7 @@ LOCAL_WHOLE_STATIC_LIBRARIES := luajit_static
 LOCAL_WHOLE_STATIC_LIBRARIES += tolua_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
-LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_armature_static
 LOCAL_WHOLE_STATIC_LIBRARIES += extra_filters_static
 
 include $(BUILD_STATIC_LIBRARY)

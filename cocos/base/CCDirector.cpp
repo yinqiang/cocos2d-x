@@ -666,7 +666,9 @@ void Director::setProjection(Projection projection)
 void Director::purgeCachedData(void)
 {
     FontFNT::purgeCachedData();
+#if QUICK_NO_FREETYPE==0
     FontAtlasCache::purgeCachedData();
+#endif
 
     if (s_SharedDirector->getOpenGLView())
     {

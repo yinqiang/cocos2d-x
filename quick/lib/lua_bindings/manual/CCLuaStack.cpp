@@ -63,12 +63,10 @@ extern "C" {
 //#include "lua_xml_http_request.h"
 #include "lua_cocos2dx_physics_auto.hpp"
 #include "lua_cocos2dx_physics_manual.hpp"
-/*
+#include "lua_cocos2dx_extension_filter_auto.hpp"
 #include "luabinding/cocos2dx_extra_luabinding.h"
 #include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
 #include "luabinding/HelperFunc_luabinding.h"
-#include "lua_cocos2dx_extension_filter_auto.hpp"
-*/
 
 
 #if defined(ANYSDK_DEFINE)
@@ -165,24 +163,20 @@ bool LuaStack::init(void)
     g_luaType.clear();
     register_all_cocos2dx(_state);
     register_all_cocos2dx_extension(_state);
-//    register_all_cocos2dx_deprecated(_state);
-    //register_cocos2dx_extension_CCBProxy(_state);
-    //tolua_opengl_open(_state);
-    //register_all_cocos2dx_ui(_state);
-    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_extension_manual(_state);
+#if QUICK_NO_CCS_ARMATURE==0
+    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_coco_studio_manual(_state);
-    //register_all_cocos2dx_ui_manual(_state);
-    //register_all_cocos2dx_spine(_state);
-    //register_all_cocos2dx_spine_manual(_state);
-    //register_glnode_manual(_state);
-    // register_all_cocos2dx_extension_filter(_state);
-    //luaopen_cocos2dx_extra_luabinding(_state);
+#endif
+#if QUICK_NO_EXTRA_FILTERS==0
+    register_all_cocos2dx_extension_filter(_state);
+#endif
+    luaopen_cocos2dx_extra_luabinding(_state);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     luaopen_cocos2dx_extra_ios_iap_luabinding(_state);
 #endif
-    //luaopen_HelperFunc_luabinding(_state);
+    luaopen_HelperFunc_luabinding(_state);
 #if CC_USE_PHYSICS
     register_all_cocos2dx_physics(_state);
     register_all_cocos2dx_physics_manual(_state);

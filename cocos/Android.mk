@@ -8,70 +8,6 @@ LOCAL_MODULE_FILENAME := libcocos2d
 
 LOCAL_SRC_FILES := \
 cocos2d.cpp \
-2d/CCAction.cpp \
-2d/CCActionCamera.cpp \
-2d/CCActionCatmullRom.cpp \
-2d/CCActionEase.cpp \
-2d/CCActionGrid.cpp \
-2d/CCActionGrid3D.cpp \
-2d/CCActionInstant.cpp \
-2d/CCActionInterval.cpp \
-2d/CCActionManager.cpp \
-2d/CCActionPageTurn3D.cpp \
-2d/CCActionProgressTimer.cpp \
-2d/CCActionTiledGrid.cpp \
-2d/CCActionTween.cpp \
-2d/CCAnimation.cpp \
-2d/CCAnimationCache.cpp \
-2d/CCAtlasNode.cpp \
-2d/CCClippingNode.cpp \
-2d/CCClippingRegionNode.cpp \
-2d/CCComponent.cpp \
-2d/CCComponentContainer.cpp \
-2d/CCDrawNode.cpp \
-2d/CCDrawingPrimitives.cpp \
-2d/CCFont.cpp \
-2d/CCFontAtlas.cpp \
-2d/CCFontAtlasCache.cpp \
-2d/CCFontCharMap.cpp \
-2d/CCFontFNT.cpp \
-2d/CCFontFreeType.cpp \
-2d/CCGLBufferedNode.cpp \
-2d/CCGrabber.cpp \
-2d/CCGrid.cpp \
-2d/CCLabel.cpp \
-2d/CCLabelAtlas.cpp \
-2d/CCLabelBMFont.cpp \
-2d/CCLabelTTF.cpp \
-2d/CCLabelTextFormatter.cpp \
-2d/CCLayer.cpp \
-2d/CCMotionStreak.cpp \
-2d/CCNode.cpp \
-2d/CCNodeGrid.cpp \
-2d/CCParallaxNode.cpp \
-2d/CCParticleBatchNode.cpp \
-2d/CCParticleExamples.cpp \
-2d/CCParticleSystem.cpp \
-2d/CCParticleSystemQuad.cpp \
-2d/CCProgressTimer.cpp \
-2d/CCRenderTexture.cpp \
-2d/CCScene.cpp \
-2d/CCSprite.cpp \
-2d/CCSpriteBatchNode.cpp \
-2d/CCSpriteFrame.cpp \
-2d/CCSpriteFrameCache.cpp \
-2d/CCTMXLayer.cpp \
-2d/CCFastTMXLayer.cpp \
-2d/CCTMXObjectGroup.cpp \
-2d/CCTMXTiledMap.cpp \
-2d/CCFastTMXTiledMap.cpp \
-2d/CCTMXXMLParser.cpp \
-2d/CCTextFieldTTF.cpp \
-2d/CCTileMapAtlas.cpp \
-2d/CCTransition.cpp \
-2d/CCTransitionPageTurn.cpp \
-2d/CCTransitionProgress.cpp \
-2d/CCTweenFunction.cpp \
 3d/CCAnimate3D.cpp \
 3d/CCAnimation3D.cpp \
 3d/CCBundle3D.cpp \
@@ -177,7 +113,6 @@ physics/chipmunk/CCPhysicsWorldInfo_chipmunk.cpp \
 ../external/edtaa3func/edtaa3func.cpp \
 ../external/xxhash/xxhash.c
 
-
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/. \
                     $(LOCAL_PATH)/3d \
@@ -201,6 +136,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/../external/xxhash \
                     $(LOCAL_PATH)/../external/ConvertUTF \
                     $(LOCAL_PATH)/../external \
+                    $(LOCAL_PATH)/../external/freetype2/include/android \
+                    $(LOCAL_PATH)/../external/freetype2/include/android/freetype2 \
                     $(LOCAL_PATH)/base \
                     $(QUICK_V3_LIB) \
                     $(LOCAL_PATH)/../external/nslog
@@ -216,7 +153,7 @@ LOCAL_EXPORT_LDLIBS := -lGLESv2 \
                        -lz \
                        -landroid
 
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos_freetype2_static
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_2d_static
 LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dxandroid_static
 
@@ -228,6 +165,6 @@ LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,freetype2/prebuilt/android)
+$(call import-module,2d)
 $(call import-module,chipmunk)
 $(call import-module,platform/android)
