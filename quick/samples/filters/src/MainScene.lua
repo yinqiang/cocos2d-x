@@ -93,14 +93,6 @@ function MainScene:_addUI()
 		:addTo(self)
 		:onButtonClicked(handler(self, self._onClearFilter))
 
-	-- ui.newMenu({
-	-- 	ui.newTTFLabelMenuItem({
-	-- 			text="clear filter",
-	-- 			listener=handler(self, self._onClearFilter)
-	-- 	}):pos(display.cx, 100)
-	-- })
-	-- 	:addTo(self)
-
 	self._title = ui.newTTFLabel({
 		text="Filters test",
 	})

@@ -39,21 +39,6 @@ function PlayLevelScene:ctor(levelIndex)
             app:enterChooseLevelScene()
         end)
         :addTo(self)
-
-    -- create menu
-    -- local backButton = ui.newImageMenuItem({
-    --     image = "#BackButton.png",
-    --     imageSelected = "#BackButtonSelected.png",
-    --     x = display.right - 100,
-    --     y = display.bottom + 120,
-    --     sound = GAME_SFX.backButton,
-    --     listener = function()
-    --         app:enterChooseLevelScene()
-    --     end,
-    -- })
-
-    -- local menu = ui.newMenu({backButton})
-    -- self:addChild(menu)
 end
 
 function PlayLevelScene:onLevelCompleted()
