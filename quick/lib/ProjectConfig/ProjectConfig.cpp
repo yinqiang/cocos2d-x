@@ -44,7 +44,8 @@ void ProjectConfig::resetToWelcome()
 {
     _isWelcome = true;
     auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-    path.append("quick/welcome");
+    //path.append("quick/welcome");
+    path.append("quick/samples/ccsloader");
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
@@ -53,7 +54,7 @@ void ProjectConfig::resetToWelcome()
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(false);
+    setShowConsole(true);
     setWindowOffset(cocos2d::Vec2::ZERO);
     setWriteDebugLogToFile(false);
     _isAppMenu = false;
