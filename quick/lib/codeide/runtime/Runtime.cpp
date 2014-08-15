@@ -1113,7 +1113,7 @@ bool initRuntime(const string& workPath)
     if (g_resourcePath.at(g_resourcePath.length()-1) != '/'){
         g_resourcePath.append("/");
     }
-    resourcePath.append("scripts/");
+    resourcePath.append("src/");
     resourcePath=replaceAll(resourcePath,"\\","/");
     if (resourcePath.at(resourcePath.length()-1) != '/'){
         resourcePath.append("/");
