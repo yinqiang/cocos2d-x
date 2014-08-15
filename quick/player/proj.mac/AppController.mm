@@ -115,17 +115,17 @@ std::string getCurAppPath(void)
 {
     NSArray *nsargs = [[NSProcessInfo processInfo] arguments];
     long n = [nsargs count];
-    if (n == 2)
-    {
-        config->setProjectDir([[nsargs objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
-        config->setDebuggerType(kCCLuaDebuggerCodeIDE);
-    }
-    else
+    if (n >= 2)
     {
         vector<string> args;
         for (int i = 0; i < [nsargs count]; ++i)
         {
             args.push_back([[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        if (args.at(1).at(0)=='/')
+        {
+            config->setProjectDir(args.at(1));
+            config->setDebuggerType(kCCLuaDebuggerCodeIDE);
         }
         config->parseCommandLine(args);
     }
