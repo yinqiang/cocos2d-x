@@ -18,19 +18,6 @@ function MoreGamesScene:ctor()
             app:enterMenuScene()
         end)
         :addTo(self)
-    -- local backButton = ui.newImageMenuItem({
-    --     image = "#BackButton.png",
-    --     imageSelected = "#BackButtonSelected.png",
-    --     x = display.right - 100,
-    --     y = display.bottom + 120,
-    --     sound = GAME_SFX.backButton,
-    --     listener = function()
-    --         app:enterMenuScene()
-    --     end
-    -- })
-
-    -- local menu = ui.newMenu({backButton})
-    -- self:addChild(menu)
 end
 
 return MoreGamesScene

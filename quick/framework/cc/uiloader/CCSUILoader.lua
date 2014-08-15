@@ -248,11 +248,10 @@ function CCSUILoader:getCheckBoxImages(options)
 	local images = {}
 
 	local getBackgroundImage = function(state)
-		local image = options.backGroundBoxData.path
+		local image = options.backGroundBoxData
 		if "pressed" == state then
 			image = options.backGroundBoxSelectedData
-		end
-		if "disabled" == state then
+		elseif "disabled" == state then
 			image = options.backGroundBoxDisabledData
 		end
 
@@ -274,7 +273,7 @@ function CCSUILoader:getCheckBoxImages(options)
 	images.off = self:transResName(getBackgroundImage("normal"))
 	images.off_pressed = self:transResName(getBackgroundImage("pressed"))
 	images.off_disabled = self:transResName(getBackgroundImage("disabled"))
-	images.on = {images.off, self:transResName(options.frontCrossData.path)}
+	images.on = {images.off, self:transResName(options.frontCrossData)}
 	images.on_pressed = images.on
 	images.on_disabled = {images.off_disabled,
 		self:transResName(options.frontCrossDisabledData)}

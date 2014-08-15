@@ -569,9 +569,9 @@ function display.newSprite(filename, x, y, params)
                 sprite = spriteClass:create(filename)
             end
         end
-    elseif t == "SpriteFrame" then
+    elseif t == "cc.SpriteFrame" then
         sprite = spriteClass:createWithSpriteFrame(filename)
-	elseif t == "Texture2D" then
+	elseif t == "cc.Texture2D" then
 		sprite = spriteClass:createWithTexture(filename)
     else
         printError("display.newSprite() - invalid filename value type")
