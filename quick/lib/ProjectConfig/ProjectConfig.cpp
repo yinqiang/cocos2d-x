@@ -560,7 +560,13 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
         }
     }
 
-    return buff.str();
+    string result = buff.str();
+    while (result.at(0) == ' ')
+    {
+        result = result.assign(result, 1, result.length());
+    }
+
+    return result;
 }
 
 bool ProjectConfig::isAppMenu() const
