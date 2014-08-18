@@ -124,13 +124,11 @@ std::string getCurAppPath(void)
             if (arg.length()) args.push_back(arg);
         }
 
-        if (args.size())
+        if (args.size() && args.at(1).at(0) == '/')
         {
-            if (args.at(1).at(0) == '/')
-            {
-                config->setProjectDir(args.at(1));
-                config->setDebuggerType(kCCLuaDebuggerCodeIDE);
-            }
+            // for Code IDE before RC2
+            config->setProjectDir(args.at(1));
+            config->setDebuggerType(kCCLuaDebuggerCodeIDE);
         }
         config->parseCommandLine(args);
     }
