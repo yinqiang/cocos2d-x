@@ -63,12 +63,10 @@ extern "C" {
 //#include "lua_xml_http_request.h"
 #include "lua_cocos2dx_physics_auto.hpp"
 #include "lua_cocos2dx_physics_manual.hpp"
-/*
 #include "luabinding/cocos2dx_extra_luabinding.h"
 #include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
 #include "luabinding/HelperFunc_luabinding.h"
 #include "lua_cocos2dx_extension_filter_auto.hpp"
-*/
 
 
 #if defined(ANYSDK_DEFINE)
