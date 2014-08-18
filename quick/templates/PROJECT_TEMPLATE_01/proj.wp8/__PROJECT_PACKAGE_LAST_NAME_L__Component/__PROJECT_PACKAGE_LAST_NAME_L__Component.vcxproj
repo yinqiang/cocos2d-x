@@ -88,7 +88,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)\quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)\quick\lib\lua_bindings\lua;$(QUICK_V3_ROOT)\quick\lib;$(QUICK_V3_ROOT)\quick\lib\lua_bindings\manual;$(ProjectDir)..\..\sources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)\quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)\quick\lib\lua_bindings\lua;$(QUICK_V3_ROOT)\quick\lib;$(QUICK_V3_ROOT)\quick\lib\lua_bindings\manual;$(ProjectDir)..\..\native;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
@@ -172,7 +172,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sources\AppDelegate.cpp" />
+    <ClCompile Include="..\..\native\AppDelegate.cpp" />
     <ClCompile Include="Cocos2dRenderer.cpp" />
     <ClCompile Include="Direct3DContentProvider.cpp" />
     <ClCompile Include="Direct3DInterop.cpp" />
@@ -190,7 +190,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\sources\AppDelegate.h" />
+    <ClInclude Include="..\..\native\AppDelegate.h" />
     <ClInclude Include="Cocos2dRenderer.h" />
     <ClInclude Include="Direct3DContentProvider.h" />
     <ClInclude Include="Direct3DInterop.h" />
