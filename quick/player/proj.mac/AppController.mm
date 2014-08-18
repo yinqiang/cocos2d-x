@@ -42,11 +42,11 @@ std::string getCurAppPath(void)
     // load QUICK_COCOS2DX_ROOT from ~/.QUICK_COCOS2DX_ROOT
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/.QUICK_V3_ROOT"];
-    NSError *error = nil;
+    NSError *error = [[[NSError alloc] init] autorelease];
     NSString *env = [NSString stringWithContentsOfFile:path
                                               encoding:NSUTF8StringEncoding
                                                  error:&error];
-    if (error || env.length == 0)
+    if ([error code] || env.length == 0)
     {
         [self showAlertWithoutSheet:@"Please run \"setup_mac.sh\", set quick-cocos2d-x root path."
                           withTitle:@"quick player error"];
@@ -120,12 +120,17 @@ std::string getCurAppPath(void)
         vector<string> args;
         for (int i = 0; i < [nsargs count]; ++i)
         {
-            args.push_back([[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding]);
+            string arg = [[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding];
+            if (arg.length()) args.push_back(arg);
         }
-        if (args.at(1).at(0)=='/')
+
+        if (args.size())
         {
-            config->setProjectDir(args.at(1));
-            config->setDebuggerType(kCCLuaDebuggerCodeIDE);
+            if (args.at(1).at(0) == '/')
+            {
+                config->setProjectDir(args.at(1));
+                config->setDebuggerType(kCCLuaDebuggerCodeIDE);
+            }
         }
         config->parseCommandLine(args);
     }
@@ -219,14 +224,14 @@ std::string getCurAppPath(void)
     }
 }
 
+- (IBAction) onFileClose:(id)sender
+{
+    [self relaunch];
+}
+
 - (void) startup
 {
     std::string path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-    if (path.length() <= 0)
-    {
-        [self showPreferences:YES];
-    }
-
     const string projectDir = _project.getProjectDir();
     if (projectDir.length())
     {
