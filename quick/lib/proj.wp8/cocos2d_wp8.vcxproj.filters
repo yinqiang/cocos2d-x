@@ -336,12 +336,6 @@
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCLayer.cpp">
       <Filter>cocos\2d</Filter>
     </ClCompile>
-    <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMenu.cpp">
-      <Filter>cocos\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMenuItem.cpp">
-      <Filter>cocos\2d</Filter>
-    </ClCompile>
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMotionStreak.cpp">
       <Filter>cocos\2d</Filter>
     </ClCompile>
@@ -1209,6 +1203,9 @@
     <ClCompile Include="..\extra\filters\nodes\CCFilteredSprite.cpp">
       <Filter>libquick\extra\filters\nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp">
+      <Filter>libquick\ProjectConfig</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\physics\CCPhysicsBody.h">
@@ -1356,12 +1353,6 @@
       <Filter>cocos\2d</Filter>
     </ClInclude>
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCLayer.h">
-      <Filter>cocos\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMenu.h">
-      <Filter>cocos\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMenuItem.h">
       <Filter>cocos\2d</Filter>
     </ClInclude>
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMotionStreak.h">
@@ -2378,6 +2369,9 @@
     <ClInclude Include="..\..\..\cocos\platform\wp8\shaders\precompiledshaders.h">
       <Filter>cocos\platform\wp8\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\ProjectConfig\ProjectConfig.h">
+      <Filter>libquick\ProjectConfig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(QUICK_V3_ROOT)cocos\math\Mat4.inl">
@@ -2541,9 +2535,6 @@
     </None>
     <None Include="..\extra\filters\shaders\shadertoy_LensFlare.fsh">
       <Filter>libquick\extra\filters\shaders</Filter>
-    </None>
-    <None Include="..\..\..\cocos\renderer\example_greyScale.frag">
-      <Filter>cocos\renderer\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
