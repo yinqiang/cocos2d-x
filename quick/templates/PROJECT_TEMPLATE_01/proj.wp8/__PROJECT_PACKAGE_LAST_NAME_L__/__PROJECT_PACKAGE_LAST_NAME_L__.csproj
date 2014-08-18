@@ -166,8 +166,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\scripts\**\*">
-      <Link>Assets\Resources\scripts\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <Content Include="..\..\src\**\*">
+      <Link>Assets\Resources\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
