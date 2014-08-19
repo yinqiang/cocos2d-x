@@ -58,6 +58,7 @@ public:
                                     const std::string &title) = 0;
     virtual PlayerMenuItem *getItem(const std::string &menuId) = 0;
     virtual bool removeItem(const std::string &menuId) = 0;
+    virtual void setMenuBarEnabled(bool enabled) = 0;
 };
 
 PLAYER_NS_END
