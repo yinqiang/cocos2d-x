@@ -3,7 +3,7 @@
 #define  _APP_DELEGATE_H_
 
 #include "CCApplication.h"
-#include "ProjectConfig/SimulatorConfig.h"
+#include "ProjectConfig/ProjectConfig.h"
 
 /**
  @brief    The cocos2d Application.
@@ -38,7 +38,7 @@ public:
     void setProjectConfig(const ProjectConfig& config);
 
 private:
-    ProjectConfig m_projectConfig;
+    ProjectConfig _project;
 };
 
 #endif // _APP_DELEGATE_H_

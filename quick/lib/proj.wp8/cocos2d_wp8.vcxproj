@@ -935,8 +935,6 @@
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCLabelTextFormatter.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCLabelTTF.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCLayer.cpp" />
-    <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMenu.cpp" />
-    <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMenuItem.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCMotionStreak.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCNode.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCNodeGrid.cpp" />
@@ -982,6 +980,7 @@
     <ClCompile Include="..\extra\filters\nodes\CCFilteredSprite.cpp" />
     <ClCompile Include="..\extra\filters\shaders\ccFilterShaders.cpp" />
     <ClCompile Include="..\extra\filters\shaders\FilterShaders.cpp" />
+    <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(QUICK_V3_ROOT)\extensions\cocos-ext.h" />
@@ -1295,8 +1294,6 @@
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCLabelTextFormatter.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCLabelTTF.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCLayer.h" />
-    <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMenu.h" />
-    <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMenuItem.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCMotionStreak.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCNode.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCNodeGrid.h" />
@@ -1373,6 +1370,7 @@
     <ClInclude Include="..\extra\filters\shaders\ccFilterShader_vblur_vert.h" />
     <ClInclude Include="..\extra\filters\shaders\ccFilterShader_zoom_blur_frag.h" />
     <ClInclude Include="..\extra\filters\shaders\FilterShaders.h" />
+    <ClInclude Include="..\ProjectConfig\ProjectConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(QUICK_V3_ROOT)cocos\math\Mat4.inl" />

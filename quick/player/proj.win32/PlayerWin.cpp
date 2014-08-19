@@ -37,6 +37,7 @@ PLAYER_NS_BEGIN
 PlayerWin::PlayerWin()
 : _app(nullptr)
 , _hwnd(NULL)
+, _hwndConsole(NULL)
 , _writeDebugLogFile(nullptr)
 , _menuService(nullptr)
 , _messageBoxService(nullptr)
@@ -170,6 +171,28 @@ int PlayerWin::run()
     // init player services
     initServices();
 
+    // create console window
+    AllocConsole();
+    freopen("CONOUT$", "wt", stdout);
+    freopen("CONOUT$", "wt", stderr);
+
+    // disable close console
+    _hwndConsole = GetConsoleWindow();
+    if (_hwndConsole != NULL)
+    {
+        HMENU hmenu = GetSystemMenu(_hwndConsole, FALSE);
+        if (hmenu != NULL) DeleteMenu(hmenu, SC_CLOSE, MF_BYCOMMAND);
+        if (_project.isShowConsole())
+        {
+            ShowWindow(_hwndConsole, SW_SHOW);
+            BringWindowToTop(_hwndConsole);
+        }
+        else
+        {
+            ShowWindow(_hwndConsole, SW_HIDE);
+        }
+    }
+
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
@@ -214,44 +237,6 @@ void PlayerWin::initServices()
         // remove menu
         SetMenu(_hwnd, NULL);
     }
-
-    //CCLOG("saveFile = %s", _fileDialogService->saveFile("TITLE", "C:\\Work\\hello.lua").c_str());
-
-    //vector<string> files = _fileDialogService->openMultiple("中文描述内容", "C:\\Work", "Lua Script File|*.lua;JSON File|*.json");
-    //for (auto it = files.begin(); it != files.end(); ++it)
-    //{
-    //    CCLOG("openMultiple = %s", (*it).c_str());
-    //}
-
-    PlayerMenuServiceProtocol *service = getMenuService();
-    service->addItem("FILE", "&File");
-    service->addItem("FILE_OPEN", "&Open", "FILE");
-    service->addItem("FILE_OPEN_RECENTS", "Open &Recents", "FILE")->setEnabled(true);
-    service->addItem("FILE_OPEN_RECENTS_1", "<recent 1>", "FILE_OPEN_RECENTS")->setTitle("<recent 1x>");
-    service->addItem("FILE_OPEN_RECENTS_2", "<recent 2>", "FILE_OPEN_RECENTS")->setEnabled(false);
-    service->addItem("FILE_OPEN_RECENTS_3", "<recent 3>", "FILE_OPEN_RECENTS");
-    service->addItem("FILE_OPEN_RECENTS_4", "<recent 4>", "FILE_OPEN_RECENTS")->setChecked(true);
-    service->addItem("FILE_SAVE", "&Save", "FILE");
-    service->addItem("FILE_SAVE_AS", "Save &As...", "FILE");
-    service->addItem("FILE_SEP1", "-", "FILE");
-    service->addItem("FILE_EXIT", "E&xit", "FILE");
-
-    service->addItem("VIEW", "&View");
-    service->addItem("VIEW_PORTRAIT", "&Portrait", "VIEW");
-    service->addItem("VIEW_LANDSCAPE", "&Landscape", "VIEW");
-
-    CCLOG("------------------------");
-    CCLOG("FILE order = %d", service->getItem("FILE")->getOrder());
-    CCLOG("FILE_OPEN order = %d", service->getItem("FILE_OPEN")->getOrder());
-    CCLOG("FILE_OPEN_RECENTS order = %d", service->getItem("FILE_OPEN_RECENTS")->getOrder());
-    CCLOG("FILE_SAVE order = %d", service->getItem("FILE_SAVE")->getOrder());
-    CCLOG("FILE_SAVE_AS order = %d", service->getItem("FILE_SAVE_AS")->getOrder());
-    CCLOG("FILE_SEP1 order = %d", service->getItem("FILE_SEP1")->getOrder());
-    CCLOG("FILE_EXIT order = %d", service->getItem("FILE_EXIT")->getOrder());
-    CCLOG("------------------------");
-
-    service->removeItem("VIEW");
-    service->removeItem("FILE_OPEN_RECENTS_3");
 }
 
 // event handlers

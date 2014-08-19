@@ -18,7 +18,7 @@
 
 ProjectConfig::ProjectConfig()
     : _isWelcome(false)
-    , _scriptFile("$(PROJDIR)/scripts/main.lua")
+    , _scriptFile("$(PROJDIR)/src/main.lua")
     , _writablePath("")
     , _packagePath("")
     , _frameSize(960, 640)
@@ -44,16 +44,17 @@ void ProjectConfig::resetToWelcome()
 {
     _isWelcome = true;
     auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-    path.append("quick/welcome");
+    //path.append("quick/welcome");
+    path.append("quick/samples/ccsloader");
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
-    setScriptFile("$(PROJDIR)/scripts/main.lua");
+    setScriptFile("$(PROJDIR)/src/main.lua");
     setFrameSize(cocos2d::Size(960, 640));
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(false);
+    setShowConsole(true);
     setWindowOffset(cocos2d::Vec2::ZERO);
     setWriteDebugLogToFile(false);
     _isAppMenu = false;
@@ -69,7 +70,7 @@ void ProjectConfig::resetToCreator()
     SimulatorConfig::makeNormalizePath(&path);
     setProjectDir(path);
     setWritablePath(path);
-    setScriptFile("$(PROJDIR)/scripts/main.lua");
+    setScriptFile("$(PROJDIR)/src/main.lua");
     setFrameSize(cocos2d::Size(960, 640));
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
@@ -559,7 +560,13 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
         }
     }
 
-    return buff.str();
+    string result = buff.str();
+    while (result.at(0) == ' ')
+    {
+        result = result.assign(result, 1, result.length());
+    }
+
+    return result;
 }
 
 bool ProjectConfig::isAppMenu() const

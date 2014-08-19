@@ -569,9 +569,9 @@ function display.newSprite(filename, x, y, params)
                 sprite = spriteClass:create(filename)
             end
         end
-    elseif t == "SpriteFrame" then
+    elseif t == "cc.SpriteFrame" then
         sprite = spriteClass:createWithSpriteFrame(filename)
-	elseif t == "Texture2D" then
+	elseif t == "cc.Texture2D" then
 		sprite = spriteClass:createWithTexture(filename)
     else
         printError("display.newSprite() - invalid filename value type")
@@ -631,12 +631,7 @@ function display.newTilesSprite(filename, rect)
         return
     end
 
-    local tp = ccTexParams()
-    tp.minFilter = 9729
-    tp.magFilter = 9729
-    tp.wrapS = 10497
-    tp.wrapT = 10497
-    sprite:getTexture():setTexParameters(tp)
+    sprite:getTexture():setTexParameters(9729, 9729, 10497, 10497)
 
     display.align(sprite, display.LEFT_BOTTOM, 0, 0)
 
