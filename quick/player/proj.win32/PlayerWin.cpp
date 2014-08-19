@@ -39,8 +39,10 @@ PlayerWin::PlayerWin()
 , _hwnd(NULL)
 , _hwndConsole(NULL)
 , _writeDebugLogFile(nullptr)
-, _menuService(nullptr)
 , _messageBoxService(nullptr)
+, _menuService(nullptr)
+, _editboxService(nullptr)
+, _taskService(nullptr)
 {
 }
 
@@ -63,12 +65,12 @@ PlayerWin *PlayerWin::create()
 
 PlayerFileDialogServiceProtocol *PlayerWin::getFileDialogService()
 {
-    return nullptr;
+    return _fileDialogService;
 }
 
 PlayerMessageBoxServiceProtocol *PlayerWin::getMessageBoxService()
 {
-    return nullptr;
+    return _messageBoxService;
 }
 
 PlayerMenuServiceProtocol *PlayerWin::getMenuService()
@@ -78,7 +80,12 @@ PlayerMenuServiceProtocol *PlayerWin::getMenuService()
 
 PlayerEditBoxServiceProtocol *PlayerWin::getEditBoxService()
 {
-    return nullptr;
+    return _editboxService;
+}
+
+PlayerTaskServiceProtocol *PlayerWin::getTaskService()
+{
+    return _taskService;
 }
 
 int PlayerWin::run()
@@ -206,8 +213,6 @@ int PlayerWin::run()
     BOOL isAppMenu = _project.isAppMenu();
     director->getScheduler()->schedule([hwnd, isAppMenu, frameRect, frameScale](float dt) {
         CC_UNUSED_PARAM(dt);
-        CCLOG("SHOW_WINDOW_CALLBACK");
-
         if (isAppMenu && GetMenu(hwnd))
         {
             // update window size
@@ -231,6 +236,7 @@ void PlayerWin::initServices()
     _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
     _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
     _editboxService = new PlayerEditBoxServiceWin(_hwnd);
+    _taskService = new PlayerTaskServiceWin(_hwnd);
 
     if (!_project.isAppMenu())
     {
