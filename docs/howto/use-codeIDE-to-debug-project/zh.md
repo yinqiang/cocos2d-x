@@ -21,6 +21,7 @@
 - Project：这里选择配置项关联的工程，请点击“Browse...”正确选择你想要调试的工程
 - Taget Platform：选择调试平台。quick工程请选择“Remote Debug”，并在其下的Platform选项中选择Mac或者Windows，两个IP选项均选择“127.0.0.1”
 - 配置后如下图。
+
 ![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/use-codeIDE-to-debug-project/res/Debug_config.png)
 
 - 点“Apply”以保存设置，点“Close”关闭设置窗口
@@ -34,13 +35,17 @@
 ##通过player工程启动runtime(同时调试lua和c++代码)
 - Mac下用xcode打开quick/player/proj.mac目录下的player工程；Windows下用vs2013打开quick/player/proj.win32目录下的player工程
 - 配置player工程的启动参数为： （配置方法请参考后面的说明）
+
 ```
 -debugger-codeide -workdir <工程目录路径>
 ```
+
 - 如果需要竖屏启动，则配置参数为：
+
 ```
 -debugger-codeide -workdir <工程目录路径> -portrait
 ```
+
 - 设置完成，运行工程即可启动runtime
 - 在codeIDE中，设置好Lua代码的断点，直接点击“Debug Remote”按钮即可开始调试
 
@@ -51,6 +56,7 @@
 - 从右侧选中 "Arguments"
 - 在 Arguments Passed On Launch 里点 "+" 添加命令参数
 - 示例如图
+
 ![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/use-codeIDE-to-debug-project/res/xcode_set_arguments.png)
 
 ##在VS中配置工程的启动参数的方法
@@ -60,3 +66,4 @@
 - 从对话框左侧选中 "Configuration Properties / Debugging"
 - 从右侧选中 "Command Arguments"，添加命令参数内容
 - 示例如图
+
