@@ -13,6 +13,10 @@ PLAYER_NS_BEGIN
 class PlayerTask : public cocos2d::Ref
 {
 public:
+    static const int STATE_IDLE = 0;
+    static const int STATE_RUNNING = 1;
+    static const int STATE_COMPLETED = 2;
+
     virtual ~PlayerTask() {};
 
     std::string getName() const
@@ -35,6 +39,21 @@ public:
         return _output;
     }
 
+    bool isIdle() const
+    {
+        return _state == STATE_IDLE;
+    }
+
+    bool isRunning() const
+    {
+        return _state == STATE_RUNNING;
+    }
+
+    bool isCompleted() const
+    {
+        return _state == STATE_COMPLETED;
+    }
+
     int getResultCode() const
     {
         return _resultCode;
@@ -50,6 +69,7 @@ protected:
                : _name(name)
                , _executePath(executePath)
                , _commandLineArguments(commandLineArguments)
+               , _state(STATE_IDLE)
                , _resultCode(0)
     {
     }
@@ -58,6 +78,7 @@ protected:
     std::string _executePath;
     std::string _commandLineArguments;
     std::string _output;
+    int _state;
     int _resultCode;
 };
 

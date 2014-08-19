@@ -21,12 +21,24 @@ PlayerTaskWin::PlayerTaskWin(const std::string &name,
                              , _childStdInWrite(NULL)
                              , _childStdOutRead(NULL)
                              , _childStdOutWrite(NULL)
+                             , _outputBuff(NULL)
 {
     ZeroMemory(&_pi, sizeof(_pi));
 }
 
+PlayerTaskWin::~PlayerTaskWin()
+{
+    if (_outputBuff) delete[] _outputBuff;
+}
+
 bool PlayerTaskWin::run()
 {
+    if (!isIdle())
+    {
+        CCLOG("PlayerTaskWin::run() - task is not idle");
+        return false;
+    }
+
     //BOOL WINAPI CreateProcess(
     //    _In_opt_     LPCTSTR lpApplicationName,
     //    _Inout_opt_  LPTSTR lpCommandLine,
@@ -92,6 +104,10 @@ bool PlayerTaskWin::run()
         return false;
     }
 
+    _outputBuff = new CHAR[BUFF_SIZE];
+    _state = STATE_RUNNING;
+
+    cocos2d::Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
     return true;
 }
 
@@ -101,8 +117,45 @@ void PlayerTaskWin::stop()
     {
         TerminateProcess(_pi.hProcess, 0);
         _resultCode = -1;
-        cleanup();
     }
+    cleanup();
+}
+
+void PlayerTaskWin::update(float dt)
+{
+    CC_UNUSED_PARAM(dt);
+
+    DWORD resultCode = 0;
+    BOOL ret = GetExitCodeProcess(_pi.hProcess, &resultCode);
+
+    // read output
+    for (;;)
+    {
+        DWORD readCount = 0;
+        PeekNamedPipe(_childStdOutRead, NULL, NULL, NULL, &readCount, NULL);
+        if (readCount == 0) break;
+
+        readCount = 0;
+        ZeroMemory(_outputBuff, BUFF_SIZE);
+        BOOL success = ReadFile(_childStdOutRead, _outputBuff, BUFF_SIZE - 1, &readCount, NULL);
+        CCLOG("readCount = %u", readCount);
+        if (!success || readCount == 0) break;
+        _outputStream.append(_outputBuff);
+    }
+
+    if (ret)
+    {
+        if (resultCode == STILL_ACTIVE) return;
+        _resultCode = (int)resultCode;
+    }
+    else
+    {
+        // unexpected error
+        _resultCode = (int)GetLastError();
+    }
+
+    cocos2d::Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
+    cleanup();
 }
 
 void PlayerTaskWin::cleanup()
@@ -110,6 +163,9 @@ void PlayerTaskWin::cleanup()
     if (_pi.hProcess) CloseHandle(_pi.hProcess);
     if (_pi.hThread) CloseHandle(_pi.hThread);
     ZeroMemory(&_pi, sizeof(_pi));
+
+    if (_outputBuff) delete[] _outputBuff;
+    _outputBuff = NULL;
 
     if (_childStdOutRead) CloseHandle(_childStdOutRead);
     if (_childStdOutWrite) CloseHandle(_childStdOutWrite);
@@ -120,6 +176,10 @@ void PlayerTaskWin::cleanup()
     _childStdOutWrite = NULL;
     _childStdInRead = NULL;
     _childStdInWrite = NULL;
+
+    _state = STATE_COMPLETED;
+
+    CCLOG("CMD: %s", _outputStream.c_str());
 }
 
 std::u16string PlayerTaskWin::makeCommandLine() const

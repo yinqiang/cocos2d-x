@@ -2,6 +2,8 @@
 #ifndef __PLAYER_TASK_SERVICE_WIN_H_
 #define __PLAYER_TASK_SERVICE_WIN_H_
 
+#include <sstream>
+
 #include "PlayerTaskServiceProtocol.h"
 
 PLAYER_NS_BEGIN
@@ -13,8 +15,13 @@ public:
                                  const std::string &executePath,
                                  const std::string &commandLineArguments);
 
+    virtual ~PlayerTaskWin();
+
     virtual bool run();
     virtual void stop();
+
+    // check task status
+    virtual void update(float dt);
 
 protected:
     PlayerTaskWin(const std::string &name,
@@ -29,6 +36,10 @@ protected:
     HANDLE _childStdOutRead;
     HANDLE _childStdOutWrite;
     PROCESS_INFORMATION _pi;
+
+    static const size_t BUFF_SIZE = 16384;
+    CHAR *_outputBuff;
+    std::string _outputStream;
 };
 
 class PlayerTaskServiceWin : public PlayerTaskServiceProtocol

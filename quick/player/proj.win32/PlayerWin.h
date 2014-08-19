@@ -43,6 +43,7 @@ protected:
     PlayerMessageBoxServiceWin *_messageBoxService;
     PlayerFileDialogServiceWin *_fileDialogService;
     PlayerEditBoxServiceWin *_editboxService;
+    PlayerTaskServiceWin *_taskService;
 
     // services
     void initServices();
