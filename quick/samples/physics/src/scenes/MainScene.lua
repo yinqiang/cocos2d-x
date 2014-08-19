@@ -77,7 +77,7 @@ end
 function MainScene:onEnter()
     self.layer:setTouchEnabled(true)
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
-    -- self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(dt) self:onEnterFrame(dt) end)
+    self:scheduleUpdate()
 end
 
 function MainScene:onEnterFrame(dt)

@@ -220,6 +220,7 @@ function UpdateScene:onEnter()
 	self:requestFromServer(self.requesting)
 
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(dt) self:onEnterFrame(dt) end)
+    self:scheduleUpdate()
 end
 
 function UpdateScene:onExit()

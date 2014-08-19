@@ -995,12 +995,6 @@ public:
      */
     virtual bool isRunning() const;
 
-    /**
-     * Schedules for lua script.
-     * @js NA
-     */
-    void scheduleUpdateWithPriorityLua(int handler, int priority);
-
     /// @}  end Script Bindings
 
 
