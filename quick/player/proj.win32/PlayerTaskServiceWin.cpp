@@ -22,13 +22,14 @@ PlayerTaskWin::PlayerTaskWin(const std::string &name,
                              , _childStdOutRead(NULL)
                              , _childStdOutWrite(NULL)
                              , _outputBuff(NULL)
+                             , _outputBuffWide(NULL)
 {
     ZeroMemory(&_pi, sizeof(_pi));
 }
 
 PlayerTaskWin::~PlayerTaskWin()
 {
-    if (_outputBuff) delete[] _outputBuff;
+    cleanup();
 }
 
 bool PlayerTaskWin::run()
@@ -80,22 +81,23 @@ bool PlayerTaskWin::run()
     si.hStdError = _childStdOutWrite;
     si.hStdOutput = _childStdOutWrite;
     si.hStdInput = _childStdInRead;
-    si.dwFlags |= STARTF_USESTDHANDLES;
+    si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
 
     const std::u16string u16command = makeCommandLine();
     WCHAR command[MAX_PATH];
     wcscpy_s(command, MAX_PATH, (WCHAR*)u16command.c_str());
 
     BOOL success = CreateProcess(NULL,
-                                 command,     // command line 
-                                 NULL,          // process security attributes 
-                                 NULL,          // primary thread security attributes 
-                                 TRUE,          // handles are inherited 
-                                 0,             // creation flags 
-                                 NULL,          // use parent's environment 
-                                 NULL,          // use parent's current directory 
-                                 &si,  // STARTUPINFO pointer 
-                                 &_pi);  // receives PROCESS_INFORMATION 
+                                 command,   // command line 
+                                 NULL,      // process security attributes 
+                                 NULL,      // primary thread security attributes 
+                                 TRUE,      // handles are inherited 
+                                 0,         // creation flags 
+                                 NULL,      // use parent's environment 
+                                 NULL,      // use parent's current directory 
+                                 &si,       // STARTUPINFO pointer 
+                                 &_pi);     // receives PROCESS_INFORMATION 
 
     if (!success)
     {
@@ -104,7 +106,8 @@ bool PlayerTaskWin::run()
         return false;
     }
 
-    _outputBuff = new CHAR[BUFF_SIZE];
+    _outputBuff = new CHAR[BUFF_SIZE + 1];
+    _outputBuffWide = new WCHAR[BUFF_SIZE];
     _state = STATE_RUNNING;
 
     cocos2d::Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
@@ -123,10 +126,7 @@ void PlayerTaskWin::stop()
 
 void PlayerTaskWin::update(float dt)
 {
-    CC_UNUSED_PARAM(dt);
-
-    DWORD resultCode = 0;
-    BOOL ret = GetExitCodeProcess(_pi.hProcess, &resultCode);
+    _lifetime += dt;
 
     // read output
     for (;;)
@@ -136,14 +136,22 @@ void PlayerTaskWin::update(float dt)
         if (readCount == 0) break;
 
         readCount = 0;
-        ZeroMemory(_outputBuff, BUFF_SIZE);
+        ZeroMemory(_outputBuff, BUFF_SIZE + 1);
         BOOL success = ReadFile(_childStdOutRead, _outputBuff, BUFF_SIZE - 1, &readCount, NULL);
-        CCLOG("readCount = %u", readCount);
         if (!success || readCount == 0) break;
-        _outputStream.append(_outputBuff);
+
+        int chars = MultiByteToWideChar(CP_OEMCP, 0, _outputBuff, readCount, _outputBuffWide, BUFF_SIZE);
+        if (chars)
+        {
+            ZeroMemory(_outputBuff, BUFF_SIZE + 1);
+            WideCharToMultiByte(CP_UTF8, 0, _outputBuffWide, chars, _outputBuff, BUFF_SIZE + 1, 0, NULL);
+            _outputStream.append(_outputBuff);
+        }
     }
 
-    if (ret)
+    // get child process exit code
+    DWORD resultCode = 0;
+    if (GetExitCodeProcess(_pi.hProcess, &resultCode))
     {
         if (resultCode == STILL_ACTIVE) return;
         _resultCode = (int)resultCode;
@@ -166,6 +174,8 @@ void PlayerTaskWin::cleanup()
 
     if (_outputBuff) delete[] _outputBuff;
     _outputBuff = NULL;
+    if (_outputBuffWide) delete[] _outputBuffWide;
+    _outputBuffWide = NULL;
 
     if (_childStdOutRead) CloseHandle(_childStdOutRead);
     if (_childStdOutWrite) CloseHandle(_childStdOutWrite);
@@ -222,6 +232,19 @@ PlayerTask *PlayerTaskServiceWin::getTask(const std::string &name)
 {
     auto it = _tasks.find(name);
     return it != _tasks.end() ? it->second : nullptr;
+}
+
+void PlayerTaskServiceWin::removeTask(const std::string &name)
+{
+    auto it = _tasks.find(name);
+    if (it != _tasks.end())
+    {
+        if (!it->second->isCompleted())
+        {
+            it->second->stop();
+        }
+        _tasks.erase(it);
+    }
 }
 
 PLAYER_NS_END

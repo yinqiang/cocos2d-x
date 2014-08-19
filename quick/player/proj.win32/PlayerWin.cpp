@@ -243,12 +243,6 @@ void PlayerWin::initServices()
         // remove menu
         SetMenu(_hwnd, NULL);
     }
-
-
-    auto task = _taskService->createTask("test cmd", "cmd.exe", "/C DIR C:\\");
-    task->run();
-    
-
 }
 
 // event handlers

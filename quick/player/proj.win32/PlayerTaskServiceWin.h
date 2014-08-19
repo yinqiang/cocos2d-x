@@ -37,8 +37,9 @@ protected:
     HANDLE _childStdOutWrite;
     PROCESS_INFORMATION _pi;
 
-    static const size_t BUFF_SIZE = 16384;
+    static const size_t BUFF_SIZE = 4096;
     CHAR *_outputBuff;
+    WCHAR *_outputBuffWide;
     std::string _outputStream;
 };
 
@@ -52,6 +53,7 @@ public:
                                    const std::string &executePath,
                                    const std::string &commandLineArguments);
     virtual PlayerTask *getTask(const std::string &name);
+    virtual void removeTask(const std::string &name);
 
 protected:
     HWND _hwnd;
