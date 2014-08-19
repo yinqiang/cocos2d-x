@@ -9,6 +9,7 @@
 #include "PlayerMessageBoxServiceProtocol.h"
 #include "PlayerMenuServiceProtocol.h"
 #include "PlayerEditBoxServiceProtocol.h"
+#include "PlayerTaskServiceProtocol.h"
 
 PLAYER_NS_BEGIN
 
@@ -27,6 +28,7 @@ public:
     virtual PlayerMessageBoxServiceProtocol *getMessageBoxService() = 0;
     virtual PlayerMenuServiceProtocol *getMenuService() = 0;
     virtual PlayerEditBoxServiceProtocol *getEditBoxService() = 0;
+    virtual PlayerTaskServiceProtocol *getTaskService() = 0;
 
 protected:
     PlayerProtocol(); // avoid create instance from outside

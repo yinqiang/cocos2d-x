@@ -47,7 +47,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;CC_LUA_ENGINE_ENABLED=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)cocos;$(QUICK_V3_ROOT)cocos\platform\win32;$(QUICK_V3_ROOT)cocos\platform\desktop;$(QUICK_V3_ROOT)cocos\audio\include;$(QUICK_V3_ROOT)extensions;$(QUICK_V3_ROOT)external;$(QUICK_V3_ROOT)external\chipmunk\include\chipmunk;$(QUICK_V3_ROOT)external\ConvertUTF;$(QUICK_V3_ROOT)external\curl\include\win32;$(QUICK_V3_ROOT)external\edtaa3func;$(QUICK_V3_ROOT)external\freetype2\include\win32;$(QUICK_V3_ROOT)external\glfw3\include\win32;$(QUICK_V3_ROOT)external\jpeg\include\win32;$(QUICK_V3_ROOT)external\json;$(QUICK_V3_ROOT)external\png\include\win32;$(QUICK_V3_ROOT)external\sqlite3\include;$(QUICK_V3_ROOT)external\tiff\include\win32;$(QUICK_V3_ROOT)external\tinyxml2;$(QUICK_V3_ROOT)external\unzip;$(QUICK_V3_ROOT)external\webp\include\win32;$(QUICK_V3_ROOT)external\websockets\include\win32;$(QUICK_V3_ROOT)external\win32-specific\gles\include\OGLES;$(QUICK_V3_ROOT)external\win32-specific\icon\include;$(QUICK_V3_ROOT)external\win32-specific\zlib\include;$(QUICK_V3_ROOT)external\xxhash;$(QUICK_V3_ROOT)external\xxtea;$(QUICK_V3_ROOT)quick\lib;$(QUICK_V3_ROOT)quick\lib\event;$(QUICK_V3_ROOT)quick\lib\extra;$(QUICK_V3_ROOT)quick\lib\lua_bindings\auto;$(QUICK_V3_ROOT)quick\lib\lua_bindings\manual;$(QUICK_V3_ROOT)quick\lib\lua_bindings\luajit\include;$(QUICK_V3_ROOT)quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)quick\lib\lua_extensions;$(QUICK_V3_ROOT)quick\lib\codeide\protobuf-lite;$(QUICK_V3_ROOT)quick\lib\codeide;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QUICK_V3_ROOT)cocos;$(QUICK_V3_ROOT)cocos\editor-support;$(QUICK_V3_ROOT)cocos\platform\win32;$(QUICK_V3_ROOT)cocos\platform\desktop;$(QUICK_V3_ROOT)cocos\audio\include;$(QUICK_V3_ROOT)extensions;$(QUICK_V3_ROOT)external;$(QUICK_V3_ROOT)external\chipmunk\include\chipmunk;$(QUICK_V3_ROOT)external\ConvertUTF;$(QUICK_V3_ROOT)external\curl\include\win32;$(QUICK_V3_ROOT)external\edtaa3func;$(QUICK_V3_ROOT)external\freetype2\include\win32;$(QUICK_V3_ROOT)external\glfw3\include\win32;$(QUICK_V3_ROOT)external\jpeg\include\win32;$(QUICK_V3_ROOT)external\json;$(QUICK_V3_ROOT)external\png\include\win32;$(QUICK_V3_ROOT)external\sqlite3\include;$(QUICK_V3_ROOT)external\tiff\include\win32;$(QUICK_V3_ROOT)external\tinyxml2;$(QUICK_V3_ROOT)external\unzip;$(QUICK_V3_ROOT)external\webp\include\win32;$(QUICK_V3_ROOT)external\websockets\include\win32;$(QUICK_V3_ROOT)external\win32-specific\gles\include\OGLES;$(QUICK_V3_ROOT)external\win32-specific\icon\include;$(QUICK_V3_ROOT)external\win32-specific\zlib\include;$(QUICK_V3_ROOT)external\xxhash;$(QUICK_V3_ROOT)external\xxtea;$(QUICK_V3_ROOT)quick\lib;$(QUICK_V3_ROOT)quick\lib\event;$(QUICK_V3_ROOT)quick\lib\extra;$(QUICK_V3_ROOT)quick\lib\lua_bindings\auto;$(QUICK_V3_ROOT)quick\lib\lua_bindings\manual;$(QUICK_V3_ROOT)quick\lib\lua_bindings\luajit\include;$(QUICK_V3_ROOT)quick\lib\lua_bindings\tolua;$(QUICK_V3_ROOT)quick\lib\lua_extensions;$(QUICK_V3_ROOT)quick\lib\codeide\protobuf-lite;$(QUICK_V3_ROOT)quick\lib\codeide;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
       <DisableSpecificWarnings>4244;4800;4056;4018</DisableSpecificWarnings>
@@ -205,6 +205,26 @@
     <ClInclude Include="..\..\..\cocos\base\utlist.h" />
     <ClInclude Include="..\..\..\cocos\base\ZipUtils.h" />
     <ClInclude Include="..\..\..\cocos\cocos2d.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmature.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureAnimation.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDataManager.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDefine.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCBatchNode.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCBone.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCColliderDetector.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDataReaderHelper.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDatas.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDecorativeDisplay.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayFactory.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayManager.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCProcessBase.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCSkin.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCSpriteFrameCacheHelper.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCTransformHelp.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCTween.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCUtilMath.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CocoLoader.h" />
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\DictionaryHelper.h" />
     <ClInclude Include="..\..\..\cocos\math\CCAffineTransform.h" />
     <ClInclude Include="..\..\..\cocos\math\CCGeometry.h" />
     <ClInclude Include="..\..\..\cocos\math\CCMath.h" />
@@ -491,6 +511,7 @@
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_auto.hpp" />
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.hpp" />
     <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.hpp" />
+    <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_studio_auto.hpp" />
     <ClInclude Include="..\lua_bindings\luajit\include\lauxlib.h" />
     <ClInclude Include="..\lua_bindings\luajit\include\lua.h" />
     <ClInclude Include="..\lua_bindings\luajit\include\luaconf.h" />
@@ -502,6 +523,7 @@
     <ClInclude Include="..\lua_bindings\manual\Cocos2dxLuaLoader.h" />
     <ClInclude Include="..\lua_bindings\manual\LuaBasicConversions.h" />
     <ClInclude Include="..\lua_bindings\manual\LuaScriptHandlerMgr.h" />
+    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.hpp" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.h" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_manual.hpp" />
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.hpp" />
@@ -653,6 +675,25 @@
     <ClCompile Include="..\..\..\cocos\base\TGAlib.cpp" />
     <ClCompile Include="..\..\..\cocos\base\ZipUtils.cpp" />
     <ClCompile Include="..\..\..\cocos\cocos2d.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmature.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureAnimation.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDataManager.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDefine.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCBone.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCColliderDetector.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDataReaderHelper.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDatas.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDecorativeDisplay.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayFactory.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayManager.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCProcessBase.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCSkin.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCSpriteFrameCacheHelper.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCTransformHelp.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCTween.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCUtilMath.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CocoLoader.cpp" />
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\DictionaryHelper.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCAffineTransform.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCGeometry.cpp" />
     <ClCompile Include="..\..\..\cocos\math\CCVertex.cpp" />
@@ -843,6 +884,7 @@
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_auto.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extension_auto.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_physics_auto.cpp" />
+    <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_studio_auto.cpp" />
     <ClCompile Include="..\lua_bindings\manual\CCLuaBridge.cpp" />
     <ClCompile Include="..\lua_bindings\manual\CCLuaEngine.cpp" />
     <ClCompile Include="..\lua_bindings\manual\CCLuaStack.cpp" />
@@ -850,6 +892,7 @@
     <ClCompile Include="..\lua_bindings\manual\Cocos2dxLuaLoader.cpp" />
     <ClCompile Include="..\lua_bindings\manual\LuaBasicConversions.cpp" />
     <ClCompile Include="..\lua_bindings\manual\LuaScriptHandlerMgr.cpp" />
+    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_extension_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_manual.cpp" />
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_physics_manual.cpp" />

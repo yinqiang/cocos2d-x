@@ -331,6 +331,12 @@
     <Filter Include="libquick\codeide\platform\win">
       <UniqueIdentifier>{adfb4a10-472c-4268-b393-f9eedc60a5aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocos\editor-support">
+      <UniqueIdentifier>{352834bb-cfdc-4cd8-a0f2-4d903c1fc335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos\editor-support\cocostudio">
+      <UniqueIdentifier>{f0bf64ba-443b-4606-a709-2239594ed64f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cocos\2d\CCActionManager.h">
@@ -1719,6 +1725,72 @@
     <ClInclude Include="..\codeide\protobuf-lite\google\protobuf\stubs\atomicops_internals_macosx.h">
       <Filter>libquick\codeide\protobuf-lite\google\protobuf\stubs</Filter>
     </ClInclude>
+    <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_studio_auto.hpp">
+      <Filter>libquick\lua_bindings\auto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayManager.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCProcessBase.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCSkin.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCSpriteFrameCacheHelper.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCTransformHelp.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCTween.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCUtilMath.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CocoLoader.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\DictionaryHelper.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmature.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureAnimation.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDataManager.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDefine.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCBatchNode.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCBone.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCColliderDetector.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDataReaderHelper.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDatas.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDecorativeDisplay.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayFactory.h">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.hpp">
+      <Filter>libquick\lua_bindings\manual</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -2590,6 +2662,69 @@
     </ClCompile>
     <ClCompile Include="..\codeide\platform\win\Runtime_win32.cpp">
       <Filter>libquick\codeide\platform\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_studio_auto.cpp">
+      <Filter>libquick\lua_bindings\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayManager.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCProcessBase.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCSkin.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCSpriteFrameCacheHelper.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCTransformHelp.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCTween.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCUtilMath.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CocoLoader.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\DictionaryHelper.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmature.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureAnimation.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDataManager.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCArmatureDefine.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCBone.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCColliderDetector.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDataReaderHelper.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDatas.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDecorativeDisplay.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos\editor-support\cocostudio\CCDisplayFactory.cpp">
+      <Filter>cocos\editor-support\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.cpp">
+      <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

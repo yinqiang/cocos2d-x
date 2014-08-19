@@ -4,7 +4,7 @@
 #include "cocos2dx_extra.h"
 //#include "CCGL.h"
 //#include "platform/CCPlatformMacros.h"
-#include "extensions/ExtensionMacros.h"
+#include "ExtensionMacros.h"
 
 NS_CC_EXT_BEGIN
 
