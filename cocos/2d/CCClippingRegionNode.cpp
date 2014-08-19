@@ -10,15 +10,25 @@ NS_CC_BEGIN
 ClippingRegionNode* ClippingRegionNode::create(const Rect& clippingRegion)
 {
     ClippingRegionNode* node = new ClippingRegionNode();
-    node->setClippingRegion(clippingRegion);
-    node->autorelease();
+    if (node && node->init()) {
+        node->setClippingRegion(clippingRegion);
+        node->autorelease();
+    } else {
+        CC_SAFE_DELETE(node);
+    }
+    
     return node;
 }
 
 ClippingRegionNode* ClippingRegionNode::create(void)
 {
     ClippingRegionNode* node = new ClippingRegionNode();
-    node->autorelease();
+    if (node && node->init()) {
+        node->autorelease();
+    } else {
+        CC_SAFE_DELETE(node);
+    }
+    
     return node;
 }
 
