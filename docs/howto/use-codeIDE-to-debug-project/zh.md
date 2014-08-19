@@ -21,5 +21,5 @@
 - Project：这里选择配置项关联的工程，请点击“Browse...”正确选择你想要调试的工程
 - Taget Platform：选择调试平台。quick工程请选择“Remote Debug”，并在其下的Platform选项中选择Mac或者Windows，两个IP选项均选择“127.0.0.1”
 - 配置后如下图。
-[]res/Debug_config.png
+[](res/Debug_config.png)
 - 点“Apply”以保存设置，点“Close”关闭设置窗口
