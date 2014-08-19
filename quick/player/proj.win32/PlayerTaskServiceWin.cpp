@@ -13,6 +13,18 @@ PlayerTaskWin *PlayerTaskWin::create(const std::string &name, const std::string 
     return task;
 }
 
+PlayerTaskWin::PlayerTaskWin(const std::string &name,
+                             const std::string &executePath,
+                             const std::string &commandLineArguments)
+                             : PlayerTask(name, executePath, commandLineArguments)
+                             , _childStdInRead(NULL)
+                             , _childStdInWrite(NULL)
+                             , _childStdOutRead(NULL)
+                             , _childStdOutWrite(NULL)
+{
+    ZeroMemory(&_pi, sizeof(_pi));
+}
+
 bool PlayerTaskWin::run()
 {
     //BOOL WINAPI CreateProcess(
@@ -136,10 +148,12 @@ PlayerTaskServiceWin::~PlayerTaskServiceWin()
     }
 }
 
-PlayerTask *PlayerTaskServiceWin::createTask(const std::string &name, const std::string &commandLine)
+PlayerTask *PlayerTaskServiceWin::createTask(const std::string &name,
+                                             const std::string &executePath,
+                                             const std::string &commandLineArguments)
 {
     CCASSERT(_tasks.find(name) == _tasks.end(), "Task already exists.");
-    PlayerTaskWin *task = PlayerTaskWin::create(name, commandLine);
+    PlayerTaskWin *task = PlayerTaskWin::create(name, executePath, commandLineArguments);
     _tasks.insert(name, task);
     return task;
 }

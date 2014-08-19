@@ -206,8 +206,6 @@ int PlayerWin::run()
     BOOL isAppMenu = _project.isAppMenu();
     director->getScheduler()->schedule([hwnd, isAppMenu, frameRect, frameScale](float dt) {
         CC_UNUSED_PARAM(dt);
-        CCLOG("SHOW_WINDOW_CALLBACK");
-
         if (isAppMenu && GetMenu(hwnd))
         {
             // update window size

@@ -40,7 +40,7 @@ public:
         return _resultCode;
     }
 
-    virtual bool run() const = 0;
+    virtual bool run() = 0;
     virtual void stop() = 0;
 
 protected:
@@ -64,7 +64,9 @@ protected:
 class PlayerTaskServiceProtocol : public PlayerServiceProtocol
 {
 public:
-    virtual PlayerTask *createTask(const std::string &name, const std::string &commandLine) = 0;
+    virtual PlayerTask *createTask(const std::string &name,
+                                   const std::string &executePath,
+                                   const std::string &commandLineArguments) = 0;
     virtual PlayerTask *getTask(const std::string &name) = 0;
 };
 

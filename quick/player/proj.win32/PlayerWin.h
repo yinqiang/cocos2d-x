@@ -13,6 +13,7 @@
 #include "PlayerMessageBoxServiceWin.h"
 #include "PlayerFileDialogServiceWin.h"
 #include "PlayerEditBoxServiceWin.h"
+#include "PlayerTaskServiceWin.h"
 
 PLAYER_NS_BEGIN
 
@@ -27,6 +28,7 @@ public:
     virtual PlayerMessageBoxServiceProtocol *getMessageBoxService();
     virtual PlayerMenuServiceProtocol *getMenuService();
     virtual PlayerEditBoxServiceProtocol *getEditBoxService();
+    virtual PlayerTaskServiceProtocol *getTaskService();
 
 protected:
     PlayerWin();

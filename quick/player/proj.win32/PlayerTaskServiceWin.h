@@ -12,22 +12,14 @@ public:
     static PlayerTaskWin *create(const std::string &name,
                                  const std::string &executePath,
                                  const std::string &commandLineArguments);
-    
+
     virtual bool run();
     virtual void stop();
 
 protected:
     PlayerTaskWin(const std::string &name,
                   const std::string &executePath,
-                  const std::string &commandLineArguments)
-                  : PlayerTask(name, executePath, commandLineArguments)
-                  , _childStdInRead(NULL)
-                  , _childStdInWrite(NULL)
-                  , _childStdOutRead(NULL)
-                  , _childStdOutWrite(NULL)
-    {
-        ZeroMemory(&_p, sizeof(_pi));
-    }
+                  const std::string &commandLineArguments);
 
     void cleanup();
     std::u16string makeCommandLine() const;
