@@ -78,10 +78,14 @@ function CCSUILoader:generateUINode(jsonNode, transX, transY, parent)
 	end
 
 	if options.flipX then
-		uiNode:setFlippedX(options.flipX)
+		if uiNode.setFlippedX then
+			uiNode:setFlippedX(options.flipX)
+		end
 	end
 	if options.flipY then
-		uiNode:setFlippedY(options.flipY)
+		if uiNode.setFlippedY then
+			uiNode:setFlippedY(options.flipY)
+		end
 	end
 	uiNode:setRotation(options.rotation or 0)
 
@@ -591,12 +595,12 @@ function CCSUILoader:createPanel(options)
 		clrLayer:setTouchEnabled(false)
 		clrLayer:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
 		clrLayer:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
-		clrLayer:setVector(cc.p(options.vectorX, options.vectorY))
+		clrLayer:setVector(cc.p(options.vectorX or 0, options.vectorY or -0.5))
 	end
 
 	if clrLayer then
 		clrLayer:setAnchorPoint(cc.p(0, 0))
-		clrLayer:setOpacity(options.bgColorOpacity)
+		clrLayer:setOpacity(options.bgColorOpacity or 100)
 	end
 
 	-- background layer
@@ -607,11 +611,11 @@ function CCSUILoader:createPanel(options)
 			if self.bUseTexture then
 				bgLayer = cc.Scale9Sprite:createWithSpriteFrameName(
 					options.backGroundImageData.path, capInsets)
-				bgLayer:setContentSize(cc.size(options.width, options.height))
+				-- bgLayer:setContentSize(cc.size(options.width, options.height))
 			else
 				bgLayer = cc.Scale9Sprite:create(
 					capInsets, options.backGroundImageData.path)
-				bgLayer:setContentSize(cc.size(options.width, options.height))
+				-- bgLayer:setContentSize(cc.size(options.width, options.height))
 			end
 		end
 	else
