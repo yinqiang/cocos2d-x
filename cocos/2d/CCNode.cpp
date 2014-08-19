@@ -1441,22 +1441,10 @@ void Node::onExitTransitionDidStart()
     if (_onExitTransitionDidStartCallback)
         _onExitTransitionDidStartCallback();
     
-#if CC_ENABLE_SCRIPT_BINDING
-//    if (_scriptType == kScriptTypeJavascript)
-//    {
-//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExitTransitionDidStart))
-//            return;
-//    }
-#endif
-    
     for( const auto &child: _children)
         child->onExitTransitionDidStart();
     
 #if CC_ENABLE_SCRIPT_BINDING
-//    if (_scriptType == kScriptTypeLua)
-//    {
-//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExitTransitionDidStart);
-//    }
     if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExitTransitionDidStart);
@@ -1469,14 +1457,6 @@ void Node::onExit()
     if (_onExitCallback)
         _onExitCallback();
     
-#if CC_ENABLE_SCRIPT_BINDING
-//    if (_scriptType == kScriptTypeJavascript)
-//    {
-//        if (ScriptEngineManager::sendNodeEventToJS(this, kNodeOnExit))
-//            return;
-//    }
-#endif
-    
     this->pause();
     
     _running = false;
@@ -1485,10 +1465,6 @@ void Node::onExit()
         child->onExit();
     
 #if CC_ENABLE_SCRIPT_BINDING
-//    if (_scriptType == kScriptTypeLua)
-//    {
-//        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnExit);
-//    }
     if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExit);
@@ -1582,28 +1558,9 @@ void Node::scheduleUpdateWithPriority(int priority)
     _scheduler->scheduleUpdate(this, priority, !_running);
 }
 
-void Node::scheduleUpdateWithPriorityLua(int nHandler, int priority)
-{
-    unscheduleUpdate();
-    
-#if CC_ENABLE_SCRIPT_BINDING
-//    _updateScriptHandler = nHandler;
-#endif
-    
-    _scheduler->scheduleUpdate(this, priority, !_running);
-}
-
 void Node::unscheduleUpdate()
 {
     _scheduler->unscheduleUpdate(this);
-    
-#if CC_ENABLE_SCRIPT_BINDING
-//    if (_updateScriptHandler)
-//    {
-//        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
-//        _updateScriptHandler = 0;
-//    }
-#endif
 }
 
 void Node::schedule(SEL_SCHEDULE selector)
@@ -2278,12 +2235,6 @@ void Node::disableCascadeColor()
 
 int Node::addScriptEventListener(int event, int listener, int tag /* = 0 */, int priority /* = 0 */)
 {
-//    CCLOG("----addScriptEventListener: %d\n", event);
-    if (NODE_ENTER_FRAME_EVENT==event) {
-        scheduleUpdateWithPriorityLua(0, priority);
-//    } else if (KEYPAD_EVENT==event) {
-//        CCLOG("----addScriptEventListener: %d\n", event);
-    }
     return _scriptEventDispatcher->addScriptEventListener(event, listener, tag, priority);
 }
 
