@@ -125,6 +125,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClCompile Include="..\src\PlayerProtocol.cpp" />
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerSettings.cpp" />
+    <ClCompile Include="..\src\PlayerTaskServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerUtils.cpp" />
     <ClCompile Include="PlayerEditBoxServiceWin.cpp" />
     <ClCompile Include="PlayerFileDialogServiceWin.cpp" />

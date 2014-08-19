@@ -114,6 +114,9 @@
     <ClCompile Include="PlayerTaskServiceWin.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\PlayerTaskServiceProtocol.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="player3.rc">

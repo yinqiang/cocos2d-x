@@ -19,55 +19,16 @@ public:
 
     virtual ~PlayerTask() {};
 
-    std::string getName() const
-    {
-        return _name;
-    }
-
-    std::string getExecutePath() const
-    {
-        return _executePath;
-    }
-
-    std::string getCommandLineArguments() const
-    {
-        return _commandLineArguments;
-    }
-
-    std::string getOutput() const
-    {
-        return _output;
-    }
-
-    int getState() const
-    {
-        return _state;
-    }
-
-    bool isIdle() const
-    {
-        return _state == STATE_IDLE;
-    }
-
-    bool isRunning() const
-    {
-        return _state == STATE_RUNNING;
-    }
-
-    bool isCompleted() const
-    {
-        return _state == STATE_COMPLETED;
-    }
-
-    float getLifetime() const
-    {
-        return _lifetime;
-    }
-
-    int getResultCode() const
-    {
-        return _resultCode;
-    }
+    std::string getName() const;
+    std::string getExecutePath() const;
+    std::string getCommandLineArguments() const;
+    std::string getOutput() const;
+    int getState() const;
+    bool isIdle() const;
+    bool isRunning() const;
+    bool isCompleted() const;
+    float getLifetime() const;
+    int getResultCode() const;
 
     virtual bool run() = 0;
     virtual void stop() = 0;
@@ -75,15 +36,7 @@ public:
 protected:
     PlayerTask(const std::string &name,
                const std::string &executePath,
-               const std::string &commandLineArguments)
-               : _name(name)
-               , _executePath(executePath)
-               , _commandLineArguments(commandLineArguments)
-               , _state(STATE_IDLE)
-               , _lifetime(0)
-               , _resultCode(0)
-    {
-    }
+               const std::string &commandLineArguments);
 
     std::string _name;
     std::string _executePath;
