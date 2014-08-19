@@ -168,7 +168,9 @@ bool LuaStack::init(void)
     register_all_cocos2dx_extension_manual(_state);
     register_all_cocos2dx_coco_studio_manual(_state);
     register_all_cocos2dx_extension_filter(_state);
+#if CC_TARGET_PLATFORM != CC_PLATFORM_WIN32
     luaopen_cocos2dx_extra_luabinding(_state);
+#endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     luaopen_cocos2dx_extra_ios_iap_luabinding(_state);
 #endif
