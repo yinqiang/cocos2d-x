@@ -135,23 +135,66 @@ function player.clearMenu()
 end
 
 function player.buildUI()
-    -- local menu = PlayerProtocol:getInstance():getMenuService()
-    -- local item = PlayerMenuItem:new()
-    -- item.itemId = "MENU_MORE"
-    -- item.title = "More";
-    -- item.isGroup = true
-    -- menu:addItem(item, "", 4)
+    local menuBar = PlayerProtocol:getInstance():getMenuService()
 
-    -- item.itemId= "MORE_UPGRADE"
-    -- item.title = "Upgrade to full version";
-    -- item.isGroup = false
-    -- item.scriptHandlerId = function() print("run 'upgrade' script to upgrade to full version") end
-    -- menu:addItem(item, "MENU_MORE")
+    -- FILE
+    local fileMenu = menuBar:addItem("FILE_MENU", "&File")
+    menuBar:addItem("QUIT_MENU", "New Project...", "FILE_MENU")
+    menuBar:addItem("OPEN_MENU", "Open", "FILE_MENU")
+    menuBar:addItem("SAVE_MENU", "Save", "FILE_MENU")
+
+    menuBar:addItem("CLOSE_SEP", "-", "FILE_MENU")
+    menuBar:addItem("CLOSE_MENU", "Close", "FILE_MENU")
+        :setShortcut("super+w")
+
+    -- VIEW
+    local viewMenu = menuBar:addItem("VIEW_MENU", "&View")
+    menuBar:addItem("RELAUNCH_MENU", "Relaunch", "VIEW_MENU")
+        :setShortcut("super+r")
 end
 
-function player.init()
-    player.registerEventHandler()
+function player.registerEventHandler()
+    -- for app event
+    local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
+    local event = function(e)
+        if player.json == nil then player.json = require('framework.json') end
 
+        local data = player.json.decode(e:getDataString())
+        if data == nil then return end
+
+        if data.name == "close" then
+            -- player.trackEvent("exit")
+            eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
+            PlayerProtocol:getInstance():quit()
+        elseif data.name == "resize" then
+            -- <code here> t.w,t.h
+        elseif data.name == "focusIn" then
+            -- cc.Director:getInstance():resume()
+        elseif data.name == "focusOut" then
+            -- cc.Director:getInstance():pause()
+        elseif data.name == "keyPress" then
+            -- t.key = "tab"
+            -- t.key = "return"
+        elseif data.name == "menuClicked" then
+            player.onMenuClicked(data)
+        end
+
+    end
+
+    eventDispatcher:addEventListenerWithFixedPriority(cc.EventListenerCustom:create("APP.EVENT", event), 1)
+end
+
+function player.onMenuClicked(event)
+    local data = event.data
+    if data == "CLOSE_MENU" then
+        PlayerProtocol:getInstance():quit()
+    elseif data == "RELAUNCH_MENU" then
+        PlayerProtocol:getInstance():relaunch()
+    end
+
+end
+
+function player.readSettings()
     player.configFilePath = __USER_HOME__ .. ".quick_player.lua"
     if not cc.FileUtils:getInstance():isFileExist(player.configFilePath) then 
         player.restorDefaultSettings()
@@ -165,40 +208,6 @@ function player.init()
     s.windowHeight = cc.player.settings.PLAYER_WINDOW_HEIGHT 
     s.openLastProject = cc.player.settings.PLAYER_OPEN_LAST_PROJECT
     PlayerProtocol:getInstance():setPlayerSettings(s)
-end
-
-function player.registerEventHandler()
-    -- player.eventNode = cc.Node:create()
-    
-    -- for app event
-    local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
-    local event = function(e)
-        
-        print(e:getDataString())
-
-        if json ~= nil then
-            local t = json.decode(e:getDataString())
-            if t == nil then return end
-
-            if t.name == "close" then
-                -- player.trackEvent("exit")
-                print("exit")
-                eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
-                -- cc.Director:getInstance():endToLua()
-            elseif t.name == "resize" then
-                -- <code here> t.w,t.h
-            elseif t.name == "focusIn" then
-                -- cc.Director:getInstance():resume()
-            elseif t.name == "focusOut" then
-                -- cc.Director:getInstance():pause()
-            elseif t.name == "keyPress" then
-                -- t.key = "tab"
-                -- t.key = "return"
-            end
-        end
-    end
-
-    eventDispatcher:addEventListenerWithFixedPriority(cc.EventListenerCustom:create("APP.EVENT", event), 1)
 end
 
 function player.trackEvent(eventName, ev)
@@ -218,7 +227,7 @@ function player.trackEvent(eventName, ev)
     request:addPOSTValue("t", "event")
 
     request:addPOSTValue("an", "player")
-    request:addPOSTValue("av", "alpha2")
+    request:addPOSTValue("av", "beta1")
 
     request:addPOSTValue("ec", device.platform)
     request:addPOSTValue("ea", eventName)
@@ -242,6 +251,11 @@ function player.start()
     player.trackEvent("launch")
 end
 
+function player.init()
+    player.registerEventHandler()
+    player.readSettings()
+    player.buildUI()
+end
 -- load player settings
 
 
@@ -249,8 +263,3 @@ cc = cc or {}
 cc.player = cc.player or player
 
 cc.player.init()
-
-function __PLAYER_OPEN__(title, args)
-    cc.player.openProject(title, args)
-    player.buildUI()
-end

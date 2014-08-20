@@ -31,7 +31,8 @@ std::string getCurAppPath(void)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    player::Player::create();
+    auto myPlayer = player::Player::create();
+    myPlayer->setController(self);
 
     _isAlwaysOnTop = NO;
     _debugLogFile = 0;
@@ -224,7 +225,9 @@ std::string getCurAppPath(void)
 
 - (IBAction) onFileClose:(id)sender
 {
-    [self relaunch];
+    EventCustom event("APP.EVENT");
+    event.setDataString("{\"name\":\"close\"}");
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 - (void) startup
@@ -251,6 +254,9 @@ std::string getCurAppPath(void)
         [self openConsoleWindow];
     }
 
+    [self loadLuaConfig];
+    
+    // app
     _app = new AppDelegate();
     _app->setProjectConfig(_project);
     _app->run();

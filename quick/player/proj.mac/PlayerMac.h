@@ -12,6 +12,7 @@
 #include "player_tolua.h"
 #include "PlayerUtils.h"
 
+#include "ProjectConfig/ProjectConfig.h"
 PLAYER_NS_BEGIN
 
 class Player : public PlayerProtocol
@@ -28,6 +29,16 @@ public:
     
     virtual PlayerEditBoxServiceProtocol    *getEditBoxService();
     
+    virtual PlayerTaskServiceProtocol       *getTaskService();
+    
+    //
+    void quit();
+    void relaunch();
+    void openNewPlayer();
+    void openNewPlayerWithProjectConfig(ProjectConfig config);
+    void openProjectWithProjectConfig(ProjectConfig config);
+    
+    void setController(id controller);
 protected:
     Player();
     
@@ -35,6 +46,8 @@ protected:
     PlayerMessageBoxServiceMac  *_messageBoxService;
     PlayerFileDialogServiceMac  *_fileDialogService;
     PlayerEditBoxServiceMac     *_editBoxService;
+    
+    id                          _appController;
 };
 
 PLAYER_NS_END

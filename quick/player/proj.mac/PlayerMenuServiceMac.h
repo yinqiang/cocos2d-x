@@ -62,7 +62,8 @@ public:
     virtual PlayerMenuItem *addItem(const std::string &menuId, const std::string &title);
     virtual PlayerMenuItem *getItem(const std::string &menuId);
     virtual bool removeItem(const std::string &menuId);
-
+    virtual void setMenuBarEnabled(bool enabled);
+    
 private:
     bool removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder);
     void updateChildrenOrder(PlayerMenuItemMac *parent);

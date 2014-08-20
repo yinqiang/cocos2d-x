@@ -11,6 +11,8 @@
 #include "PlayerEditBoxServiceProtocol.h"
 #include "PlayerTaskServiceProtocol.h"
 
+#include "ProjectConfig/ProjectConfig.h"
+
 PLAYER_NS_BEGIN
 
 class PlayerProtocol
@@ -30,6 +32,14 @@ public:
     virtual PlayerEditBoxServiceProtocol *getEditBoxService() = 0;
     virtual PlayerTaskServiceProtocol *getTaskService() = 0;
 
+    // player function
+
+    virtual void quit();
+    virtual void relaunch();
+    virtual void openNewPlayer();
+    virtual void openNewPlayerWithProjectConfig(ProjectConfig config);
+    virtual void openProjectWithProjectConfig(ProjectConfig config);
+    
 protected:
     PlayerProtocol(); // avoid create instance from outside
 
