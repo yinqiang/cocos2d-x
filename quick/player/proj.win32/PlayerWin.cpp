@@ -39,8 +39,10 @@ PlayerWin::PlayerWin()
 , _hwnd(NULL)
 , _hwndConsole(NULL)
 , _writeDebugLogFile(nullptr)
-, _menuService(nullptr)
 , _messageBoxService(nullptr)
+, _menuService(nullptr)
+, _editboxService(nullptr)
+, _taskService(nullptr)
 {
 }
 
@@ -63,12 +65,12 @@ PlayerWin *PlayerWin::create()
 
 PlayerFileDialogServiceProtocol *PlayerWin::getFileDialogService()
 {
-    return nullptr;
+    return _fileDialogService;
 }
 
 PlayerMessageBoxServiceProtocol *PlayerWin::getMessageBoxService()
 {
-    return nullptr;
+    return _messageBoxService;
 }
 
 PlayerMenuServiceProtocol *PlayerWin::getMenuService()
@@ -78,7 +80,12 @@ PlayerMenuServiceProtocol *PlayerWin::getMenuService()
 
 PlayerEditBoxServiceProtocol *PlayerWin::getEditBoxService()
 {
-    return nullptr;
+    return _editboxService;
+}
+
+PlayerTaskServiceProtocol *PlayerWin::getTaskService()
+{
+    return _taskService;
 }
 
 int PlayerWin::run()
@@ -111,6 +118,23 @@ int PlayerWin::run()
     // create the application instance
     _app = new AppDelegate();
     _app->setProjectConfig(_project);
+
+    // create console window
+    if (_project.isShowConsole())
+    {
+        AllocConsole();
+        _hwndConsole = GetConsoleWindow();
+        if (_hwndConsole != NULL)
+        {
+            ShowWindow(_hwndConsole, SW_SHOW);
+            BringWindowToTop(_hwndConsole);
+            freopen("CONOUT$", "wt", stdout);
+            freopen("CONOUT$", "wt", stderr);
+
+            HMENU hmenu = GetSystemMenu(_hwndConsole, FALSE);
+            if (hmenu != NULL) DeleteMenu(hmenu, SC_CLOSE, MF_BYCOMMAND);
+        }
+    }
 
     // set environments
     SetCurrentDirectoryA(_project.getProjectDir().c_str());
@@ -163,35 +187,12 @@ int PlayerWin::run()
     const bool isResize = _project.isResizeWindow();
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, true);
     _hwnd = glfwGetWin32Window(glview->getWindow());
-
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
     director->setScreenScale(screenScale);
 
     // init player services
     initServices();
-
-    // create console window
-    AllocConsole();
-    freopen("CONOUT$", "wt", stdout);
-    freopen("CONOUT$", "wt", stderr);
-
-    // disable close console
-    _hwndConsole = GetConsoleWindow();
-    if (_hwndConsole != NULL)
-    {
-        HMENU hmenu = GetSystemMenu(_hwndConsole, FALSE);
-        if (hmenu != NULL) DeleteMenu(hmenu, SC_CLOSE, MF_BYCOMMAND);
-        if (_project.isShowConsole())
-        {
-            ShowWindow(_hwndConsole, SW_SHOW);
-            BringWindowToTop(_hwndConsole);
-        }
-        else
-        {
-            ShowWindow(_hwndConsole, SW_HIDE);
-        }
-    }
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
@@ -203,21 +204,23 @@ int PlayerWin::run()
     auto app = Application::getInstance();
 
     HWND hwnd = _hwnd;
-    BOOL isAppMenu = _project.isAppMenu();
-    director->getScheduler()->schedule([hwnd, isAppMenu, frameRect, frameScale](float dt) {
+    HWND hwndConsole = _hwndConsole;
+    const ProjectConfig &project = _project;
+    director->getScheduler()->schedule([hwnd, hwndConsole, project](float dt) {
         CC_UNUSED_PARAM(dt);
-        CCLOG("SHOW_WINDOW_CALLBACK");
-
-        if (isAppMenu && GetMenu(hwnd))
-        {
-            // update window size
-            RECT rect;
-            GetWindowRect(hwnd, &rect);
-            MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), TRUE);
-        }
+        ShowWindow(hwnd, SW_RESTORE);
         GLFWwindow *window = Director::getInstance()->getOpenGLView()->getWindow();
         glfwShowWindow(window);
-    }, this, 0.0f, 0, 0.0f, false, "SHOW_WINDOW_CALLBACK");
+    }, this, 0.0f, 0, 0.001f, false, "SHOW_WINDOW_CALLBACK");
+
+    if (project.isAppMenu() && GetMenu(hwnd))
+    {
+        // update window size
+        RECT rect;
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), FALSE);
+    }
+    ShowWindow(hwnd, SW_MINIMIZE);
 
     // startup message loop
     return app->run();
@@ -231,6 +234,7 @@ void PlayerWin::initServices()
     _messageBoxService = new PlayerMessageBoxServiceWin(_hwnd);
     _fileDialogService = new PlayerFileDialogServiceWin(_hwnd);
     _editboxService = new PlayerEditBoxServiceWin(_hwnd);
+    _taskService = new PlayerTaskServiceWin(_hwnd);
 
     if (!_project.isAppMenu())
     {

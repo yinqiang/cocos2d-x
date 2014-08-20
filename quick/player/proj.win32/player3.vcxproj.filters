@@ -67,9 +67,11 @@
     <ClInclude Include="PlayerEditBoxServiceWin.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerTaskServiceWin.h" />
     <ClInclude Include="..\src\PlayerTaskServiceProtocol.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTaskServiceWin.h">
+      <Filter>win32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +111,12 @@
     <ClCompile Include="PlayerEditBoxServiceWin.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerTaskServiceWin.cpp" />
+    <ClCompile Include="PlayerTaskServiceWin.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerTaskServiceProtocol.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="player3.rc">

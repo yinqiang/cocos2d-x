@@ -2,6 +2,8 @@
 #ifndef __PLAYER_TASK_SERVICE_WIN_H_
 #define __PLAYER_TASK_SERVICE_WIN_H_
 
+#include <sstream>
+
 #include "PlayerTaskServiceProtocol.h"
 
 PLAYER_NS_BEGIN
@@ -12,22 +14,19 @@ public:
     static PlayerTaskWin *create(const std::string &name,
                                  const std::string &executePath,
                                  const std::string &commandLineArguments);
-    
+
+    virtual ~PlayerTaskWin();
+
     virtual bool run();
     virtual void stop();
+
+    // check task status
+    virtual void update(float dt);
 
 protected:
     PlayerTaskWin(const std::string &name,
                   const std::string &executePath,
-                  const std::string &commandLineArguments)
-                  : PlayerTask(name, executePath, commandLineArguments)
-                  , _childStdInRead(NULL)
-                  , _childStdInWrite(NULL)
-                  , _childStdOutRead(NULL)
-                  , _childStdOutWrite(NULL)
-    {
-        ZeroMemory(&_p, sizeof(_pi));
-    }
+                  const std::string &commandLineArguments);
 
     void cleanup();
     std::u16string makeCommandLine() const;
@@ -37,6 +36,11 @@ protected:
     HANDLE _childStdOutRead;
     HANDLE _childStdOutWrite;
     PROCESS_INFORMATION _pi;
+
+    static const size_t BUFF_SIZE = 4096;
+    CHAR *_outputBuff;
+    WCHAR *_outputBuffWide;
+    std::string _outputStream;
 };
 
 class PlayerTaskServiceWin : public PlayerTaskServiceProtocol
@@ -49,6 +53,7 @@ public:
                                    const std::string &executePath,
                                    const std::string &commandLineArguments);
     virtual PlayerTask *getTask(const std::string &name);
+    virtual void removeTask(const std::string &name);
 
 protected:
     HWND _hwnd;

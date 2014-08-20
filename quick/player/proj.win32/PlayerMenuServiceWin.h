@@ -28,6 +28,7 @@ protected:
     PlayerMenuItemWin *_parent;
     UINT _commandId;
     HMENU _hmenu;
+    bool _menubarEnabled;
     cocos2d::Vector<PlayerMenuItemWin*> _children;
 
     friend class PlayerMenuServiceWin;
@@ -47,11 +48,13 @@ public:
                                     const std::string &title);
     virtual PlayerMenuItem *getItem(const std::string &menuId);
     virtual bool removeItem(const std::string &menuId);
+    virtual void setMenuBarEnabled(bool enabled);
 
 private:
     static UINT _newCommandId;
 
     HWND _hwnd;
+    bool _menubarEnabled;
     PlayerMenuItemWin _root;
     std::unordered_map<std::string, PlayerMenuItemWin*> _items;
     std::unordered_map<UINT, std::string> _commandId2menuId;
