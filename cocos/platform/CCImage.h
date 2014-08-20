@@ -141,7 +141,9 @@ public:
 protected:
     bool initWithJpgData(const unsigned char *  data, ssize_t dataLen);
     bool initWithPngData(const unsigned char * data, ssize_t dataLen);
+#if QUICK_NO_TIFF!=1
     bool initWithTiffData(const unsigned char * data, ssize_t dataLen);
+#endif
     bool initWithWebpData(const unsigned char * data, ssize_t dataLen);
     bool initWithPVRData(const unsigned char * data, ssize_t dataLen);
     bool initWithPVRv2Data(const unsigned char * data, ssize_t dataLen);

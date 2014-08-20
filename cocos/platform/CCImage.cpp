@@ -60,7 +60,9 @@ extern "C"
 #endif
 #endif
 #include "png.h"
+#if QUICK_NO_TIFF!=1
 #include "tiffio.h"
+#endif
 #include "base/etc1.h"
 #include "jpeglib.h"
 }
@@ -505,9 +507,11 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
         case Format::JPG:
             ret = initWithJpgData(unpackedData, unpackedLen);
             break;
+#if QUICK_NO_TIFF!=1
         case Format::TIFF:
             ret = initWithTiffData(unpackedData, unpackedLen);
             break;
+#endif //QUICK_NO_TIFF!=1
         case Format::WEBP:
             ret = initWithWebpData(unpackedData, unpackedLen);
             break;
@@ -1006,6 +1010,7 @@ bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
     return bRet;
 }
 
+#if QUICK_NO_TIFF!=1
 namespace
 {
     static tmsize_t tiffReadProc(thandle_t fd, void* buf, tmsize_t size)
@@ -1119,7 +1124,7 @@ namespace
 bool Image::initWithTiffData(const unsigned char * data, ssize_t dataLen)
 {
     bool bRet = false;
-    do 
+    do
     {
         // set the read call back function
         tImageSource imageSource;
@@ -1176,6 +1181,7 @@ bool Image::initWithTiffData(const unsigned char * data, ssize_t dataLen)
     } while (0);
     return bRet;
 }
+#endif //QUICK_NO_TIFF!=1
 
 namespace
 {
