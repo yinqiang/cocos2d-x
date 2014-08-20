@@ -337,6 +337,24 @@
     <Filter Include="cocos\editor-support\cocostudio">
       <UniqueIdentifier>{f0bf64ba-443b-4606-a709-2239594ed64f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libquick\extra\filters">
+      <UniqueIdentifier>{79207f1e-b0ce-46aa-9f1f-ebcc7d8c5d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\extra\luabinding">
+      <UniqueIdentifier>{9cb4c300-2978-4981-912c-d9b3ea614208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\extra\filters\filters">
+      <UniqueIdentifier>{d4ff0d96-069d-4e4b-a44b-fb82a872695f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\extra\filters\nodes">
+      <UniqueIdentifier>{7bca28a5-77d7-4e8d-9bb6-231f627a24a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\extra\filters\shaders">
+      <UniqueIdentifier>{6202216c-a1a6-4348-9a50-2aa6cb804e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libquick\extra\native">
+      <UniqueIdentifier>{2dd886df-091c-4ce0-a3d6-5ddb6760c2eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cocos\2d\CCActionManager.h">
@@ -1791,6 +1809,171 @@
     <ClInclude Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.hpp">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
+    <ClInclude Include="..\lua_bindings\auto\lua_cocos2dx_extension_filter_auto.hpp">
+      <Filter>libquick\lua_bindings\auto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\cocos2dFilters.h">
+      <Filter>libquick\extra\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCBlurFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCBrightnessFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCContrastFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCCustomFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCDropShadowFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCExposureFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCGammaFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCGrayFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCHazeFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCHueFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCMaskFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCRGBFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCSaturationFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCSepiaFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCSharpenFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\filters\CCTestFilter.h">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\nodes\CCFilteredSprite.h">
+      <Filter>libquick\extra\filters\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_blur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_brightness_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_colorramp_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_contrast_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_drop_shadow_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_drop_shadow_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_emboss_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_embossmov_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_exposure_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_gamma_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_gaussian_blur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_gaussian_hblur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_gaussian_vblur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_grass_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_gray_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_haze_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_hblur_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_hue_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_motion_blur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_motion_blur_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_rgb_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_saturation_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_sepia_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_sharpen_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_sharpen_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_test_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_test_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_vblur_vert.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShader_zoom_blur_frag.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\ccFilterShaders.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\filters\shaders\FilterShaders.h">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\luabinding\HelperFunc_luabinding.h">
+      <Filter>libquick\extra\luabinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\native\CCAlertViewDelegate.h">
+      <Filter>libquick\extra\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\native\CCNative.h">
+      <Filter>libquick\extra\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extra\luabinding\cocos2dx_extra_luabinding.h">
+      <Filter>libquick\extra\luabinding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -2725,6 +2908,75 @@
     </ClCompile>
     <ClCompile Include="..\lua_bindings\manual\lua_cocos2dx_coco_studio_manual.cpp">
       <Filter>libquick\lua_bindings\manual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_extension_filter_auto.cpp">
+      <Filter>libquick\lua_bindings\auto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCBlurFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCBrightnessFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCContrastFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCCustomFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCDropShadowFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCExposureFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCGammaFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCGrayFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCHazeFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCHueFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCMaskFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCRGBFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCSaturationFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCSepiaFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCSharpenFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\filters\CCTestFilter.cpp">
+      <Filter>libquick\extra\filters\filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\nodes\CCFilteredSprite.cpp">
+      <Filter>libquick\extra\filters\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\shaders\ccFilterShaders.cpp">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\filters\shaders\FilterShaders.cpp">
+      <Filter>libquick\extra\filters\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\luabinding\HelperFunc_luabinding.cpp">
+      <Filter>libquick\extra\luabinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\luabinding\cocos2dx_extra_luabinding.cpp">
+      <Filter>libquick\extra\luabinding</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

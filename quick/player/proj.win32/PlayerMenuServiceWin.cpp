@@ -16,6 +16,7 @@ PlayerMenuItemWin::PlayerMenuItemWin()
     : _parent(nullptr)
     , _commandId(0)
     , _hmenu(NULL)
+    , _menubarEnabled(true)
 {
 }
 
@@ -61,10 +62,10 @@ void PlayerMenuItemWin::setTitle(const std::string &title)
 
 void PlayerMenuItemWin::setEnabled(bool enabled)
 {
-    MENUITEMINFO menuitem;
+    MENUITEMINFO menuitem = {0};
     menuitem.cbSize = sizeof(menuitem);
     menuitem.fMask = MIIM_STATE;
-    menuitem.fState = (enabled) ? MFS_ENABLED : MFS_DISABLED;
+    menuitem.fState = (enabled && _menubarEnabled) ? MFS_ENABLED : MFS_DISABLED;
     if (SetMenuItemInfo(_parent->_hmenu, _commandId, MF_BYCOMMAND, &menuitem))
     {
         _isEnabled = enabled;
@@ -105,8 +106,10 @@ UINT PlayerMenuServiceWin::_newCommandId = 0x1000;
 
 PlayerMenuServiceWin::PlayerMenuServiceWin(HWND hwnd)
     : _hwnd(hwnd)
+    , _menubarEnabled(true)
 {
     // create menu
+    _root._menuId = "__ROOT__";
     _root._commandId = 0;
     _root._hmenu = CreateMenu();
     SetMenu(hwnd, _root._hmenu);
@@ -231,6 +234,23 @@ PlayerMenuItem *PlayerMenuServiceWin::getItem(const std::string &menuId)
 bool PlayerMenuServiceWin::removeItem(const std::string &menuId)
 {
     return removeItemInternal(menuId, true);
+}
+
+void PlayerMenuServiceWin::setMenuBarEnabled(bool enabled)
+{
+    _menubarEnabled = enabled;
+
+    UINT state = enabled ? MFS_ENABLED : MFS_DISABLED;
+    for (auto it = _root._children.begin(); it != _root._children.end(); ++it)
+    {
+        PlayerMenuItemWin *item = *it;
+        MENUITEMINFO menuitem = {0};
+        menuitem.cbSize = sizeof(menuitem);
+        menuitem.fMask = MIIM_STATE;
+        menuitem.fState = state;
+        SetMenuItemInfo(item->_parent->_hmenu, item->_commandId, MF_BYCOMMAND, &menuitem);
+        item->_menubarEnabled = enabled;
+    }
 }
 
 bool PlayerMenuServiceWin::removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder)
