@@ -558,7 +558,11 @@ function display.newSprite(filename, x, y, params)
         if string.byte(filename) == 35 then -- first char is #
             local frame = display.newSpriteFrame(string.sub(filename, 2))
             if frame then
-                sprite = spriteClass:createWithSpriteFrame(frame)
+                if params and params.capInsets then
+                    sprite = spriteClass:createWithSpriteFrame(frame, params.capInsets)
+                else
+                    sprite = spriteClass:createWithSpriteFrame(frame)
+                end
             end
         else
             if display.TEXTURES_PIXEL_FORMAT[filename] then
@@ -566,7 +570,11 @@ function display.newSprite(filename, x, y, params)
                 sprite = spriteClass:create(filename)
                 cc.Texture2D:setDefaultAlphaPixelFormat(cc.TEXTURE2_D_PIXEL_FORMAT_RGB_A8888)
             else
-                sprite = spriteClass:create(filename)
+                if params and params.capInsets then
+                    sprite = spriteClass:createWithInsets(filename, params.capInsets)
+                else
+                    sprite = spriteClass:create(filename)
+                end
             end
         end
     elseif t == "cc.SpriteFrame" then
@@ -614,8 +622,8 @@ local sprite = display.newScale9Sprite("Box.png", 0, 0, cc.size(400, 300))
 @return Sprite9Scale Sprite9Scale显示对象
 
 ]]
-function display.newScale9Sprite(filename, x, y, size)
-	return display.newSprite(filename, x, y, {class = cc.Scale9Sprite, size = size})
+function display.newScale9Sprite(filename, x, y, size, capInsets)
+	return display.newSprite(filename, x, y, {class = cc.Scale9Sprite, size = size, capInsets = capInsets})
 end
 
 --[[--

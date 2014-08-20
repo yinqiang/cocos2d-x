@@ -8,7 +8,7 @@ function CCSSample1Scene:ctor()
 	app:createNextButton(self)
 
 	cc.FileUtils:getInstance():addSearchPath("res/DemoHead_UI/")
-	app:loadCCSJsonFile(self, "DemoHead_UI/DemoHead_UI.ExportJson")
+	app:loadCCSJsonFile(self, "DemoHead_UI.ExportJson")
 end
 
 
