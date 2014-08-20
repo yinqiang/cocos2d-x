@@ -970,9 +970,9 @@ void Director::purgeDirector()
 
     // purge bitmap cache
     FontFNT::purgeCachedData();
-
+#if QUICK_NO_FREETYPE==0
     FontFreeType::shutdownFreeType();
-
+#endif
     // purge all managed caches
     DrawPrimitives::free();
     AnimationCache::destroyInstance();

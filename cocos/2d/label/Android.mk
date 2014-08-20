@@ -17,9 +17,15 @@ ifneq ($(QUICK_NO_FREETYPE),1)
         ../CCLabel.cpp \
         ../CCLabelAtlas.cpp \
         ../CCLabelTextFormatter.cpp \
+        ../CCLabelBMFont.cpp \
+        ../CCLabelTTF.cpp \
+        ../CCTextFieldTTF.cpp \
 
 else
-    LOCAL_SRC_FILES := 
+    LOCAL_SRC_FILES := \
+        ../CCLabelAtlas.cpp \
+        CCLabelTTF.cpp \
+
 endif
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..

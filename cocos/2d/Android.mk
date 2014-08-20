@@ -32,8 +32,6 @@ LOCAL_SRC_FILES := \
     CCGLBufferedNode.cpp \
     CCGrabber.cpp \
     CCGrid.cpp \
-    CCLabelBMFont.cpp \
-    CCLabelTTF.cpp \
     CCLayer.cpp \
     CCMotionStreak.cpp \
     CCNode.cpp \
@@ -56,7 +54,6 @@ LOCAL_SRC_FILES := \
     CCTMXTiledMap.cpp \
     CCFastTMXTiledMap.cpp \
     CCTMXXMLParser.cpp \
-    CCTextFieldTTF.cpp \
     CCTileMapAtlas.cpp \
     CCTransition.cpp \
     CCTransitionPageTurn.cpp \
