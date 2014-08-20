@@ -5,13 +5,13 @@
 
 -   安装 Quick-Cocos2d-x v3.2beta1 或更新版本（执行 setup_mac.sh 或 setup_win.bat 文件）
 -   安装 Code IDE RC1 或更新版本
--   使用 quick player 创建新工程
+-   创建新的 quick 工程
 -   启动 Code IDE 后，选择菜单 File -> Import -> Cocos -> Import Cocos Project 导入 quick 工程
 
 ~
 
 
-## 为工程设置调试参数
+## 为 Lua 工程设置调试参数
 
 -   在 Code IDE 的 Lua Projects Explorer 界面里，选中要调试的项目
 -   选择菜单 Run -> Debug Configurations，打开设置界面
@@ -53,7 +53,8 @@
 
 ![](res/xcode_set_arguments.png)
 
--   设置完成后运行 player 项目，并在 player 启动后切换到 Code IDE 设置断点再开启 Debug Remote
+-   设置完成后用 Xcode 运行 player 项目
+-   在 player 启动后切换到 Code IDE 设置断点再开启 Debug Remote
 -   在调试期间，如果遇到 Lua 代码中设置的断点，则切换到 Code IDE 查看断点情况
 -   如果遇到 C++ 断点，则切换到 Xcode 查看断点情况
 
