@@ -78,10 +78,14 @@ function CCSUILoader:generateUINode(jsonNode, transX, transY, parent)
 	end
 
 	if options.flipX then
-		uiNode:setFlippedX(options.flipX)
+		if uiNode.setFlippedX then
+			uiNode:setFlippedX(options.flipX)
+		end
 	end
 	if options.flipY then
-		uiNode:setFlippedY(options.flipY)
+		if uiNode.setFlippedY then
+			uiNode:setFlippedY(options.flipY)
+		end
 	end
 	uiNode:setRotation(options.rotation or 0)
 
@@ -144,7 +148,7 @@ function CCSUILoader:createUINode(clsName, options, parent)
 		return
 	end
 
-	printInfo("CCSUILoader - createUINode:" .. clsName)
+	-- printInfo("CCSUILoader - createUINode:" .. clsName)
 
 	local node
 
@@ -376,25 +380,29 @@ function CCSUILoader:createSprite(options)
 end
 
 function CCSUILoader:createImage(options)
-	local node = cc.ui.UIImage.new(nil,
-		{scale9 = options.scale9Enable})
-
-	local capRect = cc.rect(options.capInsetsX, options.capInsetsY,
-		options.capInsetsWidth, options.capInsetsHeight)
-	if 1 == options.fileNameData.resourceType then
-		local frame = display.newSpriteFrame(options.fileNameData.path)
-		if options.scale9Enable then
-			node:initWithSpriteFrame(frame, capRect);
-		else
-			node:setSpriteFrame(frame)
-		end
-	else
-		if options.scale9Enable then
-			node:initWithFile(capRect, options.fileNameData.path);
-		else
-			node:setTexture(options.fileNameData.path)
-		end
+	local params = {}
+	params.scale9 = options.scale9Enable
+	if params.scale9 then
+		params.capInsets = cc.rect(options.capInsetsX, options.capInsetsY,options.capInsetsWidth, options.capInsetsHeight)
 	end
+	local node = cc.ui.UIImage.new(self:transResName(options.fileNameData), params)
+
+	-- local capRect = cc.rect(options.capInsetsX, options.capInsetsY,
+	-- 	options.capInsetsWidth, options.capInsetsHeight)
+	-- if 1 == options.fileNameData.resourceType then
+	-- 	local frame = display.newSpriteFrame(options.fileNameData.path)
+	-- 	if options.scale9Enable then
+	-- 		node:initWithSpriteFrame(frame, capRect);
+	-- 	else
+	--		node:setSpriteFrame(frame)
+	-- 	end
+	-- else
+	-- 	if options.scale9Enable then
+	-- 		node:initWithFile(capRect, options.fileNameData.path);
+	-- 	else
+	-- 		node:setTexture(options.fileNameData.path)
+	-- 	end
+	-- end
 
 	if not options.scale9Enable then
 		if options.scale9Width or options.scale9Height then
@@ -591,12 +599,12 @@ function CCSUILoader:createPanel(options)
 		clrLayer:setTouchEnabled(false)
 		clrLayer:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
 		clrLayer:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
-		clrLayer:setVector(cc.p(options.vectorX, options.vectorY))
+		clrLayer:setVector(cc.p(options.vectorX or 0, options.vectorY or -0.5))
 	end
 
 	if clrLayer then
 		clrLayer:setAnchorPoint(cc.p(0, 0))
-		clrLayer:setOpacity(options.bgColorOpacity)
+		clrLayer:setOpacity(options.bgColorOpacity or 100)
 	end
 
 	-- background layer
@@ -607,11 +615,11 @@ function CCSUILoader:createPanel(options)
 			if self.bUseTexture then
 				bgLayer = cc.Scale9Sprite:createWithSpriteFrameName(
 					options.backGroundImageData.path, capInsets)
-				bgLayer:setContentSize(cc.size(options.width, options.height))
+				-- bgLayer:setContentSize(cc.size(options.width, options.height))
 			else
 				bgLayer = cc.Scale9Sprite:create(
 					capInsets, options.backGroundImageData.path)
-				bgLayer:setContentSize(cc.size(options.width, options.height))
+				-- bgLayer:setContentSize(cc.size(options.width, options.height))
 			end
 		end
 	else
