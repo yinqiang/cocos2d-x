@@ -237,24 +237,24 @@
 		9F1C8D94194DEE040068C99B /* src */ = {
 			isa = PBXGroup;
 			children = (
-				9F1CF4071998C6BA00497F21 /* PlayerSettings.cpp */,
-				9F1CF4081998C6BA00497F21 /* PlayerSettings.h */,
-				9FC192B11959784900417A1E /* player_tolua.cpp */,
-				9FC192B21959784900417A1E /* player_tolua.h */,
-				9F19C52719580A5800CA020E /* PlayerUtils.cpp */,
-				9F19C52819580A5800CA020E /* PlayerUtils.h */,
 				9F3BF72A194E91380072B3D0 /* AppDelegate.cpp */,
 				9F3BF72B194E91380072B3D0 /* AppDelegate.h */,
+				9FC192B11959784900417A1E /* player_tolua.cpp */,
+				9FC192B21959784900417A1E /* player_tolua.h */,
+				9FCDC2B7196D2C7D005CB55E /* PlayerEditBoxServiceProtocol.h */,
 				9F1C8D95194DEE040068C99B /* PlayerFileDialogServiceProtocol.h */,
-				9F1C8DA5194E7CF00068C99B /* PlayerMessageBoxServiceProtocol.h */,
+				9F1C8D96194DEE040068C99B /* PlayerMacros.h */,
 				9F1CF4061998C6BA00497F21 /* PlayerMenuServiceProtocol.cpp */,
 				9F05A0CC194EB080003CFA1F /* PlayerMenuServiceProtocol.h */,
-				9FCDC2B7196D2C7D005CB55E /* PlayerEditBoxServiceProtocol.h */,
-				9F1C8D96194DEE040068C99B /* PlayerMacros.h */,
+				9F1C8DA5194E7CF00068C99B /* PlayerMessageBoxServiceProtocol.h */,
 				9F1C8D97194DEE040068C99B /* PlayerProtocol.cpp */,
 				9F1C8D98194DEE040068C99B /* PlayerProtocol.h */,
 				9F1C8D99194DEE040068C99B /* PlayerServiceProtocol.cpp */,
 				9F1C8D9A194DEE040068C99B /* PlayerServiceProtocol.h */,
+				9F1CF4071998C6BA00497F21 /* PlayerSettings.cpp */,
+				9F1CF4081998C6BA00497F21 /* PlayerSettings.h */,
+				9F19C52719580A5800CA020E /* PlayerUtils.cpp */,
+				9F19C52819580A5800CA020E /* PlayerUtils.h */,
 			);
 			name = src;
 			path = ../src;
@@ -303,7 +303,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player" */;
+			buildConfigurationList = 9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player3" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -570,7 +570,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player" */ = {
+		9F1C8D2A194DE61E0068C99B /* Build configuration list for PBXProject "player3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F1C8D5E194DE61E0068C99B /* Debug */,

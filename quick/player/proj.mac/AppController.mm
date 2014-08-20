@@ -31,8 +31,8 @@ std::string getCurAppPath(void)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    auto myPlayer = player::Player::create();
-    myPlayer->setController(self);
+    auto player = player::PlayerMac::create();
+    player->setController(self);
 
     _isAlwaysOnTop = NO;
     _debugLogFile = 0;

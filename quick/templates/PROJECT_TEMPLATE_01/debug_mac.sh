@@ -9,7 +9,7 @@ if [ ! -f $BIN ]; then
     exit
 fi
 
-ARG="-debugger-codeide -workdir $DIR"
+ARG="-debugger-codeide -workdir $DIR -disable-console"
 SIZE="-__SCREEN_ORIENTATION_L__"
 CMD="$BIN $ARG $SIZE"
 

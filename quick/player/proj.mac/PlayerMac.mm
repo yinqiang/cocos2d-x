@@ -5,13 +5,13 @@
 
 PLAYER_NS_BEGIN
 
-Player* Player::create()
+PlayerMac* PlayerMac::create()
 {
-    return new Player();
+    return new PlayerMac();
 }
 
 
-Player::Player()
+PlayerMac::PlayerMac()
 : PlayerProtocol()
 , _fileDialogService(nullptr)
 , _messageBoxService(nullptr)
@@ -22,7 +22,7 @@ Player::Player()
 }
 
 
-Player::~Player()
+PlayerMac::~PlayerMac()
 {
     CC_SAFE_DELETE(_fileDialogService);
     CC_SAFE_DELETE(_fileDialogService);
@@ -31,7 +31,7 @@ Player::~Player()
     CC_SAFE_DELETE(_editBoxService);
 }
 
-PlayerFileDialogServiceProtocol *Player::getFileDialogService()
+PlayerFileDialogServiceProtocol *PlayerMac::getFileDialogService()
 {
     if (!_fileDialogService)
     {
@@ -40,7 +40,7 @@ PlayerFileDialogServiceProtocol *Player::getFileDialogService()
     return _fileDialogService;
 }
 
-PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
+PlayerMessageBoxServiceProtocol *PlayerMac::getMessageBoxService()
 {
     if (!_messageBoxService)
     {
@@ -49,7 +49,7 @@ PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
     return _messageBoxService;
 }
 
-PlayerMenuServiceProtocol *Player::getMenuService()
+PlayerMenuServiceProtocol *PlayerMac::getMenuService()
 {
     if (!_menuService)
     {
@@ -58,7 +58,7 @@ PlayerMenuServiceProtocol *Player::getMenuService()
     return _menuService;
 }
 
-PlayerEditBoxServiceProtocol *Player::getEditBoxService()
+PlayerEditBoxServiceProtocol *PlayerMac::getEditBoxService()
 {
     if (!_editBoxService)
     {
@@ -67,18 +67,18 @@ PlayerEditBoxServiceProtocol *Player::getEditBoxService()
     return _editBoxService;
 }
 
-PlayerTaskServiceProtocol *Player::getTaskService()
+PlayerTaskServiceProtocol *PlayerMac::getTaskService()
 {
     return nullptr;
 }
 
-void Player::quit()
+void PlayerMac::quit()
 {
     PlayerProtocol::quit();
     cocos2d::Director::getInstance()->end();
 }
 
-void Player::relaunch()
+void PlayerMac::relaunch()
 {
     PlayerProtocol::relaunch();
     
@@ -88,12 +88,12 @@ void Player::relaunch()
     }
 }
 
-void Player::openNewPlayer()
+void PlayerMac::openNewPlayer()
 {
     PlayerProtocol::openNewPlayer();
 }
 
-void Player::openNewPlayerWithProjectConfig(ProjectConfig config)
+void PlayerMac::openNewPlayerWithProjectConfig(ProjectConfig config)
 {
     if (_appController && [_appController respondsToSelector:NSSelectorFromString(@"launch:")])
     {
@@ -105,13 +105,13 @@ void Player::openNewPlayerWithProjectConfig(ProjectConfig config)
     }
 }
 
-void Player::openProjectWithProjectConfig(ProjectConfig config)
+void PlayerMac::openProjectWithProjectConfig(ProjectConfig config)
 {
     this->openNewPlayerWithProjectConfig(config);
     this->quit();
 }
 
-void Player::setController(id controller)
+void PlayerMac::setController(id controller)
 {
     _appController = controller;
 }

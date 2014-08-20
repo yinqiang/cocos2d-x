@@ -172,8 +172,8 @@ vector<string> ProjectConfig::getPackagePathArray() const
 {
     vector<string> arr;
 
-    auto pos = string::npos;
-    auto prev = 0;
+    size_t pos = string::npos;
+    size_t prev = 0;
     while ((pos = _packagePath.find_first_of(";", pos + 1)) != string::npos)
     {
         auto path = _packagePath.substr(prev, pos - prev);
