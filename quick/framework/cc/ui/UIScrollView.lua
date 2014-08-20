@@ -38,6 +38,7 @@ function UIScrollView:ctor(params)
 	self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(...)
 			self:update_(...)
 		end)
+	self:scheduleUpdate()
 end
 
 function UIScrollView:addBgColorIf(params)
