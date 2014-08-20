@@ -1,7 +1,3 @@
-//
-//  EditBoxServiceMac.mm
-//  quick-x-player
-//
 
 #include "PlayerEditBoxServiceMac.h"
 

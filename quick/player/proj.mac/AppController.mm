@@ -205,7 +205,7 @@ std::string getCurAppPath(void)
     int height = _project.getFrameSize().height;
     float scale = _project.getFrameScale();
 
-    GLView *eglView = GLView::createWithRect("quick-x-player", cocos2d::Rect(0, 0, width, height), scale, _project.isResizeWindow());
+    GLView *eglView = GLView::createWithRect("player", cocos2d::Rect(0, 0, width, height), scale, _project.isResizeWindow());
     Director::getInstance()->setOpenGLView(eglView);
 
     _window = glfwGetCocoaWindow(eglView->getWindow());
@@ -281,7 +281,7 @@ std::string getCurAppPath(void)
     if (dup2(outfd, fileno(stderr)) != fileno(stderr) || dup2(outfd, fileno(stdout)) != fileno(stdout))
     {
         perror("Unable to redirect output");
-        //        [self showAlert:@"Unable to redirect output to console!" withTitle:@"quick-x-player error"];
+        //        [self showAlert:@"Unable to redirect output to console!" withTitle:@"player error"];
     }
     else
     {

@@ -1,7 +1,3 @@
-//
-//  MessageBoxServiceMac.mm
-//  quick-x-player
-//
 
 #include "PlayerMessageBoxServiceMac.h"
 

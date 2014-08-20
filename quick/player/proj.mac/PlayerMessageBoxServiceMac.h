@@ -1,7 +1,3 @@
-//
-//  MessageBoxServiceMac.h
-//  quick-x-player
-//
 
 #ifndef __PLAYER_MessageBoxServiceMac_h
 #define __PLAYER_MessageBoxServiceMac_h

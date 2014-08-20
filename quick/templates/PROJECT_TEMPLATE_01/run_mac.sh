@@ -9,7 +9,7 @@ if [ ! -f $BIN ]; then
     exit
 fi
 
-ARG="-workdir $DIR -disable-console"
+ARG="-workdir $DIR"
 SIZE="-__SCREEN_ORIENTATION_L__"
 CMD="$BIN $ARG $SIZE"
 
