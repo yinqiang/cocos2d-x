@@ -19,11 +19,9 @@ LOCAL_CFLAGS += -Wno-psabi
 LOCAL_EXPORT_CFLAGS += -Wno-psabi
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
-LOCAL_WHOLE_STATIC_LIBRARIES += cocos_curl_static
 LOCAL_WHOLE_STATIC_LIBRARIES += libwebsockets_static
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,.)
-$(call import-module,curl/prebuilt/android)
 $(call import-module,websockets/prebuilt/android)
