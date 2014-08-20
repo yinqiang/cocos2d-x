@@ -148,7 +148,7 @@ function CCSUILoader:createUINode(clsName, options, parent)
 		return
 	end
 
-	printInfo("CCSUILoader - createUINode:" .. clsName)
+	-- printInfo("CCSUILoader - createUINode:" .. clsName)
 
 	local node
 
@@ -380,25 +380,29 @@ function CCSUILoader:createSprite(options)
 end
 
 function CCSUILoader:createImage(options)
-	local node = cc.ui.UIImage.new(nil,
-		{scale9 = options.scale9Enable})
-
-	local capRect = cc.rect(options.capInsetsX, options.capInsetsY,
-		options.capInsetsWidth, options.capInsetsHeight)
-	if 1 == options.fileNameData.resourceType then
-		local frame = display.newSpriteFrame(options.fileNameData.path)
-		if options.scale9Enable then
-			node:initWithSpriteFrame(frame, capRect);
-		else
-			node:setSpriteFrame(frame)
-		end
-	else
-		if options.scale9Enable then
-			node:initWithFile(capRect, options.fileNameData.path);
-		else
-			node:setTexture(options.fileNameData.path)
-		end
+	local params = {}
+	params.scale9 = options.scale9Enable
+	if params.scale9 then
+		params.capInsets = cc.rect(options.capInsetsX, options.capInsetsY,options.capInsetsWidth, options.capInsetsHeight)
 	end
+	local node = cc.ui.UIImage.new(self:transResName(options.fileNameData), params)
+
+	-- local capRect = cc.rect(options.capInsetsX, options.capInsetsY,
+	-- 	options.capInsetsWidth, options.capInsetsHeight)
+	-- if 1 == options.fileNameData.resourceType then
+	-- 	local frame = display.newSpriteFrame(options.fileNameData.path)
+	-- 	if options.scale9Enable then
+	-- 		node:initWithSpriteFrame(frame, capRect);
+	-- 	else
+	--		node:setSpriteFrame(frame)
+	-- 	end
+	-- else
+	-- 	if options.scale9Enable then
+	-- 		node:initWithFile(capRect, options.fileNameData.path);
+	-- 	else
+	-- 		node:setTexture(options.fileNameData.path)
+	-- 	end
+	-- end
 
 	if not options.scale9Enable then
 		if options.scale9Width or options.scale9Height then
