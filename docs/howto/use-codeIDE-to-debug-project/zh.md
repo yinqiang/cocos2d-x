@@ -67,3 +67,5 @@
 - 从右侧选中 "Command Arguments"，添加命令参数内容
 - 示例如图
 
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/use-codeIDE-to-debug-project/res/win32_set_arguments.png)
+
