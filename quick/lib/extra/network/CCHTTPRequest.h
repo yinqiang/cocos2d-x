@@ -20,7 +20,9 @@
 #include <vector>
 #include <map>
 #include <string>
+#if CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
 #include "curl/curl.h"
+#endif
 
 using namespace std;
 //USING_NS_CC;
@@ -148,8 +150,14 @@ private:
     , m_responseBufferLength(0)
     , m_responseDataLength(0)
     , m_curlState(kCCHTTPRequestCURLStateIdle)
-	, m_formPost(NULL)
-	, m_lastPost(NULL)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    , m_httpConnect(NULL)
+    , m_cookies(NULL)
+    , m_nTimeOut(0)
+#else
+    , m_formPost(NULL)
+    , m_lastPost(NULL)
+#endif
     {
     }
     bool initWithDelegate(HTTPRequestDelegate* delegate, const char *url, int method);
@@ -165,13 +173,15 @@ private:
 
     static unsigned int s_id;
     string m_url;
-    CURL *m_curl;
     HTTPRequestDelegate* m_delegate;
     int m_listener;
     int m_curlState;
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
+    CURL *m_curl;
 	curl_httppost *m_formPost;
 	curl_httppost *m_lastPost;
+#endif
 
     int     m_state;
     int     m_errorCode;
@@ -181,6 +191,16 @@ private:
     typedef map<string, string> Fields;
     Fields m_postFields;
     HTTPRequestHeaders m_headers;
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    JNIEnv* m_jniEnv;
+    jobject m_httpConnect;
+    char* m_httpMethod;
+    Fields m_postFile;
+    Fields m_postContent;
+    int m_nTimeOut;
+    const char* m_cookies;
+#endif
 
     // response
     int m_responseCode;
@@ -210,6 +230,29 @@ private:
     static size_t writeDataCURL(void *buffer, size_t size, size_t nmemb, void *userdata);
     static size_t writeHeaderCURL(void *buffer, size_t size, size_t nmemb, void *userdata);
     static int progressCURL(void *userdata, double dltotal, double dlnow, double ultotal, double ulnow);
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    pthread_attr_t m_threadAttr;
+
+    void createURLConnectJava();
+    void setRequestMethodJava();
+    void addRequestHeaderJava(const char* key, const char* value);
+    void setTimeoutJava(int msTime);
+    int connectJava();
+    void postContentJava(const char* key, const char* value);
+    void postFileJava(const char* fileName, const char* filePath);
+    int getResponedCodeJava();
+    char* getResponedErrJava();
+    char* getResponedHeaderJava();
+    char* getResponedHeaderByIdxJava(int idx);
+    char* getResponedHeaderByKeyJava(const char* key);
+    char* getResponedStringJava();
+    char* closeJava();
+
+    char* getCStrFromJString(jstring jstr, JNIEnv* env);
+#endif
+
 };
 
 NS_CC_EXTRA_END
