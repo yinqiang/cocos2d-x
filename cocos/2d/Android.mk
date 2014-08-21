@@ -54,11 +54,14 @@ LOCAL_SRC_FILES := \
     CCTMXTiledMap.cpp \
     CCFastTMXTiledMap.cpp \
     CCTMXXMLParser.cpp \
-    CCTileMapAtlas.cpp \
     CCTransition.cpp \
     CCTransitionPageTurn.cpp \
     CCTransitionProgress.cpp \
     CCTweenFunction.cpp \
+
+ifneq ($(QUICK_NO_TGA),1)
+    LOCAL_SRC_FILES += CCTileMapAtlas.cpp
+endif                
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.
 

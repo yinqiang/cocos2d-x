@@ -7,8 +7,7 @@ LOCAL_MODULE_FILENAME := libluabindingsauto
 
 LOCAL_SRC_FILES := \
           $(LOCAL_PATH)/lua_cocos2dx_auto.cpp \
-          $(LOCAL_PATH)/lua_cocos2dx_extension_auto.cpp \
-          $(LOCAL_PATH)/lua_cocos2dx_physics_auto.cpp \
+          $(LOCAL_PATH)/lua_cocos2dx_extension_auto.cpp
 
 ifneq ($(QUICK_NO_CCS_ARMATURE),1)
 LOCAL_SRC_FILES += \
@@ -18,6 +17,10 @@ endif
 ifneq ($(QUICK_NO_EXTRA_FILTERS),1)
 LOCAL_SRC_FILES += \
           $(LOCAL_PATH)/lua_cocos2dx_extension_filter_auto.cpp
+endif
+
+ifneq ($(QUICK_NO_PHYSICS),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_auto.cpp
 endif
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \

@@ -144,7 +144,9 @@ protected:
 #if QUICK_NO_TIFF!=1
     bool initWithTiffData(const unsigned char * data, ssize_t dataLen);
 #endif
+#if QUICK_NO_WEPP!=1
     bool initWithWebpData(const unsigned char * data, ssize_t dataLen);
+#endif
     bool initWithPVRData(const unsigned char * data, ssize_t dataLen);
     bool initWithPVRv2Data(const unsigned char * data, ssize_t dataLen);
     bool initWithPVRv3Data(const unsigned char * data, ssize_t dataLen);

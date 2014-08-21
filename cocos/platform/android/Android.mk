@@ -30,13 +30,6 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(QUICK_V3_LIB)/extra/anysdk/protocols/android \
                     $(QUICK_V3_LIB)
 
-LOCAL_LDLIBS := -lGLESv1_CM \
-                -lGLESv2 \
-                -lEGL \
-                -llog \
-                -lz \
-                -landroid
-
 LOCAL_EXPORT_LDLIBS := -lGLESv1_CM \
                        -lGLESv2 \
                        -lEGL \
@@ -44,9 +37,12 @@ LOCAL_EXPORT_LDLIBS := -lGLESv1_CM \
                        -lz \
                        -landroid
 
-LOCAL_WHOLE_STATIC_LIBRARIES	:= cocos_png_static cocos_jpeg_static cocos_webp_static
+LOCAL_WHOLE_STATIC_LIBRARIES	:= cocos_png_static cocos_jpeg_static
 ifneq ($(QUICK_NO_TIFF),1)
 LOCAL_WHOLE_STATIC_LIBRARIES ＋= cocos_tiff_static
+endif
+ifneq ($(QUICK_NO_WEPP),1)
+LOCAL_WHOLE_STATIC_LIBRARIES ＋= cocos_webp_static
 endif
 LOCAL_WHOLE_STATIC_LIBRARIES ＋= PluginProtocolStatic 
 
@@ -58,4 +54,6 @@ $(call import-module,png/prebuilt/android)
 ifneq ($(QUICK_NO_TIFF),1)
 $(call import-module,tiff/prebuilt/android)
 endif
+ifneq ($(QUICK_NO_WEPP),1)
 $(call import-module,webp/prebuilt/android)
+endif

@@ -15,15 +15,17 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/LuaBasicConversions.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_manual.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_extension_manual.cpp \
-          $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp \
           $(LOCAL_PATH)/manual/platform/android/CCLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/tolua_fix.cpp \
           $(COCOS2DX_ROOT)/external/xxtea/xxtea.cpp
 
 ifneq ($(QUICK_NO_CCS_ARMATURE),1)
-LOCAL_SRC_FILES += \
-          $(LOCAL_PATH)/manual/lua_cocos2dx_coco_studio_manual.cpp
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_coco_studio_manual.cpp
+endif
+
+ifneq ($(QUICK_NO_PHYSICS),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp
 endif
 
 LOCAL_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/tolua \
