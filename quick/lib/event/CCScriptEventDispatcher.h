@@ -83,7 +83,7 @@ public:
 typedef Vector<CCScriptHandlePair*> CCScriptEventListenersForEvent;
 typedef CCScriptEventListenersForEvent::iterator CCScriptEventListenersForEventIterator;
 
-class CC_DLL CCScriptEventDispatcher : public Ref
+class CC_DLL CCScriptEventDispatcher
 {
 public:
     CCScriptEventDispatcher();
