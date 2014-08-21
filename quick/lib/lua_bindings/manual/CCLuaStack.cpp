@@ -50,7 +50,6 @@ extern "C" {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #include "Lua_web_socket.h"
 #endif
-//#include "LuaOpengl.h"
 #include "LuaScriptHandlerMgr.h"
 #include "lua_cocos2dx_auto.hpp"
 #include "lua_cocos2dx_extension_auto.hpp"
@@ -161,11 +160,18 @@ bool LuaStack::init(void)
     g_luaType.clear();
     register_all_cocos2dx(_state);
     register_all_cocos2dx_extension(_state);
-    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_extension_manual(_state);
+    
+#if QUICK_NO_CCS_ARMATURE!=1
+    register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_coco_studio_manual(_state);
+#endif
+    
+#if QUICK_NO_EXTRA_FILTERS!=1
     register_all_cocos2dx_extension_filter(_state);
+#endif
+    
     luaopen_cocos2dx_extra_luabinding(_state);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     luaopen_cocos2dx_extra_ios_iap_luabinding(_state);
@@ -184,8 +190,10 @@ bool LuaStack::init(void)
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#if QUICK_NO_WEBSOCKET!=1
     tolua_web_socket_open(_state);
     register_web_socket_manual(_state);
+#endif
 #endif
 
 #ifdef ANYSDK_DEFINE

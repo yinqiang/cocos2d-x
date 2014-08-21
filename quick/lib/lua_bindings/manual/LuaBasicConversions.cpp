@@ -415,6 +415,7 @@ bool luaval_to_blendfunc(lua_State* L, int lo, cocos2d::BlendFunc* outValue)
     return ok;
 }
 
+#if CC_USE_PHYSICS
 bool luaval_to_physics_material(lua_State* L,int lo,PhysicsMaterial* outValue)
 {
     if (NULL == L || NULL == outValue)
@@ -451,6 +452,7 @@ bool luaval_to_physics_material(lua_State* L,int lo,PhysicsMaterial* outValue)
     }
     return ok;
 }
+#endif //CC_USE_PHYSICS
 
 bool luaval_to_ssize(lua_State* L,int lo, ssize_t* outValue)
 {
@@ -1677,6 +1679,7 @@ void vec4_to_luaval(lua_State* L,const cocos2d::Vec4& vec3)
     lua_rawset(L, -3);
 }
 
+#if CC_USE_PHYSICS
 void physics_material_to_luaval(lua_State* L,const PhysicsMaterial& pm)
 {
     if (nullptr  == L)
@@ -1753,6 +1756,7 @@ void physics_contactdata_to_luaval(lua_State* L, const PhysicsContactData* data)
     lua_pushnumber(L, data->POINT_MAX);
     lua_rawset(L, -3);
 }
+#endif //CC_USE_PHYSICS
 
 void size_to_luaval(lua_State* L,const Size& sz)
 {

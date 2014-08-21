@@ -10,18 +10,26 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/CCLuaStack.cpp \
           $(LOCAL_PATH)/manual/CCLuaValue.cpp \
           $(LOCAL_PATH)/manual/Cocos2dxLuaLoader.cpp \
-          $(LOCAL_PATH)/manual/Lua_web_socket.cpp \
           $(LOCAL_PATH)/manual/LuaScriptHandlerMgr.cpp \
           $(LOCAL_PATH)/manual/LuaBasicConversions.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_manual.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_extension_manual.cpp \
-          $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp \
-          $(LOCAL_PATH)/manual/lua_cocos2dx_coco_studio_manual.cpp \
           $(LOCAL_PATH)/manual/platform/android/CCLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxLuaJavaBridge.cpp \
           $(LOCAL_PATH)/manual/tolua_fix.cpp \
           $(COCOS2DX_ROOT)/external/xxtea/xxtea.cpp
 
+ifneq ($(QUICK_NO_CCS_ARMATURE),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_coco_studio_manual.cpp
+endif
+
+ifneq ($(QUICK_NO_PHYSICS),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp
+endif
+
+ifneq ($(QUICK_NO_WEBSOCKET),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/Lua_web_socket.cpp
+endif
 
 LOCAL_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/tolua \
                     $(QUICK_V3_LIB)/lua_bindings/luajit/include \
@@ -60,7 +68,7 @@ LOCAL_WHOLE_STATIC_LIBRARIES += luajit_static
 LOCAL_WHOLE_STATIC_LIBRARIES += tolua_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
 LOCAL_WHOLE_STATIC_LIBRARIES += lua_extensions_static
-LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_armature_static
 
 LOCAL_CFLAGS += -Wno-psabi -DCC_LUA_ENGINE_ENABLED=1
 LOCAL_EXPORT_CFLAGS += -Wno-psabi

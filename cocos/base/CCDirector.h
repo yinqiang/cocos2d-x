@@ -36,6 +36,7 @@
 #include "base/CCVector.h"
 #include "CCGL.h"
 #include "2d/CCLabelAtlas.h"
+#include "2d/CCLabelTTF.h"
 #include <stack>
 #include "math/CCMath.h"
 #include "event/ScriptEventCenter.h"
@@ -468,11 +469,15 @@ protected:
     bool _displayStats;
     float _accumDt;
     float _frameRate;
-
+#if 0
     LabelAtlas *_FPSLabel;
     LabelAtlas *_drawnBatchesLabel;
     LabelAtlas *_drawnVerticesLabel;
-
+#else
+    LabelTTF *_FPSLabel;
+    LabelTTF *_drawnBatchesLabel;
+    LabelTTF *_drawnVerticesLabel;
+#endif
     /** Whether or not the Director is paused */
     bool _paused;
 

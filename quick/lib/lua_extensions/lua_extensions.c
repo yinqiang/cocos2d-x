@@ -28,7 +28,9 @@ extern "C" {
 #include "lsqlite3/lsqlite3.h"
 
 static luaL_Reg luax_exts[] = {
+#if QUICK_NO_JSON!=1
     {"cjson", luaopen_cjson_safe},
+#endif
     {"zlib", luaopen_zlib},
     {"pack", luaopen_pack},
 #ifndef WP8
@@ -36,7 +38,9 @@ static luaL_Reg luax_exts[] = {
     {"mime.core", luaopen_mime_core},
     {"lfs", luaopen_lfs},
 #endif
+#if QUICK_NO_SQLITE!=1
     {"lsqlite3", luaopen_lsqlite3},
+#endif
     {NULL, NULL}
 };
 

@@ -26,7 +26,11 @@ THE SOFTWARE.
 #ifndef __CC_TEXT_FIELD_H__
 #define __CC_TEXT_FIELD_H__
 
+#if QUICK_NO_FREETYPE==0
 #include "2d/CCLabel.h"
+#else
+#include "2d/label/CCLabelTTF.h"
+#endif
 #include "base/CCIMEDelegate.h"
 
 NS_CC_BEGIN
@@ -96,7 +100,11 @@ public:
 /**
 @brief    A simple text input field with TTF font.
 */
+#if QUICK_NO_FREETYPE==0
 class CC_DLL TextFieldTTF : public Label, public IMEDelegate
+#else
+class CC_DLL TextFieldTTF : public LabelTTF, public IMEDelegate
+#endif
 {
 public:
     /**
@@ -151,8 +159,11 @@ public:
     virtual void setColorSpaceHolder(const Color3B& color);
     virtual void setColorSpaceHolder(const Color4B& color);
 
+#if QUICK_NO_FREETYPE==0
     virtual void setTextColor(const Color4B& textColor) override;
-
+#else
+    virtual void setTextColor(const Color4B& textColor);
+#endif
     // input text property
     virtual void setString(const std::string& text) override;
     virtual const std::string& getString() const override;
