@@ -71,7 +71,7 @@ extern "C"
 #include "base/TGAlib.h"
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WP8) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
-#if QUICK_NO_WEPP!=1
+#if QUICK_NO_WEBP!=1
 #include "decode.h"
 #endif
 #endif
@@ -514,11 +514,11 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
             ret = initWithTiffData(unpackedData, unpackedLen);
             break;
 #endif //QUICK_NO_TIFF!=1
-#if QUICK_NO_WEPP!=1
+#if QUICK_NO_WEBP!=1
         case Format::WEBP:
             ret = initWithWebpData(unpackedData, unpackedLen);
             break;
-#endif //QUICK_NO_WEPP!=1
+#endif //QUICK_NO_WEBP!=1
         case Format::PVR:
             ret = initWithPVRData(unpackedData, unpackedLen);
             break;
@@ -1885,7 +1885,7 @@ bool Image::initWithPVRData(const unsigned char * data, ssize_t dataLen)
     return initWithPVRv2Data(data, dataLen) || initWithPVRv3Data(data, dataLen);
 }
 
-#if QUICK_NO_WEPP!=1
+#if QUICK_NO_WEBP!=1
 bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 {
 	bool bRet = false;  
@@ -1925,7 +1925,7 @@ bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 #endif
 	return bRet;
 }
-#endif //QUICK_NO_WEPP!=1
+#endif //QUICK_NO_WEBP!=1
 
 bool Image::initWithRawData(const unsigned char * data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti)
 {

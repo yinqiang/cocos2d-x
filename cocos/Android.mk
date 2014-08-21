@@ -73,6 +73,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/../external \
                     $(LOCAL_PATH)/../external/freetype2/include/android \
                     $(LOCAL_PATH)/../external/freetype2/include/android/freetype2 \
+                    $(LOCAL_PATH)/../external/tiff/include/android \
+                    $(LOCAL_PATH)/../external/webp/include/android \
                     $(LOCAL_PATH)/base \
                     $(QUICK_V3_LIB) \
                     $(LOCAL_PATH)/../external/nslog

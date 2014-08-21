@@ -20,7 +20,7 @@ LOCAL_SRC_FILES += \
 endif
 
 ifneq ($(QUICK_NO_PHYSICS),1)
-LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_auto.cpp
+LOCAL_SRC_FILES += $(LOCAL_PATH)/lua_cocos2dx_physics_auto.cpp
 endif
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \

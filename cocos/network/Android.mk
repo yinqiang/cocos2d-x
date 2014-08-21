@@ -15,6 +15,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../.. \
 					$(LOCAL_PATH)/.. \
+                    $(LOCAL_PATH)/../platform/android \
 				    $(QUICK_V3_LIB)
 
 LOCAL_CFLAGS += -Wno-psabi
