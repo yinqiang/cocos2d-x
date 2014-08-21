@@ -273,6 +273,11 @@ bool PlayerMenuServiceMac::removeItem(const std::string &menuId)
     return removeItemInternal(menuId, true);;
 }
 
+void PlayerMenuServiceMac::setMenuBarEnabled(bool enabled)
+{
+    
+}
+
 #pragma mark - private -
 
 bool PlayerMenuServiceMac::removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder)

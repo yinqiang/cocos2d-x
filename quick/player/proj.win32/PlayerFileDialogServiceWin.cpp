@@ -62,7 +62,7 @@ std::string PlayerFileDialogServiceWin::saveFile(const std::string &title,
     std::string result;
     if (!GetSaveFileName(&ofn))
     {
-        // user cancel dialog, GetOpenFileName(will return FALSE
+        // user cancel dialog, GetSaveFileName() will return FALSE
         DWORD err = CommDlgExtendedError();
         if (err)
         {
@@ -217,7 +217,7 @@ std::vector<std::string> PlayerFileDialogServiceWin::openMultipleInternal(const 
     delete[] ofn.lpstrFilter;
     if (!ret)
     {
-        // user cancel dialog, GetOpenFileName(will return FALSE
+        // user cancel dialog, GetOpenFileName() will return FALSE
         DWORD err = CommDlgExtendedError();
         if (err)
         {

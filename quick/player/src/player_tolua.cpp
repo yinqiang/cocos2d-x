@@ -1,6 +1,6 @@
 /*
 ** Lua binding: player_luabinding
-** Generated automatically by tolua++-1.0.92 on Tue Aug 12 11:26:58 2014.
+** Generated automatically by tolua++-1.0.92 on Tue Aug 19 17:34:35 2014.
 */
 
 #include "player_tolua.h"
@@ -24,9 +24,30 @@ using namespace player;
 /* function to release collected object via destructor */
 #ifdef __cplusplus
 
+static int tolua_collect_vector_string_ (lua_State* tolua_S)
+{
+ vector<string>* self = (vector<string>*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
 static int tolua_collect_PlayerSettings (lua_State* tolua_S)
 {
  PlayerSettings* self = (PlayerSettings*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
+static int tolua_collect_ProjectConfig (lua_State* tolua_S)
+{
+ ProjectConfig* self = (ProjectConfig*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
+static int tolua_collect_cocos2d__Size (lua_State* tolua_S)
+{
+ cocos2d::Size* self = (cocos2d::Size*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
@@ -43,17 +64,1734 @@ static int tolua_collect_std__vector_std__string_ (lua_State* tolua_S)
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
 {
+ tolua_usertype(tolua_S,"cocos2d::Vec2");
  tolua_usertype(tolua_S,"cocos2d::Ref");
  tolua_usertype(tolua_S,"PlayerSettings");
+ tolua_usertype(tolua_S,"PlayerMessageBoxServiceProtocol");
  tolua_usertype(tolua_S,"PlayerServiceProtocol");
+ tolua_usertype(tolua_S,"vector<string>");
+ tolua_usertype(tolua_S,"std::vector<std::string>");
  tolua_usertype(tolua_S,"PlayerMenuItem");
  tolua_usertype(tolua_S,"PlayerEditBoxServiceProtocol");
  tolua_usertype(tolua_S,"PlayerMenuServiceProtocol");
  tolua_usertype(tolua_S,"PlayerFileDialogServiceProtocol");
  tolua_usertype(tolua_S,"PlayerProtocol");
- tolua_usertype(tolua_S,"PlayerMessageBoxServiceProtocol");
- tolua_usertype(tolua_S,"std::vector<std::string>");
+ tolua_usertype(tolua_S,"cocos2d::Size");
+ tolua_usertype(tolua_S,"ProjectConfig");
 }
+
+/* method: clear of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__clear00
+static int tolua_player_luabinding_vector_string__clear00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  vector<string>* self = (vector<string>*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'clear'", NULL);
+#endif
+  {
+   self->clear();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'clear'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: size of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__size00
+static int tolua_player_luabinding_vector_string__size00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const vector<string>",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const vector<string>* self = (const vector<string>*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'size'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->size();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'size'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: operator[] of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string___geti00
+static int tolua_player_luabinding_vector_string___geti00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const vector<string>",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const vector<string>* self = (const vector<string>*)  tolua_tousertype(tolua_S,1,0);
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'operator[]'", NULL);
+#endif
+  {
+   const string tolua_ret = (const string)  self->operator[](index);
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function '.geti'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: operator&[] of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string___seti00
+static int tolua_player_luabinding_vector_string___seti00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  vector<string>* self = (vector<string>*)  tolua_tousertype(tolua_S,1,0);
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
+  string tolua_value = ((string)  tolua_tocppstring(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'operator&[]'", NULL);
+#endif
+  self->operator[](index) =  tolua_value;
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function '.seti'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: operator[] of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string___geti01
+static int tolua_player_luabinding_vector_string___geti01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  vector<string>* self = (vector<string>*)  tolua_tousertype(tolua_S,1,0);
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'operator[]'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->operator[](index);
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+tolua_lerror:
+ return tolua_player_luabinding_vector_string___geti00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: push_back of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__push_back00
+static int tolua_player_luabinding_vector_string__push_back00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  vector<string>* self = (vector<string>*)  tolua_tousertype(tolua_S,1,0);
+  string val = ((string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'push_back'", NULL);
+#endif
+  {
+   self->push_back(val);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'push_back'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__new00
+static int tolua_player_luabinding_vector_string__new00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   vector<string>* tolua_ret = (vector<string>*)  Mtolua_new((vector<string>)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"vector<string>");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__new00_local
+static int tolua_player_luabinding_vector_string__new00_local(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   vector<string>* tolua_ret = (vector<string>*)  Mtolua_new((vector<string>)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"vector<string>");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: delete of class  vector<string> */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_vector_string__delete00
+static int tolua_player_luabinding_vector_string__delete00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"vector<string>",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  vector<string>* self = (vector<string>*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
+#endif
+  Mtolua_delete(self);
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_new00
+static int tolua_player_luabinding_ProjectConfig_new00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   ProjectConfig* tolua_ret = (ProjectConfig*)  Mtolua_new((ProjectConfig)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"ProjectConfig");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_new00_local
+static int tolua_player_luabinding_ProjectConfig_new00_local(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   ProjectConfig* tolua_ret = (ProjectConfig*)  Mtolua_new((ProjectConfig)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"ProjectConfig");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isWelcome of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isWelcome00
+static int tolua_player_luabinding_ProjectConfig_isWelcome00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isWelcome'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isWelcome();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isWelcome'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: resetToWelcome of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_resetToWelcome00
+static int tolua_player_luabinding_ProjectConfig_resetToWelcome00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'resetToWelcome'", NULL);
+#endif
+  {
+   self->resetToWelcome();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'resetToWelcome'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: resetToCreator of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_resetToCreator00
+static int tolua_player_luabinding_ProjectConfig_resetToCreator00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'resetToCreator'", NULL);
+#endif
+  {
+   self->resetToCreator();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'resetToCreator'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getProjectDir of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getProjectDir00
+static int tolua_player_luabinding_ProjectConfig_getProjectDir00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getProjectDir'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getProjectDir();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getProjectDir'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setProjectDir of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setProjectDir00
+static int tolua_player_luabinding_ProjectConfig_setProjectDir00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const string projectDir = ((const string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setProjectDir'", NULL);
+#endif
+  {
+   self->setProjectDir(projectDir);
+   tolua_pushcppstring(tolua_S,(const char*)projectDir);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setProjectDir'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getScriptFile of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getScriptFile00
+static int tolua_player_luabinding_ProjectConfig_getScriptFile00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getScriptFile'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getScriptFile();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getScriptFile'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getScriptFileRealPath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getScriptFileRealPath00
+static int tolua_player_luabinding_ProjectConfig_getScriptFileRealPath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getScriptFileRealPath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getScriptFileRealPath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getScriptFileRealPath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setScriptFile of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setScriptFile00
+static int tolua_player_luabinding_ProjectConfig_setScriptFile00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const string scriptFile = ((const string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setScriptFile'", NULL);
+#endif
+  {
+   self->setScriptFile(scriptFile);
+   tolua_pushcppstring(tolua_S,(const char*)scriptFile);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setScriptFile'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getWritablePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getWritablePath00
+static int tolua_player_luabinding_ProjectConfig_getWritablePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getWritablePath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getWritablePath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getWritablePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getWritableRealPath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getWritableRealPath00
+static int tolua_player_luabinding_ProjectConfig_getWritableRealPath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getWritableRealPath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getWritableRealPath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getWritableRealPath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setWritablePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setWritablePath00
+static int tolua_player_luabinding_ProjectConfig_setWritablePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const string writablePath = ((const string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setWritablePath'", NULL);
+#endif
+  {
+   self->setWritablePath(writablePath);
+   tolua_pushcppstring(tolua_S,(const char*)writablePath);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setWritablePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getPackagePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getPackagePath00
+static int tolua_player_luabinding_ProjectConfig_getPackagePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getPackagePath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getPackagePath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getPackagePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getNormalizedPackagePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getNormalizedPackagePath00
+static int tolua_player_luabinding_ProjectConfig_getNormalizedPackagePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getNormalizedPackagePath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getNormalizedPackagePath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getNormalizedPackagePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setPackagePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setPackagePath00
+static int tolua_player_luabinding_ProjectConfig_setPackagePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const string packagePath = ((const string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setPackagePath'", NULL);
+#endif
+  {
+   self->setPackagePath(packagePath);
+   tolua_pushcppstring(tolua_S,(const char*)packagePath);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setPackagePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: addPackagePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_addPackagePath00
+static int tolua_player_luabinding_ProjectConfig_addPackagePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const string packagePath = ((const string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addPackagePath'", NULL);
+#endif
+  {
+   self->addPackagePath(packagePath);
+   tolua_pushcppstring(tolua_S,(const char*)packagePath);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'addPackagePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getPackagePathArray of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getPackagePathArray00
+static int tolua_player_luabinding_ProjectConfig_getPackagePathArray00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getPackagePathArray'", NULL);
+#endif
+  {
+   vector<string> tolua_ret = (vector<string>)  self->getPackagePathArray();
+   {
+#ifdef __cplusplus
+    void* tolua_obj = Mtolua_new((vector<string>)(tolua_ret));
+     tolua_pushusertype(tolua_S,tolua_obj,"vector<string>");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#else
+    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(vector<string>));
+     tolua_pushusertype(tolua_S,tolua_obj,"vector<string>");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#endif
+   }
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getPackagePathArray'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getFrameSize of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getFrameSize00
+static int tolua_player_luabinding_ProjectConfig_getFrameSize00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getFrameSize'", NULL);
+#endif
+  {
+   cocos2d::Size tolua_ret = (cocos2d::Size)  self->getFrameSize();
+   {
+#ifdef __cplusplus
+    void* tolua_obj = Mtolua_new((cocos2d::Size)(tolua_ret));
+     tolua_pushusertype(tolua_S,tolua_obj,"cocos2d::Size");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#else
+    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(cocos2d::Size));
+     tolua_pushusertype(tolua_S,tolua_obj,"cocos2d::Size");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#endif
+   }
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getFrameSize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setFrameSize of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setFrameSize00
+static int tolua_player_luabinding_ProjectConfig_setFrameSize00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"const cocos2d::Size",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const cocos2d::Size* frameSize = ((const cocos2d::Size*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFrameSize'", NULL);
+#endif
+  {
+   self->setFrameSize(*frameSize);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setFrameSize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isLandscapeFrame of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isLandscapeFrame00
+static int tolua_player_luabinding_ProjectConfig_isLandscapeFrame00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isLandscapeFrame'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isLandscapeFrame();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isLandscapeFrame'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isPortraitFrame of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isPortraitFrame00
+static int tolua_player_luabinding_ProjectConfig_isPortraitFrame00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isPortraitFrame'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isPortraitFrame();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isPortraitFrame'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: changeFrameOrientation of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_changeFrameOrientation00
+static int tolua_player_luabinding_ProjectConfig_changeFrameOrientation00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'changeFrameOrientation'", NULL);
+#endif
+  {
+   self->changeFrameOrientation();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'changeFrameOrientation'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: changeFrameOrientationToPortait of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_changeFrameOrientationToPortait00
+static int tolua_player_luabinding_ProjectConfig_changeFrameOrientationToPortait00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'changeFrameOrientationToPortait'", NULL);
+#endif
+  {
+   self->changeFrameOrientationToPortait();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'changeFrameOrientationToPortait'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: changeFrameOrientationToLandscape of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_changeFrameOrientationToLandscape00
+static int tolua_player_luabinding_ProjectConfig_changeFrameOrientationToLandscape00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'changeFrameOrientationToLandscape'", NULL);
+#endif
+  {
+   self->changeFrameOrientationToLandscape();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'changeFrameOrientationToLandscape'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getFrameScale of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getFrameScale00
+static int tolua_player_luabinding_ProjectConfig_getFrameScale00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getFrameScale'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getFrameScale();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getFrameScale'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setFrameScale of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setFrameScale00
+static int tolua_player_luabinding_ProjectConfig_setFrameScale00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  float frameScale = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFrameScale'", NULL);
+#endif
+  {
+   self->setFrameScale(frameScale);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setFrameScale'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isShowConsole of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isShowConsole00
+static int tolua_player_luabinding_ProjectConfig_isShowConsole00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isShowConsole'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isShowConsole();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isShowConsole'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setShowConsole of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setShowConsole00
+static int tolua_player_luabinding_ProjectConfig_setShowConsole00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  bool showConsole = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setShowConsole'", NULL);
+#endif
+  {
+   self->setShowConsole(showConsole);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setShowConsole'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isLoadPrecompiledFramework of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isLoadPrecompiledFramework00
+static int tolua_player_luabinding_ProjectConfig_isLoadPrecompiledFramework00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isLoadPrecompiledFramework'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isLoadPrecompiledFramework();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isLoadPrecompiledFramework'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setLoadPrecompiledFramework of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setLoadPrecompiledFramework00
+static int tolua_player_luabinding_ProjectConfig_setLoadPrecompiledFramework00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  bool load = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setLoadPrecompiledFramework'", NULL);
+#endif
+  {
+   self->setLoadPrecompiledFramework(load);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setLoadPrecompiledFramework'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isWriteDebugLogToFile of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isWriteDebugLogToFile00
+static int tolua_player_luabinding_ProjectConfig_isWriteDebugLogToFile00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isWriteDebugLogToFile'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isWriteDebugLogToFile();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isWriteDebugLogToFile'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setWriteDebugLogToFile of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setWriteDebugLogToFile00
+static int tolua_player_luabinding_ProjectConfig_setWriteDebugLogToFile00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  bool writeDebugLogToFile = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setWriteDebugLogToFile'", NULL);
+#endif
+  {
+   self->setWriteDebugLogToFile(writeDebugLogToFile);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setWriteDebugLogToFile'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getDebugLogFilePath of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getDebugLogFilePath00
+static int tolua_player_luabinding_ProjectConfig_getDebugLogFilePath00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getDebugLogFilePath'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->getDebugLogFilePath();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getDebugLogFilePath'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setWindowOffset of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setWindowOffset00
+static int tolua_player_luabinding_ProjectConfig_setWindowOffset00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"const cocos2d::Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const cocos2d::Vec2* windowOffset = ((const cocos2d::Vec2*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setWindowOffset'", NULL);
+#endif
+  {
+   self->setWindowOffset(*windowOffset);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setWindowOffset'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getDebuggerType of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_getDebuggerType00
+static int tolua_player_luabinding_ProjectConfig_getDebuggerType00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getDebuggerType'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getDebuggerType();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getDebuggerType'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setDebuggerType of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_setDebuggerType00
+static int tolua_player_luabinding_ProjectConfig_setDebuggerType00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  int debuggerType = ((int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setDebuggerType'", NULL);
+#endif
+  {
+   self->setDebuggerType(debuggerType);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setDebuggerType'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: parseCommandLine of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_parseCommandLine00
+static int tolua_player_luabinding_ProjectConfig_parseCommandLine00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"const vector<string>",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  const vector<string>* args = ((const vector<string>*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'parseCommandLine'", NULL);
+#endif
+  {
+   self->parseCommandLine(*args);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'parseCommandLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: makeCommandLine of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_makeCommandLine00
+static int tolua_player_luabinding_ProjectConfig_makeCommandLine00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int mask = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'makeCommandLine'", NULL);
+#endif
+  {
+   string tolua_ret = (string)  self->makeCommandLine(mask);
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'makeCommandLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isAppMenu of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isAppMenu00
+static int tolua_player_luabinding_ProjectConfig_isAppMenu00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isAppMenu'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isAppMenu();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isAppMenu'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isResizeWindow of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isResizeWindow00
+static int tolua_player_luabinding_ProjectConfig_isResizeWindow00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isResizeWindow'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isResizeWindow();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isResizeWindow'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isRetinaDisplay of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_isRetinaDisplay00
+static int tolua_player_luabinding_ProjectConfig_isRetinaDisplay00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isRetinaDisplay'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isRetinaDisplay();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isRetinaDisplay'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: validate of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_validate00
+static int tolua_player_luabinding_ProjectConfig_validate00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const ProjectConfig* self = (const ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'validate'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->validate();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'validate'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: dump of class  ProjectConfig */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_ProjectConfig_dump00
+static int tolua_player_luabinding_ProjectConfig_dump00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"ProjectConfig",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  ProjectConfig* self = (ProjectConfig*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'dump'", NULL);
+#endif
+  {
+   self->dump();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'dump'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
 
 /* method: new of class  PlayerSettings */
 #ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerSettings_new00
@@ -455,6 +2193,165 @@ static int tolua_player_luabinding_PlayerProtocol_getEditBoxService00(lua_State*
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getEditBoxService'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: quit of class  PlayerProtocol */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerProtocol_quit00
+static int tolua_player_luabinding_PlayerProtocol_quit00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerProtocol",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerProtocol* self = (PlayerProtocol*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'quit'", NULL);
+#endif
+  {
+   self->quit();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'quit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: relaunch of class  PlayerProtocol */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerProtocol_relaunch00
+static int tolua_player_luabinding_PlayerProtocol_relaunch00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerProtocol",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerProtocol* self = (PlayerProtocol*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'relaunch'", NULL);
+#endif
+  {
+   self->relaunch();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'relaunch'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: openNewPlayer of class  PlayerProtocol */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerProtocol_openNewPlayer00
+static int tolua_player_luabinding_PlayerProtocol_openNewPlayer00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerProtocol",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerProtocol* self = (PlayerProtocol*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'openNewPlayer'", NULL);
+#endif
+  {
+   self->openNewPlayer();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'openNewPlayer'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: openNewPlayerWithProjectConfig of class  PlayerProtocol */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerProtocol_openNewPlayerWithProjectConfig00
+static int tolua_player_luabinding_PlayerProtocol_openNewPlayerWithProjectConfig00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerProtocol",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"ProjectConfig",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerProtocol* self = (PlayerProtocol*)  tolua_tousertype(tolua_S,1,0);
+  ProjectConfig config = *((ProjectConfig*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'openNewPlayerWithProjectConfig'", NULL);
+#endif
+  {
+   self->openNewPlayerWithProjectConfig(config);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'openNewPlayerWithProjectConfig'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: openProjectWithProjectConfig of class  PlayerProtocol */
+#ifndef TOLUA_DISABLE_tolua_player_luabinding_PlayerProtocol_openProjectWithProjectConfig00
+static int tolua_player_luabinding_PlayerProtocol_openProjectWithProjectConfig00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerProtocol",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"ProjectConfig",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerProtocol* self = (PlayerProtocol*)  tolua_tousertype(tolua_S,1,0);
+  ProjectConfig config = *((ProjectConfig*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'openProjectWithProjectConfig'", NULL);
+#endif
+  {
+   self->openProjectWithProjectConfig(config);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'openProjectWithProjectConfig'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1247,6 +3144,75 @@ TOLUA_API int tolua_player_luabinding_open (lua_State* tolua_S)
  tolua_module(tolua_S,NULL,0);
  tolua_beginmodule(tolua_S,NULL);
   #ifdef __cplusplus
+  tolua_cclass(tolua_S,"vector_string_","vector<string>","",tolua_collect_vector_string_);
+  #else
+  tolua_cclass(tolua_S,"vector_string_","vector<string>","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"vector_string_");
+   tolua_function(tolua_S,"clear",tolua_player_luabinding_vector_string__clear00);
+   tolua_function(tolua_S,"size",tolua_player_luabinding_vector_string__size00);
+   tolua_function(tolua_S,".geti",tolua_player_luabinding_vector_string___geti00);
+   tolua_function(tolua_S,".seti",tolua_player_luabinding_vector_string___seti00);
+   tolua_function(tolua_S,".geti",tolua_player_luabinding_vector_string___geti01);
+   tolua_function(tolua_S,"push_back",tolua_player_luabinding_vector_string__push_back00);
+   tolua_function(tolua_S,"new",tolua_player_luabinding_vector_string__new00);
+   tolua_function(tolua_S,"new_local",tolua_player_luabinding_vector_string__new00_local);
+   tolua_function(tolua_S,".call",tolua_player_luabinding_vector_string__new00_local);
+   tolua_function(tolua_S,"delete",tolua_player_luabinding_vector_string__delete00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"ProjectConfig","ProjectConfig","",tolua_collect_ProjectConfig);
+  #else
+  tolua_cclass(tolua_S,"ProjectConfig","ProjectConfig","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"ProjectConfig");
+   tolua_function(tolua_S,"new",tolua_player_luabinding_ProjectConfig_new00);
+   tolua_function(tolua_S,"new_local",tolua_player_luabinding_ProjectConfig_new00_local);
+   tolua_function(tolua_S,".call",tolua_player_luabinding_ProjectConfig_new00_local);
+   tolua_function(tolua_S,"isWelcome",tolua_player_luabinding_ProjectConfig_isWelcome00);
+   tolua_function(tolua_S,"resetToWelcome",tolua_player_luabinding_ProjectConfig_resetToWelcome00);
+   tolua_function(tolua_S,"resetToCreator",tolua_player_luabinding_ProjectConfig_resetToCreator00);
+   tolua_function(tolua_S,"getProjectDir",tolua_player_luabinding_ProjectConfig_getProjectDir00);
+   tolua_function(tolua_S,"setProjectDir",tolua_player_luabinding_ProjectConfig_setProjectDir00);
+   tolua_function(tolua_S,"getScriptFile",tolua_player_luabinding_ProjectConfig_getScriptFile00);
+   tolua_function(tolua_S,"getScriptFileRealPath",tolua_player_luabinding_ProjectConfig_getScriptFileRealPath00);
+   tolua_function(tolua_S,"setScriptFile",tolua_player_luabinding_ProjectConfig_setScriptFile00);
+   tolua_function(tolua_S,"getWritablePath",tolua_player_luabinding_ProjectConfig_getWritablePath00);
+   tolua_function(tolua_S,"getWritableRealPath",tolua_player_luabinding_ProjectConfig_getWritableRealPath00);
+   tolua_function(tolua_S,"setWritablePath",tolua_player_luabinding_ProjectConfig_setWritablePath00);
+   tolua_function(tolua_S,"getPackagePath",tolua_player_luabinding_ProjectConfig_getPackagePath00);
+   tolua_function(tolua_S,"getNormalizedPackagePath",tolua_player_luabinding_ProjectConfig_getNormalizedPackagePath00);
+   tolua_function(tolua_S,"setPackagePath",tolua_player_luabinding_ProjectConfig_setPackagePath00);
+   tolua_function(tolua_S,"addPackagePath",tolua_player_luabinding_ProjectConfig_addPackagePath00);
+   tolua_function(tolua_S,"getPackagePathArray",tolua_player_luabinding_ProjectConfig_getPackagePathArray00);
+   tolua_function(tolua_S,"getFrameSize",tolua_player_luabinding_ProjectConfig_getFrameSize00);
+   tolua_function(tolua_S,"setFrameSize",tolua_player_luabinding_ProjectConfig_setFrameSize00);
+   tolua_function(tolua_S,"isLandscapeFrame",tolua_player_luabinding_ProjectConfig_isLandscapeFrame00);
+   tolua_function(tolua_S,"isPortraitFrame",tolua_player_luabinding_ProjectConfig_isPortraitFrame00);
+   tolua_function(tolua_S,"changeFrameOrientation",tolua_player_luabinding_ProjectConfig_changeFrameOrientation00);
+   tolua_function(tolua_S,"changeFrameOrientationToPortait",tolua_player_luabinding_ProjectConfig_changeFrameOrientationToPortait00);
+   tolua_function(tolua_S,"changeFrameOrientationToLandscape",tolua_player_luabinding_ProjectConfig_changeFrameOrientationToLandscape00);
+   tolua_function(tolua_S,"getFrameScale",tolua_player_luabinding_ProjectConfig_getFrameScale00);
+   tolua_function(tolua_S,"setFrameScale",tolua_player_luabinding_ProjectConfig_setFrameScale00);
+   tolua_function(tolua_S,"isShowConsole",tolua_player_luabinding_ProjectConfig_isShowConsole00);
+   tolua_function(tolua_S,"setShowConsole",tolua_player_luabinding_ProjectConfig_setShowConsole00);
+   tolua_function(tolua_S,"isLoadPrecompiledFramework",tolua_player_luabinding_ProjectConfig_isLoadPrecompiledFramework00);
+   tolua_function(tolua_S,"setLoadPrecompiledFramework",tolua_player_luabinding_ProjectConfig_setLoadPrecompiledFramework00);
+   tolua_function(tolua_S,"isWriteDebugLogToFile",tolua_player_luabinding_ProjectConfig_isWriteDebugLogToFile00);
+   tolua_function(tolua_S,"setWriteDebugLogToFile",tolua_player_luabinding_ProjectConfig_setWriteDebugLogToFile00);
+   tolua_function(tolua_S,"getDebugLogFilePath",tolua_player_luabinding_ProjectConfig_getDebugLogFilePath00);
+   tolua_function(tolua_S,"setWindowOffset",tolua_player_luabinding_ProjectConfig_setWindowOffset00);
+   tolua_function(tolua_S,"getDebuggerType",tolua_player_luabinding_ProjectConfig_getDebuggerType00);
+   tolua_function(tolua_S,"setDebuggerType",tolua_player_luabinding_ProjectConfig_setDebuggerType00);
+   tolua_function(tolua_S,"parseCommandLine",tolua_player_luabinding_ProjectConfig_parseCommandLine00);
+   tolua_function(tolua_S,"makeCommandLine",tolua_player_luabinding_ProjectConfig_makeCommandLine00);
+   tolua_function(tolua_S,"isAppMenu",tolua_player_luabinding_ProjectConfig_isAppMenu00);
+   tolua_function(tolua_S,"isResizeWindow",tolua_player_luabinding_ProjectConfig_isResizeWindow00);
+   tolua_function(tolua_S,"isRetinaDisplay",tolua_player_luabinding_ProjectConfig_isRetinaDisplay00);
+   tolua_function(tolua_S,"validate",tolua_player_luabinding_ProjectConfig_validate00);
+   tolua_function(tolua_S,"dump",tolua_player_luabinding_ProjectConfig_dump00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
   tolua_cclass(tolua_S,"PlayerSettings","PlayerSettings","",tolua_collect_PlayerSettings);
   #else
   tolua_cclass(tolua_S,"PlayerSettings","PlayerSettings","",NULL);
@@ -1269,6 +3235,11 @@ TOLUA_API int tolua_player_luabinding_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getMessageBoxService",tolua_player_luabinding_PlayerProtocol_getMessageBoxService00);
    tolua_function(tolua_S,"getMenuService",tolua_player_luabinding_PlayerProtocol_getMenuService00);
    tolua_function(tolua_S,"getEditBoxService",tolua_player_luabinding_PlayerProtocol_getEditBoxService00);
+   tolua_function(tolua_S,"quit",tolua_player_luabinding_PlayerProtocol_quit00);
+   tolua_function(tolua_S,"relaunch",tolua_player_luabinding_PlayerProtocol_relaunch00);
+   tolua_function(tolua_S,"openNewPlayer",tolua_player_luabinding_PlayerProtocol_openNewPlayer00);
+   tolua_function(tolua_S,"openNewPlayerWithProjectConfig",tolua_player_luabinding_PlayerProtocol_openNewPlayerWithProjectConfig00);
+   tolua_function(tolua_S,"openProjectWithProjectConfig",tolua_player_luabinding_PlayerProtocol_openProjectWithProjectConfig00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"PlayerFileDialogServiceProtocol","PlayerFileDialogServiceProtocol","PlayerServiceProtocol",NULL);
   tolua_beginmodule(tolua_S,"PlayerFileDialogServiceProtocol");

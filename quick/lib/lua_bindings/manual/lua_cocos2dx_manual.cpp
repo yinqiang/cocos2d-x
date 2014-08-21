@@ -3455,11 +3455,19 @@ static void extendRotateBy(lua_State* tolua_S)
     lua_pop(tolua_S, 1);
 }
 
+static int lua_cocos2dx_cocos2dVersion(lua_State* tolua_S)
+{
+    const char* ver = cocos2dVersion();
+    lua_pushstring(tolua_S, ver);
+    return 1;
+}
+
 static void extendFunctions(lua_State* tolua_S)
 {
     tolua_module(tolua_S,"cc",0);
     tolua_beginmodule(tolua_S,"cc");
         tolua_function(tolua_S,"LuaLoadChunksFromZIP",LuaStack::lua_loadChunksFromZIP);
+        tolua_function(tolua_S,"cocos2dVersion",lua_cocos2dx_cocos2dVersion);
     tolua_endmodule(tolua_S);
 }
 

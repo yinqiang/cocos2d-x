@@ -119,6 +119,9 @@ int PlayerWin::run()
     _app = new AppDelegate();
     _app->setProjectConfig(_project);
 
+    // set window icon
+    HICON icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_PLAYER));
+
     // create console window
     if (_project.isShowConsole())
     {
@@ -126,6 +129,9 @@ int PlayerWin::run()
         _hwndConsole = GetConsoleWindow();
         if (_hwndConsole != NULL)
         {
+            SendMessage(_hwndConsole, WM_SETICON, ICON_BIG, (LPARAM)icon);
+            SendMessage(_hwndConsole, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+
             ShowWindow(_hwndConsole, SW_SHOW);
             BringWindowToTop(_hwndConsole);
             freopen("CONOUT$", "wt", stdout);
@@ -187,6 +193,10 @@ int PlayerWin::run()
     const bool isResize = _project.isResizeWindow();
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, true);
     _hwnd = glfwGetWin32Window(glview->getWindow());
+    SendMessage(_hwnd, WM_SETICON, ICON_BIG, (LPARAM)icon);
+    SendMessage(_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+    FreeResource(icon);
+
     auto director = Director::getInstance();
     director->setOpenGLView(glview);
     director->setScreenScale(screenScale);
@@ -217,10 +227,10 @@ int PlayerWin::run()
     {
         // update window size
         RECT rect;
-        GetWindowRect(hwnd, &rect);
-        MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), FALSE);
+        GetWindowRect(_hwnd, &rect);
+        MoveWindow(_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), FALSE);
     }
-    ShowWindow(hwnd, SW_MINIMIZE);
+    ShowWindow(_hwnd, SW_MINIMIZE);
 
     // startup message loop
     return app->run();

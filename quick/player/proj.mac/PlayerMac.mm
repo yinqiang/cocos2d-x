@@ -5,23 +5,24 @@
 
 PLAYER_NS_BEGIN
 
-Player* Player::create()
+PlayerMac* PlayerMac::create()
 {
-    return new Player();
+    return new PlayerMac();
 }
 
 
-Player::Player()
+PlayerMac::PlayerMac()
 : PlayerProtocol()
 , _fileDialogService(nullptr)
 , _messageBoxService(nullptr)
 , _menuService(nullptr)
 , _editBoxService(nullptr)
+, _appController(nullptr)
 {
 }
 
 
-Player::~Player()
+PlayerMac::~PlayerMac()
 {
     CC_SAFE_DELETE(_fileDialogService);
     CC_SAFE_DELETE(_fileDialogService);
@@ -30,7 +31,7 @@ Player::~Player()
     CC_SAFE_DELETE(_editBoxService);
 }
 
-PlayerFileDialogServiceProtocol *Player::getFileDialogService()
+PlayerFileDialogServiceProtocol *PlayerMac::getFileDialogService()
 {
     if (!_fileDialogService)
     {
@@ -39,7 +40,7 @@ PlayerFileDialogServiceProtocol *Player::getFileDialogService()
     return _fileDialogService;
 }
 
-PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
+PlayerMessageBoxServiceProtocol *PlayerMac::getMessageBoxService()
 {
     if (!_messageBoxService)
     {
@@ -48,7 +49,7 @@ PlayerMessageBoxServiceProtocol *Player::getMessageBoxService()
     return _messageBoxService;
 }
 
-PlayerMenuServiceProtocol *Player::getMenuService()
+PlayerMenuServiceProtocol *PlayerMac::getMenuService()
 {
     if (!_menuService)
     {
@@ -57,13 +58,62 @@ PlayerMenuServiceProtocol *Player::getMenuService()
     return _menuService;
 }
 
-PlayerEditBoxServiceProtocol *Player::getEditBoxService()
+PlayerEditBoxServiceProtocol *PlayerMac::getEditBoxService()
 {
     if (!_editBoxService)
     {
         _editBoxService = new PlayerEditBoxServiceMac();
     }
     return _editBoxService;
+}
+
+PlayerTaskServiceProtocol *PlayerMac::getTaskService()
+{
+    return nullptr;
+}
+
+void PlayerMac::quit()
+{
+    PlayerProtocol::quit();
+    cocos2d::Director::getInstance()->end();
+}
+
+void PlayerMac::relaunch()
+{
+    PlayerProtocol::relaunch();
+    
+    if (_appController && [_appController respondsToSelector:NSSelectorFromString(@"relaunch")])
+    {
+        [_appController performSelector:NSSelectorFromString(@"relaunch")];
+    }
+}
+
+void PlayerMac::openNewPlayer()
+{
+    PlayerProtocol::openNewPlayer();
+}
+
+void PlayerMac::openNewPlayerWithProjectConfig(ProjectConfig config)
+{
+    if (_appController && [_appController respondsToSelector:NSSelectorFromString(@"launch:")])
+    {
+        NSString *commandLine = [NSString stringWithCString:config.makeCommandLine().c_str()
+                                                   encoding:NSUTF8StringEncoding];
+        NSArray *arguments = [NSMutableArray arrayWithArray:[commandLine componentsSeparatedByString:@" "]];
+        
+        [_appController performSelector:NSSelectorFromString(@"launch:") withObject:arguments];
+    }
+}
+
+void PlayerMac::openProjectWithProjectConfig(ProjectConfig config)
+{
+    this->openNewPlayerWithProjectConfig(config);
+    this->quit();
+}
+
+void PlayerMac::setController(id controller)
+{
+    _appController = controller;
 }
 
 PLAYER_NS_END
