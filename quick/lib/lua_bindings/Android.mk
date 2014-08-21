@@ -10,7 +10,6 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/CCLuaStack.cpp \
           $(LOCAL_PATH)/manual/CCLuaValue.cpp \
           $(LOCAL_PATH)/manual/Cocos2dxLuaLoader.cpp \
-          $(LOCAL_PATH)/manual/Lua_web_socket.cpp \
           $(LOCAL_PATH)/manual/LuaScriptHandlerMgr.cpp \
           $(LOCAL_PATH)/manual/LuaBasicConversions.cpp \
           $(LOCAL_PATH)/manual/lua_cocos2dx_manual.cpp \
@@ -26,6 +25,10 @@ endif
 
 ifneq ($(QUICK_NO_PHYSICS),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp
+endif
+
+ifneq ($(QUICK_NO_WEBSOCKET),1)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/Lua_web_socket.cpp
 endif
 
 LOCAL_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/tolua \

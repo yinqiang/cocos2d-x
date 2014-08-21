@@ -6,14 +6,9 @@ LOCAL_MODULE := lua_extensions_static
 LOCAL_MODULE_FILENAME := libluaextensions
 
 LOCAL_SRC_FILES := \
-                        $(LOCAL_PATH)/cjson/fpconv.c \
-                        $(LOCAL_PATH)/cjson/lua_cjson.c \
-                        $(LOCAL_PATH)/cjson/strbuf.c \
                         $(LOCAL_PATH)/zlib/lua_zlib.c \
                         $(LOCAL_PATH)/filesystem/lfs.c \
                         $(LOCAL_PATH)/lpack/lpack.c \
-                        $(LOCAL_PATH)/lsqlite3/sqlite3.c \
-                        $(LOCAL_PATH)/lsqlite3/lsqlite3.c \
                         $(LOCAL_PATH)/socket/auxiliar.c \
                         $(LOCAL_PATH)/socket/except.c \
                         $(LOCAL_PATH)/socket/inet.c \
@@ -32,6 +27,22 @@ LOCAL_SRC_FILES := \
                         $(LOCAL_PATH)/socket/usocket.c \
                         $(LOCAL_PATH)/lua_extensions.c
 
+ifneq ($(QUICK_NO_SQLITE),1)
+LOCAL_SRC_FILES += \
+                        $(LOCAL_PATH)/lsqlite3/sqlite3.c \
+                        $(LOCAL_PATH)/lsqlite3/lsqlite3.c
+else
+LOCAL_CFLAGS += -DQUICK_NO_SQLITE=1
+endif
+
+ifneq ($(QUICK_NO_JSON),1)
+LOCAL_SRC_FILES += \
+                        $(LOCAL_PATH)/cjson/fpconv.c \
+                        $(LOCAL_PATH)/cjson/lua_cjson.c \
+                        $(LOCAL_PATH)/cjson/strbuf.c
+else
+LOCAL_CFLAGS += -DQUICK_NO_JSON=1
+endif
 
 LOCAL_EXPORT_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/luajit/include \
                            $(QUICK_V3_LIB)/lua_bindings/tolua \
