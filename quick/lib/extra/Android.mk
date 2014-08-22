@@ -12,14 +12,10 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/crypto/CCCrypto.cpp \
     $(LOCAL_PATH)/crypto/base64/libbase64.c \
     $(LOCAL_PATH)/network/CCNetwork.cpp \
+    $(LOCAL_PATH)/platform/android/CCHTTPRequestAndroid.cpp \
     $(LOCAL_PATH)/platform/android/CCCryptoAndroid.cpp \
     $(LOCAL_PATH)/platform/android/CCNativeAndroid.cpp \
     $(LOCAL_PATH)/platform/android/CCNetworkAndroid.cpp
-
-ifneq ($(QUICK_NO_CURL),1)
-LOCAL_SRC_FILES += \
-    $(LOCAL_PATH)/network/CCHTTPRequest.cpp
-endif
 
 ifdef $(ANYSDK_DEFINE)
 
