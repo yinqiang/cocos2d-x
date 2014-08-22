@@ -66,7 +66,7 @@ extern "C" {
 #include "lua_cocos2dx_extension_filter_auto.hpp"
 
 
-#if defined(ANYSDK_DEFINE)
+#if ANYSDK_DEFINE > 0
 #include "src/lua_anysdk_auto.hpp"
 #include "src/lua_anysdk_manual.hpp"
 #endif
@@ -196,7 +196,7 @@ bool LuaStack::init(void)
 #endif
 #endif
 
-#ifdef ANYSDK_DEFINE
+#if ANYSDK_DEFINE > 0
     register_all_anysdk(_state);
     register_all_anysdk_manual(_state);
 #endif

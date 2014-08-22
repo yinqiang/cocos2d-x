@@ -14,10 +14,8 @@ echo   COCOS2DX_ROOT       = %COCOS2DX_ROOT%
 echo   APP_ROOT            = %APP_ROOT%
 echo   APP_ANDROID_ROOT    = %APP_ANDROID_ROOT%
 
-rem if dont use DEBUG, comments out two lines below
+rem if dont use DEBUG, comments out line below
 set NDK_DEBUG=1
-set ANYSDK_DEFINE=1
-set NDK_BUILD_FLAGS=CPPFLAGS="-DANYSDK_DEFINE=1"
 
 echo - cleanup
 if exist "%APP_ANDROID_ROOT%bin" rmdir /s /q "%APP_ANDROID_ROOT%bin"
@@ -26,8 +24,8 @@ if exist "%APP_ANDROID_ROOT%assets" rmdir /s /q "%APP_ANDROID_ROOT%assets"
 mkdir "%APP_ANDROID_ROOT%assets"
 
 echo - copy scripts
-mkdir "%APP_ANDROID_ROOT%assets\scripts"
-xcopy /s /q "%APP_ROOT%scripts\*.*" "%APP_ANDROID_ROOT%assets\scripts\"
+mkdir "%APP_ANDROID_ROOT%assets\src"
+xcopy /s /q "%APP_ROOT%src\*.*" "%APP_ANDROID_ROOT%assets\src\"
 echo - copy resources
 mkdir "%APP_ANDROID_ROOT%assets\res"
 xcopy /s /q "%APP_ROOT%res\*.*" "%APP_ANDROID_ROOT%assets\res\"

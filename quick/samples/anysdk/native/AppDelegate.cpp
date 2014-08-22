@@ -41,7 +41,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #else
-        Size viewSize = _project.getFrameSize();
+        Size viewSize = _projectConfig.getFrameSize();
         glview = GLView::createWithRect("anysdk", Rect(0,0,viewSize.width,viewSize.height));
         director->setOpenGLView(glview);
 #endif
@@ -82,12 +82,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
 
     // set script path
-    string path = FileUtils::getInstance()->fullPathForFilename(_project.getScriptFileRealPath().c_str());
+    string path = FileUtils::getInstance()->fullPathForFilename(_projectConfig.getScriptFileRealPath().c_str());
 #endif
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // Code IDE
-    if (_project.getDebuggerType() == kCCLuaDebuggerCodeIDE)
+    if (_projectConfig.getDebuggerType() == kCCLuaDebuggerCodeIDE)
     {
         if (startRuntime()) return true;
     }
@@ -144,7 +144,7 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::setProjectConfig(const ProjectConfig& config)
 {
-    _project = config;
+    _projectConfig = config;
 }
 
 

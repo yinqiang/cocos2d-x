@@ -4,6 +4,7 @@
 
 #include "CCApplication.h"
 #include "ProjectConfig/ProjectConfig.h"
+#include "ProjectConfig/SimulatorConfig.h"
 
 /**
  @brief    The cocos2d Application.
@@ -38,7 +39,7 @@ public:
     void setProjectConfig(const ProjectConfig& config);
 
 private:
-    ProjectConfig _project;
+    ProjectConfig _projectConfig;
 };
 
 #endif // _APP_DELEGATE_H_

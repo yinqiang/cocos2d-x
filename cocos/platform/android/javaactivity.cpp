@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include <android/log.h>
 #include <jni.h>
 
-#if defined(ANYSDK_DEFINE)
+#if ANYSDK_DEFINE > 0
 #include "PluginJniHelper.h"        //for anysdk
 #endif
 
@@ -55,7 +55,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     JniHelper::setJavaVM(vm);
 
-#if defined(ANYSDK_DEFINE)
+#if ANYSDK_DEFINE > 0
     anysdk::framework::PluginJniHelper::setJavaVM(vm); // add for plugin, for anysdk
 #endif
 
