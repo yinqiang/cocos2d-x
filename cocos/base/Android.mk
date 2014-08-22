@@ -53,7 +53,7 @@ LOCAL_SRC_FILES := \
                 CCController-android.cpp \
                 ObjectFactory.cpp
 
-ifneq ($(QUICK_NO_TGA),1)
+ifeq ($(QUICK_TGA_ENABLED),1)
     LOCAL_SRC_FILES += TGAlib.cpp
 endif                
 

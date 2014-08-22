@@ -1264,8 +1264,11 @@ void DisplayLinkDirector::startAnimation()
     setNextDeltaTimeZero(true);
 }
 
+static long n = 0;
+
 void DisplayLinkDirector::mainLoop()
 {
+    printf("----DisplayLinkDirector::mainLoop()   %d\n", n++);
     if (_purgeDirectorInNextLoop)
     {
         _purgeDirectorInNextLoop = false;

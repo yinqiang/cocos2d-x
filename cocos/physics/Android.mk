@@ -35,9 +35,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(QUICK_V3_LIB) \
                     $(LOCAL_PATH)/../../external/nslog
 
-ifneq ($(QUICK_NO_CHIPMUNK),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
-endif
 
 # define the macro to compile through support/zip_support/ioapi.c
 LOCAL_CFLAGS   :=  -DUSE_FILE32API
@@ -47,6 +45,4 @@ LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 
 include $(BUILD_STATIC_LIBRARY)
 
-ifneq ($(QUICK_NO_CHIPMUNK),1)
 $(call import-module,chipmunk)
-endif

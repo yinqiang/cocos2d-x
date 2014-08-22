@@ -19,7 +19,7 @@ LOCAL_SRC_FILES += \
           $(LOCAL_PATH)/lua_cocos2dx_extension_filter_auto.cpp
 endif
 
-ifneq ($(QUICK_NO_PHYSICS),1)
+ifeq ($(QUICK_PHYSICS_ENABLED),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/lua_cocos2dx_physics_auto.cpp
 endif
 
