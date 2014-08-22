@@ -69,54 +69,51 @@ end
 -- save player setting to ~/.quick_player.lua
 --
 local player = {}
-player.defaultSettings = [[
-PLAYER_COCOACHINA_KEY = "USER_KEY",
-PLAYER_COCOACHINA_USER = "USER_NAME",
-PLAYER_WINDOW_X = 0,
-PLAYER_WINDOW_Y = 0,
-PLAYER_WINDOW_WIDTH = 960,
-PLAYER_WINDOW_HEIGHT = 640,
-PLAYER_OPEN_LAST_PROJECT = true,
-PLAYER_OPEN_RECTNS ={
-},
 
-]]
-
-function player.saveSetting(fileName)
+function player:saveSetting(fileName)
     fileName = fileName or player.configFilePath
     local file, err = io.open(fileName, "wb")
     if err then return err end
 
-    -- table.sort(cc.player.settings)
-    local ret = to_string(cc.player.settings)
+    local ret = to_string(self.settings)
     file:write(ret)
     file:close()
 end
 
-function player.loadSetting(fileName)
+function player:loadSetting(fileName)
     local file, err = io.open(fileName, "rb")
     if err then return err end
 
     local data = file:read("*all")
     local func = loadstring("local settings = {" .. data .. "} return settings")
-    cc.player.settings = func()
+    self.settings = func()
 end
 
-function player.restorDefaultSettings()
-    local func = loadstring("local settings = {" .. player.defaultSettings .. "} return settings")
-    cc.player.settings = func()
-    player.saveSetting()
+function player:setQuickRootPath()
+    local fileName = self.userHomeDir .. ".QUICK_V3_ROOT"
+    local file, err = io.open(fileName, "rb")
+    if err then return err end
+
+
+    self.quickRootPath = file:read("*l") .. "/"
+end
+
+function player:restorDefaultSettings()
+    local func = loadstring("local settings = {" .. self.defaultSettings .. "} return settings")
+    self.settings = func()
+    self:saveSetting()
 end
 
 --
 -- title: string
 -- args : table
 --
-function player.openProject( title, args )
-    local welcomeTitle = __G__QUICK_PATH__ .. "player/welcome/"
+function player:openProject( title, args )
+
+    local welcomeTitle = self.quickRootPath .. "quick/welcom/"
     if title == welcomeTitle then return end
 
-    local recents = cc.player.settings.PLAYER_OPEN_RECTNS
+    local recents = self.settings.PLAYER_OPEN_RECENTS
     if recents then
         local index = #recents
         while index > 0 do
@@ -125,27 +122,31 @@ function player.openProject( title, args )
             index = index - 1
         end
         table.insert(recents, 1, {title=title, args=args})
-        cc.player.saveSetting()
+        self:saveSetting()
     end
 end
 
-function player.clearMenu()
-    cc.player.settings.PLAYER_OPEN_RECTNS = {}
-    player.saveSetting()
+function player:clearMenu()
+    self.settings.PLAYER_OPEN_RECENTS = {}
+    self:saveSetting()
 end
 
-function player.buildUI()
+function player:buildUI()
     local menuBar = PlayerProtocol:getInstance():getMenuService()
 
     -- FILE
     local fileMenu = menuBar:addItem("FILE_MENU", "&File")
-    menuBar:addItem("QUIT_MENU", "New Project...", "FILE_MENU")
-    menuBar:addItem("OPEN_MENU", "Open", "FILE_MENU")
-    menuBar:addItem("SAVE_MENU", "Save", "FILE_MENU")
+    -- menuBar:addItem("QUIT_MENU", "New Project...", "FILE_MENU")
+    -- menuBar:addItem("OPEN_MENU", "Open", "FILE_MENU")
+    -- menuBar:addItem("SAVE_MENU", "Save", "FILE_MENU")
 
-    menuBar:addItem("CLOSE_SEP", "-", "FILE_MENU")
-    menuBar:addItem("CLOSE_MENU", "Close", "FILE_MENU")
+    -- menuBar:addItem("WELCOME_MENU_SEP", "-", "FILE_MENU")
+    menuBar:addItem("WELCOME_MENU", "Welcome", "FILE_MENU")
         :setShortcut("super+w")
+
+    -- menuBar:addItem("CLOSE_SEP", "-", "FILE_MENU")
+    -- menuBar:addItem("CLOSE_MENU", "Close", "FILE_MENU")
+        -- :setShortcut("super+w")
 
     -- VIEW
     local viewMenu = menuBar:addItem("VIEW_MENU", "&View")
@@ -153,19 +154,19 @@ function player.buildUI()
         :setShortcut("super+r")
 end
 
-function player.registerEventHandler()
+function player:registerEventHandler()
     -- for app event
     local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
     local event = function(e)
-        if player.json == nil then player.json = require('framework.json') end
+        if self.json == nil then self.json = require('framework.json') end
 
-        local data = player.json.decode(e:getDataString())
+        local data = self.json.decode(e:getDataString())
         if data == nil then return end
 
         if data.name == "close" then
             -- player.trackEvent("exit")
             eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
-            PlayerProtocol:getInstance():quit()
+            cc.Director:getInstance():endToLua()
         elseif data.name == "resize" then
             -- <code here> t.w,t.h
         elseif data.name == "focusIn" then
@@ -176,7 +177,7 @@ function player.registerEventHandler()
             -- t.key = "tab"
             -- t.key = "return"
         elseif data.name == "menuClicked" then
-            player.onMenuClicked(data)
+            self:onMenuClicked(data)
         end
 
     end
@@ -184,22 +185,30 @@ function player.registerEventHandler()
     eventDispatcher:addEventListenerWithFixedPriority(cc.EventListenerCustom:create("APP.EVENT", event), 1)
 end
 
-function player.onMenuClicked(event)
+function player:onMenuClicked(event)
     local data = event.data
     if data == "CLOSE_MENU" then
         PlayerProtocol:getInstance():quit()
     elseif data == "RELAUNCH_MENU" then
         PlayerProtocol:getInstance():relaunch()
+    elseif data == "WELCOME_MENU" then
+        local config = ProjectConfig:new()
+        config:resetToWelcome()
+        PlayerProtocol:getInstance():openProjectWithProjectConfig(config)
     end
 
 end
 
-function player.readSettings()
-    player.configFilePath = __USER_HOME__ .. ".quick_player.lua"
+function player:readSettings()
+    self.userHomeDir = __USER_HOME__
+    self.configFilePath = player.userHomeDir .. ".quick_player.lua"
     if not cc.FileUtils:getInstance():isFileExist(player.configFilePath) then 
-        player.restorDefaultSettings()
+        self:restorDefaultSettings()
     end
-    player.loadSetting(player.configFilePath)
+    self:loadSetting(player.configFilePath)
+    
+    -- get QUICK_V3_ROOT path
+    self:setQuickRootPath()
 
     local s = PlayerSettings:new()
     s.offsetX = cc.player.settings.PLAYER_WINDOW_X
@@ -210,7 +219,7 @@ function player.readSettings()
     PlayerProtocol:getInstance():setPlayerSettings(s)
 end
 
-function player.trackEvent(eventName, ev)
+function player:trackEvent(eventName, ev)
     local url = 'http://www.google-analytics.com/collect'
     local request = cc.HTTPRequest:createWithUrl(function(event) 
                                                     local eventName = eventName
@@ -227,7 +236,7 @@ function player.trackEvent(eventName, ev)
     request:addPOSTValue("t", "event")
 
     request:addPOSTValue("an", "player")
-    request:addPOSTValue("av", "beta1")
+    request:addPOSTValue("av", cc.cocos2dVersion())
 
     request:addPOSTValue("ec", device.platform)
     request:addPOSTValue("ea", eventName)
@@ -236,25 +245,31 @@ function player.trackEvent(eventName, ev)
     if ev == nil then ev = "0" else ev = tostring(ev) end
     request:addPOSTValue("ev", ev)
 
-    -- 开始请求。当请求完成时会调用 callback() 函数
     request:start()
 end
 
-function player.exit()
-    local delta = os.time() - player.startClock
-    player.trackEvent("exit", delta)
-end
-
 -- call from host
-function player.start()
-    player.startClock = os.time()
-    player.trackEvent("launch")
+function player:trackStartEvent()
+    self:trackEvent("launch")
 end
 
-function player.init()
-    player.registerEventHandler()
-    player.readSettings()
-    player.buildUI()
+function player:init()
+    self.defaultSettings = [[
+        PLAYER_COCOACHINA_KEY = "USER_KEY",
+        PLAYER_COCOACHINA_USER = "USER_NAME",
+        PLAYER_WINDOW_X = 0,
+        PLAYER_WINDOW_Y = 0,
+        PLAYER_WINDOW_WIDTH = 960,
+        PLAYER_WINDOW_HEIGHT = 640,
+        PLAYER_OPEN_LAST_PROJECT = true,
+        PLAYER_OPEN_RECENTS ={
+        },
+
+    ]]
+
+    self:registerEventHandler()
+    self:readSettings()
+    self:buildUI()
 end
 -- load player settings
 
@@ -262,4 +277,4 @@ end
 cc = cc or {}
 cc.player = cc.player or player
 
-cc.player.init()
+cc.player:init()
