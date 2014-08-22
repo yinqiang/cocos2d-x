@@ -13,6 +13,7 @@ end
 
 function game.createMenu(items, callback)
     local node = display.newNode()
+    local baseY = display.cy - 100
     for i, item in ipairs(items) do
         local label = cc.ui.UIPushButton.new()
             :setButtonLabel(
@@ -28,7 +29,7 @@ function game.createMenu(items, callback)
         :onButtonClicked(function(event)
             callback(item)
         end)
-        :align(display.LEFT_CENTER, 0, 240 - 60*i)
+        :align(display.LEFT_CENTER, 0, baseY - 60*i)
         :addTo(node)
     end
 

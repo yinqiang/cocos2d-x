@@ -307,11 +307,7 @@ void HTTPRequest::checkCURLState(float dt)
 
 void HTTPRequest::update(float dt)
 {
-    if (m_state == kCCHTTPRequestStateInProgress) {
-        
-
-        return;
-    }
+    if (m_state == kCCHTTPRequestStateInProgress) { return; }
     Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
     if (m_curlState != kCCHTTPRequestCURLStateIdle)
     {
@@ -395,7 +391,7 @@ void HTTPRequest::onRequest(void)
 
         code = getResponedCodeJava();
 
-        CCLOG("HTTPRequest responed code:%d", code);
+        // CCLOG("HTTPRequest responed code:%d", code);
 
         char* header = NULL;
 
@@ -405,34 +401,42 @@ void HTTPRequest::onRequest(void)
             if (NULL == header) {
                 break;
             }
-            if (0 == strcasecmp("Set-Cookie", header)) {
-            } else {
-                onWriteHeader(header, strlen(header));
-            }
+            onWriteHeader(header, strlen(header));
+            free(header);
+            header = NULL;
             nCounter++;
         }
 
         //get cookies
-        CCLOG("get cookies");
-        m_responseCookies = getResponedHeaderByKeyJava("set-cookie");
+        char* strCookies = getResponedHeaderByKeyJava("set-cookie");
+        if (NULL != strCookies) {
+            m_responseCookies = strCookies;
+            free(strCookies);
+        }
 
-        CCLOG("delete succesdddddds");
+        //content len
+        int nContentLen = getResponedHeaderByKeyIntJava("Content-Length");
 
         while (true) {
-            char* recvData = getResponedStringJava();
+            char* recvData = NULL;
+            int nRecv = 0;
+            nRecv = getResponedStringJava(&recvData);
             if (NULL == recvData) {
                 code = 0;
                 CCLOG("HTTPRequest - onRequest, get null responed string");
                 break;
             } else {
-                int nRecv = strlen(recvData);
                 if (1 == (char)(*recvData)) {
                     nRecv -= 1;
-                    CCLOG("HTTPRequest - onRequest, responed string len:%d", nRecv);
                     onWriteData(recvData + 1, nRecv);
-                    onProgress(m_responseDataLength + nRecv, nRecv, 0, 0);
+
+                    //here m_responseDataLength have add nRecv value
+                    onProgress(m_responseDataLength, nRecv, nContentLen, nRecv);
+
+                    free(recvData);
                 } else {
-                    CCLOG("HTTPRequest - onRequest, responed string completed:%d", nRecv);
+                    // CCLOG("HTTPRequest - onRequest, responed string completed");
+                    free(recvData);
                     break;
                 }
             }
@@ -472,6 +476,28 @@ size_t HTTPRequest::onWriteHeader(void *buffer, size_t bytes)
 
 int HTTPRequest::onProgress(double dltotal, double dlnow, double ultotal, double ulnow)
 {
+#if CC_LUA_ENGINE_ENABLED > 0
+    if (m_listener)
+    {
+        if (m_state == kCCHTTPRequestStateInProgress) {
+            LuaValueDict dict;
+
+            dict["name"] = LuaValue::stringValue("progress");
+            dict["total"] = LuaValue::intValue(ultotal);
+            dict["dltotal"] = LuaValue::intValue(dltotal);
+            dict["dlnow"] = LuaValue::intValue(dlnow);
+            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
+
+            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
+            stack->clean();
+            stack->pushLuaValueDict(dict);
+            stack->executeFunctionByHandler(m_listener, 1);
+        } else {
+            CCLOG("HTTPRequest - onProgress state wrong:", m_state);
+        }
+    }
+#endif
+
     return m_state == kCCHTTPRequestStateCancelled ? 1: 0;
 }
 
@@ -488,6 +514,7 @@ void HTTPRequest::cleanup(void)
     if (m_httpConnect)
     {
         closeJava();
+        JniHelper::getEnv()->DeleteGlobalRef(m_httpConnect);
         m_httpConnect = NULL;
     }
 }
@@ -533,10 +560,10 @@ void HTTPRequest::createURLConnectJava() {
         "(Ljava/lang/String;)Ljava/net/HttpURLConnection;"))
     {
         jstring jurl = methodInfo.env->NewStringUTF(m_url.c_str());
-        m_httpConnect = methodInfo.env->CallStaticObjectMethod(methodInfo.classID, methodInfo.methodID, jurl);
+        jobject jObj = methodInfo.env->CallStaticObjectMethod(methodInfo.classID, methodInfo.methodID, jurl);
+        m_httpConnect = methodInfo.env->NewGlobalRef(jObj);
         methodInfo.env->DeleteLocalRef(jurl);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
-        m_jniEnv = methodInfo.env;
     }
 }
 
@@ -712,7 +739,7 @@ char* HTTPRequest::getResponedHeaderByIdxJava(int idx) {
 }
 
 char* HTTPRequest::getResponedHeaderByKeyJava(const char* key) {
-    char* value = nullptr;
+    char* value = NULL;
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
@@ -724,39 +751,54 @@ char* HTTPRequest::getResponedHeaderByKeyJava(const char* key) {
             methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey);
         value = getCStrFromJString((jstring)jObj, methodInfo.env);
         methodInfo.env->DeleteLocalRef(jstrKey);
-        CCLOG("headerByKey %x", jObj);
         if (NULL != jObj) {
             methodInfo.env->DeleteLocalRef(jObj);
         }
-        CCLOG("delete success");
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
-        CCLOG("delete succesddddfff2s");
     }
 
     return value;
 }
 
-char* HTTPRequest::getResponedStringJava() {
-    char* responed = nullptr;
+int HTTPRequest::getResponedHeaderByKeyIntJava(const char* key) {
+    int nContentLen = 0;
+    JniMethodInfo methodInfo;
+    if (JniHelper::getStaticMethodInfo(methodInfo,
+        "org/cocos2dx/lib/QuickHTTPInterface",
+        "getResponedHeaderByKeyInt",
+        "(Ljava/net/HttpURLConnection;Ljava/lang/String;)I"))
+    {
+        jstring jstrKey = methodInfo.env->NewStringUTF(key);
+        nContentLen = methodInfo.env->CallStaticIntMethod(
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey);
+        methodInfo.env->DeleteLocalRef(jstrKey);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+
+    return nContentLen;
+}
+
+int HTTPRequest::getResponedStringJava(char** ppData) {
+    int nDataLen = 0;
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
         "getResponedString",
-        "(Ljava/net/HttpURLConnection;)Ljava/lang/String;"))
+        "(Ljava/net/HttpURLConnection;)[B"))
     {
         jobject jObj = methodInfo.env->CallStaticObjectMethod(
             methodInfo.classID, methodInfo.methodID, m_httpConnect);
-        responed = getCStrFromJString((jstring)jObj, methodInfo.env);
+        nDataLen = getCStrFromJByteArray((jbyteArray)jObj, methodInfo.env, ppData);
         if (NULL != jObj) {
             methodInfo.env->DeleteLocalRef(jObj);
         }
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 
-    return responed;
+    return nDataLen;
 }
 
-char* HTTPRequest::closeJava() {
+void HTTPRequest::closeJava() {
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
@@ -783,6 +825,22 @@ char* HTTPRequest::getCStrFromJString(jstring jstr, JNIEnv* env) {
     env->ReleaseStringUTFChars(jstr, str);
 
     return strRet;
+}
+
+int HTTPRequest::getCStrFromJByteArray(jbyteArray jba, JNIEnv* env, char** ppData) {
+    if (NULL == jba) {
+        *ppData = NULL;
+        return 0;
+    }
+
+    char* str = NULL;
+
+    int len  = env->GetArrayLength(jba);
+    str = (char*)malloc(sizeof(char)*len);
+    env->GetByteArrayRegion(jba, 0, len, (jbyte*)str);
+
+    *ppData = str;
+    return len;
 }
 
 

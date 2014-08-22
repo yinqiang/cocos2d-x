@@ -193,7 +193,6 @@ private:
     HTTPRequestHeaders m_headers;
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIEnv* m_jniEnv;
     jobject m_httpConnect;
     char* m_httpMethod;
     Fields m_postFile;
@@ -247,9 +246,11 @@ private:
     char* getResponedHeaderJava();
     char* getResponedHeaderByIdxJava(int idx);
     char* getResponedHeaderByKeyJava(const char* key);
-    char* getResponedStringJava();
-    char* closeJava();
+    int getResponedHeaderByKeyIntJava(const char* key);
+    int   getResponedStringJava(char** ppData);
+    void closeJava();
 
+    int   getCStrFromJByteArray(jbyteArray jba, JNIEnv* env, char** ppData);
     char* getCStrFromJString(jstring jstr, JNIEnv* env);
 #endif
 

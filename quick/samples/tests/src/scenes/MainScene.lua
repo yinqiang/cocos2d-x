@@ -5,7 +5,7 @@ end)
 
 function MainScene:ctor()
     local items = {
-        "framework.display",
+        -- "framework.display",
         "framework.crypto",
         "framework.network",
         "framework.luabinding",

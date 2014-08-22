@@ -30,6 +30,8 @@ function NetworkTestScene:onResponse(event, index, dumpResponse)
                 printf("REQUEST %d - getResponseString() =\n%s", index, request:getResponseString())
             end
         end
+    elseif event.name == "progress" then
+        printf("REQUEST %d - total:%d, have download:%d, this circle download:%d", index, event.total, event.dltotal, event.dlnow)
     else
         printf("REQUEST %d - getErrorCode() = %d, getErrorMessage() = %s", index, request:getErrorCode(), request:getErrorMessage())
     end
@@ -40,13 +42,16 @@ end
 function NetworkTestScene:createHTTPRequestTest()
     self.requestCount = self.requestCount + 1
     local index = self.requestCount
+    local url
+    -- url = "http://b.zol-img.com.cn/desk/bizhi/image/5/1920x1080/1403231389216.jpg"
+    url = "http://quick-x.com/feed/"
     local request = network.createHTTPRequest(function(event)
         if tolua.isnull(self) then
             printf("REQUEST %d COMPLETED, BUT SCENE HAS QUIT", index)
             return
         end
         self:onResponse(event, index)
-    end, "http://quick-x.com/feed/", "GET")
+    end, url, "GET")
     printf("REQUEST START %d", index)
     request:start()
 end
@@ -76,7 +81,8 @@ function NetworkTestScene:send_data_to_serverTest()
             return
         end
         self:onResponse(event, index, true)
-        local cookie = network.parseCookie(event.request:getCookieString())
+        local cookiesStr = event.request:getCookieString()
+        local cookie = network.parseCookie(cookiesStr)
         dump(cookie, "GET COOKIE FROM SERVER")
     end, "http://quick-x.com/tests/http_request_tests.php", "POST")
     request:addPOSTValue("username", "dualface")

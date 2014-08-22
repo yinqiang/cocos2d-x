@@ -17,11 +17,6 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/platform/android/CCNativeAndroid.cpp \
     $(LOCAL_PATH)/platform/android/CCNetworkAndroid.cpp
 
-ifneq ($(QUICK_NO_CURL),1)
-LOCAL_SRC_FILES += \
-    $(LOCAL_PATH)/network/CCHTTPRequest.cpp
-endif
-
 ifdef $(ANYSDK_DEFINE)
 
 LOCAL_SRC_FILES += \
