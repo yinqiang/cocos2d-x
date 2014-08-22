@@ -1,4 +1,4 @@
-
+﻿
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(linker, "\"/manifestdependency:type='Win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='X86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
@@ -20,6 +20,45 @@
 
 #include "glfw3.h"
 #include "glfw3native.h"
+
+#include "CCLuaEngine.h"
+#include "PlayerLuaCore.h"
+
+//
+// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+//
+static inline std::string _convertPathFormatToUnixStyle(const std::string& path)
+{
+	std::string ret = path;
+	int len = ret.length();
+	for (int i = 0; i < len; ++i)
+	{
+		if (ret[i] == '\\')
+		{
+			ret[i] = '/';
+		}
+	}
+	return ret;
+}
+
+//
+// @return: C:/Users/win8/Documents/
+//
+static inline std::string _getUserDocumentPath()
+{
+	TCHAR filePath[MAX_PATH];
+	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+	int length = 2 * wcslen(filePath);
+	char* tempstring = new char[length + 1];
+	wcstombs(tempstring, filePath, length + 1);
+	string userDocumentPath(tempstring);
+	free(tempstring);
+
+	userDocumentPath = _convertPathFormatToUnixStyle(userDocumentPath);
+	userDocumentPath.append("/");
+
+	return userDocumentPath;
+}
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
@@ -88,6 +127,46 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
     return _taskService;
 }
 
+void PlayerWin::loadLuaConfig()
+{
+	LuaEngine* pEngine = LuaEngine::getInstance();
+	ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
+
+	// load player lua core
+	luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
+
+	// set env
+	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+	quickRootPath = _convertPathFormatToUnixStyle(quickRootPath);
+
+	string env = "__G_QUICK_V3_ROOT__=\"";
+	env.append(quickRootPath);
+	env.append("\"");
+	pEngine->executeString(env.c_str());
+
+	// set user home dir
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _getUserDocumentPath().c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+
+	// load player.lua
+	quickRootPath.append("quick/player/src/player.lua");
+	pEngine->getLuaStack()->executeScriptFile(quickRootPath.c_str());
+}
+
+void PlayerWin::registerKeyboardEvent()
+{
+	auto keyEvent = cocos2d::EventListenerKeyboard::create();
+	keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
+		auto event = EventCustom("APP.EVENT");
+		stringstream data;
+		data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
+		event.setDataString(data.str());
+		Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+	};
+
+	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyEvent, 1);
+}
+
 int PlayerWin::run()
 {
     INITCOMMONCONTROLSEX InitCtrls;
@@ -105,6 +184,7 @@ int PlayerWin::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // load project config from command line args
+	_project.resetToWelcome();
     vector<string> args;
     for (int i = 0; i < __argc; ++i)
     {
@@ -203,6 +283,9 @@ int PlayerWin::run()
 
     // init player services
     initServices();
+
+	loadLuaConfig();
+	registerKeyboardEvent();
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();

@@ -82,7 +82,7 @@ function WelcomeScene:createButtons(node)
     :onButtonClicked(function()
         local projectConfig = ProjectConfig:new()
         local argumentVector = vector_string_:new_local()
-        if self.localProjectListView_.currentIndex  then
+        if self.localProjectListView_.currentIndex and self.localProjectListView_.currentIndex > 0 then
             local arguments = cc.player.settings.PLAYER_OPEN_RECENTS[self.localProjectListView_.currentIndex].args
             for _,v in ipairs(arguments) do
                 argumentVector:push_back(v)
@@ -178,7 +178,7 @@ function WelcomeScene:createListItem(icon, title, path)
     :addTo(container)
 
     -- title
-    title = title:spliteBySep(device.directorySeparator)
+    title = title:spliteBySep('/')
     local titleLabel = cc.ui.UILabel.new({
             text = title[#title],
             size = 28,

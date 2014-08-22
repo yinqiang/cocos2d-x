@@ -101,6 +101,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
     <ClInclude Include="..\src\AppDelegate.h" />
     <ClInclude Include="..\src\PlayerEditBoxServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerFileDialogServiceProtocol.h" />
+    <ClInclude Include="..\src\PlayerLuaCore.h" />
     <ClInclude Include="..\src\PlayerMacros.h" />
     <ClInclude Include="..\src\PlayerMenuServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerMessageBoxServiceProtocol.h" />
@@ -121,6 +122,7 @@ copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AppDelegate.cpp" />
+    <ClCompile Include="..\src\PlayerLuaCore.cpp" />
     <ClCompile Include="..\src\PlayerMenuServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerProtocol.cpp" />
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />

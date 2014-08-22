@@ -88,15 +88,23 @@ function player:loadSetting(fileName)
     local func = loadstring("local settings = {" .. data .. "} return settings")
     self.settings = func()
     self.settings.PLAYER_OPEN_RECENTS = self.settings.PLAYER_OPEN_RECENTS or {}
+    file:close()
 end
 
 function player:setQuickRootPath()
-    local fileName = self.userHomeDir .. ".QUICK_V3_ROOT"
-    local file, err = io.open(fileName, "rb")
-    if err then return err end
+    self.quickRootPath = __G_QUICK_V3_ROOT__
+
+    print(" the quick root path: ", self.quickRootPath)
+
+    if self.quickRootPath == nil then
+        local fileName = self.userHomeDir .. ".QUICK_V3_ROOT"
+        local file, err = io.open(fileName, "rb")
+        if err then return err end
 
 
-    self.quickRootPath = file:read("*l") .. "/"
+        self.quickRootPath = file:read("*l") .. "/"
+        file:close()
+    end
 end
 
 function player:restorDefaultSettings()
@@ -110,7 +118,6 @@ end
 -- args : table
 --
 function player:openProject( title, args )
-
     local welcomeTitle = self.quickRootPath .. "quick/welcom/"
     if title == welcomeTitle then return end
 
@@ -233,7 +240,7 @@ function player:trackEvent(eventName, ev)
 
     request:addPOSTValue("v", "1")
     request:addPOSTValue("tid", "UA-52790340-1")
-    request:addPOSTValue("cid", cc.Native:getOpenUDID())
+    -- request:addPOSTValue("cid", "openuuid-123456")
     request:addPOSTValue("t", "event")
 
     request:addPOSTValue("an", "player")

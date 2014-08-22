@@ -193,8 +193,9 @@ function OpenProjectUI:createYesOrNoButton()
 
         
         -- PlayerProtocol:getInstance():openNewPlayerWithProjectConfig(projectConfig)
-
-        cc.player:openProject(projectConfig:getProjectDir(), string.split(projectConfig:makeCommandLine(4095), ' '))
+        local title = string.gsub(projectConfig:getProjectDir(), '\\', '/')
+        local args = string.split(string.gsub(projectConfig:makeCommandLine(4095), '\\', '/'), ' ')
+        cc.player:openProject(title, args)
         PlayerProtocol:getInstance():openProjectWithProjectConfig(projectConfig)
     end)
 end
