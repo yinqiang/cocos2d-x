@@ -26,6 +26,7 @@
 (http://libwebsockets.org)"
 
  ****************************************************************************/
+#if QUICK_WEBSOCKET_ENABLED > 0
 
 #include "WebSocket.h"
 #include "base/CCDirector.h"
@@ -722,3 +723,5 @@ void WebSocket::onUIThreadReceiveMessage(WsMessage* msg)
 }
 
 NS_CC_END
+
+#endif //QUICK_WEBSOCKET_ENABLED >0

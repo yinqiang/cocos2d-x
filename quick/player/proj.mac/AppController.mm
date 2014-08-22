@@ -225,10 +225,9 @@ std::string getCurAppPath(void)
 
 - (IBAction) onFileClose:(id)sender
 {
-    player::PlayerProtocol::getInstance()->getFileDialogService()->openDirectory("xxx", "");
-//    EventCustom event("APP.EVENT");
-//    event.setDataString("{\"name\":\"close\"}");
-//    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    EventCustom event("APP.EVENT");
+    event.setDataString("{\"name\":\"close\"}");
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 - (void) startup

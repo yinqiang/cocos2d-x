@@ -10,6 +10,9 @@ else
   APP_OPTIM := release
 endif
 
+ANYSDK_DEFINE := 1
+APP_CPPFLAGS += -DANYSDK_DEFINE=1
+
 APP_ABI := armeabi
 APP_PLATFORM := android-14
 NDK_TOOLCHAIN_VERSION = 4.8

@@ -21,13 +21,11 @@ LOCAL_SRC_FILES += \
     $(LOCAL_PATH)/network/CCHTTPRequest.cpp
 endif
 
-ifdef $(ANYSDK_DEFINE)
-
+ifeq ($(ANYSDK_DEFINE),1)
 LOCAL_SRC_FILES += \
     $(LOCAL_PATH)/anysdk/src/AnySDKListener.cpp \
     $(LOCAL_PATH)/anysdk/src/lua_anysdk_auto.cpp \
     $(LOCAL_PATH)/anysdk/src/lua_anysdk_manual.cpp
-
 endif
 
 
