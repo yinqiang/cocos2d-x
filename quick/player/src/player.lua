@@ -87,6 +87,7 @@ function player:loadSetting(fileName)
     local data = file:read("*all")
     local func = loadstring("local settings = {" .. data .. "} return settings")
     self.settings = func()
+    self.settings.PLAYER_OPEN_RECENTS = self.settings.PLAYER_OPEN_RECENTS or {}
 end
 
 function player:setQuickRootPath()
