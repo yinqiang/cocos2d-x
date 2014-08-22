@@ -40,7 +40,7 @@ std::string getCurAppPath(void)
     _buildTask = nil;
     _isBuildingFinished = YES;
 
-    // load QUICK_COCOS2DX_ROOT from ~/.QUICK_COCOS2DX_ROOT
+    // load QUICK_V3_ROOT from ~/.QUICK_V3_ROOT
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/.QUICK_V3_ROOT"];
     NSError *error = [[[NSError alloc] init] autorelease];
