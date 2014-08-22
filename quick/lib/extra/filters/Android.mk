@@ -5,6 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := extra_filters_static
 LOCAL_MODULE_FILENAME := libextrafilters
 
+ifneq ($(QUICK_NO_EXTRA_FILTERS),1)
+
 LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/filters/CCFilter.cpp \
     $(LOCAL_PATH)/filters/CCBlurFilter.cpp \
@@ -25,6 +27,12 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/filters/CCCustomFilter.cpp \
     $(LOCAL_PATH)/nodes/CCFilteredSprite.cpp \
     $(LOCAL_PATH)/shaders/ccFilterShaders.cpp 
+
+else
+
+LOCAL_SRC_FILES += 
+
+endif
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \

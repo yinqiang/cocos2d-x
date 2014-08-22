@@ -1,9 +1,11 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := cocostudio_static
+LOCAL_MODULE := cocostudio_armature_static
 
-LOCAL_MODULE_FILENAME := libcocostudio
+LOCAL_MODULE_FILENAME := libcocostudioarmature
+
+ifneq ($(QUICK_NO_CCS_ARMATURE),1)
 
 LOCAL_SRC_FILES := \
 CCArmature.cpp \
@@ -26,6 +28,11 @@ CCUtilMath.cpp \
 CocoLoader.cpp \
 DictionaryHelper.cpp \
 
+else
+
+LOCAL_SRC_FILES :=
+
+endif
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.. \
 $(LOCAL_PATH)/../../../external

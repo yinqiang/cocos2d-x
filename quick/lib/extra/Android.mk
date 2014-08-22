@@ -17,6 +17,11 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/platform/android/CCNativeAndroid.cpp \
     $(LOCAL_PATH)/platform/android/CCNetworkAndroid.cpp
 
+ifneq ($(QUICK_NO_CURL),1)
+LOCAL_SRC_FILES += \
+    $(LOCAL_PATH)/network/CCHTTPRequest.cpp
+endif
+
 ifdef $(ANYSDK_DEFINE)
 
 LOCAL_SRC_FILES += \
@@ -52,4 +57,12 @@ LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 LOCAL_CFLAGS := -Wno-psabi -DUSE_FILE32API -DCC_LUA_ENGINE_ENABLED=1 $(ANDROID_COCOS2D_BUILD_FLAGS) -std=c++11
 LOCAL_EXPORT_CFLAGS := -Wno-psabi -DUSE_FILE32API -DCC_LUA_ENGINE_ENABLED=1
 
+ifneq ($(QUICK_NO_CURL),1)
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_curl_static
+endif
+
 include $(BUILD_STATIC_LIBRARY)
+
+ifneq ($(QUICK_NO_CURL),1)
+$(call import-module,curl/prebuilt/android)
+endif
