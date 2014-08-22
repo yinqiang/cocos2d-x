@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := extra_filters_static
 LOCAL_MODULE_FILENAME := libextrafilters
 
-ifneq ($(QUICK_NO_EXTRA_FILTERS),1)
+ifeq ($(QUICK_EXTRA_FILTERS_ENABLED),1)
 
 LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/filters/CCFilter.cpp \

@@ -666,9 +666,7 @@ void Director::setProjection(Projection projection)
 void Director::purgeCachedData(void)
 {
     FontFNT::purgeCachedData();
-#if QUICK_NO_FREETYPE==0
     FontAtlasCache::purgeCachedData();
-#endif
 
     if (s_SharedDirector->getOpenGLView())
     {
@@ -970,9 +968,7 @@ void Director::purgeDirector()
 
     // purge bitmap cache
     FontFNT::purgeCachedData();
-#if QUICK_NO_FREETYPE==0
     FontFreeType::shutdownFreeType();
-#endif
     // purge all managed caches
     DrawPrimitives::free();
     AnimationCache::destroyInstance();

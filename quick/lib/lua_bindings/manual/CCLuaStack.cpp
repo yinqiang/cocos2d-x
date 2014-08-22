@@ -163,12 +163,12 @@ bool LuaStack::init(void)
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_extension_manual(_state);
     
-#if QUICK_NO_CCS_ARMATURE!=1
+#if QUICK_CCS_ARMATURE_ENABLED > 0
     register_all_cocos2dx_studio(_state);
     register_all_cocos2dx_coco_studio_manual(_state);
 #endif
     
-#if QUICK_NO_EXTRA_FILTERS!=1
+#if QUICK_EXTRA_FILTERS_ENABLED > 0
     register_all_cocos2dx_extension_filter(_state);
 #endif
     
@@ -190,7 +190,7 @@ bool LuaStack::init(void)
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-#if QUICK_NO_WEBSOCKET!=1
+#if QUICK_WEBSOCKET_ENABLED > 0
     tolua_web_socket_open(_state);
     register_web_socket_manual(_state);
 #endif

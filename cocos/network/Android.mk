@@ -7,7 +7,7 @@ LOCAL_MODULE_FILENAME := libnetwork
 
 LOCAL_SRC_FILES := 
 
-ifneq ($(QUICK_NO_WEBSOCKET),1)
+ifeq ($(QUICK_WEBSOCKET_ENABLED),1)
 LOCAL_SRC_FILES += WebSocket.cpp
 endif
 
@@ -21,12 +21,12 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../.. \
 LOCAL_CFLAGS += -Wno-psabi
 LOCAL_EXPORT_CFLAGS += -Wno-psabi
 
-ifneq ($(QUICK_NO_WEBSOCKET),1)
+ifeq ($(QUICK_WEBSOCKET_ENABLED),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += libwebsockets_static
 endif
 
 include $(BUILD_STATIC_LIBRARY)
 
-ifneq ($(QUICK_NO_WEBSOCKET),1)
+ifeq ($(QUICK_WEBSOCKET_ENABLED),1)
 $(call import-module,websockets/prebuilt/android)
 endif
