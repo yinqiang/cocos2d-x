@@ -102,6 +102,7 @@ public class QuickHTTPInterface {
         int code = 0;
         try {
             code = http.getResponseCode();
+            //            Log.i("QuickHTTPInterface", "reponed code:" + code);
         } catch (IOException e) {
             Log.e("QuickHTTPInterface", e.toString());
         }
@@ -199,7 +200,11 @@ public class QuickHTTPInterface {
     static int getResponedHeaderByKeyInt(HttpURLConnection http, String key) {
         String value = http.getHeaderField(key);
 
-        return Integer.parseInt(value);
+        if (null == value) {
+            return 0;
+        } else {
+            return Integer.parseInt(value);
+        }
     }
 
     static int getContentLeng(HttpURLConnection http) {
