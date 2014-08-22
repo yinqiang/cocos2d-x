@@ -123,6 +123,9 @@ void HTTPRequest::setPOSTData(const char *data)
 void HTTPRequest::addFormFile(const char *name, const char *filePath, const char *contentType)
 {
     m_postFile[string(name)] = string(filePath);
+    string str = string("Content-Type=");
+    str = str.append(contentType);
+    m_headers.push_back(str);
 }
 
 void HTTPRequest::addFormContents(const char *name, const char *value)
