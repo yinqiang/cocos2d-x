@@ -18,12 +18,8 @@ local images = {
     disabled = "#ButtonDisabled.png",
 }
 local checkboxImages = {
-    off = "#ButtonNormal.png",
-    off_pressed = "#ButtonNormal.png",
-    off_disabled = "#ButtonNormal.png",
-    on = "#ButtonNormal.png",
-    on_pressed = "#ButtonNormal.png",
-    on_disabled = "#ButtonNormal.png",
+    off = "CheckBoxButton2Off.png",
+    on = "CheckBoxButton2On.png",
 }
 
 --
@@ -112,21 +108,21 @@ function CreateProjectUI:onEnter()
     :addTo(self)
 
     local portaitCheckBox = 
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Portait", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(70, 0)
         :setButtonLabelAlignment(display.CENTER)
         :align(display.LEFT_CENTER, 40, display.cy)
-        :onButtonClicked(function() self.landscapeCheckBox:setButtonSelected(false) end)
+        :onButtonClicked(function() self.landscapeCheckBox:setButtonSelected(not self.portaitCheckBox:isButtonSelected()) end)
         :addTo(self)
 
     local landscapeCheckBox = 
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Landscape", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(100, 0)
         :setButtonLabelAlignment(display.CENTER)
         :align(display.LEFT_CENTER, 200, display.cy)
-        :onButtonClicked(function() self.portaitCheckBox:setButtonSelected(false) end)
+        :onButtonClicked(function() self.portaitCheckBox:setButtonSelected(not self.landscapeCheckBox:isButtonSelected()) end)
         :addTo(self)
 
     portaitCheckBox:setButtonSelected(true)
