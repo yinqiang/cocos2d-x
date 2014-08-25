@@ -34,6 +34,7 @@ function UIScrollView:ctor(params)
 
 	self:addBgColorIf(params)
 	self:addBgGradientColorIf(params)
+	self:addBgIf(params)
 
 	self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(...)
 			self:update_(...)
@@ -65,6 +66,25 @@ function UIScrollView:addBgGradientColorIf(params)
 		:addTo(self, UIScrollView.BG_ZORDER)
 		:setTouchEnabled(false)
 	layer:setVector(params.bgVector)
+end
+
+function UIScrollView:addBgIf(params)
+	if not params.bg then
+		return
+	end
+
+	local bg
+	if params.bgScale9 then
+		bg = display.newScale9Sprite(params.bg, nil, nil, nil, params.capInsets)
+	else
+		bg = display.newSprite(params.bg)
+	end
+
+	bg:size(params.viewRect.width, params.viewRect.height)
+		:pos(params.viewRect.x + params.viewRect.width/2,
+			params.viewRect.y + params.viewRect.height/2)
+		:addTo(self, UIScrollView.BG_ZORDER)
+		:setTouchEnabled(false)
 end
 
 function UIScrollView:setViewRect(rect)
