@@ -414,15 +414,6 @@ function WelcomeScene:createSamples(node)
         end
     end)
 
-    function self.lvGrid.onTouch_(self, event)
-        if "began" == event.name and not self:isTouchInViewRect(event) then
-            self.isTouchOutside = true
-        else
-            self.isTouchOutside = false
-        end
-
-        return cc.ui.UIListView.super.onTouch_(self, event)
-    end
 
     self.lvGrid:setTouchSwallowEnabled(false)
     self.lvGrid:setVisible(false)
@@ -522,7 +513,7 @@ function WelcomeScene:createDemoButton(sample)
                 button.isTouchMoved_ = true
 
             elseif event.name == "ended" then
-                if button.isTouchMoved_ == false and self.lvGrid.isTouchOutside == false then
+                if button.isTouchMoved_ == false then
                     self:openProjectWithPath(sample.path)
                 end
                 button.isTouchMoved_ = false

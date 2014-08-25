@@ -24,42 +24,6 @@
 #include "CCLuaEngine.h"
 #include "PlayerLuaCore.h"
 
-//
-// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
-//
-static inline std::string _convertPathFormatToUnixStyle(const std::string& path)
-{
-	std::string ret = path;
-	int len = ret.length();
-	for (int i = 0; i < len; ++i)
-	{
-		if (ret[i] == '\\')
-		{
-			ret[i] = '/';
-		}
-	}
-	return ret;
-}
-
-//
-// @return: C:/Users/win8/Documents/
-//
-static inline std::string _getUserDocumentPath()
-{
-	TCHAR filePath[MAX_PATH];
-	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
-	int length = 2 * wcslen(filePath);
-	char* tempstring = new char[length + 1];
-	wcstombs(tempstring, filePath, length + 1);
-	string userDocumentPath(tempstring);
-	free(tempstring);
-
-	userDocumentPath = _convertPathFormatToUnixStyle(userDocumentPath);
-	userDocumentPath.append("/");
-
-	return userDocumentPath;
-}
-
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPTSTR    lpCmdLine,
@@ -127,6 +91,38 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
     return _taskService;
 }
 
+void PlayerWin::quit()
+{
+	Director::getInstance()->end();
+}
+
+void PlayerWin::relaunch()
+{
+	openNewPlayer();
+	quit();
+}
+
+void PlayerWin::openNewPlayer()
+{
+	openNewPlayerWithProjectConfig(_project);
+}
+
+void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
+{
+	static long taskid = 100;
+	stringstream buf;
+	buf << taskid++;
+
+	auto task = getTaskService()->createTask(buf.str(), getApplicationExePath(), config.makeCommandLine());
+	task->run();
+}
+
+void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
+{
+	openNewPlayerWithProjectConfig(config);
+	quit();
+}
+
 void PlayerWin::loadLuaConfig()
 {
 	LuaEngine* pEngine = LuaEngine::getInstance();
@@ -137,7 +133,7 @@ void PlayerWin::loadLuaConfig()
 
 	// set env
 	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-	quickRootPath = _convertPathFormatToUnixStyle(quickRootPath);
+	quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
 
 	string env = "__G_QUICK_V3_ROOT__=\"";
 	env.append(quickRootPath);
@@ -145,8 +141,13 @@ void PlayerWin::loadLuaConfig()
 	pEngine->executeString(env.c_str());
 
 	// set user home dir
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _getUserDocumentPath().c_str());
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
 	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+
+	// set guid
+	string uid = getUserGUID();
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
 
 	// load player.lua
 	quickRootPath.append("quick/player/src/player.lua");
@@ -361,6 +362,132 @@ void PlayerWin::onWindowResize(EventCustom* event)
 void PlayerWin::writeDebugLog(const char *log)
 {
 
+}
+
+
+//
+// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+//
+std::string PlayerWin::convertPathFormatToUnixStyle(const std::string& path)
+{
+	std::string ret = path;
+	int len = ret.length();
+	for (int i = 0; i < len; ++i)
+	{
+		if (ret[i] == '\\')
+		{
+			ret[i] = '/';
+		}
+	}
+	return ret;
+}
+
+//
+// @return: C:/Users/win8/Documents/
+//
+ std::string PlayerWin::getUserDocumentPath()
+{
+	TCHAR filePath[MAX_PATH];
+	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+	int length = 2 * wcslen(filePath);
+	char* tempstring = new char[length + 1];
+	wcstombs(tempstring, filePath, length + 1);
+	string userDocumentPath(tempstring);
+	free(tempstring);
+
+	userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
+	userDocumentPath.append("/");
+
+	return userDocumentPath;
+}
+
+//
+// convert Unicode/LocalCode TCHAR to Utf8 char
+//
+ char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
+{
+#ifdef UNICODE
+	WCHAR* tmp = (WCHAR*)src;
+	size_t size = wcslen(src) * 3 + 1;
+	char* dest = new char[size];
+	memset(dest, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
+	return dest;
+#else
+	char* tmp = (char*)src;
+	uint32 size = strlen(tmp) + 1;
+	WCHAR* dest = new WCHAR[size];
+	memset(dest, 0, sizeof(WCHAR)*size);
+	MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
+
+	size = wcslen(dest) * 3 + 1;
+	char* dest2 = new char[size];
+	memset(dest2, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
+	delete[] dest;
+	return dest2;
+#endif
+}
+
+//
+std::string PlayerWin::getApplicationExePath()
+{
+	TCHAR szFileName[MAX_PATH];
+	GetModuleFileName(NULL, szFileName, MAX_PATH);
+	std::u16string u16ApplicationName;
+	char *applicationExePath = convertTCharToUtf8(szFileName);
+	std::string path(applicationExePath);
+	CC_SAFE_FREE(applicationExePath);
+
+	return path;
+}
+
+std::string PlayerWin::getUserGUID()
+{
+	if (_userGUID.length() <= 0)
+	{
+		bool existGUID = false;
+		std::string documentDirPath = getUserDocumentPath();
+		std::string guidFile = documentDirPath + ".quick_uuid";
+		if (FileUtils::getInstance()->isFileExist(guidFile))
+		{
+			std::string buf = FileUtils::getInstance()->getStringFromFile(guidFile);
+			if (buf.size() > 0)
+			{
+				existGUID = true;
+				_userGUID = buf;
+			}
+		}
+
+		if (!existGUID)
+		{
+			srand((int)time(0));
+			int num = rand() % 100000;
+
+			struct tm *p;
+			time_t second;
+			time(&second);
+
+			p = localtime(&second);
+
+			char buf[100] = { 0 };
+
+			sprintf(buf, "%d-%d-%d-%d%d%d%06d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday,
+				p->tm_hour, p->tm_min, p->tm_sec, num);
+
+			FILE *fp = fopen(guidFile.c_str(), "w");
+			if (fp)
+			{
+				//fwrite(buf, sizeof(char), sizeof(buf), fp);
+				fprintf(fp, "%s", buf);
+				fclose(fp);
+			}
+			_userGUID.append(buf);
+		}
+	}
+
+
+	return _userGUID;
 }
 
 PLAYER_NS_END

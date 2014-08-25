@@ -174,6 +174,10 @@ function CreateProjectUI:onEnter()
                 self.projectConfig = projectConfig
 
                 local scriptPath = cc.player.quickRootPath .. "quick/bin/create_project.sh"
+                if device.platform == "windows" then
+                    scriptPath = cc.player.quickRootPath .. "quick/bin/create_project.bat"
+                end
+
                 local screenDirection = " -r portrait "
                 if self.landscapeCheckBox:isButtonSelected() then
                     projectConfig:changeFrameOrientationToLandscape()
