@@ -323,6 +323,10 @@ function CCSUILoader:getTexturePng(plist)
 end
 
 function CCSUILoader:transResName(fileData)
+	if not fileData then
+		return
+	end
+
 	local name = fileData.path
 	if not name then
 		return name
@@ -638,9 +642,9 @@ function CCSUILoader:createPanel(options)
 
 	local conSize
 	if options.adaptScreen then
-		conSize = cc.size(display.width, display.height)
-		options.width = display.width
-		options.height = display.height
+		conSize = cc.Director:getInstance():getWinSize()
+		options.width = conSize.width
+		options.height = conSize.height
 	else
 		conSize = cc.size(options.width, options.height)
 	end
@@ -867,7 +871,9 @@ function CCSUILoader:modifyLayoutChildPos_(parentSize, children)
 				or 3 == layoutParameter.gravity
 				or 6 == layoutParameter.gravity then
 				x = ((options.anchorPointX or 0.5) - 0.5)*options.width + x
+				y = options.y
 			else
+				x = options.x
 				y = ((options.anchorPointY or 0.5) - 0.5)*options.height + y
 			end
 		elseif 2 == layoutParameter.type then
