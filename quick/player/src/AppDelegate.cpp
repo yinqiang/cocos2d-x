@@ -156,4 +156,7 @@ void StartupCall::startup()
     CCLOG("LOAD LUA FILE: %s", path.c_str());
     CCLOG("------------------------------------------------");
     engine->executeScriptFile(path.c_str());
+    
+    // track start event
+    engine->executeString("cc.player:trackStartEvent()");
 }
