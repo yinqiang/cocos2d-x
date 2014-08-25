@@ -8,6 +8,7 @@
 USING_NS_CC;
 
 ///////////////////////////////////////  menu helper  //////////////////////////////////////////////
+static bool __G_IS_MENUBAR_ENABLED__ = true;    // WTF
 
 @implementation NNMenuItem
 
@@ -34,6 +35,7 @@ USING_NS_CC;
     {
         self.target = self;
     }
+    
     self.macMenuItem = menuItem;
     
     return self;
@@ -90,6 +92,12 @@ USING_NS_CC;
     event.setDataString(buf.str());
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
+
+-(BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    return __G_IS_MENUBAR_ENABLED__;
+}
+
 @end
 
 
@@ -275,7 +283,7 @@ bool PlayerMenuServiceMac::removeItem(const std::string &menuId)
 
 void PlayerMenuServiceMac::setMenuBarEnabled(bool enabled)
 {
-    
+    __G_IS_MENUBAR_ENABLED__ = enabled;
 }
 
 #pragma mark - private -
