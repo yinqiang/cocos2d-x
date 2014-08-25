@@ -25,9 +25,8 @@ function Sprite3DScene:ctor()
         :pos(display.right - 100, display.top - 100)
         :addTo(self)
 
-    self.label = ui.newBMFontLabel({
+    self.label = ui.newTTFLabel({
         text = "00000",
-        font = "UIFont.fnt",
         x = display.cx,
         y = display.top - 40,
     })
