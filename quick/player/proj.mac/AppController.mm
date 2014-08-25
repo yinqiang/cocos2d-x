@@ -59,7 +59,7 @@ std::string getCurAppPath(void)
 
     [self updateProjectFromCommandLineArgs:&_project];
     [self createWindowAndGLView];
-    [self registerKeyboardEvent];
+    [self registerEventsHandler];
     [self startup];
 }
 
@@ -246,7 +246,31 @@ std::string getCurAppPath(void)
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
-- (void) registerKeyboardEvent
+- (void) registerEventsHandler
+{
+    [self registerKeyboardEventHandler];
+    [self registerWindowEventsHandler];
+}
+
+- (void) registerWindowEventsHandler
+{
+    auto eventDispatcher = Director::getInstance()->getEventDispatcher();
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", [&](EventCustom* event)
+                                            {
+                                                // If script set event's result to "cancel", ignore window close event
+                                                EventCustom forwardEvent("APP.EVENT");
+                                                stringstream buf;
+                                                buf << "{\"name\":\"close\"}";
+                                                forwardEvent.setDataString(buf.str());
+                                                Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
+                                                if (forwardEvent.getResult().compare("cancel") != 0)
+                                                {
+                                                    glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
+                                                }
+                                            });
+}
+
+- (void) registerKeyboardEventHandler
 {
     auto keyEvent = cocos2d::EventListenerKeyboard::create();
     keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
