@@ -155,6 +155,9 @@ function UIScrollView:addScrollNode(node)
 	node:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (event)
         return self:onTouch_(event)
     end)
+    node:addNodeEventListener(cc.NODE_TOUCH_CAPTURE_EVENT, function (event)
+        return self:onTouchCapture_(event)
+    end)
 
     return self
 end
@@ -180,6 +183,15 @@ end
 
 function UIScrollView:update_(dt)
 	self:drawScrollBar()
+end
+
+function UIScrollView:onTouchCapture_(event)
+	if ("began" == event.name or "moved" == event.name or "ended" == event.name)
+		and self:isTouchInViewRect(event) then
+		return true
+	else
+		return false
+	end
 end
 
 function UIScrollView:onTouch_(event)
