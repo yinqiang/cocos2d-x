@@ -73,6 +73,9 @@
     <ClInclude Include="PlayerTaskServiceWin.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\PlayerLuaCore.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\PlayerProtocol.cpp">
@@ -115,6 +118,9 @@
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\PlayerTaskServiceProtocol.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerLuaCore.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

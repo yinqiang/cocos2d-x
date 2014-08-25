@@ -52,6 +52,10 @@ protected:
     void onWindowClose(EventCustom* event);
     void onWindowResize(EventCustom* event);
 
+	// 
+	void loadLuaConfig();
+	void registerKeyboardEvent();
+
     // debug log
     void writeDebugLog(const char *log);
 };
