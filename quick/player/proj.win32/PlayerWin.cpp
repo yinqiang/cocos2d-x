@@ -16,6 +16,11 @@
 #include <shlguid.h>
 #include <shellapi.h>
 
+// for mac address
+#include <WinSock2.h>
+#include <Iphlpapi.h>
+#pragma comment(lib,"Iphlpapi.lib")
+
 #include "PlayerWin.h"
 
 #include "glfw3.h"
@@ -442,50 +447,68 @@ std::string PlayerWin::getApplicationExePath()
 	return path;
 }
 
+//
+static bool getMacAddress(string& macstring)
+{
+	bool ret = false;
+	ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
+	PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+	if (adapterInfo == NULL)
+	{
+		return false;
+	}
+
+	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
+	{
+		free(adapterInfo);
+		adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+		if (adapterInfo == NULL)
+		{
+			return false;
+		}
+	}
+
+	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
+	{
+		for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
+		{
+			if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+			{
+				continue;
+			}
+
+			if (pAdapter->AddressLength != 6)
+			{
+				continue;
+			}
+
+			char buf32[32];
+			sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
+				int(pAdapter->Address[0]),
+				int(pAdapter->Address[1]),
+				int(pAdapter->Address[2]),
+				int(pAdapter->Address[3]),
+				int(pAdapter->Address[4]),
+				int(pAdapter->Address[5]));
+			macstring = buf32;
+			ret = true;
+			break;
+		}
+	}
+
+	free(adapterInfo);
+	return ret;
+}
+
 std::string PlayerWin::getUserGUID()
 {
 	if (_userGUID.length() <= 0)
 	{
-		bool existGUID = false;
-		std::string documentDirPath = getUserDocumentPath();
-		std::string guidFile = documentDirPath + ".quick_uuid";
-		if (FileUtils::getInstance()->isFileExist(guidFile))
+		if (!getMacAddress(_userGUID))
 		{
-			std::string buf = FileUtils::getInstance()->getStringFromFile(guidFile);
-			if (buf.size() > 0)
-			{
-				existGUID = true;
-				_userGUID = buf;
-			}
-		}
-
-		if (!existGUID)
-		{
-			srand((int)time(0));
-			int num = rand() % 100000;
-
-			struct tm *p;
-			time_t second;
-			time(&second);
-
-			p = localtime(&second);
-
-			char buf[100] = { 0 };
-
-			sprintf(buf, "%d-%d-%d-%d%d%d%06d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday,
-				p->tm_hour, p->tm_min, p->tm_sec, num);
-
-			FILE *fp = fopen(guidFile.c_str(), "w");
-			if (fp)
-			{
-				//fwrite(buf, sizeof(char), sizeof(buf), fp);
-				fprintf(fp, "%s", buf);
-				fclose(fp);
-			}
-			_userGUID.append(buf);
+			_userGUID = "guid-fixed-1234567890";
 		}
 	}
-
 
 	return _userGUID;
 }
