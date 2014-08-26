@@ -56,6 +56,17 @@ void luaval_to_native_err(lua_State* L,const char* msg,tolua_Error* err)
             else
                 CCLOG("%s\n     value is '%s'; '%s' expected.\n",msg+2,provided,expected);
         }
+
+        lua_getglobal(L, "__G__TRACKBACK__");                         /* L: ... func arg1 arg2 ... G */
+        if (!lua_isfunction(L, -1))
+        {
+            lua_pop(L, 1);                                            /* L: ... func arg1 arg2 ... */
+        }
+        else
+        {
+            lua_pushstring(L, "luaval_to_native_err()");
+            lua_call(L, 1, 0);
+        }
     }
 }
 #endif

@@ -105,13 +105,6 @@ cc.PACKAGE_NAME = string.sub(CURRENT_MODULE_NAME, 1, -6)
 cc.VERSION = "3.1"
 cc.FRAMEWORK_NAME = "quick-cocos2d-x"
 
--- if LOAD_DEPRECATED_API then
---     local dp = cc.PACKAGE_NAME .. ".deprecated."
---     require(dp .. "DeprecatedEnum")
---     require(dp .. "DeprecatedClass")
---     require(dp .. "Deprecated")
--- end
-
 require(cc.PACKAGE_NAME .. ".debug")
 require(cc.PACKAGE_NAME .. ".functions")
 require(cc.PACKAGE_NAME .. ".cocos2dx")
@@ -140,9 +133,10 @@ end
 
 require(cc.PACKAGE_NAME .. ".cc.init")
 
--- if LOAD_DEPRECATED_API then
---     require(cc.PACKAGE_NAME .. ".deprecated")
--- end
+if LOAD_DEPRECATED_API then
+    local dp = cc.PACKAGE_NAME .. ".deprecated."
+    require(dp .. "deprecated_functions")
+end
 
 if LOAD_SHORTCODES_API then
     require(cc.PACKAGE_NAME .. ".shortcodes")
