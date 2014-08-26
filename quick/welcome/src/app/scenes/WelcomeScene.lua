@@ -482,7 +482,8 @@ function WelcomeScene:createDemoDescription(sample)
     local title =  sample.description
     local color = cc.c3b(50,144,144)
     
-    if not cc.FileUtils:getInstance():isFileExist(cc.player.quickRootPath .. "quick/" .. sample.path) then
+    local sampleAbsPath = cc.player.quickRootPath .. "quick/" .. sample.path
+    if not cc.FileUtils:getInstance():isDirectoryExist(sampleAbsPath) then
         title = title .. " (unfinished)"
         color = cc.c3b(255,0,0)
     end
