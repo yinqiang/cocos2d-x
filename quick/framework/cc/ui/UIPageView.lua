@@ -49,6 +49,8 @@ end
 function UIPageView:reload()
 	local page
 	self.pages_ = {}
+
+	self.curPageIdx_ = 1
 	if self:getPageCount() > 0 then
 		for i = 1, self:getPageCount() do
 			page = self:createPage_(i)
@@ -56,12 +58,11 @@ function UIPageView:reload()
 			table.insert(self.pages_, page)
 			self:addChild(page)
 		end
-	end
 
-	self.curPageIdx_ = 1
-	self.pages_[1]:setVisible(true)
-	self.pages_[1]:setPosition(
-		self.viewRect_.x, self.viewRect_.y)
+		self.pages_[1]:setVisible(true)
+		self.pages_[1]:setPosition(
+			self.viewRect_.x, self.viewRect_.y)
+	end
 
 	return self
 end

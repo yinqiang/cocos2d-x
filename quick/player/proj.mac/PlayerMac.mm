@@ -18,6 +18,7 @@ PlayerMac::PlayerMac()
 , _menuService(nullptr)
 , _editBoxService(nullptr)
 , _appController(nullptr)
+, _taskService(nullptr)
 {
 }
 
@@ -29,6 +30,7 @@ PlayerMac::~PlayerMac()
     CC_SAFE_DELETE(_messageBoxService);
     CC_SAFE_DELETE(_menuService);
     CC_SAFE_DELETE(_editBoxService);
+    CC_SAFE_DELETE(_taskService);
 }
 
 PlayerFileDialogServiceProtocol *PlayerMac::getFileDialogService()
@@ -69,7 +71,12 @@ PlayerEditBoxServiceProtocol *PlayerMac::getEditBoxService()
 
 PlayerTaskServiceProtocol *PlayerMac::getTaskService()
 {
-    return nullptr;
+    
+    if (!_taskService)
+    {
+        _taskService = new PlayerTaskServiceMac();
+    }
+    return _taskService;
 }
 
 void PlayerMac::quit()

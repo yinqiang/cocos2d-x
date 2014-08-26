@@ -84,9 +84,10 @@ bool PlayerTaskWin::run()
     si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
     si.wShowWindow = SW_HIDE;
 
+#define MAX_COMMAND 4096 //MAX_PATH
     const std::u16string u16command = makeCommandLine();
-    WCHAR command[MAX_PATH];
-    wcscpy_s(command, MAX_PATH, (WCHAR*)u16command.c_str());
+	WCHAR command[MAX_COMMAND];
+	wcscpy_s(command, MAX_COMMAND, (WCHAR*)u16command.c_str());
 
     BOOL success = CreateProcess(NULL,
                                  command,   // command line 
@@ -190,6 +191,8 @@ void PlayerTaskWin::cleanup()
     _state = STATE_COMPLETED;
 
     CCLOG("CMD: %s", _outputStream.c_str());
+
+	cocos2d::Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(_name);
 }
 
 std::u16string PlayerTaskWin::makeCommandLine() const

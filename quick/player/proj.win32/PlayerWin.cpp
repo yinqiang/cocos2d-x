@@ -1,4 +1,4 @@
-
+﻿
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(linker, "\"/manifestdependency:type='Win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='X86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
@@ -20,6 +20,9 @@
 
 #include "glfw3.h"
 #include "glfw3native.h"
+
+#include "CCLuaEngine.h"
+#include "PlayerLuaCore.h"
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
@@ -88,6 +91,83 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
     return _taskService;
 }
 
+void PlayerWin::quit()
+{
+	Director::getInstance()->end();
+}
+
+void PlayerWin::relaunch()
+{
+	openNewPlayer();
+	quit();
+}
+
+void PlayerWin::openNewPlayer()
+{
+	openNewPlayerWithProjectConfig(_project);
+}
+
+void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
+{
+	static long taskid = 100;
+	stringstream buf;
+	buf << taskid++;
+
+	auto task = getTaskService()->createTask(buf.str(), getApplicationExePath(), config.makeCommandLine());
+	task->run();
+}
+
+void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
+{
+	openNewPlayerWithProjectConfig(config);
+	quit();
+}
+
+void PlayerWin::loadLuaConfig()
+{
+	LuaEngine* pEngine = LuaEngine::getInstance();
+	ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
+
+	// load player lua core
+	luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
+
+	// set env
+	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+	quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
+
+	string env = "__G_QUICK_V3_ROOT__=\"";
+	env.append(quickRootPath);
+	env.append("\"");
+	pEngine->executeString(env.c_str());
+
+	// set user home dir
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+
+	// set guid
+	string uid = getUserGUID();
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
+
+	// load player.lua
+	quickRootPath.append("quick/player/src/player.lua");
+	pEngine->getLuaStack()->executeScriptFile(quickRootPath.c_str());
+}
+
+void PlayerWin::registerKeyboardEvent()
+{
+	auto keyEvent = cocos2d::EventListenerKeyboard::create();
+	keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
+		auto event = EventCustom("APP.EVENT");
+		stringstream data;
+		data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
+		event.setDataString(data.str());
+		Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+	};
+
+	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyEvent, 1);
+}
+
 int PlayerWin::run()
 {
     INITCOMMONCONTROLSEX InitCtrls;
@@ -105,6 +185,7 @@ int PlayerWin::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // load project config from command line args
+	_project.resetToWelcome();
     vector<string> args;
     for (int i = 0; i < __argc; ++i)
     {
@@ -204,6 +285,9 @@ int PlayerWin::run()
     // init player services
     initServices();
 
+	loadLuaConfig();
+	registerKeyboardEvent();
+
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
@@ -278,6 +362,132 @@ void PlayerWin::onWindowResize(EventCustom* event)
 void PlayerWin::writeDebugLog(const char *log)
 {
 
+}
+
+
+//
+// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+//
+std::string PlayerWin::convertPathFormatToUnixStyle(const std::string& path)
+{
+	std::string ret = path;
+	int len = ret.length();
+	for (int i = 0; i < len; ++i)
+	{
+		if (ret[i] == '\\')
+		{
+			ret[i] = '/';
+		}
+	}
+	return ret;
+}
+
+//
+// @return: C:/Users/win8/Documents/
+//
+ std::string PlayerWin::getUserDocumentPath()
+{
+	TCHAR filePath[MAX_PATH];
+	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+	int length = 2 * wcslen(filePath);
+	char* tempstring = new char[length + 1];
+	wcstombs(tempstring, filePath, length + 1);
+	string userDocumentPath(tempstring);
+	free(tempstring);
+
+	userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
+	userDocumentPath.append("/");
+
+	return userDocumentPath;
+}
+
+//
+// convert Unicode/LocalCode TCHAR to Utf8 char
+//
+ char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
+{
+#ifdef UNICODE
+	WCHAR* tmp = (WCHAR*)src;
+	size_t size = wcslen(src) * 3 + 1;
+	char* dest = new char[size];
+	memset(dest, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
+	return dest;
+#else
+	char* tmp = (char*)src;
+	uint32 size = strlen(tmp) + 1;
+	WCHAR* dest = new WCHAR[size];
+	memset(dest, 0, sizeof(WCHAR)*size);
+	MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
+
+	size = wcslen(dest) * 3 + 1;
+	char* dest2 = new char[size];
+	memset(dest2, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
+	delete[] dest;
+	return dest2;
+#endif
+}
+
+//
+std::string PlayerWin::getApplicationExePath()
+{
+	TCHAR szFileName[MAX_PATH];
+	GetModuleFileName(NULL, szFileName, MAX_PATH);
+	std::u16string u16ApplicationName;
+	char *applicationExePath = convertTCharToUtf8(szFileName);
+	std::string path(applicationExePath);
+	CC_SAFE_FREE(applicationExePath);
+
+	return path;
+}
+
+std::string PlayerWin::getUserGUID()
+{
+	if (_userGUID.length() <= 0)
+	{
+		bool existGUID = false;
+		std::string documentDirPath = getUserDocumentPath();
+		std::string guidFile = documentDirPath + ".quick_uuid";
+		if (FileUtils::getInstance()->isFileExist(guidFile))
+		{
+			std::string buf = FileUtils::getInstance()->getStringFromFile(guidFile);
+			if (buf.size() > 0)
+			{
+				existGUID = true;
+				_userGUID = buf;
+			}
+		}
+
+		if (!existGUID)
+		{
+			srand((int)time(0));
+			int num = rand() % 100000;
+
+			struct tm *p;
+			time_t second;
+			time(&second);
+
+			p = localtime(&second);
+
+			char buf[100] = { 0 };
+
+			sprintf(buf, "%d-%d-%d-%d%d%d%06d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday,
+				p->tm_hour, p->tm_min, p->tm_sec, num);
+
+			FILE *fp = fopen(guidFile.c_str(), "w");
+			if (fp)
+			{
+				//fwrite(buf, sizeof(char), sizeof(buf), fp);
+				fprintf(fp, "%s", buf);
+				fclose(fp);
+			}
+			_userGUID.append(buf);
+		}
+	}
+
+
+	return _userGUID;
 }
 
 PLAYER_NS_END

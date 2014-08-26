@@ -59,6 +59,7 @@ std::string getCurAppPath(void)
 
     [self updateProjectFromCommandLineArgs:&_project];
     [self createWindowAndGLView];
+    [self registerEventsHandler];
     [self startup];
 }
 
@@ -176,7 +177,7 @@ std::string getCurAppPath(void)
     LuaEngine* pEngine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
 
-    luaopen_player_luabinding(pEngine->getLuaStack()->getLuaState());
+    luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
 
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/"];
@@ -201,13 +202,28 @@ std::string getCurAppPath(void)
 
 - (void) createWindowAndGLView
 {
-    int width = _project.getFrameSize().width;
-    int height = _project.getFrameSize().height;
-    float scale = _project.getFrameScale();
+    float screenScale = [[NSScreen mainScreen] backingScaleFactor];
+    
+    // create opengl view
+    cocos2d::Size frameSize = _project.getFrameSize();
+    float frameScale = 1.0f;
+    if (_project.isRetinaDisplay())
+    {
+        frameSize.width *= screenScale;
+        frameSize.height *= screenScale;
+    }
+    else
+    {
+        frameScale = screenScale;
+    }
 
-    GLView *eglView = GLView::createWithRect("player", cocos2d::Rect(0, 0, width, height), scale, _project.isResizeWindow());
-    Director::getInstance()->setOpenGLView(eglView);
+    const cocos2d::Rect frameRect = cocos2d::Rect(0, 0, frameSize.width, frameSize.height);
+    GLView *eglView = GLView::createWithRect("player", frameRect, frameScale, _project.isResizeWindow());
 
+    auto director = Director::getInstance();
+    director->setOpenGLView(eglView);
+    director->setScreenScale(screenScale);
+    
     _window = glfwGetCocoaWindow(eglView->getWindow());
     [NSApp setDelegate: self];
     [_window center];
@@ -228,6 +244,44 @@ std::string getCurAppPath(void)
     EventCustom event("APP.EVENT");
     event.setDataString("{\"name\":\"close\"}");
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+}
+
+- (void) registerEventsHandler
+{
+    [self registerKeyboardEventHandler];
+    [self registerWindowEventsHandler];
+}
+
+- (void) registerWindowEventsHandler
+{
+    auto eventDispatcher = Director::getInstance()->getEventDispatcher();
+    eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", [&](EventCustom* event)
+                                            {
+                                                // If script set event's result to "cancel", ignore window close event
+                                                EventCustom forwardEvent("APP.EVENT");
+                                                stringstream buf;
+                                                buf << "{\"name\":\"close\"}";
+                                                forwardEvent.setDataString(buf.str());
+                                                Director::getInstance()->getEventDispatcher()->dispatchEvent(&forwardEvent);
+                                                if (forwardEvent.getResult().compare("cancel") != 0)
+                                                {
+                                                    glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
+                                                }
+                                            });
+}
+
+- (void) registerKeyboardEventHandler
+{
+    auto keyEvent = cocos2d::EventListenerKeyboard::create();
+    keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
+        auto event = EventCustom("APP.EVENT");
+        stringstream data;
+        data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
+        event.setDataString(data.str());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    };
+    
+    cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyEvent, 1);
 }
 
 - (void) startup

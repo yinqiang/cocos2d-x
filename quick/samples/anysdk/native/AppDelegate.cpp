@@ -75,7 +75,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 #else
     // load framework
-    if (_project.isLoadPrecompiledFramework())
+    if (_projectConfig.isLoadPrecompiledFramework())
     {
         const string precompiledFrameworkPath = SimulatorConfig::getInstance()->getPrecompiledFrameworkPath();
         pStack->loadChunksFromZIP(precompiledFrameworkPath.c_str());

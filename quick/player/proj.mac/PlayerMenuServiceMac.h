@@ -16,7 +16,7 @@ PLAYER_NS_BEGIN
 class PlayerMenuItemMac;
 PLAYER_NS_END
 
-@interface NNMenuItem : NSMenuItem
+@interface NNMenuItem : NSMenuItem <NSMenuDelegate>
 @property (nonatomic) int scriptHandler;
 @property (nonatomic) const player::PlayerMenuItemMac *macMenuItem;
 

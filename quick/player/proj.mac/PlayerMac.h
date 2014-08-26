@@ -8,8 +8,9 @@
 #include "PlayerFileDialogServiceMac.h"
 #include "PlayerMenuServiceMac.h"
 #include "PlayerMessageBoxServiceMac.h"
+#include "PlayerTaskServiceMac.h"
 
-#include "player_tolua.h"
+#include "PlayerLuaCore.h"
 #include "PlayerUtils.h"
 
 #include "ProjectConfig/ProjectConfig.h"
@@ -37,11 +38,11 @@ public:
 protected:
     PlayerMac();
 
-    PlayerMenuServiceMac *_menuService;
+    PlayerMenuServiceMac       *_menuService;
     PlayerMessageBoxServiceMac *_messageBoxService;
     PlayerFileDialogServiceMac *_fileDialogService;
-    PlayerEditBoxServiceMac *_editBoxService;
-
+    PlayerEditBoxServiceMac    *_editBoxService;
+    PlayerTaskServiceMac       *_taskService;
     id _appController;
 };
 
