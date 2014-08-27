@@ -1116,7 +1116,7 @@ function display.addSpriteFrames(plistFilename, image, handler)
     if async then
         asyncHandler = function()
             -- printf("%s, %s async done.", plistFilename, image)
-            local texture = sharedTextureCache:textureForKey(image)
+            local texture = sharedTextureCache:getTextureForKey(image)
             assert(texture, string.format("The texture %s, %s is unavailable.", plistFilename, image))
             sharedSpriteFrameCache:addSpriteFrames(plistFilename, texture)
             handler(plistFilename, image)
