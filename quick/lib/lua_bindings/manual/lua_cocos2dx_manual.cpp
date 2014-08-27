@@ -1941,6 +1941,42 @@ tolua_lerror:
 #endif
 }
 
+static int tolua_Cocos2d_TextureCache_addImageAsync(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (
+        !tolua_isusertype(tolua_S,1,"CCTextureCache",0,&tolua_err) ||
+        !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+        (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
+        !tolua_isnoobj(tolua_S,4,&tolua_err)
+        )
+        goto tolua_lerror;
+    else
+#endif
+    {
+        TextureCache* self = (TextureCache*)  tolua_tousertype(tolua_S,1,0);
+        const char* path = ((const char*)  tolua_tostring(tolua_S,2,0));
+        LUA_FUNCTION handler = (  toluafix_ref_function(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addImageAsync'", NULL);
+#endif
+        {
+            auto func = [=](Texture2D* texture){
+                toluafix_pushusertype_ccobject(tolua_S, texture->_ID, &texture->_luaID, (void*)texture, getLuaTypeName(texture, "cc.Texture2D"));
+                LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 1);
+            };
+            self->addImageAsync(path,func);
+        }
+    }
+    return 0;
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'addImageAsync'.",&tolua_err);
+    return 0;
+#endif
+}
+
 static int tolua_cocos2dx_SpriteBatchNode_getDescendants(lua_State* tolua_S)
 {
     if (NULL == tolua_S)
@@ -2013,6 +2049,19 @@ static void extendTexture2D(lua_State* tolua_S)
     {
         lua_pushstring(tolua_S,"setTexParameters");
         lua_pushcfunction(tolua_S,tolua_cocos2dx_Texture2D_setTexParameters );
+        lua_rawset(tolua_S,-3);
+    }
+    lua_pop(tolua_S, 1);
+}
+
+static void extendTextureCache(lua_State* tolua_S)
+{
+    lua_pushstring(tolua_S, "cc.TextureCache");
+    lua_rawget(tolua_S, LUA_REGISTRYINDEX);
+    if (lua_istable(tolua_S,-1))
+    {
+        lua_pushstring(tolua_S,"addImageAsync");
+        lua_pushcfunction(tolua_S,tolua_Cocos2d_TextureCache_addImageAsync );
         lua_rawset(tolua_S,-3);
     }
     lua_pop(tolua_S, 1);
@@ -3513,6 +3562,7 @@ int register_all_cocos2dx_manual(lua_State* tolua_S)
     extendUserDefault(tolua_S);
     extendGLProgram(tolua_S);
     extendTexture2D(tolua_S);
+    extendTextureCache(tolua_S);
     extendSpriteBatchNode(tolua_S);
     extendEventListenerMouse(tolua_S);
     extendEventListenerCustom(tolua_S);
