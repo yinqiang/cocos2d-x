@@ -13,6 +13,8 @@ GUI/CCControlExtension/CCInvocation.cpp \
 GUI/CCControlExtension/CCScale9Sprite.cpp \
 GUI/CCEditBox/CCEditBox.cpp \
 GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
+GUI/CCTextField/UITextField.cpp \
+
 
 #GUI/CCEditBox/CCEditBoxImplNone.cpp \
 #GUI/CCEditBox/CCEditBoxImplWin.cpp \

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4949C33119AC6B4100113896 /* UITextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4949C32F19AC6B4100113896 /* UITextField.cpp */; };
+		4949C33219AC6B4100113896 /* UITextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 4949C33019AC6B4100113896 /* UITextField.h */; };
 		49BCF9F5197F4CE700F48FF6 /* cocos2dFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCF995197F4CE700F48FF6 /* cocos2dFilters.h */; };
 		49BCF9F6197F4CE700F48FF6 /* CCBlurFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49BCF997197F4CE700F48FF6 /* CCBlurFilter.cpp */; };
 		49BCF9F7197F4CE700F48FF6 /* CCBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCF998197F4CE700F48FF6 /* CCBlurFilter.h */; };
@@ -902,6 +904,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4949C32F19AC6B4100113896 /* UITextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITextField.cpp; sourceTree = "<group>"; };
+		4949C33019AC6B4100113896 /* UITextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITextField.h; sourceTree = "<group>"; };
 		49BCF995197F4CE700F48FF6 /* cocos2dFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2dFilters.h; sourceTree = "<group>"; };
 		49BCF997197F4CE700F48FF6 /* CCBlurFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlurFilter.cpp; sourceTree = "<group>"; };
 		49BCF998197F4CE700F48FF6 /* CCBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBlurFilter.h; sourceTree = "<group>"; };
@@ -1883,6 +1887,15 @@
 				49BCF9BA197F4CE700F48FF6 /* shaders */,
 			);
 			path = filters;
+			sourceTree = "<group>";
+		};
+		4949C32E19AC6B4100113896 /* CCTextField */ = {
+			isa = PBXGroup;
+			children = (
+				4949C32F19AC6B4100113896 /* UITextField.cpp */,
+				4949C33019AC6B4100113896 /* UITextField.h */,
+			);
+			path = CCTextField;
 			sourceTree = "<group>";
 		};
 		49BCF996197F4CE700F48FF6 /* filters */ = {
@@ -3012,6 +3025,7 @@
 		F4E0B664196B9E4C0053EFD7 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				4949C32E19AC6B4100113896 /* CCTextField */,
 				F4E0B665196B9E4C0053EFD7 /* CCControlExtension */,
 				F4E0B671196B9E4C0053EFD7 /* CCEditBox */,
 			);
@@ -4005,6 +4019,7 @@
 				F4E0B544196B9C7D0053EFD7 /* CCEventDispatcher.h in Headers */,
 				F4E0BB2B196BA00A0053EFD7 /* fttrigon.h in Headers */,
 				F4E0C078196BA25D0053EFD7 /* lua_cocos2dx_physics_manual.hpp in Headers */,
+				4949C33219AC6B4100113896 /* UITextField.h in Headers */,
 				F4E0BB1F196BA00A0053EFD7 /* ftmm.h in Headers */,
 				49BCF9F9197F4CE700F48FF6 /* CCBrightnessFilter.h in Headers */,
 				F4E0B56B196B9C7D0053EFD7 /* CCRef.h in Headers */,
@@ -4704,6 +4719,7 @@
 				F4E0B59A196B9C7D0053EFD7 /* MathUtil.cpp in Sources */,
 				F4E0B70D196B9EEB0053EFD7 /* cpSpaceComponent.c in Sources */,
 				F4E0B651196B9C7D0053EFD7 /* CCQuadCommand.cpp in Sources */,
+				4949C33119AC6B4100113896 /* UITextField.cpp in Sources */,
 				DAF282FE196BDACB00959DA1 /* lfs.c in Sources */,
 				DAF2831C196BDACB00959DA1 /* serial.c in Sources */,
 				F4E0B601196B9C7D0053EFD7 /* CCGLView.cpp in Sources */,

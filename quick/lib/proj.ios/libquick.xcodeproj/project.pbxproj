@@ -27,6 +27,8 @@
 		1AC0269D1914068200FA920D /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC026991914068200FA920D /* ConvertUTF.h */; };
 		46C02E0818E91123004B7456 /* xxhash.c in Sources */ = {isa = PBXBuildFile; fileRef = 46C02E0518E91123004B7456 /* xxhash.c */; };
 		46C02E0A18E91123004B7456 /* xxhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 46C02E0618E91123004B7456 /* xxhash.h */; };
+		4949C33719AD9F6B00113896 /* UITextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4949C33519AD9F6B00113896 /* UITextField.cpp */; };
+		4949C33819AD9F6B00113896 /* UITextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 4949C33619AD9F6B00113896 /* UITextField.h */; };
 		497DB353195986FC00271944 /* xxtea.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E5774A19597E0B00C26077 /* xxtea.h */; };
 		497DB3551959870600271944 /* xxtea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E5774919597E0B00C26077 /* xxtea.cpp */; };
 		49BCFAA91982699900F48FF6 /* cocos2dFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BCFA471982699900F48FF6 /* cocos2dFilters.h */; };
@@ -858,6 +860,8 @@
 		46A1699A1807AFD6005B8026 /* prime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prime.h; sourceTree = "<group>"; };
 		46C02E0518E91123004B7456 /* xxhash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xxhash.c; sourceTree = "<group>"; };
 		46C02E0618E91123004B7456 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
+		4949C33519AD9F6B00113896 /* UITextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITextField.cpp; sourceTree = "<group>"; };
+		4949C33619AD9F6B00113896 /* UITextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITextField.h; sourceTree = "<group>"; };
 		49BCFA471982699900F48FF6 /* cocos2dFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocos2dFilters.h; sourceTree = "<group>"; };
 		49BCFA491982699900F48FF6 /* CCBlurFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlurFilter.cpp; sourceTree = "<group>"; };
 		49BCFA4A1982699900F48FF6 /* CCBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBlurFilter.h; sourceTree = "<group>"; };
@@ -1960,6 +1964,7 @@
 		46A168331807AF4E005B8026 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				4949C33419AD9F6B00113896 /* CCTextField */,
 				46A168341807AF4E005B8026 /* CCControlExtension */,
 				46A1684E1807AF4E005B8026 /* CCEditBox */,
 			);
@@ -2114,6 +2119,16 @@
 			);
 			name = xxhash;
 			path = ../../../external/xxhash;
+			sourceTree = "<group>";
+		};
+		4949C33419AD9F6B00113896 /* CCTextField */ = {
+			isa = PBXGroup;
+			children = (
+				4949C33519AD9F6B00113896 /* UITextField.cpp */,
+				4949C33619AD9F6B00113896 /* UITextField.h */,
+			);
+			name = CCTextField;
+			path = "../../../../../Documents/Work/cocos2d-x/extensions/GUI/CCTextField";
 			sourceTree = "<group>";
 		};
 		49BCFA461982699900F48FF6 /* filters */ = {
@@ -3369,6 +3384,7 @@
 				DAF29384196D339000959DA1 /* CCConsole.h in Headers */,
 				DAF2947B196D339900959DA1 /* CCGL.h in Headers */,
 				DAF28EE1196D082900959DA1 /* udp.h in Headers */,
+				4949C33819AD9F6B00113896 /* UITextField.h in Headers */,
 				49BCFACF1982699900F48FF6 /* ccFilterShader_brightness_frag.h in Headers */,
 				49BCFAB31982699900F48FF6 /* CCDropShadowFilter.h in Headers */,
 				DAF2939E196D339100959DA1 /* CCEventListener.h in Headers */,
@@ -4017,6 +4033,7 @@
 				DAF2939F196D339100959DA1 /* CCEventListenerAcceleration.cpp in Sources */,
 				DA9F9338198F18540089A141 /* CCColliderDetector.cpp in Sources */,
 				DAF29419196D339500959DA1 /* CCPhysicsBodyInfo_chipmunk.cpp in Sources */,
+				4949C33719AD9F6B00113896 /* UITextField.cpp in Sources */,
 				DAF294F1196D368700959DA1 /* cpCollision.c in Sources */,
 				DAF29403196D339400959DA1 /* Quaternion.cpp in Sources */,
 				DAF28DB2196D082800959DA1 /* md5.c in Sources */,

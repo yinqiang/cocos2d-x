@@ -135,6 +135,39 @@ function ui.newEditBox(params)
     return editbox
 end
 
+function ui.newTextField(params)
+    local editbox = cc.TextField:create()
+    editbox:setPlaceHolder(params.placeHolder)
+    editbox:setPosition(params.x, params.y)
+    if params.listener then
+        editbox:addEventListener(params.listener)
+    end
+    if params.size then
+        editbox:setTextAreaSize(params.size)
+    end
+    if params.text then
+        editbox:setText(params.text)
+    end
+    if params.font then
+        editbox:setFontName(params.font)
+    end
+    if params.fontSize then
+        editbox:setFontSize(params.fontSize)
+    end
+    if params.maxLength and 0 ~= params.maxLength then
+        editbox:setMaxLengthEnabled(true)
+        editbox:setMaxLength(params.maxLength)
+    end
+    if params.passwordEnable then
+        editbox:setPasswordEnabled(true)
+    end
+    if params.passwordChar then
+        editbox:setPasswordStyleText(params.passwordChar)
+    end
+
+    return editbox
+end
+
 --[[--
 
 用位图字体创建文本显示对象，并返回 LabelBMFont 对象。

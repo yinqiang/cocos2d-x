@@ -569,26 +569,35 @@ function CCSUILoader:createLabelAtlas(options)
 end
 
 function CCSUILoader:createEditBox(options)
-	local editBox = ui.newEditBox({
-        size = cc.size(options.width, options.height)
-    })
-    editBox:setPlaceHolder(options.placeHolder)
-    editBox:setFontName(options.fontName)
-    editBox:setFontSize(options.fontSize or 20)
-    editBox:setText(options.text)
-    editBox:setAnchorPoint(
-		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
-    if options.passwordEnable then
-    	editBox:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
-	end
-	if options.maxLengthEnable then
-		editBox:setMaxLength(options.maxLength)
-	end
+	local editBox = ui.newTextField({
+        placeHolder = options.placeHolder,
+        x = options.x,
+        y = options.y,
+        text = options.text,
+        size = cc.size(options.width, options.height),
+        passwordEnable = options.passwordEnable,
+        font = options.fontName,
+        fontSize = options.fontSize,
+        maxLength = options.maxLength
+        })
 
-	-- editBox:setPosition(
-	-- 	options.x - options.width*options.anchorPointX,
-	-- 	options.y + options.fontSize/2)
-	editBox:setPosition(options.x, options.y)
+	-- local editBox = ui.newEditBox({
+ --        size = cc.size(options.width, options.height)
+ --    })
+ --    editBox:setPlaceHolder(options.placeHolder)
+ --    editBox:setFontName(options.fontName)
+ --    editBox:setFontSize(options.fontSize or 20)
+ --    editBox:setText(options.text)
+ --    if options.passwordEnable then
+ --    	editBox:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
+	-- end
+	-- if options.maxLengthEnable then
+	-- 	editBox:setMaxLength(options.maxLength)
+	-- end
+	-- editBox:setPosition(options.x, options.y)
+
+	editBox:setAnchorPoint(
+		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))	
 
 	return editBox
 end
@@ -1017,8 +1026,11 @@ function CCSUILoader:calcChildPosByName_(children, name, parentSize)
 		local relativeRect
 		if relativeChild then
 			self:calcChildPosByName_(children, layoutParameter.relativeToName, parentSize)
-			relativeRect = cc.rect(relativeChild.options.x or 0, relativeChild.options.y or 0,
-				relativeChild.options.width or 0, relativeChild.options.height or 0)
+			relativeRect = cc.rect(
+				(relativeChild.options.x - (relativeChild.options.anchorPointX or 0.5) * relativeChild.options.width) or 0,
+				(relativeChild.options.y - (relativeChild.options.anchorPointY or 0.5) * relativeChild.options.height) or 0,
+				relativeChild.options.width or 0,
+				relativeChild.options.height or 0)
 		end
 
 		-- calc pos on center anchor point (0.5, 0.5)
