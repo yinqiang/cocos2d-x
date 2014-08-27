@@ -834,7 +834,6 @@ void TextField::setTextVerticalAlignment(TextVAlignment alignment)
 
 void TextField::setContentSize(const cocos2d::Size &contentSize)
 {
-    CCLOG("setContentSize w:%f,h:%f", contentSize.width, contentSize.height);
     Node::setContentSize(contentSize);
     _customSize = contentSize;
     _ignoreSize = false;
