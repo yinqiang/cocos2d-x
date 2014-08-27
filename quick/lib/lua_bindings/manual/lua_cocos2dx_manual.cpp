@@ -1946,7 +1946,7 @@ static int tolua_Cocos2d_TextureCache_addImageAsync(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
     tolua_Error tolua_err;
     if (
-        !tolua_isusertype(tolua_S,1,"CCTextureCache",0,&tolua_err) ||
+        !tolua_isusertype(tolua_S,1,"cc.TextureCache",0,&tolua_err) ||
         !tolua_isstring(tolua_S,2,0,&tolua_err) ||
         (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
         !tolua_isnoobj(tolua_S,4,&tolua_err)
