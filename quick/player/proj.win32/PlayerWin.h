@@ -30,6 +30,12 @@ public:
     virtual PlayerEditBoxServiceProtocol *getEditBoxService();
     virtual PlayerTaskServiceProtocol *getTaskService();
 
+	virtual void quit();
+	virtual void relaunch();
+	virtual void openNewPlayer();
+	virtual void openNewPlayerWithProjectConfig(ProjectConfig config);
+	virtual void openProjectWithProjectConfig(ProjectConfig config);
+
 protected:
     PlayerWin();
 
@@ -58,6 +64,16 @@ protected:
 
     // debug log
     void writeDebugLog(const char *log);
+
+	// helper
+	std::string convertPathFormatToUnixStyle(const std::string& path);
+	std::string getUserDocumentPath();
+	std::string getApplicationExePath();
+	std::string getUserGUID();
+	char*	    convertTCharToUtf8(const TCHAR* src);
+
+private:
+	std::string _userGUID;
 };
 
 

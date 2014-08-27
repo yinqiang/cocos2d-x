@@ -238,9 +238,10 @@ function player:trackEvent(eventName, ev)
                                                 url, 
                                                 cc.kCCHTTPRequestMethodPOST)
 
+    local cid = __G_QUICK_GUID__ or cc.Native:getOpenUDID()
     request:addPOSTValue("v", "1")
     request:addPOSTValue("tid", "UA-52790340-1")
-    -- request:addPOSTValue("cid", "openuuid-123456")
+    request:addPOSTValue("cid", cid)
     request:addPOSTValue("t", "event")
 
     request:addPOSTValue("an", "player")

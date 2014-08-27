@@ -108,7 +108,7 @@ function Sprite:displayFrame(frame, index)
 end
 
 function Sprite:flipX(b)
-    self:setFlipX(b)
+    self:setFlippedX(b)
     return self
 end
 

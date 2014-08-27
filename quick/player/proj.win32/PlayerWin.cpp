@@ -16,6 +16,11 @@
 #include <shlguid.h>
 #include <shellapi.h>
 
+// for mac address
+#include <WinSock2.h>
+#include <Iphlpapi.h>
+#pragma comment(lib,"Iphlpapi.lib")
+
 #include "PlayerWin.h"
 
 #include "glfw3.h"
@@ -23,42 +28,6 @@
 
 #include "CCLuaEngine.h"
 #include "PlayerLuaCore.h"
-
-//
-// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
-//
-static inline std::string _convertPathFormatToUnixStyle(const std::string& path)
-{
-	std::string ret = path;
-	int len = ret.length();
-	for (int i = 0; i < len; ++i)
-	{
-		if (ret[i] == '\\')
-		{
-			ret[i] = '/';
-		}
-	}
-	return ret;
-}
-
-//
-// @return: C:/Users/win8/Documents/
-//
-static inline std::string _getUserDocumentPath()
-{
-	TCHAR filePath[MAX_PATH];
-	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
-	int length = 2 * wcslen(filePath);
-	char* tempstring = new char[length + 1];
-	wcstombs(tempstring, filePath, length + 1);
-	string userDocumentPath(tempstring);
-	free(tempstring);
-
-	userDocumentPath = _convertPathFormatToUnixStyle(userDocumentPath);
-	userDocumentPath.append("/");
-
-	return userDocumentPath;
-}
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
@@ -127,6 +96,38 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
     return _taskService;
 }
 
+void PlayerWin::quit()
+{
+	Director::getInstance()->end();
+}
+
+void PlayerWin::relaunch()
+{
+	openNewPlayer();
+	quit();
+}
+
+void PlayerWin::openNewPlayer()
+{
+	openNewPlayerWithProjectConfig(_project);
+}
+
+void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
+{
+	static long taskid = 100;
+	stringstream buf;
+	buf << taskid++;
+
+	auto task = getTaskService()->createTask(buf.str(), getApplicationExePath(), config.makeCommandLine());
+	task->run();
+}
+
+void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
+{
+	openNewPlayerWithProjectConfig(config);
+	quit();
+}
+
 void PlayerWin::loadLuaConfig()
 {
 	LuaEngine* pEngine = LuaEngine::getInstance();
@@ -137,7 +138,7 @@ void PlayerWin::loadLuaConfig()
 
 	// set env
 	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-	quickRootPath = _convertPathFormatToUnixStyle(quickRootPath);
+	quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
 
 	string env = "__G_QUICK_V3_ROOT__=\"";
 	env.append(quickRootPath);
@@ -145,8 +146,13 @@ void PlayerWin::loadLuaConfig()
 	pEngine->executeString(env.c_str());
 
 	// set user home dir
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _getUserDocumentPath().c_str());
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
 	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+
+	// set guid
+	string uid = getUserGUID();
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
 
 	// load player.lua
 	quickRootPath.append("quick/player/src/player.lua");
@@ -361,6 +367,150 @@ void PlayerWin::onWindowResize(EventCustom* event)
 void PlayerWin::writeDebugLog(const char *log)
 {
 
+}
+
+
+//
+// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+//
+std::string PlayerWin::convertPathFormatToUnixStyle(const std::string& path)
+{
+	std::string ret = path;
+	int len = ret.length();
+	for (int i = 0; i < len; ++i)
+	{
+		if (ret[i] == '\\')
+		{
+			ret[i] = '/';
+		}
+	}
+	return ret;
+}
+
+//
+// @return: C:/Users/win8/Documents/
+//
+ std::string PlayerWin::getUserDocumentPath()
+{
+	TCHAR filePath[MAX_PATH];
+	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+	int length = 2 * wcslen(filePath);
+	char* tempstring = new char[length + 1];
+	wcstombs(tempstring, filePath, length + 1);
+	string userDocumentPath(tempstring);
+	free(tempstring);
+
+	userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
+	userDocumentPath.append("/");
+
+	return userDocumentPath;
+}
+
+//
+// convert Unicode/LocalCode TCHAR to Utf8 char
+//
+ char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
+{
+#ifdef UNICODE
+	WCHAR* tmp = (WCHAR*)src;
+	size_t size = wcslen(src) * 3 + 1;
+	char* dest = new char[size];
+	memset(dest, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
+	return dest;
+#else
+	char* tmp = (char*)src;
+	uint32 size = strlen(tmp) + 1;
+	WCHAR* dest = new WCHAR[size];
+	memset(dest, 0, sizeof(WCHAR)*size);
+	MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
+
+	size = wcslen(dest) * 3 + 1;
+	char* dest2 = new char[size];
+	memset(dest2, 0, size);
+	WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
+	delete[] dest;
+	return dest2;
+#endif
+}
+
+//
+std::string PlayerWin::getApplicationExePath()
+{
+	TCHAR szFileName[MAX_PATH];
+	GetModuleFileName(NULL, szFileName, MAX_PATH);
+	std::u16string u16ApplicationName;
+	char *applicationExePath = convertTCharToUtf8(szFileName);
+	std::string path(applicationExePath);
+	CC_SAFE_FREE(applicationExePath);
+
+	return path;
+}
+
+//
+static bool getMacAddress(string& macstring)
+{
+	bool ret = false;
+	ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
+	PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+	if (adapterInfo == NULL)
+	{
+		return false;
+	}
+
+	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
+	{
+		free(adapterInfo);
+		adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+		if (adapterInfo == NULL)
+		{
+			return false;
+		}
+	}
+
+	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
+	{
+		for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
+		{
+			if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+			{
+				continue;
+			}
+
+			if (pAdapter->AddressLength != 6)
+			{
+				continue;
+			}
+
+			char buf32[32];
+			sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
+				int(pAdapter->Address[0]),
+				int(pAdapter->Address[1]),
+				int(pAdapter->Address[2]),
+				int(pAdapter->Address[3]),
+				int(pAdapter->Address[4]),
+				int(pAdapter->Address[5]));
+			macstring = buf32;
+			ret = true;
+			break;
+		}
+	}
+
+	free(adapterInfo);
+	return ret;
+}
+
+std::string PlayerWin::getUserGUID()
+{
+	if (_userGUID.length() <= 0)
+	{
+		if (!getMacAddress(_userGUID))
+		{
+			_userGUID = "guid-fixed-1234567890";
+		}
+	}
+
+	return _userGUID;
 }
 
 PLAYER_NS_END

@@ -18,12 +18,8 @@ local images = {
     disabled = "#ButtonDisabled.png",
 }
 local checkboxImages = {
-    off = "#ButtonNormal.png",
-    off_pressed = "#ButtonNormal.png",
-    off_disabled = "#ButtonNormal.png",
-    on = "#ButtonNormal.png",
-    on_pressed = "#ButtonNormal.png",
-    on_disabled = "#ButtonNormal.png",
+    off = "CheckBoxButton2Off.png",
+    on = "CheckBoxButton2On.png",
 }
 
 --
@@ -88,7 +84,7 @@ function OpenProjectUI:onEnter()
     :addTo(self)
 
     self.portaitCheckBox = 
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Portait", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(60, 0)
         :setButtonLabelAlignment(display.CENTER)
@@ -98,7 +94,7 @@ function OpenProjectUI:onEnter()
         :setButtonSelected(true)
 
     self.landscapeCheckBox = 
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Landscape", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(80, 0)
         :setButtonLabelAlignment(display.CENTER)
@@ -120,7 +116,7 @@ function OpenProjectUI:onEnter()
     :addTo(self)
 
     self.showDebugConsole =
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Show Debug Console", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(125, 0)
         :setButtonLabelAlignment(display.CENTER)
@@ -129,7 +125,7 @@ function OpenProjectUI:onEnter()
         :setButtonSelected(true)
 
     self.writeDebugToFile =
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Write Debug Log to File", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(135, 0)
         :setButtonLabelAlignment(display.CENTER)
@@ -138,7 +134,7 @@ function OpenProjectUI:onEnter()
         :setButtonSelected(true)
 
     self.loadPrecompiledFramework =
-    cc.ui.UICheckBoxButton.new({off=images.disabled, on=images.normal})
+    cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Load precompiled framework", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(160, 0)
         :setButtonLabelAlignment(display.CENTER)

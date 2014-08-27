@@ -414,15 +414,6 @@ function WelcomeScene:createSamples(node)
         end
     end)
 
-    function self.lvGrid.onTouch_(self, event)
-        if "began" == event.name and not self:isTouchInViewRect(event) then
-            self.isTouchOutside = true
-        else
-            self.isTouchOutside = false
-        end
-
-        return cc.ui.UIListView.super.onTouch_(self, event)
-    end
 
     self.lvGrid:setTouchSwallowEnabled(false)
     self.lvGrid:setVisible(false)
@@ -491,7 +482,8 @@ function WelcomeScene:createDemoDescription(sample)
     local title =  sample.description
     local color = cc.c3b(50,144,144)
     
-    if not cc.FileUtils:getInstance():isFileExist(cc.player.quickRootPath .. "quick/" .. sample.path) then
+    local sampleAbsPath = cc.player.quickRootPath .. "quick/" .. sample.path
+    if not cc.FileUtils:getInstance():isDirectoryExist(sampleAbsPath) then
         title = title .. " (unfinished)"
         color = cc.c3b(255,0,0)
     end
@@ -522,7 +514,7 @@ function WelcomeScene:createDemoButton(sample)
                 button.isTouchMoved_ = true
 
             elseif event.name == "ended" then
-                if button.isTouchMoved_ == false and self.lvGrid.isTouchOutside == false then
+                if button.isTouchMoved_ == false then
                     self:openProjectWithPath(sample.path)
                 end
                 button.isTouchMoved_ = false
