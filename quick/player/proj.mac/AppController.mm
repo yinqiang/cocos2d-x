@@ -182,19 +182,33 @@ std::string getCurAppPath(void)
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/"];
 
+    
+    //
     // set user home dir
+    //
     lua_pushstring(pEngine->getLuaStack()->getLuaState(), path.UTF8String);
     lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
 
-    [path appendString:@".quick_player.lua"];
 
+    //
+    // ugly: Add the opening project to the "Open Recents" list
+    //
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
+    
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
 
+    //
+    // load player.lua file
+    //
     NSString *luaCorePath = [[NSBundle mainBundle] pathForResource:@"player" ofType:@"lua"];
     pEngine->getLuaStack()->executeScriptFile(luaCorePath.UTF8String);
-
-    const player::PlayerSettings &settings = player::PlayerProtocol::getInstance()->getPlayerSettings();
-
-    _project.setWindowOffset(Vec2(settings.offsetX, settings.offsetY));
+    
+    
+    // load setting
+//    const player::PlayerSettings &settings = player::PlayerProtocol::getInstance()->getPlayerSettings();
+//    _project.setWindowOffset(Vec2(settings.offsetX, settings.offsetY));
 }
 
 #pragma mark -

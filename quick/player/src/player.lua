@@ -8,7 +8,7 @@
 -- 返回 table 的字符串
 --
 
-local function table_print (tt, indent, done)
+function table.serializeToString (tt, indent, done)
   done = done or {}
   indent = indent or 0
   if type(tt) == "table" then
@@ -24,7 +24,7 @@ local function table_print (tt, indent, done)
             table.insert(sb, "{\n");    
         end
 
-        table.insert(sb, table_print (value, indent + 2, done))
+        table.insert(sb, table.serializeToString (value, indent + 2, done))
         table.insert(sb, string.rep (" ", indent)) -- indent it
         table.insert(sb, "},\n");
       elseif type(value) == "function" then
@@ -42,9 +42,6 @@ local function table_print (tt, indent, done)
       elseif type (value) == "boolean" then
                 table.insert(sb, string.format(
             "%s = %s,\n", tostring (key), tostring(value)))
-      -- else
-      --   table.insert(sb, string.format(
-      --       "%s = \"%s\",\n", tostring (key), tostring(value)))
        end
     end
     return table.concat(sb)
@@ -53,16 +50,11 @@ local function table_print (tt, indent, done)
   end
 end
 
-local function to_string( tbl )
-    if  "nil"       == type( tbl ) then
-        return tostring(nil)
-    elseif  "table" == type( tbl ) then
-        return table_print(tbl)
-    elseif  "string" == type( tbl ) then
-        return tbl
-    else
-        return tostring(tbl)
-    end
+function string:spliteBySep(sep)
+    local sep, fields = sep or device.directorySeparator, {}
+    local pattern = string.format("([^%s]+)", sep)
+    self:gsub(pattern, function(c) fields[#fields+1] = c end)
+    return fields
 end
 
 --
@@ -75,7 +67,7 @@ function player:saveSetting(fileName)
     local file, err = io.open(fileName, "wb")
     if err then return err end
 
-    local ret = to_string(self.settings)
+    local ret =  table.serializeToString(self.settings)
     file:write(ret)
     file:close()
 end
@@ -93,14 +85,10 @@ end
 
 function player:setQuickRootPath()
     self.quickRootPath = __G_QUICK_V3_ROOT__
-
-    print(" the quick root path: ", self.quickRootPath)
-
     if self.quickRootPath == nil then
         local fileName = self.userHomeDir .. ".QUICK_V3_ROOT"
         local file, err = io.open(fileName, "rb")
         if err then return err end
-
 
         self.quickRootPath = file:read("*l") .. "/"
         file:close()
@@ -109,7 +97,11 @@ end
 
 function player:restorDefaultSettings()
     local func = loadstring("local settings = {" .. self.defaultSettings .. "} return settings")
-    self.settings = func()
+    if func then
+        self.settings = func()
+    else
+        self.settings = {}
+    end
     self:saveSetting()
 end
 
@@ -118,7 +110,7 @@ end
 -- args : table
 --
 function player:openProject( title, args )
-    local welcomeTitle = self.quickRootPath .. "quick/welcom/"
+    local welcomeTitle = self.quickRootPath .. "quick/welcome/"
     if title == welcomeTitle then return end
 
     local recents = self.settings.PLAYER_OPEN_RECENTS
@@ -279,9 +271,15 @@ function player:init()
     self:registerEventHandler()
     self:readSettings()
     self:buildUI()
+
+    -- record project
+    if __PLAYER_OPEN_TITLE__ and __PLAYER_OPEN_COMMAND__ then
+        local title = string.gsub(__PLAYER_OPEN_TITLE__, '\\', '/')
+        local args = string.gsub(__PLAYER_OPEN_COMMAND__, '\\', '/'):spliteBySep(' ')
+        self:openProject(title, args)
+    end
 end
 -- load player settings
-
 
 cc = cc or {}
 cc.player = cc.player or player

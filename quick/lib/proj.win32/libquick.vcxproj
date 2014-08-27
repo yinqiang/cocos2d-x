@@ -293,6 +293,7 @@
     <ClInclude Include="..\..\..\extensions\GUI\CCEditBox\CCEditBoxImpl.h" />
     <ClInclude Include="..\..\..\extensions\GUI\CCEditBox\CCEditBoxImplWin.h" />
     <ClInclude Include="..\..\..\extensions\GUI\CCEditBox\Win32InputBox.h" />
+    <ClInclude Include="..\..\..\extensions\GUI\CCTextField\UITextField.h" />
     <ClInclude Include="..\..\..\external\chipmunk\include\chipmunk\chipmunk.h" />
     <ClInclude Include="..\..\..\external\chipmunk\include\chipmunk\chipmunk_ffi.h" />
     <ClInclude Include="..\..\..\external\chipmunk\include\chipmunk\chipmunk_private.h" />
@@ -805,6 +806,7 @@
     <ClCompile Include="..\..\..\extensions\GUI\CCEditBox\CCEditBox.cpp" />
     <ClCompile Include="..\..\..\extensions\GUI\CCEditBox\CCEditBoxImplWin.cpp" />
     <ClCompile Include="..\..\..\extensions\GUI\CCEditBox\Win32InputBox.cpp" />
+    <ClCompile Include="..\..\..\extensions\GUI\CCTextField\UITextField.cpp" />
     <ClCompile Include="..\..\..\external\chipmunk\src\chipmunk.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>

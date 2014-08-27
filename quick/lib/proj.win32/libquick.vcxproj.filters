@@ -355,6 +355,9 @@
     <Filter Include="libquick\extra\native">
       <UniqueIdentifier>{2dd886df-091c-4ce0-a3d6-5ddb6760c2eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="extensions\GUI\CCTextField">
+      <UniqueIdentifier>{47bf8197-5cde-469d-bbb1-948e1aab5885}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cocos\2d\CCActionManager.h">
@@ -1974,6 +1977,9 @@
     <ClInclude Include="..\extra\luabinding\cocos2dx_extra_luabinding.h">
       <Filter>libquick\extra\luabinding</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\extensions\GUI\CCTextField\UITextField.h">
+      <Filter>extensions\GUI\CCTextField</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cocos\2d\CCActionManager.cpp">
@@ -2977,6 +2983,9 @@
     </ClCompile>
     <ClCompile Include="..\extra\luabinding\cocos2dx_extra_luabinding.cpp">
       <Filter>libquick\extra\luabinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\extensions\GUI\CCTextField\UITextField.cpp">
+      <Filter>extensions\GUI\CCTextField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

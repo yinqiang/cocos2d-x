@@ -149,6 +149,16 @@ void PlayerWin::loadLuaConfig()
 	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
 	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
 
+	//
+	// ugly: Add the opening project to the "Open Recents" list
+	//
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
+
+	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
+	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
+
+
 	// set guid
 	string uid = getUserGUID();
 	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());

@@ -4,13 +4,6 @@ local WelcomeScene = class("WelcomeScene", function()
     return display.newScene("WelcomeScene")
 end)
 
-function string:spliteBySep(sep)
-    local sep, fields = sep or device.directorySeparator, {}
-    local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c) fields[#fields+1] = c end)
-    return fields
-end
-
 function WelcomeScene:ctor()
     local bg = cc.LayerColor:create(cc.c4b(56, 56, 56, 255))
     self:addChild(bg)
@@ -82,8 +75,9 @@ function WelcomeScene:createButtons(node)
     :onButtonClicked(function()
         local projectConfig = ProjectConfig:new()
         local argumentVector = vector_string_:new_local()
-        if self.localProjectListView_.currentIndex and self.localProjectListView_.currentIndex > 0 then
-            local arguments = cc.player.settings.PLAYER_OPEN_RECENTS[self.localProjectListView_.currentIndex].args
+        local index = self.localProjectListView_:getCurrentIndex() 
+        if index > 0 then
+            local arguments = cc.player.settings.PLAYER_OPEN_RECENTS[index].args
             for _,v in ipairs(arguments) do
                 argumentVector:push_back(v)
             end
@@ -116,16 +110,17 @@ function WelcomeScene:createButtons(node)
     :pos(display.width-padding, top)
     :addTo(node)
     :onButtonClicked(function()
-        if self.localProjectListView_.currentItem then
-            self.localProjectListView_:removeItem(self.localProjectListView_.currentItem, true)
-            self.localProjectListView_.currentItem = nil
-
-            table.remove(cc.player.settings.PLAYER_OPEN_RECENTS, self.localProjectListView_.currentIndex)
+        local index = self.localProjectListView_:getCurrentIndex()
+        self.localProjectListView_:removeCurrentItem()
+        if index > 0 then
+            table.remove(cc.player.settings.PLAYER_OPEN_RECENTS, index)
             cc.player:saveSetting()
         end
-
-        self.localProjectListView_.currentIndex = 0
-        self.localProjectListView_.localProjectsPreSelectedItem_ = nil
+        local listCount = self.localProjectListView_:getItemCount()
+        if index > listCount then
+            index = listCount
+        end
+        self.localProjectListView_:setCurrentIndex(index)
     end)
 
 
@@ -162,14 +157,6 @@ function WelcomeScene:createListItem(icon, title, path)
     local container = display.newNode()
     container:setContentSize(40*16, 90) 
     container.path = path
-
-    -- background
-    local bgItem = cc.ui.UIImage.new("#ItemSelected.png", {scale9 = true})
-    bgItem:setLayoutSize(40*16-20, 80)
-    bgItem:addTo(container)
-    bgItem:pos(10, 0)
-    bgItem:setVisible(false)
-    container.bgItem_ = bgItem
 
     -- icon
     cc.ui.UIImage.new(icon, {scale9 = true})
@@ -219,33 +206,26 @@ function WelcomeScene:createTabWidget(node)
 end
 
 function WelcomeScene:createOpenRecents(recents, node)
-    local localProjectListView = cc.ui.UIListView.new {
-        bg = "#TabButtonSelected.png",
-        viewRect = cc.rect(40,92, 40*17, 40*9+28),
-        direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
-        scrollbarImgV = "#ScrollBarHandler.png"}
-        :onTouch(function(event)
-            if not event.listView:isItemInViewRect(event.itemPos) then
-                return
-            end
-            
-            local listView = event.listView
-            if "clicked" == event.name then
-                if listView.localProjectsPreSelectedItem_ then
-                    listView.localProjectsPreSelectedItem_:setVisible(false)
-                end
-
-               local selectedItemBg = event.item:getContent().bgItem_
-                if selectedItemBg then
-                    selectedItemBg:setVisible(true)
-                end
-                listView.localProjectsPreSelectedItem_ = selectedItemBg
-                listView.currentItem = event.item
-                listView.currentIndex = event.itemPos
-            end -- "clicked" end
-            end)
+    local localProjectListView = require("app.scenes.ListViewEx").new {
+            bg = "#TabButtonSelected.png",
+            viewRect = cc.rect(40,92, 40*17, 40*9+28),
+            direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
+            scrollbarImgV = "#ScrollBarHandler.png"
+        }
         :addTo(node)
 
+    -- hightlight item
+    local bgItem = cc.ui.UIImage.new("#ItemSelected.png", {scale9 = true})
+    bgItem:setLayoutSize(40*16-20, 87)
+    bgItem:pos(70, 5)
+
+    local highlightNode = display.newNode()
+    highlightNode:setVisible(false)
+    highlightNode:pos(0, 0)
+    highlightNode:addChild(bgItem)
+    localProjectListView:setHighlightNode(highlightNode)
+
+    -- add items
     for i,v in ipairs(recents) do
         local container = self:createListItem("#Logo.png", v.title, v.title)
 
@@ -256,7 +236,7 @@ function WelcomeScene:createOpenRecents(recents, node)
         localProjectListView:addItem(item)
     end
     localProjectListView:reload()
-
+    localProjectListView:setCurrentIndex(1)
 
     self.tabWidget.widgets_[#self.tabWidget.widgets_ +1] = localProjectListView
     self.localProjectListView_ = localProjectListView
@@ -312,7 +292,7 @@ function WelcomeScene:createHeaders(node)
 
         end)
 
-        node:addChild(header, 1)
+        node:addChild(header)
         self.tabWidget.headers_[#self.tabWidget.headers_+1] = header
         left = left + 170
     end
