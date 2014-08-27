@@ -366,7 +366,8 @@ _passwordStyleText(""),
 _textFieldRendererAdaptDirty(true),
 _fontName("Thonburi"),
 _fontSize(10),
-_fontType(FontType::SYSTEM)
+_fontType(FontType::SYSTEM),
+_ignoreSize(false)
 {
 }
 
@@ -513,14 +514,14 @@ void TextField::setText(const std::string& text)
         _textFieldRenderer->setString(content);
     }
     _textFieldRendererAdaptDirty = true;
-    setContentSize(_textFieldRenderer->getContentSize());
+    updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
 }
 
 void TextField::setPlaceHolder(const std::string& value)
 {
     _textFieldRenderer->setPlaceHolder(value);
     _textFieldRendererAdaptDirty = true;
-    setContentSize(_textFieldRenderer->getContentSize());
+    updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
 }
     
 const std::string& TextField::getPlaceHolder()const
@@ -539,7 +540,7 @@ void TextField::setFontSize(int size)
     }
     _fontSize = size;
     _textFieldRendererAdaptDirty = true;
-    setContentSize(_textFieldRenderer->getContentSize());
+    updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
 }
     
 int TextField::getFontSize()const
@@ -562,7 +563,7 @@ void TextField::setFontName(const std::string& name)
     }
     _fontName = name;
     _textFieldRendererAdaptDirty = true;
-    setContentSize(_textFieldRenderer->getContentSize());
+    updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
 }
     
 const std::string& TextField::getFontName()const
@@ -664,7 +665,7 @@ void TextField::update(float dt)
         setInsertText(false);
         
         _textFieldRendererAdaptDirty = true;
-        setContentSize(_textFieldRenderer->getContentSize());
+        updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
     }
     if (getDeleteBackward())
     {
@@ -672,8 +673,10 @@ void TextField::update(float dt)
         setDeleteBackward(false);
         
         _textFieldRendererAdaptDirty = true;
-        setContentSize(_textFieldRenderer->getContentSize());
+        updateContentSizeWithTextureSize(_textFieldRenderer->getContentSize());
     }
+    
+     adaptRenderers();
 }
 
 bool TextField::getAttachWithIME()const
@@ -787,7 +790,10 @@ void TextField::adaptRenderers()
 
 void TextField::textfieldRendererScaleChangedWithSize()
 {
-    _textFieldRenderer->setDimensions(_contentSize.width, _contentSize.height);
+    if (!_ignoreSize)
+    {
+        _textFieldRenderer->setDimensions(_contentSize.width, _contentSize.height);
+    }
     _textFieldRenderer->setPosition(_contentSize.width / 2.0f, _contentSize.height / 2.0f);
 }
 
@@ -810,7 +816,7 @@ void TextField::attachWithIME()
 {
     _textFieldRenderer->attachWithIME();
 }
-    
+
 void TextField::setTextAreaSize(const Size &size)
 {
     this->setContentSize(size);
@@ -824,6 +830,27 @@ void TextField::setTextHorizontalAlignment(TextHAlignment alignment)
 void TextField::setTextVerticalAlignment(TextVAlignment alignment)
 {
     _textFieldRenderer->setVerticalAlignment(alignment);
+}
+
+void TextField::setContentSize(const cocos2d::Size &contentSize)
+{
+    CCLOG("setContentSize w:%f,h:%f", contentSize.width, contentSize.height);
+    Node::setContentSize(contentSize);
+    _customSize = contentSize;
+    _ignoreSize = false;
+}
+
+void TextField::updateContentSizeWithTextureSize(const cocos2d::Size &size)
+{
+    if (_ignoreSize)
+    {
+        this->setContentSize(size);
+    }
+    else
+    {
+        this->setContentSize(_customSize);
+    }
+    onSizeChanged();
 }
 
 NS_CC_EXT_END

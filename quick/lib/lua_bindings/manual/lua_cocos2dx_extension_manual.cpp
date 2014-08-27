@@ -286,7 +286,7 @@ static int lua_cocos2dx_TextField_addEventListener(lua_State* L)
     
 #if COCOS2D_DEBUG >= 1
     tolua_Error tolua_err;
-    if (!tolua_isusertype(L,1,"ccui.TextField",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertype(L,1,"cc.TextField",0,&tolua_err)) goto tolua_lerror;
 #endif
     
     self = static_cast<TextField*>(tolua_tousertype(L,1,0));
@@ -328,7 +328,7 @@ tolua_lerror:
 
 static void extendTextField(lua_State* L)
 {
-    lua_pushstring(L, "ccui.TextField");
+    lua_pushstring(L, "cc.TextField");
     lua_rawget(L, LUA_REGISTRYINDEX);
     if (lua_istable(L,-1))
     {

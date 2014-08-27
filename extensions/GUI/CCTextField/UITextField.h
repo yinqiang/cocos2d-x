@@ -199,6 +199,10 @@ protected:
     void textfieldRendererScaleChangedWithSize();
 
     virtual void adaptRenderers();
+    
+    void setContentSize(const cocos2d::Size &contentSize);
+    void updateContentSizeWithTextureSize(const cocos2d::Size &size);
+
 protected:
     UICCTextField* _textFieldRenderer;
 
@@ -233,6 +237,8 @@ private:
     std::string _fontName;
     int _fontSize;
     FontType _fontType;
+    bool _ignoreSize;
+    Size _customSize;
 };
 
 NS_CC_EXT_END
