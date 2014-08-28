@@ -234,13 +234,17 @@ private:
 
     pthread_attr_t m_threadAttr;
 
+    bool isNeedBoundary();
+
     void createURLConnectJava();
     void setRequestMethodJava();
-    void addRequestHeaderJava(const char* key, const char* value);
+    void addRequestHeaderJava(const char* key, const char* value, bool bBoundary);
     void setTimeoutJava(int msTime);
     int connectJava();
     void postContentJava(const char* key, const char* value);
-    void postFileJava(const char* fileName, const char* filePath);
+    void postFromContentJava(const char* key, const char* value);
+    void postFromFileJava(const char* fileName, const char* filePath);
+    void postFormEndJava(bool bBoundary);
     int getResponedCodeJava();
     char* getResponedErrJava();
     char* getResponedHeaderJava();

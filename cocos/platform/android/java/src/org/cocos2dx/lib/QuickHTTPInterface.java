@@ -2,6 +2,7 @@ package org.cocos2dx.lib;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,6 +24,9 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class QuickHTTPInterface {
+    static String BOUNDARY = "----------------------------78631b43218d";
+    static String NEWLINE = "\r\n";
+
     static HttpURLConnection createURLConnect(String strURL) {
         URL url;
         HttpURLConnection urlConnection;
@@ -46,8 +50,11 @@ public class QuickHTTPInterface {
         }
     }
 
-    static void addRequestHeader(HttpURLConnection http, String strkey, String strValue) {
-        http.addRequestProperty(strkey, strValue);
+    static void addRequestHeader(HttpURLConnection http, String strkey, String strValue, boolean bNeedBoundary) {
+        if ("Content-Type".equalsIgnoreCase(strkey.trim()) && bNeedBoundary) {
+            strValue += ("; boundary=" + BOUNDARY);
+        }
+        http.setRequestProperty(strkey, strValue);
     }
 
     static void setTimeout(HttpURLConnection http, int msTime) {
@@ -71,31 +78,115 @@ public class QuickHTTPInterface {
     static void postContent(HttpURLConnection http, String name, String value) {
         try {
             DataOutputStream out = new DataOutputStream(http.getOutputStream());
-            String content = name + "=" + value;
+            String content = null;
+            if (null == name || 0 == name.length()) {
+                content = value + "&";
+            } else {
+                content = name + "=" + value + "&";
+            }
             out.writeBytes(content);
             out.flush();
+        } catch (IOException e) {
+            Log.e("QuickHTTPInterface", e.toString());
+        }
+    }
+
+    static void postFormContent(HttpURLConnection http, String key, String val) {
+        try {
+            OutputStream out = http.getOutputStream();
+
+            out.write(getBoundaryContentHeader(key, val).getBytes());
+
+            out.flush();
+        } catch (IOException e) {
+            Log.e("QuickHTTPInterface", e.toString());
+        }
+    }
+
+    static void postFormFile(HttpURLConnection http, String name, String filePath) {
+        try {
+            FileInputStream fin = new FileInputStream(filePath);
+            OutputStream out = http.getOutputStream();
+
+
+            out.write(getBoundaryFileHeader(name, filePath).getBytes());
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while((len = fin.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+            out.write(NEWLINE.getBytes());
+
+            out.flush();
+            fin.close();
+        } catch (IOException e) {
+            Log.e("QuickHTTPInterface", e.toString());
+        }
+    }
+
+    static void postFormEnd(HttpURLConnection http, boolean bBoundary) {
+        if ("GET".equalsIgnoreCase(http.getRequestMethod())) {
+            return;
+        }
+
+        try {
+            OutputStream out = http.getOutputStream();
+
+            if (bBoundary) {
+                out.write(getBoundaryEnd().getBytes());
+                out.flush();
+            }
             out.close();
         } catch (IOException e) {
             Log.e("QuickHTTPInterface", e.toString());
         }
     }
 
-    static void postFile(HttpURLConnection http, String fileName, String filePath) {
-        try {
-            FileInputStream fin = new FileInputStream(filePath);
-            OutputStream out = http.getOutputStream();
+    static String getBoundaryFileHeader(String key, String filePath) {
+        File file = new File(filePath);
+        StringBuilder sb = new StringBuilder();
+        sb.append("--");
+        sb.append(BOUNDARY);
+        sb.append(NEWLINE);
+        sb.append("Content-Disposition: form-data; ");
+        sb.append("name=\"");
+        sb.append(key);
+        sb.append("\"; ");
+        sb.append("filename=\"");
+        sb.append(file.getName());
+        sb.append("\"");
+        sb.append(NEWLINE);
+        sb.append("Content-Type: application/octet-stream");
+        sb.append(NEWLINE);
+        sb.append(NEWLINE);
 
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while((len = fin.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-            out.flush();
-            out.close();
-            fin.close();
-        } catch (IOException e) {
-            Log.e("QuickHTTPInterface", e.toString());
-        }
+        return sb.toString();
+    }
+
+    static String getBoundaryContentHeader(String key, String val) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("--");
+        sb.append(BOUNDARY);
+        sb.append(NEWLINE);
+        sb.append("Content-Disposition: form-data; name=\"");
+        sb.append(key);
+        sb.append("\"");
+        sb.append(NEWLINE);
+        sb.append(NEWLINE);
+        sb.append(val);
+        sb.append(NEWLINE);
+
+        return sb.toString();
+    }
+
+    static String getBoundaryEnd() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("--");
+        sb.append(BOUNDARY);
+        sb.append("--");
+        sb.append(NEWLINE);
+
+        return sb.toString();
     }
 
     static int getResponedCode(HttpURLConnection http) {

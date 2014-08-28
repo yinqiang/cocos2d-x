@@ -118,6 +118,7 @@ void HTTPRequest::setPOSTData(const char *data)
     CCAssert(m_state == kCCHTTPRequestStateIdle, "HTTPRequest::setPOSTData() - request not idle");
     CCAssert(data, "HTTPRequest::setPOSTData() - invalid post data");
     m_postFields.clear();
+    m_postFields[string("")] = string(data ? data : "");
 }
 
 void HTTPRequest::addFormFile(const char *name, const char *filePath, const char *contentType)
@@ -131,6 +132,9 @@ void HTTPRequest::addFormFile(const char *name, const char *filePath, const char
 void HTTPRequest::addFormContents(const char *name, const char *value)
 {
     m_postContent[string(name)] = string(value);
+    string str = string("Content-Type=multipart/form-data");
+    m_headers.push_back(str);
+    CCLOG("addFormContents:%d", m_headers.size());
 }
 
 void HTTPRequest::setCookieString(const char *cookie)
@@ -169,6 +173,7 @@ bool HTTPRequest::start(void)
     setRequestMethodJava();
     setTimeoutJava(m_nTimeOut);
 
+    bool bBoundary = isNeedBoundary();
     for (HTTPRequestHeadersIterator it = m_headers.begin(); it != m_headers.end(); ++it)
     {
         string val = *it;
@@ -180,11 +185,11 @@ bool HTTPRequest::start(void)
         string str1 = val.substr(0, pos);
         string str2 = val.substr(pos + 1, len - pos - 1);
 
-        addRequestHeaderJava(str1.c_str(), str2.c_str());
+        addRequestHeaderJava(str1.c_str(), str2.c_str(), bBoundary);
     }
 
     if (m_cookies && 0 != strlen(m_cookies)) {
-        addRequestHeaderJava("Cookie", m_cookies);
+        addRequestHeaderJava("Cookie", m_cookies, bBoundary);
     }
 
     // memset(&m_thread, 0, sizeof(pthread_t));
@@ -195,7 +200,7 @@ bool HTTPRequest::start(void)
     pthread_create(&m_thread, NULL, requestCURL, this);
     // pthread_detach(m_thread);
     
-    Director::getInstance()->getScheduler()->scheduleUpdateForTarget(this, 0, false);
+    Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
     // CCLOG("HTTPRequest[0x%04x] - request start", s_id);
     return true;
 }
@@ -314,7 +319,7 @@ void HTTPRequest::update(float dt)
     Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
     if (m_curlState != kCCHTTPRequestCURLStateIdle)
     {
-        Director::getInstance()->getScheduler()->scheduleSelector(schedule_selector(HTTPRequest::checkCURLState), this, 0, false);
+        Director::getInstance()->getScheduler()->schedule(schedule_selector(HTTPRequest::checkCURLState), this, 0, false);
     }
 
     if (m_state == kCCHTTPRequestStateCompleted)
@@ -379,15 +384,19 @@ void HTTPRequest::onRequest(void)
         {
             for (Fields::iterator it = m_postContent.begin(); it != m_postContent.end(); ++it)
             {
-                postContentJava(it->first.c_str(), it->second.c_str());
+                postFromContentJava(it->first.c_str(), it->second.c_str());
             }
         }
         if (m_postFile.size() > 0)
         {
             for (Fields::iterator it = m_postFile.begin(); it != m_postFile.end(); ++it)
             {
-                postFileJava(it->first.c_str(), it->second.c_str());
+                postFromFileJava(it->first.c_str(), it->second.c_str());
             }
+        }
+
+        if (NULL != m_httpMethod && 0 == strcmp(m_httpMethod, "POST")) {
+            postFormEndJava(isNeedBoundary());
         }
 
         //set cookie TODO
@@ -496,7 +505,7 @@ int HTTPRequest::onProgress(double dltotal, double dlnow, double ultotal, double
             stack->pushLuaValueDict(dict);
             stack->executeFunctionByHandler(m_listener, 1);
         } else {
-            CCLOG("HTTPRequest - onProgress state wrong:", m_state);
+            CCLOG("HTTPRequest - onProgress state wrong:%d", m_state);
         }
     }
 #endif
@@ -555,6 +564,14 @@ int HTTPRequest::progressCURL(void *userdata, double dltotal, double dlnow, doub
 
 
 
+bool HTTPRequest::isNeedBoundary() {
+    if (0 == m_postFile.size() && 0 == m_postContent.size()) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 void HTTPRequest::createURLConnectJava() {
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
@@ -585,17 +602,18 @@ void HTTPRequest::setRequestMethodJava() {
     }
 }
 
-void HTTPRequest::addRequestHeaderJava(const char* key, const char* value) {
+void HTTPRequest::addRequestHeaderJava(const char* key, const char* value, bool bBoundary) {
+    CCLOG("key = %s, val = %s", key, value);
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
         "addRequestHeader",
-        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;)V"))
+        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;Z)V"))
     {
         jstring jstrKey = methodInfo.env->NewStringUTF(key);
         jstring jstrVal = methodInfo.env->NewStringUTF(value);
         methodInfo.env->CallStaticVoidMethod(
-            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal);
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal, bBoundary);
         methodInfo.env->DeleteLocalRef(jstrKey);
         methodInfo.env->DeleteLocalRef(jstrVal);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
@@ -648,11 +666,28 @@ void HTTPRequest::postContentJava(const char* key, const char* value) {
     }
 }
 
-void HTTPRequest::postFileJava(const char* fileName, const char* filePath) {
+void HTTPRequest::postFromContentJava(const char* key, const char* value) {
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
-        "postFile",
+        "postFormContent",
+        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;)V"))
+    {
+        jstring jstrKey = methodInfo.env->NewStringUTF(key);
+        jstring jstrVal = methodInfo.env->NewStringUTF(value);
+        methodInfo.env->CallStaticVoidMethod(
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal);
+        methodInfo.env->DeleteLocalRef(jstrKey);
+        methodInfo.env->DeleteLocalRef(jstrVal);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+}
+
+void HTTPRequest::postFromFileJava(const char* fileName, const char* filePath) {
+    JniMethodInfo methodInfo;
+    if (JniHelper::getStaticMethodInfo(methodInfo,
+        "org/cocos2dx/lib/QuickHTTPInterface",
+        "postFormFile",
         "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;)V"))
     {
         jstring jstrFile = methodInfo.env->NewStringUTF(fileName);
@@ -661,6 +696,19 @@ void HTTPRequest::postFileJava(const char* fileName, const char* filePath) {
             methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrFile, jstrPath);
         methodInfo.env->DeleteLocalRef(jstrFile);
         methodInfo.env->DeleteLocalRef(jstrPath);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+}
+
+void HTTPRequest::postFormEndJava(bool bBoundary) {
+    JniMethodInfo methodInfo;
+    if (JniHelper::getStaticMethodInfo(methodInfo,
+        "org/cocos2dx/lib/QuickHTTPInterface",
+        "postFormEnd",
+        "(Ljava/net/HttpURLConnection;Z)V"))
+    {
+        methodInfo.env->CallStaticVoidMethod(
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, bBoundary);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 }
