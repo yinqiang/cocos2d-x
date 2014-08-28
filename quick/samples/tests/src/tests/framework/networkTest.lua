@@ -14,6 +14,11 @@ function NetworkTestScene:ctor()
         "send data to server",
     }
     self:addChild(game.createMenu(items, handler(self, self.runTest)))
+
+    self.progressLabel = cc.ui.UILabel.new({text = "-", color = display.COLOR_WHITE})
+        :align(display.CENTER, display.cx, display.top - 100)
+        :addTo(self)
+
 end
 
 function NetworkTestScene:onResponse(event, index, dumpResponse)
@@ -26,12 +31,16 @@ function NetworkTestScene:onResponse(event, index, dumpResponse)
         if request:getResponseStatusCode() ~= 200 then
         else
             printf("REQUEST %d - getResponseDataLength() = %d", index, request:getResponseDataLength())
+            self.progressLabel:setString("download completed")
+            -- request:saveResponseData("/sdcard/htl/2.jpg")
+            -- request:saveResponseData(device.writablePath .. "res/2.jpg")
             if dumpResponse then
                 printf("REQUEST %d - getResponseString() =\n%s", index, request:getResponseString())
             end
         end
     elseif event.name == "progress" then
         printf("REQUEST %d - total:%d, have download:%d, this circle download:%d", index, event.total, event.dltotal, event.dlnow)
+        self.progressLabel:setString(string.format("total:%d,download:%d,percent:%d%%", event.total, event.dltotal, event.dltotal*100/event.total))
     else
         printf("REQUEST %d - getErrorCode() = %d, getErrorMessage() = %s", index, request:getErrorCode(), request:getErrorMessage())
     end
@@ -75,6 +84,9 @@ end
 function NetworkTestScene:send_data_to_serverTest()
     self.requestCount = self.requestCount + 1
     local index = self.requestCount
+    local url
+    url = "http://quick-x.com/tests/http_request_tests.php"
+    -- url = "http://115.28.88.113:8088/user/upload_file"
     local request = network.createHTTPRequest(function(event)
         if tolua.isnull(self) then
             printf("REQUEST %d COMPLETED, BUT SCENE HAS QUIT", index)
@@ -84,8 +96,10 @@ function NetworkTestScene:send_data_to_serverTest()
         local cookiesStr = event.request:getCookieString()
         local cookie = network.parseCookie(cookiesStr)
         dump(cookie, "GET COOKIE FROM SERVER")
-    end, "http://quick-x.com/tests/http_request_tests.php", "POST")
+    end, url, "POST")
     request:addPOSTValue("username", "dualface")
+    -- request:addFormFile("data", "/sdcard/htl/1.jpg")
+    -- request:addFormFile("data", device.writablePath .. "res/1.jpg")
     request:setCookieString(network.makeCookieString({C1 = "V1", C2 = "V2"}))
     printf("REQUEST START %d", index)
     request:start()
