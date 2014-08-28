@@ -960,6 +960,7 @@
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCTransitionPageTurn.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCTransitionProgress.cpp" />
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\2d\CCTweenFunction.cpp" />
+    <ClCompile Include="..\..\..\extensions\GUI\CCTextField\UITextField.cpp" />
     <ClCompile Include="..\extra\filters\filters\CCBlurFilter.cpp" />
     <ClCompile Include="..\extra\filters\filters\CCBrightnessFilter.cpp" />
     <ClCompile Include="..\extra\filters\filters\CCContrastFilter.cpp" />
@@ -1320,6 +1321,7 @@
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCTransitionProgress.h" />
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\2d\CCTweenFunction.h" />
     <ClInclude Include="..\..\..\cocos\platform\wp8\shaders\precompiledshaders.h" />
+    <ClInclude Include="..\..\..\extensions\GUI\CCTextField\UITextField.h" />
     <ClInclude Include="..\extra\filters\cocos2dFilters.h" />
     <ClInclude Include="..\extra\filters\filters\CCBlurFilter.h" />
     <ClInclude Include="..\extra\filters\filters\CCBrightnessFilter.h" />

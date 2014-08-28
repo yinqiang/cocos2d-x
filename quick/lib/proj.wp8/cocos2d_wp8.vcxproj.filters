@@ -187,6 +187,9 @@
     <Filter Include="cocos\platform\wp8\shaders">
       <UniqueIdentifier>{b046ed4e-f914-4b64-bcba-b3d4b634b39f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="extensions\GUI\CCTextField">
+      <UniqueIdentifier>{64f64705-b704-4cb6-8115-e49f3f88833b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(QUICK_V3_ROOT)cocos\physics\CCPhysicsBody.cpp">
@@ -1205,6 +1208,9 @@
     </ClCompile>
     <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp">
       <Filter>libquick\ProjectConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\extensions\GUI\CCTextField\UITextField.cpp">
+      <Filter>extensions\GUI\CCTextField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2371,6 +2377,9 @@
     </ClInclude>
     <ClInclude Include="..\ProjectConfig\ProjectConfig.h">
       <Filter>libquick\ProjectConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\extensions\GUI\CCTextField\UITextField.h">
+      <Filter>extensions\GUI\CCTextField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
