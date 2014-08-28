@@ -260,13 +260,19 @@ function UIPageView:scroll(dis)
 		count = 0
 	end
 
+	local page
 	if 0 == count then
 		return
 	elseif 1 == count then
+		table.insert(threePages, false)
 		table.insert(threePages, self.pages_[self.curPageIdx_])
 	elseif 2 == count then
 		if dis > 0 then
-			table.insert(threePages, self:getNextPage(false))
+			page = self:getNextPage(false)
+			if not page then
+				page = false
+			end
+			table.insert(threePages, page)
 			table.insert(threePages, self.pages_[self.curPageIdx_])
 		else
 			table.insert(threePages, false)
@@ -274,7 +280,11 @@ function UIPageView:scroll(dis)
 			table.insert(threePages, self:getNextPage(true))
 		end
 	else
-		table.insert(threePages, self:getNextPage(false))
+		page = self:getNextPage(false)
+		if not page then
+			page = false
+		end
+		table.insert(threePages, page)
 		table.insert(threePages, self.pages_[self.curPageIdx_])
 		table.insert(threePages, self:getNextPage(true))
 	end
@@ -297,11 +307,17 @@ function UIPageView:scrollLCRPages(threePages, dis)
 	posX = posX - self.viewRect_.width
 	if pageL and "boolean" ~= type(pageL) then
 		pageL:setPosition(posX, posY)
+		if not pageL:isVisible() then
+			pageL:setVisible(true)
+		end
 	end
 
 	posX = posX + self.viewRect_.width * 2
 	if pageR then
 		pageR:setPosition(posX, posY)
+		if not pageR:isVisible() then
+			pageR:setVisible(true)
+		end
 	end
 end
 
@@ -324,10 +340,12 @@ function UIPageView:scrollAuto()
 		pageR = nil
 	end
 	if (dis > self.viewRect_.width/2 or self.speed > 10)
-		and (self.curPageIdx_ > 1 or self.bCirc) then
+		and (self.curPageIdx_ > 1 or self.bCirc)
+		and count > 1 then
 		bChange = true
 	elseif (-dis > self.viewRect_.width/2 or -self.speed > 10)
-		and (self.curPageIdx_ < self:getPageCount() or self.bCirc) then
+		and (self.curPageIdx_ < self:getPageCount() or self.bCirc)
+		and count > 1 then
 		bChange = true
 	end
 
