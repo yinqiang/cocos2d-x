@@ -18,7 +18,7 @@ function CCSSample2Scene:ctor()
 	end)
 
 	local editBox = cc.uiloader:seekNodeByName(self, "name_TextField")
-	editBox:registerScriptEditBoxHandler(function(event, editbox)
+	editBox:addEventListener(function(editbox, eventType)
 		print("CCSSample2Scene editbox input")
 	end)
 end
