@@ -171,6 +171,7 @@ void PlayerWin::loadLuaConfig()
 
 void PlayerWin::registerKeyboardEvent()
 {
+	auto eventDispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
 	auto keyEvent = cocos2d::EventListenerKeyboard::create();
 	keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
 		auto event = EventCustom("APP.EVENT");
@@ -179,8 +180,7 @@ void PlayerWin::registerKeyboardEvent()
 		event.setDataString(data.str());
 		Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 	};
-
-	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyEvent, 1);
+	eventDispatcher->addEventListenerWithFixedPriority(keyEvent, 1);	
 }
 
 int PlayerWin::run()
@@ -200,7 +200,6 @@ int PlayerWin::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // load project config from command line args
-	_project.resetToWelcome();
     vector<string> args;
     for (int i = 0; i < __argc; ++i)
     {
@@ -210,6 +209,11 @@ int PlayerWin::run()
         args.push_back(s);
     }
     _project.parseCommandLine(args);
+
+	if (_project.getProjectDir().length() <= 0)
+	{
+		_project.resetToWelcome();
+	}
 
     // create the application instance
     _app = new AppDelegate();
@@ -307,6 +311,7 @@ int PlayerWin::run()
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
     eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowResize, this));
+	eventDispatcher->addCustomEventListener("APP.VIEW_SCALE", CC_CALLBACK_1(PlayerWin::onWindowScale, this));
 
     // prepare
     _project.dump();
@@ -371,6 +376,12 @@ void PlayerWin::onWindowClose(EventCustom* event)
 
 void PlayerWin::onWindowResize(EventCustom* event)
 {
+}
+
+void PlayerWin::onWindowScale(EventCustom* event)
+{
+	float scale = atof(event->getDataString().c_str());
+	cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(scale);
 }
 
 // debug log

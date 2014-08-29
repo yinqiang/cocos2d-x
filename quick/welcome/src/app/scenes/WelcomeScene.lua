@@ -507,7 +507,6 @@ end
 function WelcomeScene:openProjectWithPath(path)
     local configPath = cc.player.quickRootPath .. "quick/" .. path .. "/src/config.lua"
     local projectConfig = ProjectConfig:new()
-    projectConfig:resetToWelcome()
     projectConfig:setProjectDir(cc.player.quickRootPath .. "quick/" .. path)
 
     if cc.FileUtils:getInstance():isFileExist(configPath) then

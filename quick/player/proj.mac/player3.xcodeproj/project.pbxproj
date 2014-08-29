@@ -25,7 +25,6 @@
 		9F1CF4011998A82D00497F21 /* PlayerMenuServiceMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9F1CF4001998A82D00497F21 /* PlayerMenuServiceMac.mm */; };
 		9F1CF4091998C6BA00497F21 /* PlayerMenuServiceProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F1CF4061998C6BA00497F21 /* PlayerMenuServiceProtocol.cpp */; };
 		9F1CF40A1998C6BA00497F21 /* PlayerSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F1CF4071998C6BA00497F21 /* PlayerSettings.cpp */; };
-		9F30789519A58E85007B7B03 /* player.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9F30789219A58E85007B7B03 /* player.lua */; };
 		9F30789619A58E85007B7B03 /* PlayerTaskServiceProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F30789319A58E85007B7B03 /* PlayerTaskServiceProtocol.cpp */; };
 		9F3078BB19A58E9F007B7B03 /* PlayerTaskServiceMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9F3078BA19A58E9F007B7B03 /* PlayerTaskServiceMac.mm */; };
 		9F3078BE19A59879007B7B03 /* PlayerLuaCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F3078BC19A59879007B7B03 /* PlayerLuaCore.cpp */; };
@@ -41,7 +40,7 @@
 		9F3BF73D194E91E10072B3D0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3BF73C194E91E10072B3D0 /* OpenGL.framework */; };
 		9F6D88E61959647800B36BA2 /* player3.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F1C8D2F194DE61E0068C99B /* player3.app */; };
 		9FCDC2BB196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDC2B9196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm */; };
-		9FFD271919A1C73700D020FC /* player.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9FFD271819A1C73700D020FC /* player.lua */; };
+		9FE48F3219B0778A00E1EEAD /* player.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9FE48F3119B0778A00E1EEAD /* player.lua */; };
 		DAB2BFC619595AE800ADD4E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB2BFC519595AE800ADD4E0 /* SystemConfiguration.framework */; };
 		F4E0C0D5196BA4870053EFD7 /* liblibquick.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E0B1FB196B9C3C0053EFD7 /* liblibquick.a */; };
 /* End PBXBuildFile section */
@@ -108,7 +107,6 @@
 		9F1CF4061998C6BA00497F21 /* PlayerMenuServiceProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerMenuServiceProtocol.cpp; sourceTree = "<group>"; };
 		9F1CF4071998C6BA00497F21 /* PlayerSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerSettings.cpp; sourceTree = "<group>"; };
 		9F1CF4081998C6BA00497F21 /* PlayerSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSettings.h; sourceTree = "<group>"; };
-		9F30789219A58E85007B7B03 /* player.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = player.lua; sourceTree = "<group>"; };
 		9F30789319A58E85007B7B03 /* PlayerTaskServiceProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerTaskServiceProtocol.cpp; sourceTree = "<group>"; };
 		9F30789419A58E85007B7B03 /* PlayerTaskServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerTaskServiceProtocol.h; sourceTree = "<group>"; };
 		9F3078B919A58E9F007B7B03 /* PlayerTaskServiceMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerTaskServiceMac.h; sourceTree = SOURCE_ROOT; };
@@ -128,7 +126,7 @@
 		9FCDC2B7196D2C7D005CB55E /* PlayerEditBoxServiceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerEditBoxServiceProtocol.h; sourceTree = "<group>"; };
 		9FCDC2B9196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayerEditBoxServiceMac.mm; sourceTree = SOURCE_ROOT; };
 		9FCDC2BC196D2E08005CB55E /* PlayerEditBoxServiceMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerEditBoxServiceMac.h; sourceTree = SOURCE_ROOT; };
-		9FFD271819A1C73700D020FC /* player.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = player.lua; path = ../../src/player.lua; sourceTree = "<group>"; };
+		9FE48F3119B0778A00E1EEAD /* player.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = player.lua; path = ../../src/player.lua; sourceTree = "<group>"; };
 		DAB2BFC519595AE800ADD4E0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F4E0B1F6196B9C3C0053EFD7 /* libquick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libquick.xcodeproj; path = ../../lib/proj.mac/libquick.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,7 +232,7 @@
 		9F1C8D39194DE61E0068C99B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9FFD271819A1C73700D020FC /* player.lua */,
+				9FE48F3119B0778A00E1EEAD /* player.lua */,
 				9F1C8DA3194E7B290068C99B /* Icon.icns */,
 				9F1C8D77194DEB430068C99B /* MainMenu.xib */,
 				9F1C8D7E194DECE80068C99B /* Info.plist */,
@@ -249,7 +247,6 @@
 			children = (
 				9F3078BC19A59879007B7B03 /* PlayerLuaCore.cpp */,
 				9F3078BD19A59879007B7B03 /* PlayerLuaCore.h */,
-				9F30789219A58E85007B7B03 /* player.lua */,
 				9F30789319A58E85007B7B03 /* PlayerTaskServiceProtocol.cpp */,
 				9F30789419A58E85007B7B03 /* PlayerTaskServiceProtocol.h */,
 				9F3BF72A194E91380072B3D0 /* AppDelegate.cpp */,
@@ -356,8 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F1C8DA4194E7B290068C99B /* Icon.icns in Resources */,
-				9F30789519A58E85007B7B03 /* player.lua in Resources */,
-				9FFD271919A1C73700D020FC /* player.lua in Resources */,
+				9FE48F3219B0778A00E1EEAD /* player.lua in Resources */,
 				9F05A101194EF319003CFA1F /* ConsoleWindow.xib in Resources */,
 				9F1C8D81194DECE80068C99B /* Info.plist in Resources */,
 				9F1C8D78194DEB430068C99B /* MainMenu.xib in Resources */,

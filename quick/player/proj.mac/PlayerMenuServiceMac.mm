@@ -124,6 +124,7 @@ PlayerMenuItemMac::PlayerMenuItemMac()
 
 PlayerMenuItemMac::~PlayerMenuItemMac()
 {
+    CC_SAFE_RELEASE(_parent);
     if (_menuItem)
     {
         [_parent->_menu removeItem:_menuItem];
@@ -226,6 +227,7 @@ PlayerMenuItem* PlayerMenuServiceMac::addItem(const std::string &menuId, const s
     // create new menu item
     PlayerMenuItemMac *item = PlayerMenuItemMac::create(menuId, title);
     item->_parent = parent;
+    item->_parent->retain();
     
     // check new menu item position
     int childSize = (int) [parent->_menu itemArray].count;

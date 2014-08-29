@@ -57,6 +57,7 @@ protected:
     // event handlers
     void onWindowClose(EventCustom* event);
     void onWindowResize(EventCustom* event);
+	void onWindowScale(EventCustom* event);
 
 	// 
 	void loadLuaConfig();

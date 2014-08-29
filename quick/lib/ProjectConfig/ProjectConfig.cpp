@@ -28,7 +28,7 @@ ProjectConfig::ProjectConfig()
     , _writeDebugLogToFile(true)
     , _windowOffset(0, 0)
     , _debuggerType(kCCLuaDebuggerNone)
-    , _isAppMenu(false)
+    , _isAppMenu(true)
     , _isResizeWindow(false)
     , _isRetinaDisplay(false)
 {
