@@ -865,6 +865,10 @@ void Node::cleanup()
     }
 #endif // #if CC_ENABLE_SCRIPT_BINDING
     
+    if (isTouchEnabled()) {
+        unregisterWithTouchDispatcher();
+    }
+    
     // timers
     for( const auto &child: _children)
         child->cleanup();
@@ -1428,17 +1432,13 @@ void Node::onExit()
     
     for( const auto &child: _children)
         child->onExit();
-    
+
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptEventDispatcher->hasScriptEventListener(NODE_EVENT))
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeEvent(this, kNodeOnExit);
     }
 #endif
-    
-    if (isTouchEnabled()) {
-        unregisterWithTouchDispatcher();
-    }
 }
 
 void Node::setEventDispatcher(EventDispatcher* dispatcher)
