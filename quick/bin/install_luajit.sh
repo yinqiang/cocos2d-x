@@ -4,7 +4,7 @@ ROOT_DIR="`dirname $DIR`"
 LUAJIT_SRC_DIR="$QUICK_V3_ROOT/quick/lib/lua_bindings/luajit/LuaJIT-2.0.3"
 
 cd $LUAJIT_SRC_DIR
-make
+sudo make
 
 echo ""
 echo ""

@@ -55,6 +55,8 @@ echo "$QUICK_V3_ROOT" > ~/.QUICK_V3_ROOT
 echo "> ~/.QUICK_V3_ROOT updated."
 echo ""
 
+export QUICK_V3_ROOT=`cat ~/.QUICK_V3_ROOT`
+
 if [ "$CALL_BY_PKG" != "" ]; then
 
     $QUICK_V3_ROOT/quick/bin/install_luajit.sh
