@@ -158,6 +158,10 @@ private:
     , m_formPost(NULL)
     , m_lastPost(NULL)
 #endif
+    , m_dltotal(0)
+    , m_dlnow(0)
+    , m_ultotal(0)
+    , m_ulnow(0)
     {
     }
     bool initWithDelegate(HTTPRequestDelegate* delegate, const char *url, int method);
@@ -208,6 +212,11 @@ private:
     size_t m_responseBufferLength;
     size_t m_responseDataLength;
     string m_responseCookies;
+    
+    double m_dltotal;
+    double m_dlnow;
+    double m_ultotal;
+    double m_ulnow;
 
     // private methods
     void cleanup(void);

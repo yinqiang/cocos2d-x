@@ -6,7 +6,7 @@ local CCSSceneLoader = import(".CCSSceneLoader")
 function uiloader:ctor()
 end
 
-function uiloader:load(jsonFile)
+function uiloader:load(jsonFile, params)
 	local json = self:loadFile_(jsonFile)
 	if not json then
 		print("uiloader - load file fail:" .. jsonFile)
@@ -16,9 +16,9 @@ function uiloader:load(jsonFile)
 	local node
 
 	if self:isScene_(json) then
-		node, w, h = CCSSceneLoader:load(json)
+		node, w, h = CCSSceneLoader:load(json, params)
 	else
-		node, w, h = CCSUILoader:load(json)
+		node, w, h = CCSUILoader:load(json, params)
 	end
 
 	return node, w, h
