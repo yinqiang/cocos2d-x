@@ -37,9 +37,9 @@ function Sprite3DScene:ctor()
     self.state = "IDLE"
 
 
-    self.left   = display.left 
+    self.left   = display.left
     self.right  = display.right
-    self.top    = display.top  
+    self.top    = display.top
     self.bottom = display.bottom
 end
 
@@ -64,6 +64,7 @@ function Sprite3DScene:addCoin()
     sprite:setScale(10.0)
     sprite:setTexture("boss.png")
     sprite:setPosition(random(self.left, self.right), random(self.bottom, self.top))
+    sprite:setRotation3D({x = random(360), y = random(360), z = random(360)})
     self:addChild(sprite, -1)
 
     local randomValue = random(0, 100)

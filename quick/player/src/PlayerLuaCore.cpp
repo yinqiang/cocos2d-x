@@ -967,18 +967,16 @@ static int tolua_PlayerLuaCore_ProjectConfig_getFrameSize00(lua_State* tolua_S)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getFrameSize'", NULL);
 #endif
   {
-   cocos2d::Size tolua_ret = (cocos2d::Size)  self->getFrameSize();
-   {
-#ifdef __cplusplus
-    void* tolua_obj = Mtolua_new((cocos2d::Size)(tolua_ret));
-     tolua_pushusertype(tolua_S,tolua_obj,"cocos2d::Size");
-    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
-#else
-    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(cocos2d::Size));
-     tolua_pushusertype(tolua_S,tolua_obj,"cocos2d::Size");
-    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
-#endif
-   }
+    int argc = 0;
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0)
+    {
+       cocos2d::Size tolua_ret = (cocos2d::Size)  self->getFrameSize();
+       size_to_luaval(tolua_S, tolua_ret);
+       return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getFrameSize",argc, 0);
+    return 0;
   }
  }
  return 1;

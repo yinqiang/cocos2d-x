@@ -144,12 +144,72 @@ function player:buildUI()
     menuBar:addItem("WELCOME_MENU", "Welcome", "FILE_MENU")
         :setShortcut("super+w")
 
-    -- menuBar:addItem("CLOSE_SEP", "-", "FILE_MENU")
-    -- menuBar:addItem("CLOSE_MENU", "Close", "FILE_MENU")
-        -- :setShortcut("super+w")
 
     -- VIEW
     local viewMenu = menuBar:addItem("VIEW_MENU", "&View")
+
+    -- screen list
+    local viewSize = {{title = "iPhone 3Gs",w=320,h=480}, 
+                      {title = "iPhone 4",  w=640,h=960},
+                      {title = "iPhone 5",  w=640,h=1136},
+                      {title = "iPad",      w=768,h=1024},
+                      {title = "iPad Retina", w=1436,h=2048},
+                      {title = "Android",   w=480,h=800},
+                      {title = "Android",   w=480,h=854},
+                      {title = "Android",   w=540,h=960},
+                      {title = "Android",   w=600,h=1024},
+                      {title = "Android",   w=720,h=1280},
+                      {title = "Android",   w=800,h=1280},
+                      {title = "Android",   w=1080,h=1920},
+                  }
+    self.screenSizeList = {}
+    local s             = self.projectConfig_:getFrameSize()
+    for i,v in ipairs(viewSize) do
+        local title = string.format("%s (%dx%d)", v.title, v.w, v.h)
+        local item  = menuBar:addItem("VIEWSIZE_ITEM_MENU_"..i, title, "VIEW_MENU")
+        item.width  = v.w
+        item.height = v.h
+        self.screenSizeList[#self.screenSizeList +1] = item
+
+        if v.w == s.width and v.h == s.height then
+            item:setChecked(true)
+        elseif v.w == s.height and v.h == s.width then
+            item:setChecked(true)
+        end
+    end
+
+    -- direction
+    menuBar:addItem("DIRECTION_MENU_SEP", "-", "VIEW_MENU")
+    local portait = menuBar:addItem("DIRECTION_PORTAIT_MENU", "Portait", "VIEW_MENU")
+    portait.type  = "portait"
+    if self.projectConfig_:isPortraitFrame() then portait:setChecked(true) end
+
+    local landscape = menuBar:addItem("DIRECTION_LANDSCAPE_MENU", "Landscape", "VIEW_MENU")
+    landscape.type  = "landscape"
+    if self.projectConfig_:isLandscapeFrame() then landscape:setChecked(true) end
+
+    -- scale
+    menuBar:addItem("VIEW_SCALE_MENU_SEP", "-", "VIEW_MENU")
+    local viewScale = {{title="Actual (100%)",st="super+0",scale=100},
+                       {title="Zoom Out (75%)",st="super+6",scale=70},
+                       {title="Zoom Out (50%)",st="super+5",scale=50},
+                       {title="Zoom Out (25%)",st="super+4",scale=25},
+                   }
+    self.screenScaleList = {}
+    local scaleValue     = self.projectConfig_:getFrameScale() * 100
+    for i,v in ipairs(viewScale) do
+        local item = menuBar:addItem("VIEW_SCALE_MENU_"..i, v.title, "VIEW_MENU")
+        item:setShortcut(v.st)
+        item.scale = v.scale
+        self.screenScaleList[#self.screenScaleList +1] = item
+
+        if math.abs(scaleValue - v.scale) < 0.5  then item:setChecked(true) end
+
+        item.clickedCallback = function() print("view scale click callback") end
+    end
+
+    -- relaunch
+    menuBar:addItem("RELAUNCH_MENU_SEP", "-", "VIEW_MENU")
     menuBar:addItem("RELAUNCH_MENU", "Relaunch", "VIEW_MENU")
         :setShortcut("super+r")
 end
@@ -195,8 +255,60 @@ function player:onMenuClicked(event)
         local config = ProjectConfig:new()
         config:resetToWelcome()
         PlayerProtocol:getInstance():openProjectWithProjectConfig(config)
+    elseif string.match(data, "VIEW_SCALE_MENU_") and self.projectConfig_ then
+        local menubar = PlayerProtocol:getInstance():getMenuService()
+        local item    = menubar:getItem(data)
+        self:onScreenZoomOut(item)
+    elseif string.match(data, "VIEWSIZE_ITEM_MENU_") and self.projectConfig_ then
+        local menubar = PlayerProtocol:getInstance():getMenuService()
+        local item    = menubar:getItem(data)
+        self:onScreenChangeFrameSize(item)
+    elseif string.match(data, "DIRECTION_") then
+        local menubar = PlayerProtocol:getInstance():getMenuService()
+        local item    = menubar:getItem(data)
+        self:onScreenChangeDirection(item)
     end
 
+end
+
+function player:onScreenChangeFrameSize(sender)
+    if sender:isChecked() then return end
+
+    local w, h = sender.width, sender.height
+    if self.projectConfig_:isLandscapeFrame() then
+        w,h = h,w
+    end
+
+    self.projectConfig_:setFrameSize(w, h)
+    self.projectConfig_:setFrameScale(1.0)
+    PlayerProtocol:getInstance():openProjectWithProjectConfig(self.projectConfig_)
+end
+
+function player:onScreenChangeDirection(sender)
+    if sender:isChecked() then return end
+
+    if sender.type == "portait" then
+        self.projectConfig_:changeFrameOrientationToPortait()
+    elseif sender.type == "landscape" then
+        self.projectConfig_:changeFrameOrientationToLandscape()
+    end
+
+    PlayerProtocol:getInstance():openProjectWithProjectConfig(self.projectConfig_)
+end
+
+function player:onScreenZoomOut(sender)
+    if sender:isChecked() then return end
+
+    for _,v in ipairs(self.screenScaleList) do
+        v:setChecked(false)
+    end
+    sender:setChecked(true)
+    local scaleValue = sender.scale / 100.0
+    self.projectConfig_:setFrameScale(scaleValue)
+
+    local eventcustom = cc.EventCustom:new("APP.VIEW_SCALE")
+    eventcustom:setDataString(tostring(scaleValue))
+    cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventcustom)
 end
 
 function player:readSettings()
@@ -270,14 +382,23 @@ function player:init()
 
     self:registerEventHandler()
     self:readSettings()
-    self:buildUI()
-
+    
     -- record project
     if __PLAYER_OPEN_TITLE__ and __PLAYER_OPEN_COMMAND__ then
         local title = string.gsub(__PLAYER_OPEN_TITLE__, '\\', '/')
         local args = string.gsub(__PLAYER_OPEN_COMMAND__, '\\', '/'):spliteBySep(' ')
+
+        self.projectConfig_ = ProjectConfig:new()
+        local argumentVector = vector_string_:new_local()
+        local arguments = args
+        for _,v in ipairs(arguments) do
+            argumentVector:push_back(v)
+        end
+        self.projectConfig_:parseCommandLine(argumentVector)
         self:openProject(title, args)
     end
+
+    self:buildUI()
 end
 -- load player settings
 

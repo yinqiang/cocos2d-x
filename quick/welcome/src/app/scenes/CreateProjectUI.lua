@@ -164,7 +164,6 @@ function CreateProjectUI:onEnter()
                 self.projectFolder = locationEditbox:getText() .. '/' .. t[#t]
 
                 local projectConfig = ProjectConfig:new()
-                projectConfig:resetToWelcome()
                 projectConfig:setProjectDir(self.projectFolder)
                 projectConfig:changeFrameOrientationToPortait()
                 self.projectConfig = projectConfig

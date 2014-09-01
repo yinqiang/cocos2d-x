@@ -117,6 +117,8 @@ int lua_print(lua_State * luastate)
 
 NS_CC_BEGIN
 
+static LuaStack *curStack = NULL;
+
 LuaStack::~LuaStack()
 {
     if (nullptr != _state)
@@ -130,6 +132,7 @@ LuaStack *LuaStack::create(void)
     LuaStack *stack = new LuaStack();
     stack->init();
     stack->autorelease();
+    curStack = stack;
     return stack;
 }
 
@@ -709,8 +712,6 @@ const char* LuaStack::getXXTEASign(int *len)
     }
     return nullptr;
 }
-
-static LuaStack *curStack = NULL;
 
 int LuaStack::loadChunksFromZIP(const char *zipFilePath)
 {

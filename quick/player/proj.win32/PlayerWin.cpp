@@ -98,89 +98,121 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
 
 void PlayerWin::quit()
 {
-	Director::getInstance()->end();
+    Director::getInstance()->end();
 }
 
 void PlayerWin::relaunch()
 {
-	openNewPlayer();
-	quit();
+    openNewPlayer();
+    quit();
 }
 
 void PlayerWin::openNewPlayer()
 {
-	openNewPlayerWithProjectConfig(_project);
+    openNewPlayerWithProjectConfig(_project);
 }
 
 void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
 {
-	static long taskid = 100;
-	stringstream buf;
-	buf << taskid++;
+    static long taskid = 100;
+    stringstream buf;
+    buf << taskid++;
 
-	auto task = getTaskService()->createTask(buf.str(), getApplicationExePath(), config.makeCommandLine());
-	task->run();
+    string commandLine = "\"";
+    commandLine.append(getApplicationExePath());
+    commandLine.append("\" ");
+    commandLine.append(config.makeCommandLine());
+    CCLOG("PlayerWin::openNewPlayerWithProjectConfig(): %s", commandLine.c_str());
+
+    // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
+    SECURITY_ATTRIBUTES sa = {0};
+    sa.nLength = sizeof(sa);
+    sa.bInheritHandle = TRUE;
+
+    PROCESS_INFORMATION pi = {0};
+    STARTUPINFO si = {0};
+    si.cb = sizeof(STARTUPINFO);
+
+    WCHAR command[MAX_PATH];
+    memset(command, 0, sizeof(command));
+    MultiByteToWideChar(CP_UTF8, 0, commandLine.c_str(), -1, command, MAX_PATH);
+
+    BOOL success = CreateProcess(NULL,
+                                 command,   // command line 
+                                 NULL,      // process security attributes 
+                                 NULL,      // primary thread security attributes 
+                                 TRUE,      // handles are inherited 
+                                 0,         // creation flags 
+                                 NULL,      // use parent's environment 
+                                 NULL,      // use parent's current directory 
+                                 &si,       // STARTUPINFO pointer 
+                                 &pi);     // receives PROCESS_INFORMATION 
+
+    if (!success)
+    {
+        CCLOG("PlayerTaskWin::run() - create process failed, for execute %s", commandLine.c_str());
+    }
 }
 
 void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
 {
-	openNewPlayerWithProjectConfig(config);
-	quit();
+    openNewPlayerWithProjectConfig(config);
+    quit();
 }
 
 void PlayerWin::loadLuaConfig()
 {
-	LuaEngine* pEngine = LuaEngine::getInstance();
-	ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
+    LuaEngine* pEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
 
-	// load player lua core
-	luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
+    // load player lua core
+    luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
 
-	// set env
-	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-	quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
+    // set env
+    string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+    quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
 
-	string env = "__G_QUICK_V3_ROOT__=\"";
-	env.append(quickRootPath);
-	env.append("\"");
-	pEngine->executeString(env.c_str());
+    string env = "__G_QUICK_V3_ROOT__=\"";
+    env.append(quickRootPath);
+    env.append("\"");
+    pEngine->executeString(env.c_str());
 
-	// set user home dir
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+    // set user home dir
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
 
-	//
-	// ugly: Add the opening project to the "Open Recents" list
-	//
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
+    //
+    // ugly: Add the opening project to the "Open Recents" list
+    //
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
 
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
 
 
-	// set guid
-	string uid = getUserGUID();
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
+    // set guid
+    string uid = getUserGUID();
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
 
-	// load player.lua
-	quickRootPath.append("quick/player/src/player.lua");
-	pEngine->getLuaStack()->executeScriptFile(quickRootPath.c_str());
+    // load player.lua
+    quickRootPath.append("quick/player/src/player.lua");
+    pEngine->getLuaStack()->executeScriptFile(quickRootPath.c_str());
 }
 
 void PlayerWin::registerKeyboardEvent()
 {
-	auto keyEvent = cocos2d::EventListenerKeyboard::create();
-	keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
-		auto event = EventCustom("APP.EVENT");
-		stringstream data;
-		data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
-		event.setDataString(data.str());
-		Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-	};
-
-	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyEvent, 1);
+    auto eventDispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
+    auto keyEvent = cocos2d::EventListenerKeyboard::create();
+    keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
+        auto event = EventCustom("APP.EVENT");
+        stringstream data;
+        data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
+        event.setDataString(data.str());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    };
+    eventDispatcher->addEventListenerWithFixedPriority(keyEvent, 1);
 }
 
 int PlayerWin::run()
@@ -200,7 +232,6 @@ int PlayerWin::run()
     SimulatorConfig::getInstance()->setQuickCocos2dxRootPath(QUICK_V3_ROOT);
 
     // load project config from command line args
-	_project.resetToWelcome();
     vector<string> args;
     for (int i = 0; i < __argc; ++i)
     {
@@ -210,6 +241,11 @@ int PlayerWin::run()
         args.push_back(s);
     }
     _project.parseCommandLine(args);
+
+    if (_project.getProjectDir().length() <= 0)
+    {
+        _project.resetToWelcome();
+    }
 
     // create the application instance
     _app = new AppDelegate();
@@ -300,13 +336,14 @@ int PlayerWin::run()
     // init player services
     initServices();
 
-	loadLuaConfig();
-	registerKeyboardEvent();
+    loadLuaConfig();
+    registerKeyboardEvent();
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
     eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowResize, this));
+    eventDispatcher->addCustomEventListener("APP.VIEW_SCALE", CC_CALLBACK_1(PlayerWin::onWindowScale, this));
 
     // prepare
     _project.dump();
@@ -373,6 +410,12 @@ void PlayerWin::onWindowResize(EventCustom* event)
 {
 }
 
+void PlayerWin::onWindowScale(EventCustom* event)
+{
+    float scale = atof(event->getDataString().c_str());
+    cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(scale);
+}
+
 // debug log
 void PlayerWin::writeDebugLog(const char *log)
 {
@@ -385,142 +428,142 @@ void PlayerWin::writeDebugLog(const char *log)
 //
 std::string PlayerWin::convertPathFormatToUnixStyle(const std::string& path)
 {
-	std::string ret = path;
-	int len = ret.length();
-	for (int i = 0; i < len; ++i)
-	{
-		if (ret[i] == '\\')
-		{
-			ret[i] = '/';
-		}
-	}
-	return ret;
+    std::string ret = path;
+    int len = ret.length();
+    for (int i = 0; i < len; ++i)
+    {
+        if (ret[i] == '\\')
+        {
+            ret[i] = '/';
+        }
+    }
+    return ret;
 }
 
 //
 // @return: C:/Users/win8/Documents/
 //
- std::string PlayerWin::getUserDocumentPath()
+std::string PlayerWin::getUserDocumentPath()
 {
-	TCHAR filePath[MAX_PATH];
-	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
-	int length = 2 * wcslen(filePath);
-	char* tempstring = new char[length + 1];
-	wcstombs(tempstring, filePath, length + 1);
-	string userDocumentPath(tempstring);
-	free(tempstring);
+    TCHAR filePath[MAX_PATH];
+    SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+    int length = 2 * wcslen(filePath);
+    char* tempstring = new char[length + 1];
+    wcstombs(tempstring, filePath, length + 1);
+    string userDocumentPath(tempstring);
+    free(tempstring);
 
-	userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
-	userDocumentPath.append("/");
+    userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
+    userDocumentPath.append("/");
 
-	return userDocumentPath;
+    return userDocumentPath;
 }
 
 //
 // convert Unicode/LocalCode TCHAR to Utf8 char
 //
- char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
+char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
 {
 #ifdef UNICODE
-	WCHAR* tmp = (WCHAR*)src;
-	size_t size = wcslen(src) * 3 + 1;
-	char* dest = new char[size];
-	memset(dest, 0, size);
-	WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
-	return dest;
+    WCHAR* tmp = (WCHAR*)src;
+    size_t size = wcslen(src) * 3 + 1;
+    char* dest = new char[size];
+    memset(dest, 0, size);
+    WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
+    return dest;
 #else
-	char* tmp = (char*)src;
-	uint32 size = strlen(tmp) + 1;
-	WCHAR* dest = new WCHAR[size];
-	memset(dest, 0, sizeof(WCHAR)*size);
-	MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
+    char* tmp = (char*)src;
+    uint32 size = strlen(tmp) + 1;
+    WCHAR* dest = new WCHAR[size];
+    memset(dest, 0, sizeof(WCHAR)*size);
+    MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
 
-	size = wcslen(dest) * 3 + 1;
-	char* dest2 = new char[size];
-	memset(dest2, 0, size);
-	WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
-	delete[] dest;
-	return dest2;
+    size = wcslen(dest) * 3 + 1;
+    char* dest2 = new char[size];
+    memset(dest2, 0, size);
+    WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
+    delete[] dest;
+    return dest2;
 #endif
 }
 
 //
 std::string PlayerWin::getApplicationExePath()
 {
-	TCHAR szFileName[MAX_PATH];
-	GetModuleFileName(NULL, szFileName, MAX_PATH);
-	std::u16string u16ApplicationName;
-	char *applicationExePath = convertTCharToUtf8(szFileName);
-	std::string path(applicationExePath);
-	CC_SAFE_FREE(applicationExePath);
+    TCHAR szFileName[MAX_PATH];
+    GetModuleFileName(NULL, szFileName, MAX_PATH);
+    std::u16string u16ApplicationName;
+    char *applicationExePath = convertTCharToUtf8(szFileName);
+    std::string path(applicationExePath);
+    CC_SAFE_FREE(applicationExePath);
 
-	return path;
+    return path;
 }
 
 //
 static bool getMacAddress(string& macstring)
 {
-	bool ret = false;
-	ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
-	PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
-	if (adapterInfo == NULL)
-	{
-		return false;
-	}
+    bool ret = false;
+    ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
+    PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+    if (adapterInfo == NULL)
+    {
+        return false;
+    }
 
-	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
-	{
-		free(adapterInfo);
-		adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
-		if (adapterInfo == NULL)
-		{
-			return false;
-		}
-	}
+    if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
+    {
+        free(adapterInfo);
+        adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+        if (adapterInfo == NULL)
+        {
+            return false;
+        }
+    }
 
-	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
-	{
-		for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
-		{
-			if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
-			{
-				continue;
-			}
+    if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
+    {
+        for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
+        {
+            if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+            {
+                continue;
+            }
 
-			if (pAdapter->AddressLength != 6)
-			{
-				continue;
-			}
+            if (pAdapter->AddressLength != 6)
+            {
+                continue;
+            }
 
-			char buf32[32];
-			sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
-				int(pAdapter->Address[0]),
-				int(pAdapter->Address[1]),
-				int(pAdapter->Address[2]),
-				int(pAdapter->Address[3]),
-				int(pAdapter->Address[4]),
-				int(pAdapter->Address[5]));
-			macstring = buf32;
-			ret = true;
-			break;
-		}
-	}
+            char buf32[32];
+            sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
+                    int(pAdapter->Address[0]),
+                    int(pAdapter->Address[1]),
+                    int(pAdapter->Address[2]),
+                    int(pAdapter->Address[3]),
+                    int(pAdapter->Address[4]),
+                    int(pAdapter->Address[5]));
+            macstring = buf32;
+            ret = true;
+            break;
+        }
+    }
 
-	free(adapterInfo);
-	return ret;
+    free(adapterInfo);
+    return ret;
 }
 
 std::string PlayerWin::getUserGUID()
 {
-	if (_userGUID.length() <= 0)
-	{
-		if (!getMacAddress(_userGUID))
-		{
-			_userGUID = "guid-fixed-1234567890";
-		}
-	}
+    if (_userGUID.length() <= 0)
+    {
+        if (!getMacAddress(_userGUID))
+        {
+            _userGUID = "guid-fixed-1234567890";
+        }
+    }
 
-	return _userGUID;
+    return _userGUID;
 }
 
 PLAYER_NS_END

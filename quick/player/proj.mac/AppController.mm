@@ -282,6 +282,14 @@ std::string getCurAppPath(void)
                                                     glfwSetWindowShouldClose(Director::getInstance()->getOpenGLView()->getWindow(), 1);
                                                 }
                                             });
+    
+    ProjectConfig& lambdaProject = _project;
+    eventDispatcher->addCustomEventListener("APP.VIEW_SCALE", [&](EventCustom* event)
+                                            {
+                                                float scale = atof(event->getDataString().c_str());
+                                                lambdaProject.setFrameScale(scale);
+                                                cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(scale);
+                                            });
 }
 
 - (void) registerKeyboardEventHandler
@@ -323,6 +331,16 @@ std::string getCurAppPath(void)
     }
 
     [self loadLuaConfig];
+    if (!_project.isAppMenu())
+    {
+        NSMenu *mainMenu = [[NSApplication sharedApplication] mainMenu];
+        NSArray *menuArray = [mainMenu itemArray];
+        for (int i = 1; i < [menuArray count]; i++)
+        {
+            id menu = [menuArray objectAtIndex:i];
+            [mainMenu removeItem:menu];
+        }
+    }
     
     // app
     _app = new AppDelegate();
