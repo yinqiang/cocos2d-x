@@ -43,6 +43,11 @@ void ClippingRegionNode::setClippingRegion(const Rect &clippingRegion)
                          clippingRegion.origin.y + clippingRegion.size.height);
     vec2Points[3] = Vec2(clippingRegion.origin.x, clippingRegion.origin.y + clippingRegion.size.height);
     node->drawPolygon(vec2Points, 4, Color4F(1, 1, 1, 1), 1, Color4F(1,1,1,1));
+    
+    auto stencil = getStencil();
+    if (nullptr != stencil) {
+        stencil->onExit();
+    }
     setStencil(node);
 }
 

@@ -2,7 +2,12 @@
 local UILoaderUtilitys = import(".UILoaderUtilitys")
 local CCSUILoader = class("CCSUILoader")
 
-function CCSUILoader:load(json)
+function CCSUILoader:load(json, params)
+	if params then
+		self.bUseEditBox = params.bUseEditBox or false
+	else
+		self.bUseEditBox = false
+	end
 	-- local fileUtil = cc.FileUtils:getInstance()
 	-- local fullPath = fileUtil:fullPathForFilename(jsonFile)
 	-- local jsonStr = fileUtil:getStringFromFile(fullPath)
@@ -366,7 +371,7 @@ end
 function CCSUILoader:createNode(options)
 	local node = cc.Node:create()
 	if not options.ignoreSize then
-		node:setContentSize(cc.size(options.width, options.height))
+		node:setContentSize(cc.size(options.width or 0, options.height or 0))
 	end
 	node:setPositionX(options.x or 0)
 	node:setPositionY(options.y or 0)
@@ -567,7 +572,25 @@ function CCSUILoader:createLabelAtlas(options)
 end
 
 function CCSUILoader:createEditBox(options)
-	local editBox = ui.newTextField({
+	local editBox
+
+	if self.bUseEditBox then
+		editBox = ui.newEditBox({
+	        size = cc.size(options.width, options.height)
+	    	})
+	    editBox:setPlaceHolder(options.placeHolder)
+	    editBox:setFontName(options.fontName)
+	    editBox:setFontSize(options.fontSize or 20)
+	    editBox:setText(options.text)
+	    if options.passwordEnable then
+	    	editBox:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
+		end
+		if options.maxLengthEnable then
+			editBox:setMaxLength(options.maxLength)
+		end
+		editBox:setPosition(options.x, options.y)
+	else
+		editBox = ui.newTextField({
         placeHolder = options.placeHolder,
         x = options.x,
         y = options.y,
@@ -578,21 +601,7 @@ function CCSUILoader:createEditBox(options)
         fontSize = options.fontSize,
         maxLength = options.maxLength
         })
-
-	-- local editBox = ui.newEditBox({
- --        size = cc.size(options.width, options.height)
- --    })
- --    editBox:setPlaceHolder(options.placeHolder)
- --    editBox:setFontName(options.fontName)
- --    editBox:setFontSize(options.fontSize or 20)
- --    editBox:setText(options.text)
- --    if options.passwordEnable then
- --    	editBox:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
-	-- end
-	-- if options.maxLengthEnable then
-	-- 	editBox:setMaxLength(options.maxLength)
-	-- end
-	-- editBox:setPosition(options.x, options.y)
+	end
 
 	editBox:setAnchorPoint(
 		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))	
@@ -601,7 +610,12 @@ function CCSUILoader:createEditBox(options)
 end
 
 function CCSUILoader:createPanel(options)
-	local node = cc.ClippingRegionNode:create()
+	local node
+	if options.clipAble then
+		node = cc.ClippingRegionNode:create()
+	else
+		node = display.newNode()
+	end
 	local clrLayer
 	local bgLayer
 
@@ -653,7 +667,9 @@ function CCSUILoader:createPanel(options)
 	end
 	conSize = cc.size(options.width, options.height)
 
-	node:setClippingRegion(cc.rect(0, 0, options.width, options.height))
+	if options.clipAble then
+		node:setClippingRegion(cc.rect(0, 0, options.width, options.height))
+	end
 	if not options.ignoreSize then
 		if clrLayer then
 			clrLayer:setContentSize(conSize)

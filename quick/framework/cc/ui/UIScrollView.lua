@@ -96,6 +96,10 @@ function UIScrollView:setViewRect(rect)
 	return self
 end
 
+function UIScrollView:getViewRect()
+	return self.viewRect_
+end
+
 function UIScrollView:setLayoutPadding(top, right, bottom, left)
 	if not self.layoutPadding then
 		self.layoutPadding = {}
