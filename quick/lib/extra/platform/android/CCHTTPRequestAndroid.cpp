@@ -171,7 +171,7 @@ bool HTTPRequest::start(void)
 
     createURLConnectJava();
     setRequestMethodJava();
-    setTimeoutJava(m_nTimeOut);
+    setTimeoutJava(m_nTimeOut*1000);
 
     bool bBoundary = isNeedBoundary();
     for (HTTPRequestHeadersIterator it = m_headers.begin(); it != m_headers.end(); ++it)
@@ -497,7 +497,6 @@ int HTTPRequest::onProgress(double dltotal, double dlnow, double ultotal, double
             dict["name"] = LuaValue::stringValue("progress");
             dict["total"] = LuaValue::intValue(ultotal);
             dict["dltotal"] = LuaValue::intValue(dltotal);
-            dict["dlnow"] = LuaValue::intValue(dlnow);
             dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
 
             LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
