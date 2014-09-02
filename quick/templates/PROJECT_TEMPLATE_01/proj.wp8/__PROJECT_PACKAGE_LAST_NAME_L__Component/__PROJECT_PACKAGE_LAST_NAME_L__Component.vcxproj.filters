@@ -39,7 +39,7 @@
     <None Include="$(QUICK_V3_ROOT)\external\websockets\prebuilt\wp8\arm\libwebsockets.dll" />
     <None Include="$(QUICK_V3_ROOT)\external\curl\prebuilt\wp8\arm\libeay32.dll" />
     <None Include="$(QUICK_V3_ROOT)\external\curl\prebuilt\wp8\arm\ssleay32.dll" />
+    <None Include="$(QUICK_V3_ROOT)\external\curl\prebuilt\wp8\arm\libcurl.dll" />
     <None Include="$(QUICK_V3_ROOT)\external\curl\prebuilt\wp8\win32\libcurl.dll" />
-    <None Include="\external\curl\prebuilt\wp8\arm\libcurl.dll" />
   </ItemGroup>
 </Project>
