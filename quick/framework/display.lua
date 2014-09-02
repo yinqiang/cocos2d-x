@@ -1420,8 +1420,8 @@ end
 - display.PROGRESS_TIMER_RADIAL
 
 
-@param: string/Sprite  image         图片文件名或者精灵
-@param: int            progresssType 进度条类型
+@param: mixed image         图片文件名或者精灵
+@param: int   progresssType 进度条类型
 
 @return: ProgressTimer
 
