@@ -72,20 +72,6 @@ local data =
     },
 
     {
-        title       = "chukong_ad",
-        description = "触控广告 SDK 集成（真机）",
-        path        = "samples/chukong_ad",
-        image       = "chukong_ad_ss.png"
-    },
-
-    {
-        title       = "cocopush",
-        description = "触控 Push SDK 集成（真机）",
-        path        = "samples/cocopush",
-        image       = "cocopush_ss.png"
-    },
-
-    {
         title       = "dragonbones",
         description = "DragonBones 骨骼动画",
         path        = "samples/dragonbones",
@@ -97,13 +83,6 @@ local data =
         description = "编辑框示例",
         path        = "samples/editbox",
         image       = "editbox_ss.png"
-    },
-
-    {
-        title       = "filters",
-        description = "Sprite 过滤器特效示例",
-        path        = "samples/filters",
-        image       = "filters_ss.png"
     },
 
     {
@@ -141,8 +120,6 @@ local data =
         image       = "nightclub_ss.png"
     },
 
-
-
     {
         title       = "statemachine",
         description = "状态机使用",
@@ -155,41 +132,6 @@ local data =
         description = "测试",
         path        = "samples/tests",
         image       = "tests_ss.png"
-    },
-
-    {
-        title       = "umeng_analytics",
-        description = "友盟统计 SDK（真机）",
-        path        = "samples/umeng_analytics",
-        image       = "umeng_analytics_ss.png"
-    },
-
-    {
-        title       = "umeng_feedback",
-        description = "友盟反馈 SDK（真机）",
-        path        = "samples/umeng_feedback",
-        image       = "umeng_feedback_ss.png"
-    },
-
-    {
-        title       = "umeng_push",
-        description = "友盟 Push SDK（真机）",
-        path        = "samples/umeng_push",
-        image       = "umeng_push_ss.png"
-    },
-
-    {
-        title       = "umeng_share",
-        description = "友盟分享 SDK（真机）",
-        path        = "samples/umeng_share",
-        image       = "umeng_share_ss.png"
-    },
-
-    {
-        title       = "umeng_update",
-        description = "友盟更新 SDK（真机）",
-        path        = "samples/umeng_update",
-        image       = "umeng_update_ss.png"
     },
 
     {
