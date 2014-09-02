@@ -22,7 +22,7 @@ function CCSUILoader:load(json, params)
 	local node, bAdaptScreen = self:parserJson(json)
 	self.texturesPng = nil
 	if bAdaptScreen then
-		return node, display.widthInPixels, display.heightInPixels
+		return node, display.width, display.height
 	else
 		return node, json.designWidth, json.designHeight
 	end
@@ -622,11 +622,13 @@ function CCSUILoader:createPanel(options)
 	if 1 == options.colorType then
 		-- single color
 		clrLayer = cc.LayerColor:create()
+		clrLayer:resetCascadeBoundingBox()
 		clrLayer:setTouchEnabled(false)
 		clrLayer:setColor(cc.c3b(options.bgColorR, options.bgColorG, options.bgColorB))
 	elseif 2 == options.colorType then
 		-- gradient
 		clrLayer = cc.LayerGradient:create()
+		clrLayer:resetCascadeBoundingBox()
 		clrLayer:setTouchEnabled(false)
 		clrLayer:setStartColor(cc.c3b(options.bgStartColorR, options.bgStartColorG, options.bgStartColorB))
 		clrLayer:setEndColor(cc.c3b(options.bgEndColorR, options.bgEndColorG, options.bgEndColorB))
@@ -662,8 +664,8 @@ function CCSUILoader:createPanel(options)
 
 	local conSize
 	if options.adaptScreen then
-		options.width = display.widthInPixels
-		options.height = display.heightInPixels
+		options.width = display.width
+		options.height = display.height
 	end
 	conSize = cc.size(options.width, options.height)
 
