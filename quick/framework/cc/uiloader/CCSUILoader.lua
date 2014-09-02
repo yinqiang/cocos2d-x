@@ -22,7 +22,7 @@ function CCSUILoader:load(json, params)
 	local node, bAdaptScreen = self:parserJson(json)
 	self.texturesPng = nil
 	if bAdaptScreen then
-		return node, display.widthInPixels, display.heightInPixels
+		return node, display.width, display.height
 	else
 		return node, json.designWidth, json.designHeight
 	end
@@ -664,8 +664,8 @@ function CCSUILoader:createPanel(options)
 
 	local conSize
 	if options.adaptScreen then
-		options.width = display.widthInPixels
-		options.height = display.heightInPixels
+		options.width = display.width
+		options.height = display.height
 	end
 	conSize = cc.size(options.width, options.height)
 
