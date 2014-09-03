@@ -1,9 +1,9 @@
 
 #include "CCClippingRegionNode.h"
 #include "base/CCDirector.h"
-#include "2d/CCDrawNode.h"
+#include "renderer/CCRenderer.h"
 #include "math/Vec2.h"
-//#include "CCEGLView.h"
+#include "CCGLView.h"
 
 NS_CC_BEGIN
 
@@ -35,50 +35,50 @@ ClippingRegionNode* ClippingRegionNode::create(void)
 void ClippingRegionNode::setClippingRegion(const Rect &clippingRegion)
 {
     m_clippingRegion = clippingRegion;
-    DrawNode *node = DrawNode::create();
-    Vec2 vec2Points[4] = {};
-    vec2Points[0] = Vec2(clippingRegion.origin);
-    vec2Points[1] = Vec2(clippingRegion.origin.x + clippingRegion.size.width, clippingRegion.origin.y);
-    vec2Points[2] = Vec2(clippingRegion.origin.x + clippingRegion.size.width,
-                         clippingRegion.origin.y + clippingRegion.size.height);
-    vec2Points[3] = Vec2(clippingRegion.origin.x, clippingRegion.origin.y + clippingRegion.size.height);
-    node->drawPolygon(vec2Points, 4, Color4F(1, 1, 1, 1), 1, Color4F(1,1,1,1));
-    
-    auto stencil = getStencil();
-    if (nullptr != stencil) {
-        stencil->onExit();
-    }
-    setStencil(node);
 }
 
-//void ClippingRegionNode::visit()
-//{
-//    if (m_clippingEnabled)
-//    {
-//        glEnable(GL_SCISSOR_TEST);
-//        
-//        float scaleX = m_fScaleX;
-//        float scaleY = m_fScaleY;
-//        CCNode *parent = this->getParent();
-//        while (parent) {
-//            scaleX *= parent->getScaleX();
-//            scaleY *= parent->getScaleY();
-//            parent = parent->getParent();
-//        }
-//        
-//        const Point pos = convertToWorldSpace(CCPoint(m_clippingRegion.origin.x, m_clippingRegion.origin.y));
-//        Director::getInstance()->getOpenGLView()->setScissorInPoints(pos.x * m_fScaleX,
-//                                                                          pos.y * m_fScaleX,
-//                                                                          m_clippingRegion.size.width * scaleX,
-//                                                                          m_clippingRegion.size.height * scaleY);
-//    }
-//    
-//    Node::visit();
-//    
-//    if (m_clippingEnabled)
-//    {
-//        glDisable(GL_SCISSOR_TEST);
-//    }
-//}
+void ClippingRegionNode::onBeforeVisitScissor()
+{
+    if (m_clippingEnabled) {
+        glEnable(GL_SCISSOR_TEST);
+        
+        float scaleX = _scaleX;
+        float scaleY = _scaleY;
+        Node *parent = this->getParent();
+        while (parent) {
+            scaleX *= parent->getScaleX();
+            scaleY *= parent->getScaleY();
+            parent = parent->getParent();
+        }
+        
+        const Point pos = convertToWorldSpace(Point(m_clippingRegion.origin.x, m_clippingRegion.origin.y));
+        GLView* glView = Director::getInstance()->getOpenGLView();
+        glView->setScissorInPoints(pos.x * scaleX,
+                                   pos.y * scaleY,
+                                   m_clippingRegion.size.width * scaleX,
+                                   m_clippingRegion.size.height * scaleY);
+    }
+}
+
+void ClippingRegionNode::onAfterVisitScissor()
+{
+    if (m_clippingEnabled)
+    {
+        glDisable(GL_SCISSOR_TEST);
+    }
+}
+
+void ClippingRegionNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
+{
+    _beforeVisitCmdScissor.init(_globalZOrder);
+    _beforeVisitCmdScissor.func = CC_CALLBACK_0(ClippingRegionNode::onBeforeVisitScissor, this);
+    renderer->addCommand(&_beforeVisitCmdScissor);
+    
+    Node::visit(renderer, parentTransform, parentFlags);
+    
+    _afterVisitCmdScissor.init(_globalZOrder);
+    _afterVisitCmdScissor.func = CC_CALLBACK_0(ClippingRegionNode::onAfterVisitScissor, this);
+    renderer->addCommand(&_afterVisitCmdScissor);
+}
 
 NS_CC_END
