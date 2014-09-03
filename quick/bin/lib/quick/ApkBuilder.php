@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/init.php');
 
-$android_api_ver = array(
+$android_api_ver_map = array(
     '8' => '2.2', 
     '18' => '4.3', 
     '19' => '4.4.2', 
@@ -23,6 +23,7 @@ class ApkBuilder
     private $tools_dx;
     private $platform_path;
     private $boot_class_path;
+    private $class_path;
 
     private $ndk_root;
 
@@ -63,6 +64,15 @@ class ApkBuilder
             print("\nError: $this->boot_class_path not found!\n\n");
             return(false);
         }
+        $this->class_path = $this->quick_root . '/cocos/platform/android/java/bin/libcocos2dx.jar';
+        if (!file_exists($this->class_path))
+        {
+            print("\nError: $this->class_path not found!\n\n");
+            return(false);
+        }
+        if ($this->config['classpath']) {
+            $this->class_path = $this->class_path . ':' . $this->config['classpath'];
+        }
 
         $this->build_tools_path = $this->sdk_root . '/build-tools';
         if (!is_dir($this->build_tools_path))
@@ -70,7 +80,8 @@ class ApkBuilder
             print("\nError: Path $this->build_tools_path not found!\n\n");
             return(false);
         }
-        $android_ver_str = 'android-4.4.2';
+        global $android_api_ver_map;
+        $android_ver_str = 'android-' . $android_api_ver_map[$this->config['api_ver']];
         $this->build_tools_path = $this->build_tools_path . '/' . $android_ver_str;
         if (!is_dir($this->build_tools_path))
         {
@@ -137,7 +148,7 @@ class ApkBuilder
 
         $cmd_str = 'javac -encoding utf8 -target 1.5 -bootclasspath ' 
             . $this->boot_class_path 
-            . ' -classpath ~/quick-x-3/cocos/platform/android/java/bin/libcocos2dx.jar:./protocols/android/libPluginProtocol.jar -d bin/classes ';
+            . ' -classpath ' . $this->class_path . ' -d bin/classes ';
         foreach ($files as $file)
         {
             $retval = $this->exec_sys_cmd($cmd_str . $file);
@@ -147,6 +158,27 @@ class ApkBuilder
                 return $retval;
             }
         }
+
+        return $retval;
+    }
+
+    function make_dex()
+    {
+        $cmd_str = $this->build_tools_path . '/dx'
+            . ' --dex --output=./bin/classes.dex ./bin/classes';
+
+        $retval = $this->exec_sys_cmd($cmd_str);
+
+        return $retval;
+    }
+
+    function make_resources()
+    {
+        $cmd_str = $this->tools_aapt 
+            . ' package -f -S res -A assets -M AndroidManifest.xml' . ' -I ' . $this->boot_class_path
+            . ' -F bin/resources.ap_';
+
+        $retval = $this->exec_sys_cmd($cmd_str);
 
         return $retval;
     }
@@ -178,6 +210,20 @@ class ApkBuilder
         if ($retval!=0)
         {
             print("Error: javac error!!\n");
+            return($retval);
+        }
+
+        $retval = $this->make_dex();
+        if ($retval!=0)
+        {
+            print("Error: make bin/classes.dex error!!\n");
+            return($retval);
+        }
+
+        $retval = $this->make_resources();
+        if ($retval!=0)
+        {
+            print("Error: make bin/resources.ap_ error!!\n");
             return($retval);
         }
 
