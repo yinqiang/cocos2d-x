@@ -5,7 +5,11 @@ require_once(__DIR__ . '/quick/ApkBuilder.php');
 
 // ----
 
-$builder = new ApkBuilder();
+$config = array();
+
+$config['api_ver'] = '19';
+
+$builder = new ApkBuilder($config);
 
 $retval = $builder->run();
 

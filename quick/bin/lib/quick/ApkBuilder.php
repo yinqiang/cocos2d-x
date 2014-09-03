@@ -2,21 +2,33 @@
 
 require_once(__DIR__ . '/init.php');
 
+$android_api_ver = array(
+    '8' => '2.2', 
+    '18' => '4.3', 
+    '19' => '4.4.2', 
+    );
+
 class ApkBuilder
 {
     const BUILD_NATIVE_SH = './build_native.sh';
     const BUILD_NATIVE_BAT = 'build_native.bat';
 
+    private $config;
+
     private $quick_root;
+
     private $sdk_root;
     private $build_tools_path;
     private $tools_aapt;
     private $tools_dx;
+    private $platform_path;
+    private $boot_class_path;
+
     private $ndk_root;
 
-    function __construct()
+    function __construct($config)
     {
-        // $this->config = $config;
+        $this->config = $config;
         // $this->options = $options;
     }
 
@@ -44,6 +56,14 @@ class ApkBuilder
             print("\nError: Path ANDROID_SDK_ROOT not found!\n\n");
             return(false);
         }
+        $this->platform_path = $this->sdk_root . '/platforms/android-' . $this->config['api_ver'];
+        $this->boot_class_path = $this->platform_path . '/android.jar';
+        if (!file_exists($this->boot_class_path))
+        {
+            print("\nError: $this->boot_class_path not found!\n\n");
+            return(false);
+        }
+
         $this->build_tools_path = $this->sdk_root . '/build-tools';
         if (!is_dir($this->build_tools_path))
         {
@@ -92,7 +112,8 @@ class ApkBuilder
             mkdir('gen');
         }
 
-        $cmd_str = $this->tools_aapt . ' package -f -m -J ./gen -S res -M AndroidManifest.xml ' . '-I ' . $this->sdk_root . '/platforms/android-19/android.jar';
+        $cmd_str = $this->tools_aapt 
+            . ' package -f -m -J ./gen -S res -M AndroidManifest.xml ' . '-I ' . $this->boot_class_path;
 
         $retval = $this->exec_sys_cmd($cmd_str);
 
@@ -114,7 +135,9 @@ class ApkBuilder
         $files = array();
         findFiles('src', $files);
 
-        $cmd_str = 'javac -encoding utf8 -target 1.5 -bootclasspath ~/android/android-sdk-macosx/platforms/android-19/android.jar -classpath ~/quick-x-3/cocos/platform/android/java/bin/libcocos2dx.jar:./protocols/android/libPluginProtocol.jar -d bin/classes ';
+        $cmd_str = 'javac -encoding utf8 -target 1.5 -bootclasspath ' 
+            . $this->boot_class_path 
+            . ' -classpath ~/quick-x-3/cocos/platform/android/java/bin/libcocos2dx.jar:./protocols/android/libPluginProtocol.jar -d bin/classes ';
         foreach ($files as $file)
         {
             $retval = $this->exec_sys_cmd($cmd_str . $file);
