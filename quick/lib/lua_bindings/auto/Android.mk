@@ -9,16 +9,16 @@ LOCAL_SRC_FILES := \
           $(LOCAL_PATH)/lua_cocos2dx_auto.cpp \
           $(LOCAL_PATH)/lua_cocos2dx_extension_auto.cpp
 
-ifeq ($(QUICK_CCS_ARMATURE_ENABLED),1)
+ifeq ($(CC_USE_CCS_ARMATURE),1)
 LOCAL_SRC_FILES += \
           $(LOCAL_PATH)/lua_cocos2dx_studio_auto.cpp
 endif
 
-ifeq ($(QUICK_EXTRA_FILTERS_ENABLED),1)
+ifeq ($(CC_USE_EXTRA_FILTERS),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/lua_cocos2dx_extension_filter_auto.cpp
 endif
 
-ifeq ($(QUICK_PHYSICS_ENABLED),1)
+ifeq ($(CC_USE_PHYSICS),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/lua_cocos2dx_physics_auto.cpp
 endif
 
