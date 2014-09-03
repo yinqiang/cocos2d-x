@@ -29,12 +29,12 @@
 #define __MISCNODE_CCCLIPPING_REGION_NODE_H__
 
 #include "2d/CCNode.h"
-#include "2d/CCClippingNode.h"
+#include "renderer/CCCustomCommand.h"
 #include "CCGL.h"
 
 NS_CC_BEGIN
 
-class CC_DLL ClippingRegionNode : public ClippingNode
+class CC_DLL ClippingRegionNode : public Node
 {    
 public:
     static ClippingRegionNode* create(const Rect& clippingRegion);
@@ -52,16 +52,23 @@ public:
         m_clippingEnabled = enabled;
     }
 
-    //virtual void visit(void);
-    
+    //virtual void draw(Renderer* renderer, const Mat4 &transform, uint32_t flags) override;
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
+
 protected:
     ClippingRegionNode(void)
     : m_clippingEnabled(true)
     {
     }
     
+    void onBeforeVisitScissor();
+    void onAfterVisitScissor();
+    
     Rect m_clippingRegion;
     bool m_clippingEnabled;
+    
+    CustomCommand _beforeVisitCmdScissor;
+    CustomCommand _afterVisitCmdScissor;
 };
 
 NS_CC_END
