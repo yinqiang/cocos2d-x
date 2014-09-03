@@ -19,15 +19,15 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/manual/CCLuaBridge.cpp \
           $(LOCAL_PATH)/manual/tolua_fix.cpp \
           $(COCOS2DX_ROOT)/external/xxtea/xxtea.cpp
 
-ifeq ($(QUICK_CCS_ARMATURE_ENABLED),1)
+ifeq ($(CC_USE_CCS_ARMATURE),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_coco_studio_manual.cpp
 endif
 
-ifeq ($(QUICK_PHYSICS_ENABLED),1)
+ifeq ($(CC_USE_PHYSICS),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/lua_cocos2dx_physics_manual.cpp
 endif
 
-ifeq ($(QUICK_WEBSOCKET_ENABLED),1)
+ifeq ($(CC_USE_WEBSOCKET),1)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/manual/Lua_web_socket.cpp
 endif
 

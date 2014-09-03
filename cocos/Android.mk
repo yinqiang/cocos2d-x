@@ -82,7 +82,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_2d_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_3d_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_base_static
-ifeq ($(QUICK_PHYSICS_ENABLED),1)
+ifeq ($(CC_USE_PHYSICS),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_physics_static
 endif
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dxandroid_static
@@ -98,7 +98,7 @@ include $(BUILD_STATIC_LIBRARY)
 $(call import-module,2d)
 $(call import-module,3d)
 $(call import-module,base)
-ifeq ($(QUICK_PHYSICS_ENABLED),1)
+ifeq ($(CC_USE_PHYSICS),1)
 $(call import-module,physics)
 endif
 $(call import-module,platform/android)

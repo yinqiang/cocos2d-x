@@ -5,7 +5,7 @@ LOCAL_MODULE := cocostudio_armature_static
 
 LOCAL_MODULE_FILENAME := libcocostudioarmature
 
-ifeq ($(QUICK_CCS_ARMATURE_ENABLED),1)
+ifeq ($(CC_USE_CCS_ARMATURE),1)
 
 LOCAL_SRC_FILES := \
 CCArmature.cpp \

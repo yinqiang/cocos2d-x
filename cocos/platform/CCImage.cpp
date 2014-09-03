@@ -60,7 +60,7 @@ extern "C"
 #endif
 #endif
 #include "png.h"
-#if QUICK_TIFF_ENABLED > 0
+#if CC_USE_TIFF
 #include "tiffio.h"
 #endif
 #include "base/etc1.h"
@@ -71,7 +71,7 @@ extern "C"
 #include "base/TGAlib.h"
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WP8) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
-#if QUICK_WEBP_ENABLED > 0
+#if CC_USE_WEBP
 #include "decode.h"
 #endif
 #endif
@@ -509,16 +509,16 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
         case Format::JPG:
             ret = initWithJpgData(unpackedData, unpackedLen);
             break;
-#if QUICK_TIFF_ENABLED > 0
+#if CC_USE_TIFF
         case Format::TIFF:
             ret = initWithTiffData(unpackedData, unpackedLen);
             break;
-#endif //QUICK_TIFF_ENABLED > 0
-#if QUICK_WEBP_ENABLED > 0
+#endif //CC_USE_TIFF
+#if CC_USE_WEBP
         case Format::WEBP:
             ret = initWithWebpData(unpackedData, unpackedLen);
             break;
-#endif //QUICK_WEBP_ENABLED > 0
+#endif //CC_USE_WEBP
         case Format::PVR:
             ret = initWithPVRData(unpackedData, unpackedLen);
             break;
@@ -533,7 +533,7 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
             break;
         default:
             {
-#if QUICK_TGA_ENABLED > 1
+#if CC_USE_TGA
                 // load and detect image format
                 tImageTGA* tgaData = tgaLoadBuffer(unpackedData, unpackedLen);
                 
@@ -549,7 +549,7 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
                 free(tgaData);
 #else
                 CCAssert(false, "unsupport image format!");
-#endif  //QUICK_TGA_ENABLED > 1
+#endif  //CC_USE_TGA
                 break;
             }
         }
@@ -1018,7 +1018,7 @@ bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
     return bRet;
 }
 
-#if QUICK_TIFF_ENABLED > 0
+#if CC_USE_TIFF
 namespace
 {
     static tmsize_t tiffReadProc(thandle_t fd, void* buf, tmsize_t size)
@@ -1189,7 +1189,7 @@ bool Image::initWithTiffData(const unsigned char * data, ssize_t dataLen)
     } while (0);
     return bRet;
 }
-#endif //QUICK_TIFF_ENABLED > 0
+#endif //CC_USE_TIFF
 
 namespace
 {
@@ -1885,7 +1885,7 @@ bool Image::initWithPVRData(const unsigned char * data, ssize_t dataLen)
     return initWithPVRv2Data(data, dataLen) || initWithPVRv3Data(data, dataLen);
 }
 
-#if QUICK_WEBP_ENABLED > 0
+#if CC_USE_WEBP
 bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 {
 	bool bRet = false;  
@@ -1925,7 +1925,7 @@ bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 #endif
 	return bRet;
 }
-#endif //QUICK_WEBP_ENABLED > 0
+#endif //CC_USE_WEBP
 
 bool Image::initWithRawData(const unsigned char * data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti)
 {
