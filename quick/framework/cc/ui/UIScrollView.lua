@@ -136,13 +136,10 @@ function UIScrollView:resetPosition()
 		return
 	end
 
-	local x = self.viewRect_.x
-	local y = self.viewRect_.y
+	local x, y = self.scrollNode:getPosition()
 	local bound = self.scrollNode:getCascadeBoundingBox()
-	local anchor = self.scrollNode:getAnchorPoint()
-	y = y + self.viewRect_.height - bound.height
-	x = x + bound.width*anchor.x
-	y = y + bound.height*anchor.y
+	local disY = self.viewRect_.y + self.viewRect_.height - bound.y - bound.height
+	y = y + disY
 	self.scrollNode:setPosition(x, y)
 end
 
