@@ -165,7 +165,7 @@ function WelcomeScene:createListItem(icon, title, path)
     :addTo(container)
 
     -- title
-    title = title:spliteBySep('/')
+    title = title:splitBySep('/')
     local titleLabel = cc.ui.UILabel.new({
             text = title[#title],
             size = 28,

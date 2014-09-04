@@ -160,7 +160,7 @@ function CreateProjectUI:onEnter()
     :onButtonClicked(function()
         if createProjectbutton.currState == 1 then
             if locationEditbox:getText() and packageEditbox:getText() then
-                local t = packageEditbox:getText():spliteBySep('.')
+                local t = packageEditbox:getText():splitBySep('.')
                 self.projectFolder = locationEditbox:getText() .. '/' .. t[#t]
 
                 local projectConfig = ProjectConfig:new()
