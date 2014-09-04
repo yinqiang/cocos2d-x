@@ -66,6 +66,7 @@
     [textField setHidden:NO];
     [textField setWantsLayer:YES];
     [textField setDelegate:self];
+//    [textField becomeFirstResponder];
 }
 
 -(void) doAnimationWhenKeyboardMoveWithDuration:(float)duration distance:(float)distance
@@ -101,7 +102,7 @@
 {
     if ([textField_ superview]) {
         [textField_ resignFirstResponder];
-        [textField_ removeFromSuperview];
+//        [textField_ removeFromSuperview];
     }
 }
 
@@ -137,53 +138,41 @@
     return NO;
 }
 
+- (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor
+{
+    return YES;
+}
+
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+{
+    cocos2d::EventCustom event("APP.EVENT");
+    std::string data = "{\"name\":\"editorComplete\", \"string\":\"";
+    data.append([self.textField.stringValue UTF8String]);
+    data.append("\"}");
+    event.setDataString(data);
+    
+    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    
+    return YES;
+}
+
+
 - (BOOL)textFieldShouldBeginEditing:(NSTextField *)sender        // return NO to disallow editing.
 {
     editState_ = YES;
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxEditingDidBegin(getEditBoxImplMac()->getEditBox());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "began",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
     return YES;
 }
 
 - (BOOL)textFieldShouldEndEditing:(NSTextField *)sender
 {
     editState_ = NO;
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxEditingDidEnd(getEditBoxImplMac()->getEditBox());
-    //        pDelegate->editBoxReturn(getEditBoxImplMac()->getEditBox());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "ended",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //        memset(data.eventName, 0, sizeof(data.eventName));
-    //        strncpy(data.eventName, "return", sizeof(data.eventName));
-    //        event.data = (void*)&data;
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
     return YES;
 }
 
+- (BOOL)control:(NSControl *)control didFailToFormatString:(NSString *)string errorDescription:(NSString *)error
+{
+    return YES;
+}
 /**
  * Delegate method called before the text has been changed.
  * @param textField The text field containing the text.
@@ -193,19 +182,7 @@
  */
 - (BOOL)textField:(NSTextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    //    if (getEditBoxImplMac()->getMaxLength() < 0)
-    //    {
-    //        return YES;
-    //    }
-    
-    NSUInteger oldLength = [[textField stringValue] length];
-    NSUInteger replacementLength = [string length];
-    NSUInteger rangeLength = range.length;
-    
-    NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    
     return YES;
-    //    return newLength <= getEditBoxImplMac()->getMaxLength();
 }
 
 /**
@@ -213,21 +190,6 @@
  */
 - (void)controlTextDidChange:(NSNotification *)notification
 {
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxTextChanged(getEditBoxImplMac()->getEditBox(), getEditBoxImplMac()->getText());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "changed",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
 }
 
 @end
@@ -258,6 +220,8 @@ void PlayerEditBoxServiceMac::showSingleLineEditBox(const cocos2d::Rect &rect)
     
     [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
     [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
+    
+    show();
 }
 
 void PlayerEditBoxServiceMac::showMultiLineEditBox(const cocos2d::Rect &rect)
@@ -267,6 +231,8 @@ void PlayerEditBoxServiceMac::showMultiLineEditBox(const cocos2d::Rect &rect)
     
     [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
     [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
+    
+    show();
 }
 
 void PlayerEditBoxServiceMac::setText(const std::string &text)
@@ -301,8 +267,6 @@ void PlayerEditBoxServiceMac::show()
 {
     [_sysEdit.textField setHidden:NO];
     [_sysEdit openKeyboard];
-    
-    printf("show edit box service herer\n");
 }
 
 PLAYER_NS_END;

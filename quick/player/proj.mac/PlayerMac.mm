@@ -81,14 +81,11 @@ PlayerTaskServiceProtocol *PlayerMac::getTaskService()
 
 void PlayerMac::quit()
 {
-    PlayerProtocol::quit();
     cocos2d::Director::getInstance()->end();
 }
 
 void PlayerMac::relaunch()
 {
-    PlayerProtocol::relaunch();
-    
     if (_appController && [_appController respondsToSelector:NSSelectorFromString(@"relaunch")])
     {
         [_appController performSelector:NSSelectorFromString(@"relaunch")];
@@ -97,10 +94,9 @@ void PlayerMac::relaunch()
 
 void PlayerMac::openNewPlayer()
 {
-    PlayerProtocol::openNewPlayer();
 }
 
-void PlayerMac::openNewPlayerWithProjectConfig(ProjectConfig config)
+void PlayerMac::openNewPlayerWithProjectConfig(const ProjectConfig& config)
 {
     if (_appController && [_appController respondsToSelector:NSSelectorFromString(@"launch:")])
     {
@@ -112,7 +108,7 @@ void PlayerMac::openNewPlayerWithProjectConfig(ProjectConfig config)
     }
 }
 
-void PlayerMac::openProjectWithProjectConfig(ProjectConfig config)
+void PlayerMac::openProjectWithProjectConfig(const ProjectConfig& config)
 {
     this->openNewPlayerWithProjectConfig(config);
     this->quit();
