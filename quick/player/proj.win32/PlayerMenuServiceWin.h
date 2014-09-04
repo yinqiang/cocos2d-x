@@ -50,14 +50,16 @@ public:
     virtual bool removeItem(const std::string &menuId);
     virtual void setMenuBarEnabled(bool enabled);
 
+    PlayerMenuItemWin *getItemByCommandId(WORD commandId);
+
 private:
-    static UINT _newCommandId;
+    static WORD _newCommandId;
 
     HWND _hwnd;
     bool _menubarEnabled;
     PlayerMenuItemWin _root;
     std::unordered_map<std::string, PlayerMenuItemWin*> _items;
-    std::unordered_map<UINT, std::string> _commandId2menuId;
+    std::unordered_map<WORD, std::string> _commandId2menuId;
 
     bool removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder);
     void updateChildrenOrder(PlayerMenuItemWin *parent);

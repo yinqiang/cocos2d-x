@@ -34,12 +34,12 @@ public:
 
     // player function
 
-    virtual void quit();
-    virtual void relaunch();
-    virtual void openNewPlayer();
-    virtual void openNewPlayerWithProjectConfig(ProjectConfig config);
-    virtual void openProjectWithProjectConfig(ProjectConfig config);
-    
+    virtual void quit() = 0;
+    virtual void relaunch() = 0;
+    virtual void openNewPlayer() = 0;
+    virtual void openNewPlayerWithProjectConfig(const ProjectConfig &config) = 0;
+    virtual void openProjectWithProjectConfig(const ProjectConfig &config) = 0;
+
 protected:
     PlayerProtocol(); // avoid create instance from outside
 

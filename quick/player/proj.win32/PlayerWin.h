@@ -20,7 +20,7 @@ PLAYER_NS_BEGIN
 class CC_DLL PlayerWin : public PlayerProtocol, public cocos2d::Ref
 {
 public:
-    static PlayerWin *create();
+    static PlayerWin *getInstance();
     virtual ~PlayerWin();
     int run();
 
@@ -33,12 +33,13 @@ public:
     virtual void quit();
     virtual void relaunch();
     virtual void openNewPlayer();
-    virtual void openNewPlayerWithProjectConfig(ProjectConfig config);
-    virtual void openProjectWithProjectConfig(ProjectConfig config);
+    virtual void openNewPlayerWithProjectConfig(const ProjectConfig &config);
+    virtual void openProjectWithProjectConfig(const ProjectConfig &config);
 
 protected:
     PlayerWin();
 
+    static PlayerWin *_instance;
     ProjectConfig _project;
     HWND _hwnd;
     HWND _hwndConsole;
@@ -73,8 +74,8 @@ protected:
     std::string getUserGUID();
     char*	    convertTCharToUtf8(const TCHAR* src);
 
-private:
     std::string _userGUID;
+    static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
 

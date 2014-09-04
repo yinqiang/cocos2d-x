@@ -36,21 +36,23 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-    auto player = player::PlayerWin::create();
+    auto player = player::PlayerWin::getInstance();
     return player->run();
 }
 
 PLAYER_NS_BEGIN
 
+PlayerWin *PlayerWin::_instance = nullptr;
+
 PlayerWin::PlayerWin()
-: _app(nullptr)
-, _hwnd(NULL)
-, _hwndConsole(NULL)
-, _writeDebugLogFile(nullptr)
-, _messageBoxService(nullptr)
-, _menuService(nullptr)
-, _editboxService(nullptr)
-, _taskService(nullptr)
+    : _app(nullptr)
+    , _hwnd(NULL)
+    , _hwndConsole(NULL)
+    , _writeDebugLogFile(nullptr)
+    , _messageBoxService(nullptr)
+    , _menuService(nullptr)
+    , _editboxService(nullptr)
+    , _taskService(nullptr)
 {
 }
 
@@ -64,11 +66,17 @@ PlayerWin::~PlayerWin()
     {
         fclose(_writeDebugLogFile);
     }
+
+    _instance = nullptr;
 }
 
-PlayerWin *PlayerWin::create()
+PlayerWin *PlayerWin::getInstance()
 {
-    return new PlayerWin();
+    if (!_instance)
+    {
+        _instance = new PlayerWin();
+    }
+    return _instance;
 }
 
 PlayerFileDialogServiceProtocol *PlayerWin::getFileDialogService()
@@ -112,7 +120,7 @@ void PlayerWin::openNewPlayer()
     openNewPlayerWithProjectConfig(_project);
 }
 
-void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
+void PlayerWin::openNewPlayerWithProjectConfig(const ProjectConfig &config)
 {
     static long taskid = 100;
     stringstream buf;
@@ -127,7 +135,6 @@ void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
     // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
     SECURITY_ATTRIBUTES sa = {0};
     sa.nLength = sizeof(sa);
-    sa.bInheritHandle = TRUE;
 
     PROCESS_INFORMATION pi = {0};
     STARTUPINFO si = {0};
@@ -141,12 +148,12 @@ void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
                                  command,   // command line 
                                  NULL,      // process security attributes 
                                  NULL,      // primary thread security attributes 
-                                 TRUE,      // handles are inherited 
+                                 FALSE,     // handles are inherited 
                                  0,         // creation flags 
                                  NULL,      // use parent's environment 
                                  NULL,      // use parent's current directory 
                                  &si,       // STARTUPINFO pointer 
-                                 &pi);     // receives PROCESS_INFORMATION 
+                                 &pi);      // receives PROCESS_INFORMATION 
 
     if (!success)
     {
@@ -154,7 +161,7 @@ void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
     }
 }
 
-void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
+void PlayerWin::openProjectWithProjectConfig(const ProjectConfig &config)
 {
     openNewPlayerWithProjectConfig(config);
     quit();
@@ -348,6 +355,7 @@ int PlayerWin::run()
     // prepare
     _project.dump();
     auto app = Application::getInstance();
+    glfwSetWin32WindowProc(&PlayerWin::windowProc);
 
     HWND hwnd = _hwnd;
     HWND hwndConsole = _hwndConsole;
@@ -564,6 +572,35 @@ std::string PlayerWin::getUserGUID()
     }
 
     return _userGUID;
+}
+
+LRESULT CALLBACK PlayerWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    if (!_instance) return 0;
+
+    switch (uMsg)
+    {
+    case WM_COMMAND:
+    {
+        if (HIWORD(wParam) == 0)
+        {
+            // menu
+            WORD menuId = LOWORD(wParam);
+            PlayerMenuItemWin *menuItem = _instance->_menuService->getItemByCommandId(menuId);
+            if (menuItem)
+            {
+                cocos2d::EventCustom event("APP.EVENT");
+                std::stringstream buf;
+                buf << "{\"data\":\"" << menuItem->getMenuId().c_str() << "\"";
+                buf << ",\"name\":" << "\"menuClicked\"" << "}";
+                event.setDataString(buf.str());
+                Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+            }
+        }
+        break;
+    }
+    }
+    return 0;
 }
 
 PLAYER_NS_END

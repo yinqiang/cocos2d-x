@@ -37,24 +37,4 @@ PlayerSettings PlayerProtocol::getPlayerSettings() const
     return _settings;
 }
 
-void PlayerProtocol::quit()
-{
-}
-
-void PlayerProtocol::relaunch()
-{
-}
-
-void PlayerProtocol::openNewPlayer()
-{
-}
-
-void PlayerProtocol::openNewPlayerWithProjectConfig(ProjectConfig config)
-{
-    
-}
-void PlayerProtocol::openProjectWithProjectConfig(ProjectConfig config)
-{
-    
-}
 PLAYER_NS_END

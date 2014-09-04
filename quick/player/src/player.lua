@@ -21,7 +21,7 @@ function table.serializeToString (tt, indent, done)
         if "string" == type(key) then
             table.insert(sb, string.format("%s ={\n", tostring(key)));
         else
-            table.insert(sb, "{\n");    
+            table.insert(sb, "{\n");
         end
 
         table.insert(sb, table.serializeToString (value, indent + 2, done))
@@ -50,7 +50,7 @@ function table.serializeToString (tt, indent, done)
   end
 end
 
-function string:spliteBySep(sep)
+function string:splitBySep(sep)
     local sep, fields = sep or device.directorySeparator, {}
     local pattern = string.format("([^%s]+)", sep)
     self:gsub(pattern, function(c) fields[#fields+1] = c end)
@@ -143,13 +143,15 @@ function player:buildUI()
     -- menuBar:addItem("WELCOME_MENU_SEP", "-", "FILE_MENU")
     menuBar:addItem("WELCOME_MENU", "Welcome", "FILE_MENU")
         :setShortcut("super+w")
-
+    -- exit
+    menuBar:addItem("EXIT_MENU_SEP", "-", "FILE_MENU")
+    menuBar:addItem("EXIT_MENU", "Exit", "FILE_MENU")
 
     -- VIEW
     local viewMenu = menuBar:addItem("VIEW_MENU", "&View")
 
     -- screen list
-    local viewSize = {{title = "iPhone 3Gs",w=320,h=480}, 
+    local viewSize = {{title = "iPhone 3Gs",w=320,h=480},
                       {title = "iPhone 4",  w=640,h=960},
                       {title = "iPhone 5",  w=640,h=1136},
                       {title = "iPad",      w=768,h=1024},
@@ -161,9 +163,9 @@ function player:buildUI()
                       {title = "Android",   w=720,h=1280},
                       {title = "Android",   w=800,h=1280},
                       {title = "Android",   w=1080,h=1920},
-                  }
+	}
     self.screenSizeList = {}
-    local s             = self.projectConfig_:getFrameSize()
+    local s = self.projectConfig_:getFrameSize()
     for i,v in ipairs(viewSize) do
         local title = string.format("%s (%dx%d)", v.title, v.w, v.h)
         local item  = menuBar:addItem("VIEWSIZE_ITEM_MENU_"..i, title, "VIEW_MENU")
@@ -208,9 +210,9 @@ function player:buildUI()
         item.clickedCallback = function() print("view scale click callback") end
     end
 
-    -- relaunch
-    menuBar:addItem("RELAUNCH_MENU_SEP", "-", "VIEW_MENU")
-    menuBar:addItem("RELAUNCH_MENU", "Relaunch", "VIEW_MENU")
+    -- refresh
+    menuBar:addItem("REFRESH_MENU_SEP", "-", "VIEW_MENU")
+    menuBar:addItem("REFRESH_MENU", "Refresh", "VIEW_MENU")
         :setShortcut("super+r")
 end
 
@@ -247,9 +249,9 @@ end
 
 function player:onMenuClicked(event)
     local data = event.data
-    if data == "CLOSE_MENU" then
+    if data == "CLOSE_MENU" or data == "EXIT_MENU" then
         PlayerProtocol:getInstance():quit()
-    elseif data == "RELAUNCH_MENU" then
+    elseif data == "REFRESH_MENU" then
         PlayerProtocol:getInstance():relaunch()
     elseif data == "WELCOME_MENU" then
         local config = ProjectConfig:new()
@@ -314,32 +316,32 @@ end
 function player:readSettings()
     self.userHomeDir = __USER_HOME__
     self.configFilePath = player.userHomeDir .. ".quick_player.lua"
-    if not cc.FileUtils:getInstance():isFileExist(player.configFilePath) then 
+    if not cc.FileUtils:getInstance():isFileExist(player.configFilePath) then
         self:restorDefaultSettings()
     end
     self:loadSetting(player.configFilePath)
-    
+
     -- get QUICK_V3_ROOT path
     self:setQuickRootPath()
 
     local s = PlayerSettings:new()
     s.offsetX = cc.player.settings.PLAYER_WINDOW_X
-    s.offsetY = cc.player.settings.PLAYER_WINDOW_Y 
-    s.windowWidth = cc.player.settings.PLAYER_WINDOW_WIDTH 
-    s.windowHeight = cc.player.settings.PLAYER_WINDOW_HEIGHT 
+    s.offsetY = cc.player.settings.PLAYER_WINDOW_Y
+    s.windowWidth = cc.player.settings.PLAYER_WINDOW_WIDTH
+    s.windowHeight = cc.player.settings.PLAYER_WINDOW_HEIGHT
     s.openLastProject = cc.player.settings.PLAYER_OPEN_LAST_PROJECT
     PlayerProtocol:getInstance():setPlayerSettings(s)
 end
 
 function player:trackEvent(eventName, ev)
     local url = 'http://www.google-analytics.com/collect'
-    local request = cc.HTTPRequest:createWithUrl(function(event) 
+    local request = cc.HTTPRequest:createWithUrl(function(event)
                                                     local eventName = eventName
-                                                    if eventName == "exit" then 
-                                                        cc.Director:getInstance():endToLua() 
-                                                    end 
+                                                    if eventName == "exit" then
+                                                        cc.Director:getInstance():endToLua()
+                                                    end
                                                 end,
-                                                url, 
+                                                url,
                                                 cc.kCCHTTPRequestMethodPOST)
 
     local cid = __G_QUICK_GUID__ or cc.Native:getOpenUDID()
@@ -382,11 +384,11 @@ function player:init()
 
     self:registerEventHandler()
     self:readSettings()
-    
+
     -- record project
     if __PLAYER_OPEN_TITLE__ and __PLAYER_OPEN_COMMAND__ then
         local title = string.gsub(__PLAYER_OPEN_TITLE__, '\\', '/')
-        local args = string.gsub(__PLAYER_OPEN_COMMAND__, '\\', '/'):spliteBySep(' ')
+        local args = string.gsub(__PLAYER_OPEN_COMMAND__, '\\', '/'):splitBySep(' ')
 
         self.projectConfig_ = ProjectConfig:new()
         local argumentVector = vector_string_:new_local()

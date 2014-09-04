@@ -43,12 +43,12 @@ NS_CC_BEGIN
 Application * Application::sm_pSharedApplication = 0;
 
 Application::Application()
-: _instance(nullptr)
-, _accelTable(nullptr)
+    : _instance(nullptr)
+    , _accelTable(nullptr)
 {
-    _instance    = GetModuleHandle(nullptr);
+    _instance = GetModuleHandle(nullptr);
     _animationInterval.QuadPart = 0;
-    CC_ASSERT(! sm_pSharedApplication);
+    CC_ASSERT(!sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -82,13 +82,13 @@ int Application::run()
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
 
-    while(!glview->windowShouldClose())
+    while (!glview->windowShouldClose())
     {
         QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
             nLast.QuadPart = nNow.QuadPart;
-            
+
             director->mainLoop();
             glview->pollEvents();
         }
@@ -137,54 +137,54 @@ LanguageType Application::getCurrentLanguage()
 
     LCID localeID = GetUserDefaultLCID();
     unsigned short primaryLanguageID = localeID & 0xFF;
-    
+
     switch (primaryLanguageID)
     {
-        case LANG_CHINESE:
-            ret = LanguageType::CHINESE;
-            break;
-        case LANG_ENGLISH:
-            ret = LanguageType::ENGLISH;
-            break;
-        case LANG_FRENCH:
-            ret = LanguageType::FRENCH;
-            break;
-        case LANG_ITALIAN:
-            ret = LanguageType::ITALIAN;
-            break;
-        case LANG_GERMAN:
-            ret = LanguageType::GERMAN;
-            break;
-        case LANG_SPANISH:
-            ret = LanguageType::SPANISH;
-            break;
-        case LANG_DUTCH:
-            ret = LanguageType::DUTCH;
-            break;
-        case LANG_RUSSIAN:
-            ret = LanguageType::RUSSIAN;
-            break;
-        case LANG_KOREAN:
-            ret = LanguageType::KOREAN;
-            break;
-        case LANG_JAPANESE:
-            ret = LanguageType::JAPANESE;
-            break;
-        case LANG_HUNGARIAN:
-            ret = LanguageType::HUNGARIAN;
-            break;
-        case LANG_PORTUGUESE:
-            ret = LanguageType::PORTUGUESE;
-            break;
-        case LANG_ARABIC:
-            ret = LanguageType::ARABIC;
-            break;
-	    case LANG_NORWEGIAN:
-            ret = LanguageType::NORWEGIAN;
-            break;
- 	    case LANG_POLISH:
-            ret = LanguageType::POLISH;
-            break;
+    case LANG_CHINESE:
+        ret = LanguageType::CHINESE;
+        break;
+    case LANG_ENGLISH:
+        ret = LanguageType::ENGLISH;
+        break;
+    case LANG_FRENCH:
+        ret = LanguageType::FRENCH;
+        break;
+    case LANG_ITALIAN:
+        ret = LanguageType::ITALIAN;
+        break;
+    case LANG_GERMAN:
+        ret = LanguageType::GERMAN;
+        break;
+    case LANG_SPANISH:
+        ret = LanguageType::SPANISH;
+        break;
+    case LANG_DUTCH:
+        ret = LanguageType::DUTCH;
+        break;
+    case LANG_RUSSIAN:
+        ret = LanguageType::RUSSIAN;
+        break;
+    case LANG_KOREAN:
+        ret = LanguageType::KOREAN;
+        break;
+    case LANG_JAPANESE:
+        ret = LanguageType::JAPANESE;
+        break;
+    case LANG_HUNGARIAN:
+        ret = LanguageType::HUNGARIAN;
+        break;
+    case LANG_PORTUGUESE:
+        ret = LanguageType::PORTUGUESE;
+        break;
+    case LANG_ARABIC:
+        ret = LanguageType::ARABIC;
+        break;
+    case LANG_NORWEGIAN:
+        ret = LanguageType::NORWEGIAN;
+        break;
+    case LANG_POLISH:
+        ret = LanguageType::POLISH;
+        break;
     }
 
     return ret;
@@ -192,12 +192,12 @@ LanguageType Application::getCurrentLanguage()
 
 const char * Application::getCurrentLanguageCode()
 {
-	LANGID lid = GetUserDefaultUILanguage();
-	const LCID locale_id = MAKELCID(lid, SORT_DEFAULT);
-	static char code[3] = { 0 };
-	GetLocaleInfoA(locale_id, LOCALE_SISO639LANGNAME, code, sizeof(code));
-	code[2] = '\0';
-	return code;
+    LANGID lid = GetUserDefaultUILanguage();
+    const LCID locale_id = MAKELCID(lid, SORT_DEFAULT);
+    static char code[3] = {0};
+    GetLocaleInfoA(locale_id, LOCALE_SISO639LANGNAME, code, sizeof(code));
+    code[2] = '\0';
+    return code;
 }
 
 Application::Platform Application::getTargetPlatform()
@@ -240,7 +240,7 @@ static void PVRFrameEnableControlWindow(bool bEnable)
     HKEY hKey = 0;
 
     // Open PVRFrame control key, if not exist create it.
-    if(ERROR_SUCCESS != RegCreateKeyExW(HKEY_CURRENT_USER,
+    if (ERROR_SUCCESS != RegCreateKeyExW(HKEY_CURRENT_USER,
         L"Software\\Imagination Technologies\\PVRVFRame\\STARTUP\\",
         0,
         0,
