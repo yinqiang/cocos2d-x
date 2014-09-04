@@ -1,4 +1,34 @@
 
+--[[
+
+Copyright (c) 2011-2014 chukong-inc.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+]]
+
+--[[--
+
+quick UIListView控件
+
+]]
+
 local UIScrollView = import(".UIScrollView")
 local UIListView = class("UIListView", UIScrollView)
 
@@ -23,7 +53,25 @@ UIListView.ALIGNMENT_TOP			= 3
 UIListView.ALIGNMENT_BOTTOM			= 4
 UIListView.ALIGNMENT_HCENTER		= 5
 
+--[[--
 
+UIListView构建函数
+
+可用参数有：
+
+-   direction 列表控件的滚动方向，默认为垂直方向
+-   alignment listViewItem中content的对齐方式，默认为垂直居中
+-   viewRect 列表控件的显示区域
+-   fadeDown 从底部开始淡出场景
+-   fadeTR 从右上角开始淡出场景
+-   fadeUp 从顶部开始淡出场景
+-   flipAngular 当前场景倾斜后翻转成下一个场景，默认从左边开始翻转，可以指定为：
+    -   cc.TRANSITION_ORIENTATION_LEFT_OVER 从左边开始
+    -   cc.TRANSITION_ORIENTATION_RIGHT_OVER 从右边开始
+
+@param table params 参数表
+
+]]
 function UIListView:ctor(params)
 	UIListView.super.ctor(self, params)
 
@@ -32,9 +80,6 @@ function UIListView:ctor(params)
 	self.alignment = params.alignment or UIListView.ALIGNMENT_VCENTER
 	self.container = cc.Node:create()
 	-- self.padding_ = params.padding or {left = 0, right = 0, top = 0, bottom = 0}
-
-	-- self:addBgColorIf(params)
-	-- self:addBgIf(params)
 
 	-- params.viewRect.x = params.viewRect.x + self.padding_.left
 	-- params.viewRect.y = params.viewRect.y + self.padding_.bottom
@@ -49,41 +94,43 @@ function UIListView:ctor(params)
 	self.size = {}
 end
 
-function UIListView:addBgColorIf(params)
-	if not params.bgColor then
-		return
-	end
+--[[--
 
-	display.newColorLayer(params.bgColor)
-		:size(params.viewRect.width, params.viewRect.height)
-		:pos(params.viewRect.x, params.viewRect.y)
-		:addTo(self, UIListView.BG_ZORDER)
-		:setTouchEnabled(false)
-end
+列表控件触摸注册函数
 
-function UIListView:addBgIf(params)
-	if not params.bg then
-		return
-	end
+@param function listener 触摸临听函数
 
-	display.newScale9Sprite(params.bg)
-		:size(params.viewRect.width, params.viewRect.height)
-		:pos(params.viewRect.x + params.viewRect.width/2,
-			params.viewRect.y + params.viewRect.height/2)
-		:addTo(self, UIListView.BG_ZORDER)
-		:setTouchEnabled(false)
-end
+@return UIListView self 自身
 
+]]
 function UIListView:onTouch(listener)
 	self.touchListener_ = listener
 
 	return self
 end
 
+--[[--
+
+列表控件设置所有listItem中content的对齐方式
+
+@param number align 对
+
+@return UIListView self 自身
+
+]]
 function UIListView:setAlignment(align)
 	self.alignment = align
 end
 
+--[[--
+
+创建一个新的listViewItem项
+
+@param node item 要放到listViewItem中的内容content
+
+@return UIListViewItem
+
+]]
 function UIListView:newItem(item)
 	item = UIListViewItem.new(item)
 	item:setDirction(self.direction)
@@ -163,6 +210,16 @@ function UIListView:scrollListener(event)
 
 end
 
+--[[--
+
+在列表项中添加一项
+
+@param node listItem 要添加的项
+@param [integer pos] 要添加的位置
+
+@return UIListView
+
+]]
 function UIListView:addItem(listItem, pos)
 	self:modifyItemSizeIf_(listItem)
 
@@ -176,6 +233,16 @@ function UIListView:addItem(listItem, pos)
 	return self
 end
 
+--[[--
+
+在列表项中移除一项
+
+@param node listItem 要移除的项
+@param [boolean bAni] 是否要显示移除动画
+
+@return UIListView
+
+]]
 function UIListView:removeItem(listItem, bAni)
 	local itemW, itemH = listItem:getItemSize()
 	self.container:removeChild(listItem)
@@ -202,6 +269,15 @@ function UIListView:removeItem(listItem, bAni)
 	return self
 end
 
+--[[--
+
+取某项在列表控件中的位置
+
+@param node listItem 列表项
+
+@return integer
+
+]]
 function UIListView:getItemPos(listItem)
 	for i,v in ipairs(self.items_) do
 		if v == listItem then
@@ -210,6 +286,15 @@ function UIListView:getItemPos(listItem)
 	end
 end
 
+--[[--
+
+判断某项是否在列表控件的显示区域中
+
+@param integer pos 列表项位置
+
+@return boolean
+
+]]
 function UIListView:isItemInViewRect(pos)
 	local item
 	if "number" == type(pos) then
@@ -340,6 +425,13 @@ function UIListView:layout_()
 	self.container:setPosition(0, self.viewRect_.height - self.size.height)
 end
 
+--[[--
+
+加载列表
+
+@return UIListView
+
+]]
 function UIListView:reload()
 	self:layout_()
 
