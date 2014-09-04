@@ -45,10 +45,10 @@ LOCAL_EXPORT_LDLIBS := -lGLESv1_CM \
                        -landroid
 
 LOCAL_WHOLE_STATIC_LIBRARIES	:= cocos_png_static cocos_jpeg_static 
-ifeq ($(QUICK_TIFF_ENABLED),1)
+ifeq ($(CC_USE_TIFF),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_tiff_static
 endif
-ifeq ($(QUICK_WEBP_ENABLED),1)
+ifeq ($(CC_USE_WEBP),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_webp_static
 endif
 
@@ -57,9 +57,9 @@ include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,jpeg/prebuilt/android)
 $(call import-module,png/prebuilt/android)
-ifeq ($(QUICK_TIFF_ENABLED),1)
+ifeq ($(CC_USE_TIFF),1)
 $(call import-module,tiff/prebuilt/android)
 endif
-ifeq ($(QUICK_WEBP_ENABLED),1)
+ifeq ($(CC_USE_WEBP),1)
 $(call import-module,webp/prebuilt/android)
 endif
