@@ -24,6 +24,9 @@ class ApkBuilder
     private $platform_path;
     private $boot_class_path;
     private $class_path;
+    private $keystore_file;
+    private $keystore_password;
+    private $keystore_alias;
 
     private $ndk_root;
 
@@ -64,7 +67,7 @@ class ApkBuilder
             print("\nError: $this->boot_class_path not found!\n\n");
             return(false);
         }
-        $this->class_path = $this->quick_root . '/cocos/platform/android/java/bin/libcocos2dx.jar';
+        $this->class_path = $this->quick_root . '/quick/bin/android/libcocos2dx.jar';
         if (!file_exists($this->class_path))
         {
             print("\nError: $this->class_path not found!\n\n");
@@ -72,6 +75,36 @@ class ApkBuilder
         }
         if ($this->config['classpath']) {
             $this->class_path = $this->class_path . ':' . $this->config['classpath'];
+        }
+
+        if ($this->config['keystore'])
+        {
+            $this->keystore_file = $this->config['keystore'];
+        }
+        else
+        {
+            $this->keystore_file = $this->quick_root . '/quick/bin/android/quickv3.keystore';
+        }
+        if (!file_exists($this->keystore_file))
+        {
+            print("\nError: $this->keystore_file not found!\n\n");
+            return(false);
+        }
+        if ($this->config['storepass'])
+        {
+            $this->keystore_password = $this->config['storepass'];
+        }
+        else
+        {
+            $this->keystore_password = '123456';
+        }
+        if ($this->config['storealias'])
+        {
+            $this->keystore_alias = $this->config['storealias'];
+        }
+        else
+        {
+            $this->keystore_alias = 'quickv3.keystore';
         }
 
         $this->build_tools_path = $this->sdk_root . '/build-tools';
@@ -145,27 +178,27 @@ class ApkBuilder
 
         $files = array();
         findFiles('src', $files);
+        findFiles('gen', $files);
 
         $cmd_str = 'javac -encoding utf8 -target 1.5 -bootclasspath ' 
             . $this->boot_class_path 
-            . ' -classpath ' . $this->class_path . ' -d bin/classes ';
+            . ' -d bin/classes';
         foreach ($files as $file)
         {
-            $retval = $this->exec_sys_cmd($cmd_str . $file);
-            if ($retval!=0)
-            {
-                print("error in $file\n");
-                return $retval;
-            }
+            $cmd_str = $cmd_str . ' ' . $file;
         }
+        $cmd_str = $cmd_str . ' -classpath ' . $this->class_path;
 
+        $retval = $this->exec_sys_cmd($cmd_str);
         return $retval;
     }
 
     function make_dex()
     {
+        $libs = str_replace(':', ' ', $this->class_path);
         $cmd_str = $this->build_tools_path . '/dx'
-            . ' --dex --output=./bin/classes.dex ./bin/classes';
+            . ' --dex --output=./bin/classes.dex ./bin/classes '
+            . $libs;
 
         $retval = $this->exec_sys_cmd($cmd_str);
 
@@ -177,6 +210,29 @@ class ApkBuilder
         $cmd_str = $this->tools_aapt 
             . ' package -f -S res -A assets -M AndroidManifest.xml' . ' -I ' . $this->boot_class_path
             . ' -F bin/resources.ap_';
+
+        $retval = $this->exec_sys_cmd($cmd_str);
+
+        return $retval;
+    }
+
+    function make_apk()
+    {
+        $cmd_str = 'java -classpath ' . $this->sdk_root . '/tools/lib/sdklib.jar'
+            . ' com.android.sdklib.build.ApkBuilderMain'
+            . ' bin/unsigner.apk -u -z bin/resources.ap_ -f bin/classes.dex -rf src -nf libs -rj libs';
+
+        $retval = $this->exec_sys_cmd($cmd_str);
+
+        return $retval;
+    }
+
+    function sign_apk()
+    {
+        $cmd_str = 'jarsigner -keystore ' . $this->keystore_file
+            . ' -storepass ' . $this->keystore_password
+            . ' -signedjar bin/quickgame.apk bin/unsigner.apk '
+            . $this->keystore_alias;
 
         $retval = $this->exec_sys_cmd($cmd_str);
 
@@ -224,6 +280,20 @@ class ApkBuilder
         if ($retval!=0)
         {
             print("Error: make bin/resources.ap_ error!!\n");
+            return($retval);
+        }
+
+        $retval = $this->make_apk();
+        if ($retval!=0)
+        {
+            print("Error: make bin/unsigner.apk error!!\n");
+            return($retval);
+        }
+
+        $retval = $this->sign_apk();
+        if ($retval!=0)
+        {
+            print("Error: sign apk file error!!\n");
             return($retval);
         }
 

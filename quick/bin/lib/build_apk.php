@@ -5,7 +5,10 @@ require_once(__DIR__ . '/quick/ApkBuilder.php');
 
 $options = array(
     array('h',           'help',           0,      false,      'show help'),
-    array('api',         'api_ver',        1,      null,       'set android api version'),
+    array('k',           'keystore',       1,      null,       'the keystore file'),
+    array('kp',          'storepass',      1,      null,       'the keystore password'),
+    array('ksa',         'storealias',     1,      null,       'the keystore alias'),
+    array('api',         'api_ver',        1,      null,       'android api version'),
     array('classpath',   'classpath',      1,      null,       'extra android class path'),
 );
 
