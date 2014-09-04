@@ -8,25 +8,25 @@ LOCAL_MODULE_FILENAME := libcocostudioarmature
 ifeq ($(CC_USE_CCS_ARMATURE),1)
 
 LOCAL_SRC_FILES := \
-CCArmature.cpp \
-CCArmatureAnimation.cpp \
-CCArmatureDataManager.cpp \
-CCArmatureDefine.cpp \
-CCBone.cpp \
-CCColliderDetector.cpp \
-CCDataReaderHelper.cpp \
-CCDatas.cpp \
-CCDecorativeDisplay.cpp \
-CCDisplayFactory.cpp \
-CCDisplayManager.cpp \
-CCProcessBase.cpp \
-CCSkin.cpp \
-CCSpriteFrameCacheHelper.cpp \
-CCTransformHelp.cpp \
-CCTween.cpp \
-CCUtilMath.cpp \
-CocoLoader.cpp \
-DictionaryHelper.cpp \
+$(LOCAL_PATH)/CCArmature.cpp \
+$(LOCAL_PATH)/CCArmatureAnimation.cpp \
+$(LOCAL_PATH)/CCArmatureDataManager.cpp \
+$(LOCAL_PATH)/CCArmatureDefine.cpp \
+$(LOCAL_PATH)/CCBone.cpp \
+$(LOCAL_PATH)/CCColliderDetector.cpp \
+$(LOCAL_PATH)/CCDataReaderHelper.cpp \
+$(LOCAL_PATH)/CCDatas.cpp \
+$(LOCAL_PATH)/CCDecorativeDisplay.cpp \
+$(LOCAL_PATH)/CCDisplayFactory.cpp \
+$(LOCAL_PATH)/CCDisplayManager.cpp \
+$(LOCAL_PATH)/CCProcessBase.cpp \
+$(LOCAL_PATH)/CCSkin.cpp \
+$(LOCAL_PATH)/CCSpriteFrameCacheHelper.cpp \
+$(LOCAL_PATH)/CCTransformHelp.cpp \
+$(LOCAL_PATH)/CCTween.cpp \
+$(LOCAL_PATH)/CCUtilMath.cpp \
+$(LOCAL_PATH)/CocoLoader.cpp \
+$(LOCAL_PATH)/DictionaryHelper.cpp \
 
 else
 

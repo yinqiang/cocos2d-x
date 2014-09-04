@@ -8,7 +8,9 @@ $options = array(
     array('k',           'keystore',       1,      null,       'the keystore file'),
     array('kp',          'storepass',      1,      null,       'the keystore password'),
     array('ksa',         'storealias',     1,      null,       'the keystore alias'),
+    array('bt',          'buildtools',     1,      null,       'android build-tools path'),
     array('api',         'api_ver',        1,      null,       'android api version'),
+    array('jv',          'java_ver',       1,      null,       'java sdk version'),
     array('classpath',   'classpath',      1,      null,       'extra android class path'),
 );
 

@@ -2,18 +2,18 @@
 
 require_once(__DIR__ . '/init.php');
 
-$android_api_ver_map = array(
-    '8' => '2.2', 
-    '18' => '4.3', 
-    '19' => '4.4.2', 
-    );
-
 class ApkBuilder
 {
     const BUILD_NATIVE_SH = './build_native.sh';
     const BUILD_NATIVE_BAT = 'build_native.bat';
 
     private $config;
+    private $split_char;
+    private $build_bin;
+
+    private $java_home;
+    private $java_bin_path;
+    private $java_version;
 
     private $quick_root;
 
@@ -36,13 +36,87 @@ class ApkBuilder
         // $this->options = $options;
     }
 
+    function check_win32()
+    {
+        if (DS == '/')
+        {
+            $this->java_home = '';
+            $this->java_bin_path = '';
+            $this->split_char =  ':';
+            $this->build_bin =  self::BUILD_NATIVE_SH;
+            return true;
+        }
+
+        $this->java_home = $_ENV["JAVA_HOME"];
+        if (!$this->java_home)
+        {
+            print("\nError: Path JAVA_HOME not found!\n\n");
+            return(false);
+        }
+        $this->java_bin_path = $this->java_home . '\\bin\\';
+
+        {
+            $this->split_char =  ';';
+            $this->build_bin =  self::BUILD_NATIVE_BAT;
+        }
+
+        return true;
+    }
+
+    function check_java()
+    {
+        $out = array();
+        $ret = $this->exec_sys_cmd("java -version");
+        if ($ret) {
+            return false;
+        }
+
+        if ($this->config['java_ver']) 
+        {
+            $this->java_version = $this->config['java_ver'];
+        }
+        else
+        {
+            $this->java_version = '1.6';
+        }
+        return true;
+    }
+
+    function exec_cmd($cmd_str, array & $out)
+    {
+        echo "exec: $cmd_str\n";
+        $last = exec($cmd_str, $out, $retval);
+        echo "===================\n" . $last;
+        return $retval;
+    }
+
     function exec_sys_cmd($cmd_str)
     {
         echo "exec: $cmd_str\n";
         system($cmd_str, $retval);
         echo "*******************\n";
-
         return $retval;
+    }
+
+    function getBuildToolsPath($dir)
+    {
+        $dir = rtrim($dir, "/\\") . DS;
+        $dh = opendir($dir);
+        if ($dh == false) return;
+
+        while (($file = readdir($dh)) !== false)
+        {
+            if ($file{0} == '.') { continue; }
+
+            $path = $dir . $file;
+            if (is_dir($path))
+            {
+                $retdir = $path;
+                break;
+            }
+        }
+        closedir($dh);
+        return $retdir;
     }
 
     function checkToolsRootPath()
@@ -74,7 +148,7 @@ class ApkBuilder
             return(false);
         }
         if ($this->config['classpath']) {
-            $this->class_path = $this->class_path . ':' . $this->config['classpath'];
+            $this->class_path = $this->class_path . $this->split_char . $this->config['classpath'];
         }
 
         if ($this->config['keystore'])
@@ -113,9 +187,14 @@ class ApkBuilder
             print("\nError: Path $this->build_tools_path not found!\n\n");
             return(false);
         }
-        global $android_api_ver_map;
-        $android_ver_str = 'android-' . $android_api_ver_map[$this->config['api_ver']];
-        $this->build_tools_path = $this->build_tools_path . '/' . $android_ver_str;
+        if ($this->config['buildtools']) 
+        {
+            $this->build_tools_path = $this->build_tools_path . '/' . $this->config['buildtools'];
+        }
+        else
+        {
+            $this->build_tools_path = $this->getBuildToolsPath($this->build_tools_path);
+        }
         if (!is_dir($this->build_tools_path))
         {
             print("\nError: Path $this->build_tools_path not found!\n\n");
@@ -135,16 +214,7 @@ class ApkBuilder
 
     function buildNative()
     {
-        if (DS == '/')
-        {
-            $build_bin =  self::BUILD_NATIVE_SH;
-        }
-        else
-        {
-            $build_bin =  self::BUILD_NATIVE_BAT;
-        }
-
-        $retval = $this->exec_sys_cmd($build_bin);
+        $retval = $this->exec_sys_cmd($this->build_bin);
 
         return $retval;
     }
@@ -180,8 +250,8 @@ class ApkBuilder
         findFiles('src', $files);
         findFiles('gen', $files);
 
-        $cmd_str = 'javac -encoding utf8 -target 1.5 -bootclasspath ' 
-            . $this->boot_class_path 
+        $cmd_str = 'javac -encoding utf8 -target '. $this->java_version 
+            . ' -bootclasspath ' . $this->boot_class_path 
             . ' -d bin/classes';
         foreach ($files as $file)
         {
@@ -195,7 +265,7 @@ class ApkBuilder
 
     function make_dex()
     {
-        $libs = str_replace(':', ' ', $this->class_path);
+        $libs = str_replace($this->split_char, ' ', $this->class_path);
         $cmd_str = $this->build_tools_path . '/dx'
             . ' --dex --output=./bin/classes.dex ./bin/classes '
             . $libs;
@@ -242,6 +312,16 @@ class ApkBuilder
     function run()
     {
         $retval = 0;
+
+        if (!$this->check_win32())
+        {
+            return(-1);
+        }
+
+        if (!$this->check_java())
+        {
+            return(-1);
+        }
 
         if (!$this->checkToolsRootPath())
         {
