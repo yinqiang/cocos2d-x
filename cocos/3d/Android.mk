@@ -7,15 +7,15 @@ LOCAL_MODULE := cocos2dx_3d_static
 LOCAL_MODULE_FILENAME := libcocos2dx3d
 
 LOCAL_SRC_FILES := \
-        CCAnimate3D.cpp \
-        CCAnimation3D.cpp \
-        CCBundle3D.cpp \
-        CCBundleReader.cpp \
-        CCMesh.cpp \
-        CCMeshSkin.cpp \
-        CCSprite3DMaterial.cpp \
-        CCObjLoader.cpp \
-        CCSprite3D.cpp
+        $(LOCAL_PATH)/CCAnimate3D.cpp \
+        $(LOCAL_PATH)/CCAnimation3D.cpp \
+        $(LOCAL_PATH)/CCBundle3D.cpp \
+        $(LOCAL_PATH)/CCBundleReader.cpp \
+        $(LOCAL_PATH)/CCMesh.cpp \
+        $(LOCAL_PATH)/CCMeshSkin.cpp \
+        $(LOCAL_PATH)/CCSprite3DMaterial.cpp \
+        $(LOCAL_PATH)/CCObjLoader.cpp \
+        $(LOCAL_PATH)/CCSprite3D.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.
 

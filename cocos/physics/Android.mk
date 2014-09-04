@@ -7,16 +7,16 @@ LOCAL_MODULE := cocos2dx_physics_static
 LOCAL_MODULE_FILENAME := libcocos2dxphysics
 
 LOCAL_SRC_FILES := \
-        CCPhysicsBody.cpp \
-        CCPhysicsContact.cpp \
-        CCPhysicsJoint.cpp \
-        CCPhysicsShape.cpp \
-        CCPhysicsWorld.cpp \
-        chipmunk/CCPhysicsBodyInfo_chipmunk.cpp \
-        chipmunk/CCPhysicsContactInfo_chipmunk.cpp \
-        chipmunk/CCPhysicsJointInfo_chipmunk.cpp \
-        chipmunk/CCPhysicsShapeInfo_chipmunk.cpp \
-        chipmunk/CCPhysicsWorldInfo_chipmunk.cpp \
+        $(LOCAL_PATH)/CCPhysicsBody.cpp \
+        $(LOCAL_PATH)/CCPhysicsContact.cpp \
+        $(LOCAL_PATH)/CCPhysicsJoint.cpp \
+        $(LOCAL_PATH)/CCPhysicsShape.cpp \
+        $(LOCAL_PATH)/CCPhysicsWorld.cpp \
+        $(LOCAL_PATH)/chipmunk/CCPhysicsBodyInfo_chipmunk.cpp \
+        $(LOCAL_PATH)/chipmunk/CCPhysicsContactInfo_chipmunk.cpp \
+        $(LOCAL_PATH)/chipmunk/CCPhysicsJointInfo_chipmunk.cpp \
+        $(LOCAL_PATH)/chipmunk/CCPhysicsShapeInfo_chipmunk.cpp \
+        $(LOCAL_PATH)/chipmunk/CCPhysicsWorldInfo_chipmunk.cpp \
         
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.

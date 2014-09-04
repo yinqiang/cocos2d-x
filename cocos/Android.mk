@@ -7,46 +7,46 @@ LOCAL_MODULE := cocos2dx_static
 LOCAL_MODULE_FILENAME := libcocos2d
 
 LOCAL_SRC_FILES := \
-cocos2d.cpp \
-platform/CCGLViewProtocol.cpp \
-platform/CCFileUtils.cpp \
-platform/CCSAXParser.cpp \
-platform/CCThread.cpp \
-platform/CCImage.cpp \
-math/CCAffineTransform.cpp \
-math/CCGeometry.cpp \
-math/CCVertex.cpp \
-math/Mat4.cpp \
-math/MathUtil.cpp \
-math/Quaternion.cpp \
-math/TransformUtils.cpp \
-math/Vec2.cpp \
-math/Vec3.cpp \
-math/Vec4.cpp \
-renderer/CCBatchCommand.cpp \
-renderer/CCCustomCommand.cpp \
-renderer/CCGLProgram.cpp \
-renderer/CCGLProgramCache.cpp \
-renderer/CCGLProgramState.cpp \
-renderer/CCGLProgramStateCache.cpp \
-renderer/CCGroupCommand.cpp \
-renderer/CCQuadCommand.cpp \
-renderer/CCMeshCommand.cpp \
-renderer/CCRenderCommand.cpp \
-renderer/CCRenderer.cpp \
-renderer/CCTexture2D.cpp \
-renderer/CCTextureAtlas.cpp \
-renderer/CCTextureCache.cpp \
-renderer/ccGLStateCache.cpp \
-renderer/ccShaders.cpp \
-../external/ConvertUTF/ConvertUTFWrapper.cpp \
-../external/ConvertUTF/ConvertUTF.c \
-../external/tinyxml2/tinyxml2.cpp \
-../external/unzip/ioapi.cpp \
-../external/unzip/unzip.cpp \
-../external/unzip/ioapi_mem.cpp \
-../external/edtaa3func/edtaa3func.cpp \
-../external/xxhash/xxhash.c
+$(LOCAL_PATH)/cocos2d.cpp \
+$(LOCAL_PATH)/platform/CCGLViewProtocol.cpp \
+$(LOCAL_PATH)/platform/CCFileUtils.cpp \
+$(LOCAL_PATH)/platform/CCSAXParser.cpp \
+$(LOCAL_PATH)/platform/CCThread.cpp \
+$(LOCAL_PATH)/platform/CCImage.cpp \
+$(LOCAL_PATH)/math/CCAffineTransform.cpp \
+$(LOCAL_PATH)/math/CCGeometry.cpp \
+$(LOCAL_PATH)/math/CCVertex.cpp \
+$(LOCAL_PATH)/math/Mat4.cpp \
+$(LOCAL_PATH)/math/MathUtil.cpp \
+$(LOCAL_PATH)/math/Quaternion.cpp \
+$(LOCAL_PATH)/math/TransformUtils.cpp \
+$(LOCAL_PATH)/math/Vec2.cpp \
+$(LOCAL_PATH)/math/Vec3.cpp \
+$(LOCAL_PATH)/math/Vec4.cpp \
+$(LOCAL_PATH)/renderer/CCBatchCommand.cpp \
+$(LOCAL_PATH)/renderer/CCCustomCommand.cpp \
+$(LOCAL_PATH)/renderer/CCGLProgram.cpp \
+$(LOCAL_PATH)/renderer/CCGLProgramCache.cpp \
+$(LOCAL_PATH)/renderer/CCGLProgramState.cpp \
+$(LOCAL_PATH)/renderer/CCGLProgramStateCache.cpp \
+$(LOCAL_PATH)/renderer/CCGroupCommand.cpp \
+$(LOCAL_PATH)/renderer/CCQuadCommand.cpp \
+$(LOCAL_PATH)/renderer/CCMeshCommand.cpp \
+$(LOCAL_PATH)/renderer/CCRenderCommand.cpp \
+$(LOCAL_PATH)/renderer/CCRenderer.cpp \
+$(LOCAL_PATH)/renderer/CCTexture2D.cpp \
+$(LOCAL_PATH)/renderer/CCTextureAtlas.cpp \
+$(LOCAL_PATH)/renderer/CCTextureCache.cpp \
+$(LOCAL_PATH)/renderer/ccGLStateCache.cpp \
+$(LOCAL_PATH)/renderer/ccShaders.cpp \
+$(LOCAL_PATH)/../external/ConvertUTF/ConvertUTFWrapper.cpp \
+$(LOCAL_PATH)/../external/ConvertUTF/ConvertUTF.c \
+$(LOCAL_PATH)/../external/tinyxml2/tinyxml2.cpp \
+$(LOCAL_PATH)/../external/unzip/ioapi.cpp \
+$(LOCAL_PATH)/../external/unzip/unzip.cpp \
+$(LOCAL_PATH)/../external/unzip/ioapi_mem.cpp \
+$(LOCAL_PATH)/../external/edtaa3func/edtaa3func.cpp \
+$(LOCAL_PATH)/../external/xxhash/xxhash.c
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/. \

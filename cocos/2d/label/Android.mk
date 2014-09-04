@@ -7,18 +7,19 @@ LOCAL_MODULE := cocos2dx_label_static
 LOCAL_MODULE_FILENAME := libcocoslabel
 
     LOCAL_SRC_FILES := \
-        ../CCFont.cpp \
-        ../CCFontAtlas.cpp \
-        ../CCFontAtlasCache.cpp \
-        ../CCFontCharMap.cpp \
-        ../CCFontFNT.cpp \
-        ../CCFontFreeType.cpp \
-        ../CCLabel.cpp \
-        ../CCLabelAtlas.cpp \
-        ../CCLabelTextFormatter.cpp \
-        ../CCLabelBMFont.cpp \
-        ../CCLabelTTF.cpp \
-        ../CCTextFieldTTF.cpp \
+        $(LOCAL_PATH)/../CCFont.cpp \
+        $(LOCAL_PATH)/../CCFontAtlas.cpp \
+        $(LOCAL_PATH)/../CCFontAtlasCache.cpp \
+        $(LOCAL_PATH)/../CCFontCharMap.cpp \
+        $(LOCAL_PATH)/../CCFontFNT.cpp \
+        $(LOCAL_PATH)/../CCFontFreeType.cpp \
+        $(LOCAL_PATH)/../CCLabel.cpp \
+        $(LOCAL_PATH)/../CCLabelAtlas.cpp \
+        $(LOCAL_PATH)/../CCLabelTextFormatter.cpp \
+        $(LOCAL_PATH)/../CCLabelBMFont.cpp \
+        $(LOCAL_PATH)/../CCLabelTTF.cpp \
+        $(LOCAL_PATH)/../CCTextFieldTTF.cpp \
+
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
