@@ -38,6 +38,28 @@ local UIPageView = class("UIPageView", function()
 	return node
 end)
 
+--[[--
+
+UIPageView构建函数
+
+可用参数有：
+
+-   column 每一页的列数，默认为1
+-   row 每一页的行数，默认为1
+-   columnSpace 列之间的间隙，默认为0
+-   rowSpace 行之间的间隙，默认为0
+-   viewRect 页面控件的显示区域
+-   padding 值为一个表，页面控件四周的间隙
+    -   left 左边间隙
+    -   right 右边间隙
+    -   top 上边间隙
+    -   bottom 下边间隙
+-   bCirc 页面是否循环,默认为false
+
+
+@param table params 参数表
+
+]]
 function UIPageView:ctor(params)
 	self.items_ = {}
 	self.viewRect_ = params.viewRect or cc.rect(0, 0, display.width, display.height)
@@ -58,6 +80,13 @@ function UIPageView:ctor(params)
     	end)
 end
 
+--[[--
+
+创建一个新的页面控件项
+
+@return UIPageViewItem
+
+]]
 function UIPageView:newItem()
 	local item = UIPageViewItem.new()
 	item:setContentSize(self.viewRect_.width/self.column_, self.viewRect_.height/self.row_)
@@ -65,18 +94,43 @@ function UIPageView:newItem()
 	return item
 end
 
+--[[--
+
+添加一项到页面控件中
+
+@param node item 页面控件项
+
+@return UIPageView
+
+]]
 function UIPageView:addItem(item)
 	table.insert(self.items_, item)
 
 	return self
 end
 
+--[[--
+
+注册一个监听函数
+
+@param function listener 监听函数
+
+@return UIPageView
+
+]]
 function UIPageView:onTouch(listener)
 	self.touchListener = listener
 
 	return self
 end
 
+--[[--
+
+加载数据，各种参数
+
+@return UIPageView
+
+]]
 function UIPageView:reload()
 	local page
 	self.pages_ = {}
@@ -98,12 +152,22 @@ function UIPageView:reload()
 	return self
 end
 
+--[[--
+
+跳转到特定的页面
+
+@param integer pageIdx 要跳转的页面的位置
+@param boolean bSmooth 是否需要跳转动画
+
+@return UIPageView
+
+]]
 function UIPageView:gotoPage(pageIdx, bSmooth)
 	if pageIdx < 1 or pageIdx > self:getPageCount() then
-		return
+		return self
 	end
 	if pageIdx == self.curPageIdx_ then
-		return
+		return self
 	end
 
 	if bSmooth then
@@ -122,18 +186,45 @@ function UIPageView:gotoPage(pageIdx, bSmooth)
 				pageIdx = self.curPageIdx_}
 		self:notifyListener_{name = "pageChange"}
 	end
+
+	return self
 end
 
+--[[--
+
+得到页面的总数
+
+@return number
+
+]]
 function UIPageView:getPageCount()
 	return math.ceil(table.nums(self.items_)/(self.column_*self.row_))
 end
 
+--[[--
+
+得到当前页面的位置
+
+@return number
+
+]]
 function UIPageView:getCurPageIdx()
 	return self.curPageIdx_
 end
 
+--[[--
+
+设置页面控件是否为循环
+
+@param boolean bCirc 是否循环
+
+@return UIPageView
+
+]]
 function UIPageView:setCirculatory(bCirc)
 	self.bCirc = bCirc
+
+	return self
 end
 
 -- private
