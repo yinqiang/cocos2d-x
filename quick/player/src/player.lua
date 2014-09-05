@@ -205,9 +205,7 @@ function player:buildUI()
         item.scale = v.scale
         self.screenScaleList[#self.screenScaleList +1] = item
 
-        if math.abs(scaleValue - v.scale) < 0.5  then item:setChecked(true) end
-
-        item.clickedCallback = function() print("view scale click callback") end
+        if math.ceil(scaleValue) ==  v.scale then item:setChecked(true) end
     end
 
     -- refresh
@@ -226,7 +224,6 @@ function player:registerEventHandler()
         if data == nil then return end
 
         if data.name == "close" then
-            -- player.trackEvent("exit")
             eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
             cc.Director:getInstance():endToLua()
         elseif data.name == "resize" then
@@ -331,41 +328,6 @@ function player:readSettings()
     s.windowHeight = cc.player.settings.PLAYER_WINDOW_HEIGHT
     s.openLastProject = cc.player.settings.PLAYER_OPEN_LAST_PROJECT
     PlayerProtocol:getInstance():setPlayerSettings(s)
-end
-
-function player:trackEvent(eventName, ev)
-    local url = 'http://www.google-analytics.com/collect'
-    local request = cc.HTTPRequest:createWithUrl(function(event)
-                                                    local eventName = eventName
-                                                    if eventName == "exit" then
-                                                        cc.Director:getInstance():endToLua()
-                                                    end
-                                                end,
-                                                url,
-                                                cc.kCCHTTPRequestMethodPOST)
-
-    local cid = __G_QUICK_GUID__ or cc.Native:getOpenUDID()
-    request:addPOSTValue("v", "1")
-    request:addPOSTValue("tid", "UA-52790340-1")
-    request:addPOSTValue("cid", cid)
-    request:addPOSTValue("t", "event")
-
-    request:addPOSTValue("an", "player")
-    request:addPOSTValue("av", cc.cocos2dVersion())
-
-    request:addPOSTValue("ec", device.platform)
-    request:addPOSTValue("ea", eventName)
-    -- request:addPOSTValue("el", "mac")
-
-    if ev == nil then ev = "0" else ev = tostring(ev) end
-    request:addPOSTValue("ev", ev)
-
-    request:start()
-end
-
--- call from host
-function player:trackStartEvent()
-    self:trackEvent("launch")
 end
 
 function player:init()
