@@ -28,16 +28,24 @@ Windows: 运行平台目录下的setup_win.bat
 使用player可以让你的工作变得更简单。
 player的运行文件在平台目录下。Mac下是player3.app；Windows下是player3.exe。双击运行，就能够看到以下的player主界面：
 
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/player.png)
+
 如果是源代码版本，需要自己编译player的运行文件。在Mac下使用xcode打开quick/player/proj.mac下的工程；在Windows下使用VS2013打开quick/player/proj.win32下的工程。将工程完整编译一次，平台目录下就会生成player了。当然，你也可以在xode和vs里直接运行和调试player。
 
 ## 运行示例
 quick提供了丰富的示例，你可以通过player来运行它们。
 在player主界面上点击“示例”页，上下滚动查看示例列表，选择需要的示例来运行吧。
 
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/player_sample.png)
 
 ## 创建项目
 在player界面上点选“新建项目”：
 
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/new_proj_create.png)
+
 选择项目存放目录，输入项目的包名，选择屏幕方向，点击“Create Project”创建一个新项目。
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/new_proj_open.png)
+
 创建完成后，右下角按钮变成“Open ...”，点击可以打开自己的项目了！
 
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/new_proj_run.png)
