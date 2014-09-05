@@ -49,3 +49,14 @@ quick提供了丰富的示例，你可以通过player来运行它们。
 创建完成后，右下角按钮变成“Open ...”，点击可以打开自己的项目了！
 
 ![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/new_proj_run.png)
+
+## 导入和运行项目
+你可以用player来运行自己新建的项目。选择“导入项目”：
+
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/open_project.png)
+
+选“Open Project”就可以运行自己的项目了。
+下一次你进入player时，“我的项目”里会列出你运行过的项目，因此你不需要再重新导入，只需要选中项目，点击“打开”即可运行。
+
+![Alt text](https://raw.githubusercontent.com/dualface/v3quick/v3quick/docs/howto/get-started/res/my_projects.png)
+
