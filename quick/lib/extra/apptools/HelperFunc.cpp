@@ -11,7 +11,6 @@ USING_NS_CC;
 
 unsigned char* HelperFunc::getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize)
 {
-    log("HelperFunc::get   %s", pszFileName);
     ssize_t size;
     unsigned char* buf = FileUtils::getInstance()->getFileData(pszFileName, pszMode, &size);
     if (NULL==buf || size<1) return NULL;
