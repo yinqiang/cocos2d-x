@@ -229,7 +229,7 @@ void PlayerWin::loadLuaConfig()
     lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
 
     // load player.lua
-    string playerCoreFilePath = quickRootPath + "quick/player/src/player.lua";
+    string playerCoreFilePath = quickRootPath + "quick/welcome/src/player.lua";
     pEngine->getLuaStack()->executeScriptFile(playerCoreFilePath.c_str());
 }
 
