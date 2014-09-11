@@ -39,8 +39,12 @@ function NetworkTestScene:onResponse(event, index, dumpResponse)
             end
         end
     elseif event.name == "progress" then
-        printf("REQUEST %d - total:%d, have download:%d, this circle download:%d", index, event.total, event.dltotal, event.dlnow)
-        self.progressLabel:setString(string.format("total:%d,download:%d,percent:%d%%", event.total, event.dltotal, event.dltotal*100/event.total))
+        printf("REQUEST %d - total:%d, have download:%d", index, event.total, event.dltotal)
+        local percent = 0
+        if event.total and 0 ~= event.total then
+            percent = event.dltotal*100/event.total
+        end
+        self.progressLabel:setString(string.format("total:%d,download:%d,percent:%d%%", event.total, event.dltotal, percent))
     else
         printf("REQUEST %d - getErrorCode() = %d, getErrorMessage() = %s", index, request:getErrorCode(), request:getErrorMessage())
     end

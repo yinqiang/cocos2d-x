@@ -75,7 +75,7 @@ function WelcomeScene:createButtons(node)
     :onButtonClicked(function()
         local projectConfig = ProjectConfig:new()
         local argumentVector = vector_string_:new_local()
-        local index = self.localProjectListView_:getCurrentIndex() 
+        local index = self.localProjectListView_:getCurrentIndex()
         if index > 0 then
             local arguments = cc.player.settings.PLAYER_OPEN_RECENTS[index].args
             for _,v in ipairs(arguments) do
@@ -100,7 +100,7 @@ function WelcomeScene:createButtons(node)
         print("[[TODO]]")
     end)
 
-    top = top - 68  
+    top = top - 68
     cc.ui.UIPushButton.new({normal="#RedButtonNormal.png", pressed="#RedButtonPressed.png", disabled = "#ButtonDisabled.png",}, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
     :setButtonLabel("normal", ui.newTTFLabel({
@@ -155,7 +155,7 @@ end
 
 function WelcomeScene:createListItem(icon, title, path)
     local container = display.newNode()
-    container:setContentSize(40*16, 90) 
+    container:setContentSize(40*16, 90)
     container.path = path
 
     -- icon
@@ -165,7 +165,7 @@ function WelcomeScene:createListItem(icon, title, path)
     :addTo(container)
 
     -- title
-    title = title:spliteBySep('/')
+    title = title:splitBySep('/')
     local titleLabel = cc.ui.UILabel.new({
             text = title[#title],
             size = 28,
@@ -190,7 +190,7 @@ function WelcomeScene:createListItem(icon, title, path)
         {{70, 1}, {40*16 -10, 1}},
         {borderColor = cc.c4f(0, 0, 0, 1.0)})
     :addTo(container)
-    return container 
+    return container
 end
 
 
@@ -240,7 +240,7 @@ function WelcomeScene:createOpenRecents(recents, node)
 
     self.tabWidget.widgets_[#self.tabWidget.widgets_ +1] = localProjectListView
     self.localProjectListView_ = localProjectListView
-    
+
 end
 
 function WelcomeScene:createHeaders(node)
@@ -257,7 +257,7 @@ function WelcomeScene:createHeaders(node)
     local headers = {{title="我的项目",widget=self.localProjectListView_}, {title="示例",widget=self.lvGrid}, {title="帮助"}}
     for i,v in ipairs(headers) do
 
-        local header = 
+        local header =
         cc.ui.UICheckBoxButton.new(images, {scale9 = true})
         :setButtonLabel(cc.ui.UILabel.new({text = v.title, size = 18}))
         :setButtonSize(buttonWidth, buttonHeight)
@@ -270,7 +270,7 @@ function WelcomeScene:createHeaders(node)
             if self.tabWidget then
 
                 self.tabWidget.currentWidget.header:setButtonSelected(false)
-                if self.tabWidget.currentWidget.widget then 
+                if self.tabWidget.currentWidget.widget then
                     self.tabWidget.currentWidget.widget:setVisible(false)
                 end
 
@@ -281,7 +281,7 @@ function WelcomeScene:createHeaders(node)
                 }
 
                 self.tabWidget.currentWidget.header:setButtonSelected(true)
-                if self.tabWidget.currentWidget.widget then 
+                if self.tabWidget.currentWidget.widget then
                     if self.tabWidget.currentWidget.widget.hasItemLoaded == false then
                         self:loadSampleItems()
                         self.tabWidget.currentWidget.widget.hasItemLoaded = true
@@ -298,8 +298,8 @@ function WelcomeScene:createHeaders(node)
     end
 
 
-    self.tabWidget.currentWidget = {index = 1, 
-                                          header = self.tabWidget.headers_[1], 
+    self.tabWidget.currentWidget = {index = 1,
+                                          header = self.tabWidget.headers_[1],
                                           widget = self.tabWidget.widgets_[1]}
     self.tabWidget.currentWidget.header:setButtonSelected(true)
 end
@@ -376,18 +376,18 @@ function WelcomeScene:createTitleBar(node)
 end
 
 function WelcomeScene:createSamples(node)
-    self.samples     = dofile(cc.player.quickRootPath .. "quick/samples/samples.lua")
+    self.samples = dofile(cc.player.quickRootPath .. "quick/samples/samples.lua")
     self.lvGrid = cc.ui.UIListView.new {
         bg = "#TabButtonSelected.png",
         viewRect = cc.rect(40,92, 40*17, 40*9+28),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
         scrollbarImgV = "#ScrollBarHandler.png"}
-    
+
     self.lvGrid:onTouch(function(event)
         if not event.listView:isItemInViewRect(event.itemPos) then
             return
         end
-        
+
         local listView = event.listView
         if "clicked" == event.name then
             self.lvGrid.currentItem = event.item
@@ -433,13 +433,13 @@ function WelcomeScene:createOneSampleUI(sample, item)
 
     self:createDemoTitle(sample)
         :addTo(node)
-    
+
     self:createDemoDescription(sample)
         :addTo(node)
 
     local button = self:createDemoButton(sample)
     button.listItem = item
-    
+
     button:addTo(node)
 
     return node
@@ -461,7 +461,7 @@ end
 function WelcomeScene:createDemoDescription(sample)
     local title =  sample.description
     local color = cc.c3b(50,144,144)
-    
+
     local sampleAbsPath = cc.player.quickRootPath .. "quick/" .. sample.path
     if not cc.FileUtils:getInstance():isDirectoryExist(sampleAbsPath) then
         title = title .. " (unfinished)"
@@ -500,7 +500,7 @@ function WelcomeScene:createDemoButton(sample)
                 button.isTouchMoved_ = false
             end
         end)
-    
+
     return button
 end
 

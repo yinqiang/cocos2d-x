@@ -27,13 +27,13 @@ LOCAL_SRC_FILES := \
                         $(LOCAL_PATH)/socket/usocket.c \
                         $(LOCAL_PATH)/lua_extensions.c
 
-ifeq ($(QUICK_SQLITE_ENABLED),1)
+ifeq ($(CC_USE_SQLITE),1)
 LOCAL_SRC_FILES += \
                         $(LOCAL_PATH)/lsqlite3/sqlite3.c \
                         $(LOCAL_PATH)/lsqlite3/lsqlite3.c
 endif
 
-ifeq ($(QUICK_JSON_ENABLED),1)
+ifeq ($(CC_USE_JSON),1)
 LOCAL_SRC_FILES += \
                         $(LOCAL_PATH)/cjson/fpconv.c \
                         $(LOCAL_PATH)/cjson/lua_cjson.c \

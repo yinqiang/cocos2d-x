@@ -62660,7 +62660,7 @@ int lua_register_cocos2dx_TMXTiledMap(lua_State* tolua_S)
     return 1;
 }
 
-#if QUICK_TGA_ENABLED > 1
+#if CC_USE_TGA
 int lua_cocos2dx_TileMapAtlas_initWithTileFile(lua_State* tolua_S)
 {
     int argc = 0;
@@ -62953,7 +62953,7 @@ int lua_register_cocos2dx_TileMapAtlas(lua_State* tolua_S)
     g_typeCast["TileMapAtlas"] = "cc.TileMapAtlas";
     return 1;
 }
-#endif //QUICK_TGA_ENABLED > 1
+#endif //CC_USE_TGA
 int lua_cocos2dx_Component_setEnabled(lua_State* tolua_S)
 {
     int argc = 0;
@@ -65630,7 +65630,7 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_TransitionMoveInL(tolua_S);
 	lua_register_cocos2dx_TransitionMoveInB(tolua_S);
 	lua_register_cocos2dx_AtlasNode(tolua_S);
-#if QUICK_TGA_ENABLED > 1
+#if CC_USE_TGA
 	lua_register_cocos2dx_TileMapAtlas(tolua_S);
 #endif
 	lua_register_cocos2dx_GLViewProtocol(tolua_S);

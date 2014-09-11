@@ -628,6 +628,14 @@ end
 
 --[[--
 
+创建并返回一个平铺的 Sprite 显示对象
+
+@param string filename 图像名
+
+@param cc.rect rect    平铺范围
+
+@return Sprite
+
 ]]
 function display.newTilesSprite(filename, rect)
     if not rect then
@@ -656,7 +664,7 @@ create a tiled SpriteBatchNode, the image can not a POT file.
 @param integer hPadding Horizontal padding, it will display 1 px gap on moving the node, set padding for fix it.
 @param integer vPadding Vertical padding.
 
-@return A SpriteBatchNode
+@return SpriteBatchNode
 
 ]]
 function display.newTiledBatchNode(filename, plistFile, size, hPadding, vPadding)
@@ -673,18 +681,18 @@ function display.newTiledBatchNode(filename, plistFile, size, hPadding, vPadding
     local __capacity = __xRepeat * __yRepeat
     local __batch = display.newBatchNode(plistFile, __capacity)
     local __newSize = cc.size(0,0)
-    --printf("newTileNode xRepeat:%u, yRepeat:%u", __xRepeat, __yRepeat)
+
     for y=0,__yRepeat-1 do
         for x=0,__xRepeat-1 do
             __newSize.width = __newSize.width + __sliceSize.width
             __sprite = display.newSprite(filename)
                 :align(display.LEFT_BOTTOM,x*__sliceSize.width, y*__sliceSize.height)
                 :addTo(__batch)
-                --print("newTileNode:", x*__sliceSize.width, y*__sliceSize.height)
         end
         __newSize.height = __newSize.height + __sliceSize.height
     end
     __batch:setContentSize(__newSize)
+
     return __batch, __newSize.width, __newSize.height
 end
 
@@ -692,21 +700,18 @@ end
 
 Create a masked sprite
 
+@param string mask  裁剪形状的图片名
+@param string pic   被裁减的图片名
+
+@return Sprite
+
 ]]
 function display.newMaskedSprite(__mask, __pic)
-    local __mb = ccBlendFunc()
-    __mb.src = GL_ONE
-    __mb.dst = GL_ZERO
-
-    local __pb = ccBlendFunc()
-    __pb.src = GL_DST_ALPHA
-    __pb.dst = GL_ZERO
-
     local __maskSprite = display.newSprite(__mask):align(display.LEFT_BOTTOM, 0, 0)
-    __maskSprite:setBlendFunc(__mb)
+    __maskSprite:setBlendFunc(gl.ONE, gl.ZERO)
 
     local __picSprite = display.newSprite(__pic):align(display.LEFT_BOTTOM, 0, 0)
-    __picSprite:setBlendFunc(__pb)
+    __picSprite:setBlendFunc(gl.DST_ALPHA, gl.ZERO)
 
     local __maskSize = __maskSprite:getContentSize()
     local __canva = cc.RenderTexture:create(__maskSize.width,__maskSize.height)
@@ -716,7 +721,7 @@ function display.newMaskedSprite(__mask, __pic)
     __canva:endToLua()
 
     local __resultSprite = cc.Sprite:createWithTexture(__canva:getSprite():getTexture())
-    __resultSprite:setFlipY(true)
+    __resultSprite:flipY(true)
     return __resultSprite
 end
 
@@ -790,6 +795,15 @@ function display.newGraySprite(filename, params)
     return display.newFilteredSprite(filename, "GRAY", params)
 end
 
+--[[--
+
+创建并返回一个空的 DrawNode 对象
+
+@return DrawNode
+
+@see DrawNode
+
+]]
 function display.newDrawNode()
     return cc.DrawNode:create()
 end
@@ -1098,7 +1112,14 @@ display.addSpriteFrames(数据文件名, 材质文件名)
 
 ~~~ lua
 
+-- 同步加载纹理
 display.addSpriteFrames("Sprites.plist", "Sprites.png")
+
+-- 异步加载纹理
+local cb = function(plist, image)
+    -- do something
+end
+display.addSpriteFrames("Sprites.plist", "Sprites.png", cb)
 
 ~~~
 
@@ -1115,7 +1136,6 @@ function display.addSpriteFrames(plistFilename, image, handler)
     local asyncHandler = nil
     if async then
         asyncHandler = function()
-            -- printf("%s, %s async done.", plistFilename, image)
             local texture = sharedTextureCache:getTextureForKey(image)
             assert(texture, string.format("The texture %s, %s is unavailable.", plistFilename, image))
             sharedSpriteFrameCache:addSpriteFrames(plistFilename, texture)
@@ -1380,11 +1400,32 @@ function display.removeAnimationCache(name)
     sharedAnimationCache:removeAnimationByName(name)
 end
 
+--[[--
+
+从内存中卸载没有使用 Sprite Sheets 材质
+
+]]
 function display.removeUnusedSpriteFrames()
     sharedSpriteFrameCache:removeUnusedSpriteFrames()
     sharedTextureCache:removeUnusedTextures()
 end
 
+--[[--
+
+创建一个进度条的节点
+
+进度条类型有:
+
+- display.PROGRESS_TIMER_BAR  环形
+- display.PROGRESS_TIMER_RADIAL
+
+
+@param: mixed image         图片文件名或者精灵
+@param: int   progresssType 进度条类型
+
+@return: ProgressTimer
+
+]]
 display.PROGRESS_TIMER_BAR = 1
 display.PROGRESS_TIMER_RADIAL = 0
 
@@ -1398,12 +1439,38 @@ function display.newProgressTimer(image, progresssType)
     return progress
 end
 
+--[[--
+
+获取一个节点的纹理内容
+
+display.printscreen() 提供:
+
+- 保存节点的纹理到磁盘文件
+- 以节点的纹理创建一个精灵并返回
+
+
+注意：node 的 content size 必须大于 (0, 0). 否则会收到错误信息: LUA ERROR: ASSERT FAILED ON LUA EXECUTE: Invalid size
+
+~~~ lua
+
+-- 截屏并保存
+display.printscreen(node, {file="save.png"})
+
+-- 使用截屏纹理创建一个精灵并返回
+local sp = display.printscreen(node, {})
+
+~~~
+
 -- Get a screenshot of a Node
 -- @author zrong(zengrong.net)
 -- Creation: 2014-04-10
--- @param node A node to print.
--- @param args
--- @return An instance of Sprite or FilteredSprite.
+
+@param node A node to print.
+@param args
+
+@return An instance of Sprite or FilteredSprite.
+
+]]
 function display.printscreen(node, args)
     local sp = true
     local file = nil
@@ -1430,7 +1497,8 @@ function display.printscreen(node, args)
         end
         sp:flipY(true)
     end
-    if file and device.platform ~= "mac" then
+
+    if file then
         canvas:saveToFile(file)
     end
     return sp, file

@@ -2,6 +2,7 @@
 #include "PlayerEditBoxServiceMac.h"
 
 #include "cocos2d.h"
+#include "CCLuaEngine.h"
 #include "glfw3native.h"
 
 // internal
@@ -21,7 +22,8 @@
 
 - (void)dealloc
 {
-    [textField_ resignFirstResponder];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     [textField_ removeFromSuperview];
     [textField_ release];
     
@@ -53,9 +55,26 @@
                                       nil];
         
         [[[self getNSWindow] contentView] addSubview:textField_];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                selector:@selector(onTextDidChanged:)
+                                                    name:NSControlTextDidEndEditingNotification
+                                                  object:nil];
     }
     
     return self;
+}
+
+- (void)onTextDidChanged:(NSNotification *) notification
+{
+    // hide first
+    [self.textField setHidden:YES];
+    
+    player::PlayerEditBoxServiceMac *macEditBox = static_cast<player::PlayerEditBoxServiceMac *>(self.editBox);
+    auto luaStack = cocos2d::LuaEngine::getInstance()->getLuaStack();
+    
+    luaStack->pushString([self.textField.stringValue UTF8String]);
+    luaStack->executeFunctionByHandler(macEditBox->getHandler(), 1);
 }
 
 - (void)setupTextField:(NSTextField *)textField
@@ -101,7 +120,6 @@
 {
     if ([textField_ superview]) {
         [textField_ resignFirstResponder];
-        [textField_ removeFromSuperview];
     }
 }
 
@@ -137,99 +155,6 @@
     return NO;
 }
 
-- (BOOL)textFieldShouldBeginEditing:(NSTextField *)sender        // return NO to disallow editing.
-{
-    editState_ = YES;
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxEditingDidBegin(getEditBoxImplMac()->getEditBox());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "began",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
-    return YES;
-}
-
-- (BOOL)textFieldShouldEndEditing:(NSTextField *)sender
-{
-    editState_ = NO;
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxEditingDidEnd(getEditBoxImplMac()->getEditBox());
-    //        pDelegate->editBoxReturn(getEditBoxImplMac()->getEditBox());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "ended",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //        memset(data.eventName, 0, sizeof(data.eventName));
-    //        strncpy(data.eventName, "return", sizeof(data.eventName));
-    //        event.data = (void*)&data;
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
-    return YES;
-}
-
-/**
- * Delegate method called before the text has been changed.
- * @param textField The text field containing the text.
- * @param range The range of characters to be replaced.
- * @param string The replacement string.
- * @return YES if the specified text range should be replaced; otherwise, NO to keep the old text.
- */
-- (BOOL)textField:(NSTextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    //    if (getEditBoxImplMac()->getMaxLength() < 0)
-    //    {
-    //        return YES;
-    //    }
-    
-    NSUInteger oldLength = [[textField stringValue] length];
-    NSUInteger replacementLength = [string length];
-    NSUInteger rangeLength = range.length;
-    
-    NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    
-    return YES;
-    //    return newLength <= getEditBoxImplMac()->getMaxLength();
-}
-
-/**
- * Called each time when the text field's text has changed.
- */
-- (void)controlTextDidChange:(NSNotification *)notification
-{
-    //    cocos2d::extension::EditBoxDelegate* pDelegate = getEditBoxImplMac()->getDelegate();
-    //    if (pDelegate != NULL)
-    //    {
-    //        pDelegate->editBoxTextChanged(getEditBoxImplMac()->getEditBox(), getEditBoxImplMac()->getText());
-    //    }
-    //
-    //#if CC_ENABLE_SCRIPT_BINDING
-    //    cocos2d::extension::EditBox*  pEditBox= getEditBoxImplMac()->getEditBox();
-    //    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    //    {
-    //        cocos2d::CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "changed",pEditBox);
-    //        cocos2d::ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-    //        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    //    }
-    //#endif
-}
-
 @end
 
 
@@ -242,6 +167,7 @@ PLAYER_NS_BEGIN;
 
 PlayerEditBoxServiceMac::PlayerEditBoxServiceMac()
 {
+    _handler = 0;
     NSRect rect =  NSMakeRect(0, 0, 100, 20);
     _sysEdit = [[EditBoxServiceImplMac alloc] initWithFrame:rect editBox:this];
 }
@@ -258,6 +184,8 @@ void PlayerEditBoxServiceMac::showSingleLineEditBox(const cocos2d::Rect &rect)
     
     [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
     [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
+    
+    show();
 }
 
 void PlayerEditBoxServiceMac::showMultiLineEditBox(const cocos2d::Rect &rect)
@@ -267,6 +195,8 @@ void PlayerEditBoxServiceMac::showMultiLineEditBox(const cocos2d::Rect &rect)
     
     [_sysEdit setPosition:NSMakePoint(rect.origin.x, rect.origin.y)];
     [_sysEdit setContentSize:NSMakeSize(rect.size.width, rect.size.height)];
+    
+    show();
 }
 
 void PlayerEditBoxServiceMac::setText(const std::string &text)
@@ -301,8 +231,6 @@ void PlayerEditBoxServiceMac::show()
 {
     [_sysEdit.textField setHidden:NO];
     [_sysEdit openKeyboard];
-    
-    printf("show edit box service herer\n");
 }
 
 PLAYER_NS_END;

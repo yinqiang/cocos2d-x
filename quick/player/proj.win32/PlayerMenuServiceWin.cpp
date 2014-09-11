@@ -102,7 +102,7 @@ void PlayerMenuItemWin::setShortcut(const std::string &shortcut)
 
 // MenuServiceWin
 
-UINT PlayerMenuServiceWin::_newCommandId = 0x1000;
+WORD PlayerMenuServiceWin::_newCommandId = 0x1000;
 
 PlayerMenuServiceWin::PlayerMenuServiceWin(HWND hwnd)
     : _hwnd(hwnd)
@@ -251,6 +251,13 @@ void PlayerMenuServiceWin::setMenuBarEnabled(bool enabled)
         SetMenuItemInfo(item->_parent->_hmenu, item->_commandId, MF_BYCOMMAND, &menuitem);
         item->_menubarEnabled = enabled;
     }
+}
+
+PlayerMenuItemWin *PlayerMenuServiceWin::getItemByCommandId(WORD commandId)
+{
+    auto it = _commandId2menuId.find(commandId);
+    if (it == _commandId2menuId.end()) return nullptr;
+    return _items[it->second];
 }
 
 bool PlayerMenuServiceWin::removeItemInternal(const std::string &menuId, bool isUpdateChildrenOrder)

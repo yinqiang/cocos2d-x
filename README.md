@@ -1,9 +1,11 @@
 quick-cocos2d-x V3.0
 =========
 
-#当前版本为alpha版
+#当前版本为beta版
 
 V3.0在cocos2dx V3的最新版本基础之上，移植了原来quick-x的基本框架、强大的player、丰富的示例等，并将增加更多新的功能。
+
+beta版本API已经稳定，各主要功能已经完成，目前正在进行文档补充工作，并清理可能存在的BUG。
 
 alpha1版已经完成了大部分基本框架的移植工作；提供了MAC版本的player；已经有多个完整的示例，可以在player中直接运行和调试；创建自己的工程，将游戏快速布署到IOS及Android设备上。
 
@@ -39,15 +41,9 @@ alpha3版提供了3D精灵示例；新增了几个滚动组件，已在UI示例�
 
 如果你是拉取的源码仓库，请在quick/player目录下找到工程目录，打开工程编译运行即可。
     
-##4.关于alpha版
+##4.关于beta版
 
-alpha版目前仅提供MAC的player。Win player正在紧张开发中。
-
-alpha版已经移植了大部分的框架，虽然仍有一些功能未来得及移植，但已经能够完成多数类型游戏的开发工作。
-
-仍然可以象以前版本一样，在命令行使用create_project来创建新的工程。请指定quick/bin为搜索路径。
-
-alpha版新建的工程目前支持MAC、IOS、Android平台，暂时不支持windwos平台工程。(但可以在windows下编译Android)
+beta版本中，各主要功能已经完成，其中包括新的纯lua滚动控件、ccsloader、对Cocos Code IDE的支持、模块裁减等。API已经稳定，相关文档正在补充。同时正在清理可能的BUG。
     
 ####Git源码仓库：
 https://github.com/dualface/cocos2d-x

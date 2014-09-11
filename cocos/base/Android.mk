@@ -7,54 +7,54 @@ LOCAL_MODULE := cocos2dx_base_static
 LOCAL_MODULE_FILENAME := libcocos2dxbase
 
 LOCAL_SRC_FILES := \
-                CCAutoreleasePool.cpp \
-                CCConfiguration.cpp \
-                CCConsole.cpp \
-                CCData.cpp \
-                CCDirector.cpp \
-                CCEvent.cpp \
-                CCEventAcceleration.cpp \
-                CCEventCustom.cpp \
-                CCEventDispatcher.cpp \
-                CCEventFocus.cpp \
-                CCEventKeyboard.cpp \
-                CCEventController.cpp \
-                CCEventListener.cpp \
-                CCEventListenerController.cpp \
-                CCEventListenerAcceleration.cpp \
-                CCEventListenerCustom.cpp \
-                CCEventListenerFocus.cpp \
-                CCEventListenerKeyboard.cpp \
-                CCEventListenerMouse.cpp \
-                CCEventListenerTouch.cpp \
-                CCEventMouse.cpp \
-                CCEventTouch.cpp \
-                CCIMEDispatcher.cpp \
-                CCNS.cpp \
-                CCProfiling.cpp \
-                CCRef.cpp \
-                CCScheduler.cpp \
-                CCScriptSupport.cpp \
-                CCTouch.cpp \
-                CCUserDefault.cpp \
-                CCUserDefaultAndroid.cpp \
-                CCValue.cpp \
-                ZipUtils.cpp \
-                atitc.cpp \
-                base64.cpp \
-                ccCArray.cpp \
-                ccFPSImages.c \
-                ccTypes.cpp \
-                ccUTF8.cpp \
-                ccUtils.cpp \
-                etc1.cpp \
-                s3tc.cpp \
-                CCController.cpp \
-                CCController-android.cpp \
-                ObjectFactory.cpp
+                $(LOCAL_PATH)/CCAutoreleasePool.cpp \
+                $(LOCAL_PATH)/CCConfiguration.cpp \
+                $(LOCAL_PATH)/CCConsole.cpp \
+                $(LOCAL_PATH)/CCData.cpp \
+                $(LOCAL_PATH)/CCDirector.cpp \
+                $(LOCAL_PATH)/CCEvent.cpp \
+                $(LOCAL_PATH)/CCEventAcceleration.cpp \
+                $(LOCAL_PATH)/CCEventCustom.cpp \
+                $(LOCAL_PATH)/CCEventDispatcher.cpp \
+                $(LOCAL_PATH)/CCEventFocus.cpp \
+                $(LOCAL_PATH)/CCEventKeyboard.cpp \
+                $(LOCAL_PATH)/CCEventController.cpp \
+                $(LOCAL_PATH)/CCEventListener.cpp \
+                $(LOCAL_PATH)/CCEventListenerController.cpp \
+                $(LOCAL_PATH)/CCEventListenerAcceleration.cpp \
+                $(LOCAL_PATH)/CCEventListenerCustom.cpp \
+                $(LOCAL_PATH)/CCEventListenerFocus.cpp \
+                $(LOCAL_PATH)/CCEventListenerKeyboard.cpp \
+                $(LOCAL_PATH)/CCEventListenerMouse.cpp \
+                $(LOCAL_PATH)/CCEventListenerTouch.cpp \
+                $(LOCAL_PATH)/CCEventMouse.cpp \
+                $(LOCAL_PATH)/CCEventTouch.cpp \
+                $(LOCAL_PATH)/CCIMEDispatcher.cpp \
+                $(LOCAL_PATH)/CCNS.cpp \
+                $(LOCAL_PATH)/CCProfiling.cpp \
+                $(LOCAL_PATH)/CCRef.cpp \
+                $(LOCAL_PATH)/CCScheduler.cpp \
+                $(LOCAL_PATH)/CCScriptSupport.cpp \
+                $(LOCAL_PATH)/CCTouch.cpp \
+                $(LOCAL_PATH)/CCUserDefault.cpp \
+                $(LOCAL_PATH)/CCUserDefaultAndroid.cpp \
+                $(LOCAL_PATH)/CCValue.cpp \
+                $(LOCAL_PATH)/ZipUtils.cpp \
+                $(LOCAL_PATH)/atitc.cpp \
+                $(LOCAL_PATH)/base64.cpp \
+                $(LOCAL_PATH)/ccCArray.cpp \
+                $(LOCAL_PATH)/ccFPSImages.c \
+                $(LOCAL_PATH)/ccTypes.cpp \
+                $(LOCAL_PATH)/ccUTF8.cpp \
+                $(LOCAL_PATH)/ccUtils.cpp \
+                $(LOCAL_PATH)/etc1.cpp \
+                $(LOCAL_PATH)/s3tc.cpp \
+                $(LOCAL_PATH)/CCController.cpp \
+                $(LOCAL_PATH)/CCController-android.cpp \
+                $(LOCAL_PATH)/ObjectFactory.cpp
 
-ifeq ($(QUICK_TGA_ENABLED),1)
-    LOCAL_SRC_FILES += TGAlib.cpp
+ifeq ($(CC_USE_TGA),1)
+    LOCAL_SRC_FILES += $(LOCAL_PATH)/TGAlib.cpp
 endif                
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.

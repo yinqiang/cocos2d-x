@@ -202,8 +202,8 @@ std::string getCurAppPath(void)
     //
     // load player.lua file
     //
-    NSString *luaCorePath = [[NSBundle mainBundle] pathForResource:@"player" ofType:@"lua"];
-    pEngine->getLuaStack()->executeScriptFile(luaCorePath.UTF8String);
+    string playerCoreFilePath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/welcome/src/player.lua";
+    pEngine->getLuaStack()->executeScriptFile(playerCoreFilePath.c_str());
     
     
     // load setting

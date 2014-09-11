@@ -54,7 +54,7 @@ void ProjectConfig::resetToWelcome()
     setFrameScale(1.0f);
     setLoadPrecompiledFramework(true);
     setPackagePath("");
-    setShowConsole(true);
+    setShowConsole(false);
     setWindowOffset(cocos2d::Vec2::ZERO);
     setWriteDebugLogToFile(false);
     _isAppMenu = false;

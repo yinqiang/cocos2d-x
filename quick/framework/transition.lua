@@ -54,6 +54,17 @@ ACTION_EASING["SINEOUT"]          = {cc.EaseSineOut, 1}
 
 local actionManager = cc.Director:getInstance():getActionManager()
 
+--[[--
+
+创建一个缓动效果
+
+@param Action action     动作对象
+@param string easingName 缓冲效果的名字, 具体参考 transition.execute() 方法
+@param mixed  more       创建缓冲效果的参数
+
+@return mixed 结果
+
+]]
 function transition.newEasing(action, easingName, more)
     local key = string.upper(tostring(easingName))
     if string.sub(key, 1, 6) == "CCEASE" then
@@ -71,6 +82,16 @@ function transition.newEasing(action, easingName, more)
     return easing or action
 end
 
+--[[--
+
+创建一个动作效果
+
+@param Action action 动作对象
+@param table args 参数表格对象
+
+@return mixed 结果
+
+]]
 function transition.create(action, args)
     args = checktable(args)
     if args.easing then

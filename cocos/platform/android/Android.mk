@@ -7,20 +7,20 @@ LOCAL_MODULE := cocos2dxandroid_static
 LOCAL_MODULE_FILENAME := libcocos2dandroid
 
 LOCAL_SRC_FILES := \
-CCApplication.cpp \
-CCCommon.cpp \
-CCDevice.cpp \
-CCGLView.cpp \
-CCFileUtilsAndroid.cpp \
-javaactivity.cpp \
-jni/DPIJni.cpp \
-jni/IMEJni.cpp \
-jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp \
-jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp \
-jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp \
-jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp \
-jni/JniHelper.cpp \
-jni/TouchesJni.cpp
+$(LOCAL_PATH)/CCApplication.cpp \
+$(LOCAL_PATH)/CCCommon.cpp \
+$(LOCAL_PATH)/CCDevice.cpp \
+$(LOCAL_PATH)/CCGLView.cpp \
+$(LOCAL_PATH)/CCFileUtilsAndroid.cpp \
+$(LOCAL_PATH)/javaactivity.cpp \
+$(LOCAL_PATH)/jni/DPIJni.cpp \
+$(LOCAL_PATH)/jni/IMEJni.cpp \
+$(LOCAL_PATH)/jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp \
+$(LOCAL_PATH)/jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp \
+$(LOCAL_PATH)/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp \
+$(LOCAL_PATH)/jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp \
+$(LOCAL_PATH)/jni/JniHelper.cpp \
+$(LOCAL_PATH)/jni/TouchesJni.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 
@@ -45,10 +45,10 @@ LOCAL_EXPORT_LDLIBS := -lGLESv1_CM \
                        -landroid
 
 LOCAL_WHOLE_STATIC_LIBRARIES	:= cocos_png_static cocos_jpeg_static 
-ifeq ($(QUICK_TIFF_ENABLED),1)
+ifeq ($(CC_USE_TIFF),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_tiff_static
 endif
-ifeq ($(QUICK_WEBP_ENABLED),1)
+ifeq ($(CC_USE_WEBP),1)
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_webp_static
 endif
 
@@ -57,9 +57,9 @@ include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,jpeg/prebuilt/android)
 $(call import-module,png/prebuilt/android)
-ifeq ($(QUICK_TIFF_ENABLED),1)
+ifeq ($(CC_USE_TIFF),1)
 $(call import-module,tiff/prebuilt/android)
 endif
-ifeq ($(QUICK_WEBP_ENABLED),1)
+ifeq ($(CC_USE_WEBP),1)
 $(call import-module,webp/prebuilt/android)
 endif

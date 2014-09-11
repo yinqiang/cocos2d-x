@@ -2128,7 +2128,7 @@
 				4949C33619AD9F6B00113896 /* UITextField.h */,
 			);
 			name = CCTextField;
-			path = "../../../../../Documents/Work/cocos2d-x/extensions/GUI/CCTextField";
+			path = "../../extensions/GUI/CCTextField";
 			sourceTree = "<group>";
 		};
 		49BCFA461982699900F48FF6 /* filters */ = {
@@ -4200,12 +4200,12 @@
 					"$(inherited)",
 					CC_TARGET_OS_IPHONE,
 					"CC_LUA_ENGINE_ENABLED=1",
-					"QUICK_JSON_ENABLED=1",
-					"QUICK_CURL_ENABLED=1",
-					"QUICK_PHYSICS_ENABLED=1",
-					"QUICK_CCS_ARMATURE_ENABLED=1",
-					"QUICK_EXTRA_FILTERS_ENABLED=1",
-					"QUICK_WEBSOCKET_ENABLED=1",
+					"CC_USE_JSON=1",
+					"CC_USE_CURL=1",
+					"CC_USE_PHYSICS=1",
+					"CC_USE_CCS_ARMATURE=1",
+					"CC_USE_EXTRA_FILTERS=1",
+					"CC_USE_WEBSOCKET=1",
 				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
@@ -4265,16 +4265,13 @@
 					"$(inherited)",
 					CC_TARGET_OS_IPHONE,
 					"CC_LUA_ENGINE_ENABLED=1",
-					"QUICK_JSON_ENABLED=1",
-					"QUICK_CURL_ENABLED=1",
-					"QUICK_PHYSICS_ENABLED=1",
-					"QUICK_CCS_ARMATURE_ENABLED=1",
-					"QUICK_EXTRA_FILTERS_ENABLED=1",
-					"QUICK_WEBSOCKET_ENABLED=1",
-					"QUICK_TIFF_ENABLED=1",
-					"QUICK_WEBP_ENABLED=1",
-					"QUICK_TGA_ENABLED=1",
-					"QUICK_SQLITE_ENABLED=1",
+					"CC_USE_JSON=1",
+					"CC_USE_CURL=1",
+					"CC_USE_CCS_ARMATURE=1",
+					"CC_USE_EXTRA_FILTERS=1",
+					"CC_USE_WEBSOCKET=1",
+					"CC_USE_TGA=1",
+					"CC_USE_SQLITE=1",
 				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;

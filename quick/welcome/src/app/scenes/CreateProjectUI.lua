@@ -3,6 +3,7 @@
 -- DATE: 2014-08-21
 --
 
+local EditBoxLite = import(".EditBoxLite")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 local CreateProjectUI = class("CreateProjectUI", function()
@@ -46,12 +47,19 @@ function CreateProjectUI:onEnter()
         })
     :addTo(self)
 
-    local locationEditbox = ui.newEditBox({
+    local t = {
         image = "#ButtonNormal.png",
         size = cc.size(display.width-250, 40),
         x = 40,
         y = display.top - 120,
-    })
+    }
+    local locationEditbox
+    if device.platform == "windows" then
+        locationEditbox = ui.newEditBox(t)
+    elseif device.platform == "mac" then
+        locationEditbox = EditBoxLite.new(t)
+    end
+
     locationEditbox:setAnchorPoint(0,0)
     self:addChild(locationEditbox)
 
@@ -68,7 +76,9 @@ function CreateProjectUI:onEnter()
     :onButtonClicked(function()
         local filedialog = PlayerProtocol:getInstance():getFileDialogService()
         local locationDirectory = filedialog:openDirectory("Choose Localtion", "")
-        locationEditbox:setText(locationDirectory)
+        if string.len(locationDirectory) > 0 then
+            locationEditbox:setText(locationDirectory)
+        end
     end)
 
 
@@ -160,7 +170,7 @@ function CreateProjectUI:onEnter()
     :onButtonClicked(function()
         if createProjectbutton.currState == 1 then
             if locationEditbox:getText() and packageEditbox:getText() then
-                local t = packageEditbox:getText():spliteBySep('.')
+                local t = packageEditbox:getText():splitBySep('.')
                 self.projectFolder = locationEditbox:getText() .. '/' .. t[#t]
 
                 local projectConfig = ProjectConfig:new()

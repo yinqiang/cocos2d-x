@@ -141,10 +141,10 @@ public:
 protected:
     bool initWithJpgData(const unsigned char *  data, ssize_t dataLen);
     bool initWithPngData(const unsigned char * data, ssize_t dataLen);
-#if QUICK_TIFF_ENABLED > 0
+#if CC_USE_TIFF
     bool initWithTiffData(const unsigned char * data, ssize_t dataLen);
 #endif
-#if QUICK_WEBP_ENABLED > 0
+#if CC_USE_WEBP
     bool initWithWebpData(const unsigned char * data, ssize_t dataLen);
 #endif
     bool initWithPVRData(const unsigned char * data, ssize_t dataLen);

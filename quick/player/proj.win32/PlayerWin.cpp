@@ -29,6 +29,11 @@
 #include "CCLuaEngine.h"
 #include "PlayerLuaCore.h"
 
+// for network
+#include "cocos2dx_extra.h"
+#include "network/CCHTTPRequest.h"
+#include "native/CCNative.h"
+
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPTSTR    lpCmdLine,
@@ -36,21 +41,23 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-    auto player = player::PlayerWin::create();
+    auto player = player::PlayerWin::getInstance();
     return player->run();
 }
 
 PLAYER_NS_BEGIN
 
+PlayerWin *PlayerWin::_instance = nullptr;
+
 PlayerWin::PlayerWin()
-: _app(nullptr)
-, _hwnd(NULL)
-, _hwndConsole(NULL)
-, _writeDebugLogFile(nullptr)
-, _messageBoxService(nullptr)
-, _menuService(nullptr)
-, _editboxService(nullptr)
-, _taskService(nullptr)
+    : _app(nullptr)
+    , _hwnd(NULL)
+    , _hwndConsole(NULL)
+    , _writeDebugLogFile(nullptr)
+    , _messageBoxService(nullptr)
+    , _menuService(nullptr)
+    , _editboxService(nullptr)
+    , _taskService(nullptr)
 {
 }
 
@@ -64,11 +71,17 @@ PlayerWin::~PlayerWin()
     {
         fclose(_writeDebugLogFile);
     }
+
+    _instance = nullptr;
 }
 
-PlayerWin *PlayerWin::create()
+PlayerWin *PlayerWin::getInstance()
 {
-    return new PlayerWin();
+    if (!_instance)
+    {
+        _instance = new PlayerWin();
+    }
+    return _instance;
 }
 
 PlayerFileDialogServiceProtocol *PlayerWin::getFileDialogService()
@@ -98,89 +111,140 @@ PlayerTaskServiceProtocol *PlayerWin::getTaskService()
 
 void PlayerWin::quit()
 {
-	Director::getInstance()->end();
+    Director::getInstance()->end();
 }
 
 void PlayerWin::relaunch()
 {
-	openNewPlayer();
-	quit();
+    int x = 0;
+    int y = 0;
+    glfwGetWindowPos(Director::getInstance()->getOpenGLView()->getWindow(), &x, &y);
+    _project.setWindowOffset(Vec2(x, y));
+    openNewPlayerWithProjectConfig(_project);
+
+    quit();
 }
 
 void PlayerWin::openNewPlayer()
 {
-	openNewPlayerWithProjectConfig(_project);
+    openNewPlayerWithProjectConfig(_project);
 }
 
-void PlayerWin::openNewPlayerWithProjectConfig(ProjectConfig config)
+void PlayerWin::openNewPlayerWithProjectConfig(const ProjectConfig &config)
 {
-	static long taskid = 100;
-	stringstream buf;
-	buf << taskid++;
+    static long taskid = 100;
+    stringstream buf;
+    buf << taskid++;
 
-	auto task = getTaskService()->createTask(buf.str(), getApplicationExePath(), config.makeCommandLine());
-	task->run();
+    string commandLine;
+    commandLine.append(getApplicationExePath());
+    commandLine.append(" ");
+    commandLine.append(config.makeCommandLine());
+    CCLOG("PlayerWin::openNewPlayerWithProjectConfig(): %s", commandLine.c_str());
+
+    // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
+    SECURITY_ATTRIBUTES sa = {0};
+    sa.nLength = sizeof(sa);
+
+    PROCESS_INFORMATION pi = {0};
+    STARTUPINFO si = {0};
+    si.cb = sizeof(STARTUPINFO);
+
+#define MAX_COMMAND 1024 // lenth of commandLine is always beyond MAX_PATH
+
+    WCHAR command[MAX_COMMAND];
+    memset(command, 0, sizeof(command));
+    MultiByteToWideChar(CP_UTF8, 0, commandLine.c_str(), -1, command, MAX_COMMAND);
+
+    BOOL success = CreateProcess(NULL,
+                                 command,   // command line 
+                                 NULL,      // process security attributes 
+                                 NULL,      // primary thread security attributes 
+                                 FALSE,     // handles are inherited 
+                                 0,         // creation flags 
+                                 NULL,      // use parent's environment 
+                                 NULL,      // use parent's current directory 
+                                 &si,       // STARTUPINFO pointer 
+                                 &pi);      // receives PROCESS_INFORMATION 
+
+    if (!success)
+    {
+        CCLOG("PlayerTaskWin::run() - create process failed, for execute %s", commandLine.c_str());
+    }
 }
 
-void PlayerWin::openProjectWithProjectConfig(ProjectConfig config)
+void PlayerWin::openProjectWithProjectConfig(const ProjectConfig &config)
 {
-	openNewPlayerWithProjectConfig(config);
-	quit();
+    openNewPlayerWithProjectConfig(config);
+    quit();
+}
+
+void PlayerWin::trackEvent(const char *eventName)
+{
+    cocos2d::extra::HTTPRequest *request = cocos2d::extra::HTTPRequest::createWithUrl(NULL,
+                    "http://www.google-analytics.com/collect",
+                    kCCHTTPRequestMethodPOST);
+    request->addPOSTValue("v", "1");
+    request->addPOSTValue("tid", "UA-52790340-1");
+    request->addPOSTValue("cid", getUserGUID().c_str());
+    request->addPOSTValue("t", "event");
+
+    request->addPOSTValue("an", "player");
+    request->addPOSTValue("av", cocos2dVersion());
+
+    request->addPOSTValue("ec", "win");
+    request->addPOSTValue("ea", eventName);
+
+    request->start();
 }
 
 void PlayerWin::loadLuaConfig()
 {
-	LuaEngine* pEngine = LuaEngine::getInstance();
-	ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
+    LuaEngine* pEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
 
-	// load player lua core
-	luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
+    // load player lua core
+    luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
 
-	// set env
-	string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-	quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
+    // set env
+    string quickRootPath = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
+    quickRootPath = convertPathFormatToUnixStyle(quickRootPath);
 
-	string env = "__G_QUICK_V3_ROOT__=\"";
-	env.append(quickRootPath);
-	env.append("\"");
-	pEngine->executeString(env.c_str());
+    string env = "__G_QUICK_V3_ROOT__=\"";
+    env.append(quickRootPath);
+    env.append("\"");
+    pEngine->executeString(env.c_str());
 
-	// set user home dir
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
+    // set user home dir
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), getUserDocumentPath().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__USER_HOME__");
 
-	//
-	// ugly: Add the opening project to the "Open Recents" list
-	//
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
+    //
+    // ugly: Add the opening project to the "Open Recents" list
+    //
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.getProjectDir().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_TITLE__");
 
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
+    lua_pushstring(pEngine->getLuaStack()->getLuaState(), _project.makeCommandLine().c_str());
+    lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__PLAYER_OPEN_COMMAND__");
 
-
-	// set guid
-	string uid = getUserGUID();
-	lua_pushstring(pEngine->getLuaStack()->getLuaState(), uid.c_str());
-	lua_setglobal(pEngine->getLuaStack()->getLuaState(), "__G_QUICK_GUID__");
-
-	// load player.lua
-	quickRootPath.append("quick/player/src/player.lua");
-	pEngine->getLuaStack()->executeScriptFile(quickRootPath.c_str());
+    // load player.lua
+    string playerCoreFilePath = quickRootPath + "quick/welcome/src/player.lua";
+    pEngine->getLuaStack()->executeScriptFile(playerCoreFilePath.c_str());
 }
 
 void PlayerWin::registerKeyboardEvent()
 {
-	auto eventDispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
-	auto keyEvent = cocos2d::EventListenerKeyboard::create();
-	keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
-		auto event = EventCustom("APP.EVENT");
-		stringstream data;
-		data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
-		event.setDataString(data.str());
-		Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-	};
-	eventDispatcher->addEventListenerWithFixedPriority(keyEvent, 1);	
+    auto eventDispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
+    auto keyEvent = cocos2d::EventListenerKeyboard::create();
+    keyEvent->onKeyReleased = [](EventKeyboard::KeyCode key, Event*) {
+        auto event = EventCustom("APP.EVENT");
+        stringstream data;
+        data << "{\"name\":\"keyReleased\",\"data\":" << (int)key << "}";
+        event.setDataString(data.str());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    };
+    eventDispatcher->addEventListenerWithFixedPriority(keyEvent, 1);
 }
 
 int PlayerWin::run()
@@ -210,10 +274,10 @@ int PlayerWin::run()
     }
     _project.parseCommandLine(args);
 
-	if (_project.getProjectDir().length() <= 0)
-	{
-		_project.resetToWelcome();
-	}
+    if (_project.getProjectDir().length() <= 0)
+    {
+        _project.resetToWelcome();
+    }
 
     // create the application instance
     _app = new AppDelegate();
@@ -262,18 +326,18 @@ int PlayerWin::run()
     // enable DPI-Aware with DeclareDPIAware.manifest
     // http://msdn.microsoft.com/en-us/library/windows/desktop/dn469266%28v=vs.85%29.aspx#declaring_dpi_awareness
     float screenScale = 1.0f;
-    if (dpi >= 120 && dpi < 144)
-    {
-        screenScale = 1.25f;
-    }
-    else if (dpi >= 144 && dpi < 192)
-    {
-        screenScale = 1.5f;
-    }
-    else if (dpi >= 192)
-    {
-        screenScale = 2.0f;
-    }
+    //if (dpi >= 120 && dpi < 144)
+    //{
+    //    screenScale = 1.25f;
+    //}
+    //else if (dpi >= 144 && dpi < 192)
+    //{
+    //    screenScale = 1.5f;
+    //}
+    //else if (dpi >= 192)
+    //{
+    //    screenScale = 2.0f;
+    //}
     CCLOG("SCREEN DPI = %d, SCREEN SCALE = %0.2f", dpi, screenScale);
 
     // create opengl view
@@ -301,21 +365,33 @@ int PlayerWin::run()
     director->setOpenGLView(glview);
     director->setScreenScale(screenScale);
 
+    // set window position
+    if (_project.getProjectDir().length())
+    {
+        setZoom(_project.getFrameScale());
+        Vec2 pos = _project.getWindowOffset();
+        if (pos.x != 0 && pos.y != 0)
+        {
+            glfwSetWindowPos(glview->getWindow(), pos.x, pos.y);
+        }
+    }
+
     // init player services
     initServices();
 
-	loadLuaConfig();
-	registerKeyboardEvent();
+    loadLuaConfig();
+    registerKeyboardEvent();
 
     // register event handlers
     auto eventDispatcher = director->getEventDispatcher();
     eventDispatcher->addCustomEventListener("APP.WINDOW_CLOSE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowClose, this));
     eventDispatcher->addCustomEventListener("APP.WINDOW_RESIZE_EVENT", CC_CALLBACK_1(PlayerWin::onWindowResize, this));
-	eventDispatcher->addCustomEventListener("APP.VIEW_SCALE", CC_CALLBACK_1(PlayerWin::onWindowScale, this));
+    eventDispatcher->addCustomEventListener("APP.VIEW_SCALE", CC_CALLBACK_1(PlayerWin::onWindowScale, this));
 
     // prepare
     _project.dump();
     auto app = Application::getInstance();
+    glfwSetWin32WindowProc(&PlayerWin::windowProc);
 
     HWND hwnd = _hwnd;
     HWND hwndConsole = _hwndConsole;
@@ -380,8 +456,14 @@ void PlayerWin::onWindowResize(EventCustom* event)
 
 void PlayerWin::onWindowScale(EventCustom* event)
 {
-	float scale = atof(event->getDataString().c_str());
-	cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(scale);
+    float scale = atof(event->getDataString().c_str());
+    setZoom(scale);
+}
+
+void PlayerWin::setZoom(float frameScale)
+{
+    _project.setFrameScale(frameScale);
+    cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(frameScale);
 }
 
 // debug log
@@ -396,142 +478,171 @@ void PlayerWin::writeDebugLog(const char *log)
 //
 std::string PlayerWin::convertPathFormatToUnixStyle(const std::string& path)
 {
-	std::string ret = path;
-	int len = ret.length();
-	for (int i = 0; i < len; ++i)
-	{
-		if (ret[i] == '\\')
-		{
-			ret[i] = '/';
-		}
-	}
-	return ret;
+    std::string ret = path;
+    int len = ret.length();
+    for (int i = 0; i < len; ++i)
+    {
+        if (ret[i] == '\\')
+        {
+            ret[i] = '/';
+        }
+    }
+    return ret;
 }
 
 //
 // @return: C:/Users/win8/Documents/
 //
- std::string PlayerWin::getUserDocumentPath()
+std::string PlayerWin::getUserDocumentPath()
 {
-	TCHAR filePath[MAX_PATH];
-	SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
-	int length = 2 * wcslen(filePath);
-	char* tempstring = new char[length + 1];
-	wcstombs(tempstring, filePath, length + 1);
-	string userDocumentPath(tempstring);
-	free(tempstring);
+    TCHAR filePath[MAX_PATH];
+    SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
+    int length = 2 * wcslen(filePath);
+    char* tempstring = new char[length + 1];
+    wcstombs(tempstring, filePath, length + 1);
+    string userDocumentPath(tempstring);
+    free(tempstring);
 
-	userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
-	userDocumentPath.append("/");
+    userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
+    userDocumentPath.append("/");
 
-	return userDocumentPath;
+    return userDocumentPath;
 }
 
 //
 // convert Unicode/LocalCode TCHAR to Utf8 char
 //
- char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
+char* PlayerWin::convertTCharToUtf8(const TCHAR* src)
 {
 #ifdef UNICODE
-	WCHAR* tmp = (WCHAR*)src;
-	size_t size = wcslen(src) * 3 + 1;
-	char* dest = new char[size];
-	memset(dest, 0, size);
-	WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
-	return dest;
+    WCHAR* tmp = (WCHAR*)src;
+    size_t size = wcslen(src) * 3 + 1;
+    char* dest = new char[size];
+    memset(dest, 0, size);
+    WideCharToMultiByte(CP_UTF8, 0, tmp, -1, dest, size, NULL, NULL);
+    return dest;
 #else
-	char* tmp = (char*)src;
-	uint32 size = strlen(tmp) + 1;
-	WCHAR* dest = new WCHAR[size];
-	memset(dest, 0, sizeof(WCHAR)*size);
-	MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
+    char* tmp = (char*)src;
+    uint32 size = strlen(tmp) + 1;
+    WCHAR* dest = new WCHAR[size];
+    memset(dest, 0, sizeof(WCHAR)*size);
+    MultiByteToWideChar(CP_ACP, 0, src, -1, dest, (int)size); // convert local code to unicode.
 
-	size = wcslen(dest) * 3 + 1;
-	char* dest2 = new char[size];
-	memset(dest2, 0, size);
-	WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
-	delete[] dest;
-	return dest2;
+    size = wcslen(dest) * 3 + 1;
+    char* dest2 = new char[size];
+    memset(dest2, 0, size);
+    WideCharToMultiByte(CP_UTF8, 0, dest, -1, dest2, size, NULL, NULL); // convert unicode to utf8.
+    delete[] dest;
+    return dest2;
 #endif
 }
 
 //
 std::string PlayerWin::getApplicationExePath()
 {
-	TCHAR szFileName[MAX_PATH];
-	GetModuleFileName(NULL, szFileName, MAX_PATH);
-	std::u16string u16ApplicationName;
-	char *applicationExePath = convertTCharToUtf8(szFileName);
-	std::string path(applicationExePath);
-	CC_SAFE_FREE(applicationExePath);
+    TCHAR szFileName[MAX_PATH];
+    GetModuleFileName(NULL, szFileName, MAX_PATH);
+    std::u16string u16ApplicationName;
+    char *applicationExePath = convertTCharToUtf8(szFileName);
+    std::string path(applicationExePath);
+    CC_SAFE_FREE(applicationExePath);
 
-	return path;
+    return path;
 }
 
 //
 static bool getMacAddress(string& macstring)
 {
-	bool ret = false;
-	ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
-	PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
-	if (adapterInfo == NULL)
-	{
-		return false;
-	}
+    bool ret = false;
+    ULONG ipInfoLen = sizeof(IP_ADAPTER_INFO);
+    PIP_ADAPTER_INFO adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+    if (adapterInfo == NULL)
+    {
+        return false;
+    }
 
-	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
-	{
-		free(adapterInfo);
-		adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
-		if (adapterInfo == NULL)
-		{
-			return false;
-		}
-	}
+    if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == ERROR_BUFFER_OVERFLOW)
+    {
+        free(adapterInfo);
+        adapterInfo = (IP_ADAPTER_INFO *)malloc(ipInfoLen);
+        if (adapterInfo == NULL)
+        {
+            return false;
+        }
+    }
 
-	if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
-	{
-		for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
-		{
-			if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
-			{
-				continue;
-			}
+    if (GetAdaptersInfo(adapterInfo, &ipInfoLen) == NO_ERROR)
+    {
+        for (PIP_ADAPTER_INFO pAdapter = adapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
+        {
+            if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+            {
+                continue;
+            }
 
-			if (pAdapter->AddressLength != 6)
-			{
-				continue;
-			}
+            if (pAdapter->AddressLength != 6)
+            {
+                continue;
+            }
 
-			char buf32[32];
-			sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
-				int(pAdapter->Address[0]),
-				int(pAdapter->Address[1]),
-				int(pAdapter->Address[2]),
-				int(pAdapter->Address[3]),
-				int(pAdapter->Address[4]),
-				int(pAdapter->Address[5]));
-			macstring = buf32;
-			ret = true;
-			break;
-		}
-	}
+            char buf32[32];
+            sprintf(buf32, "%02X-%02X-%02X-%02X-%02X-%02X",
+                    int(pAdapter->Address[0]),
+                    int(pAdapter->Address[1]),
+                    int(pAdapter->Address[2]),
+                    int(pAdapter->Address[3]),
+                    int(pAdapter->Address[4]),
+                    int(pAdapter->Address[5]));
+            macstring = buf32;
+            ret = true;
+            break;
+        }
+    }
 
-	free(adapterInfo);
-	return ret;
+    free(adapterInfo);
+    return ret;
 }
 
 std::string PlayerWin::getUserGUID()
 {
-	if (_userGUID.length() <= 0)
-	{
-		if (!getMacAddress(_userGUID))
-		{
-			_userGUID = "guid-fixed-1234567890";
-		}
-	}
+    if (_userGUID.length() <= 0)
+    {
+        if (!getMacAddress(_userGUID))
+        {
+            _userGUID = "guid-fixed-1234567890";
+        }
+    }
 
-	return _userGUID;
+    return _userGUID;
+}
+
+LRESULT CALLBACK PlayerWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    if (!_instance) return 0;
+
+    switch (uMsg)
+    {
+    case WM_COMMAND:
+    {
+        if (HIWORD(wParam) == 0)
+        {
+            // menu
+            WORD menuId = LOWORD(wParam);
+            PlayerMenuItemWin *menuItem = _instance->_menuService->getItemByCommandId(menuId);
+            if (menuItem)
+            {
+                cocos2d::EventCustom event("APP.EVENT");
+                std::stringstream buf;
+                buf << "{\"data\":\"" << menuItem->getMenuId().c_str() << "\"";
+                buf << ",\"name\":" << "\"menuClicked\"" << "}";
+                event.setDataString(buf.str());
+                Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+            }
+        }
+        break;
+    }
+    }
+    return 0;
 }
 
 PLAYER_NS_END

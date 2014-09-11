@@ -4,10 +4,10 @@ $#include <vector>
 $#include "PlayerProtocol.h"
 $#include "tolua++.h"
 $#include "tolua_fix.h"
+$#include "LuaBasicConversions.h"
 
 $using namespace std;
 $using namespace player;
-$#define CLASS_HASH_CODE(x) x.hash_code()
 
 class vector {
 
@@ -114,6 +114,7 @@ class PlayerProtocol
     void openNewPlayer();
     void openNewPlayerWithProjectConfig(ProjectConfig config);
     void openProjectWithProjectConfig(ProjectConfig config);
+    void trackEvent(const char *eventName);
 };
 
 class PlayerFileDialogServiceProtocol : public PlayerServiceProtocol
@@ -165,15 +166,15 @@ class PlayerMenuServiceProtocol
 {
     virtual PlayerMenuItem *addItem(const std::string &menuId,
                                     const std::string &title,
-                                    const std::string &parentId) = 0;
+                                    const std::string &parentId);
     virtual PlayerMenuItem *addItem(const std::string &menuId,
                                     const std::string &title,
                                     const std::string &parentId,
-                                    int order) = 0;
+                                    int order);
     virtual PlayerMenuItem *addItem(const std::string &menuId,
-                                    const std::string &title) = 0;
-    virtual PlayerMenuItem *getItem(const std::string &menuId) = 0;
-    virtual bool removeItem(const std::string &menuId) = 0;
+                                    const std::string &title);
+    virtual PlayerMenuItem *getItem(const std::string &menuId);
+    virtual bool removeItem(const std::string &menuId);
     
 };
 
@@ -213,3 +214,15 @@ class PlayerTaskServiceProtocol : public PlayerServiceProtocol
     PlayerTask *getTask(const std::string &name);
     void removeTask(const std::string &name);
 };
+
+class PlayerEditBoxServiceProtocol : public PlayerServiceProtocol
+{
+    void showSingleLineEditBox(const cocos2d::Rect &rect);
+    void showMultiLineEditBox(const cocos2d::Rect &rect);
+    void hide();
+
+    void setText(const std::string &text);
+    void setFont(const std::string &name, int size);
+    void setFontColor(const cocos2d::Color3B &color);
+    void registerHandler(LUA_FUNCTION handler);
+}
