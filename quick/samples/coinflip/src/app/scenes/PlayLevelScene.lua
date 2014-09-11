@@ -20,7 +20,8 @@ function PlayLevelScene:ctor(levelIndex)
     local adBar = AdBar.new()
     self:addChild(adBar)
 
-    local label = ui.newBMFontLabel({
+    local label = cc.ui.UILabel.new({
+        UILabelType = 1,
         text  = string.format("Level: %s", tostring(levelIndex)),
         font  = "UIFont.fnt",
         x     = display.left + 10,

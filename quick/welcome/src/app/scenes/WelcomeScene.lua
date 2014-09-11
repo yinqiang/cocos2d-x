@@ -30,24 +30,26 @@ function WelcomeScene:createLogo(node)
         :align(display.LEFT_TOP, display.left + 48, display.top - 24)
         :addTo(node)
 
-    local label = ui.newTTFLabel({
+    local label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = "quick-cocos2d-x",
         size = 38,
         color = display.COLOR_WHITE,
         x = 140,
         y = display.top - 55,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
     node:addChild(label)
 
 
-    label = ui.newTTFLabel({
+    label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = "v3.2 beta1",
         size = 14,
         color = cc.c3b(243,156,18),
         x = 140 + label:getContentSize().width,
         y = display.top - 36,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
     node:addChild(label)
 end
@@ -66,7 +68,8 @@ function WelcomeScene:createButtons(node)
 
     cc.ui.UIPushButton.new(images, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+		UILabelType = 2,
             text = "打开",
             size = 18
         }))
@@ -89,7 +92,8 @@ function WelcomeScene:createButtons(node)
     top = top - 68
     cc.ui.UIPushButton.new(images, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+		UILabelType = 2,
             text = "打包",
             size = 18
         }))
@@ -103,7 +107,8 @@ function WelcomeScene:createButtons(node)
     top = top - 68
     cc.ui.UIPushButton.new({normal="#RedButtonNormal.png", pressed="#RedButtonPressed.png", disabled = "#ButtonDisabled.png",}, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+		UILabelType = 2,
             text = "删除",
             size = 18
         }))
@@ -127,7 +132,8 @@ function WelcomeScene:createButtons(node)
     top = top - 180
     cc.ui.UIPushButton.new(images, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+		UILabelType = 2,
             text = "新建项目",
             size = 18
         }))
@@ -141,7 +147,8 @@ function WelcomeScene:createButtons(node)
     top = top - 68
     cc.ui.UIPushButton.new(images, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+		UILabelType = 2,
             text = "导入项目",
             size = 18
         }))
@@ -309,23 +316,25 @@ function WelcomeScene:createCopyright(node)
     bg:setContentSize(cc.size(display.width, 48))
     node:addChild(bg)
 
-    local label = ui.newTTFLabel({
+    local label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = "Copyright (c) 2012-2014 chukong-inc.com, Powered by quick-cocos2d-x.",
         size = 17,
         color = cc.c3b(128, 128, 128),
         x = 48,
         y = display.bottom + 24,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
     })
     node:addChild(label)
 
-    label = ui.newTTFLabel({
+    label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = "Code Less, Play More",
         size = 17,
         color = cc.c3b(128, 128, 128),
         x = display.width - 96,
         y = display.bottom + 24,
-        align = ui.TEXT_ALIGN_RIGHT,
+        align = cc.ui.TEXT_ALIGN_RIGHT,
         })
     node:addChild(label)
 end
@@ -344,7 +353,7 @@ function WelcomeScene:createTitleBar(node)
 
     cc.ui.UILabel.new({
         text = "0",
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         color = cc.c3b(255,255,255,255),
         size = 18,
     })
@@ -360,7 +369,7 @@ function WelcomeScene:createTitleBar(node)
 
     cc.ui.UILabel.new({
         text = stripPath("<user>", 9),
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         color = cc.c3b(255,255,255,255),
         size = 18,
     })
@@ -446,9 +455,10 @@ function WelcomeScene:createOneSampleUI(sample, item)
 end
 
 function WelcomeScene:createDemoTitle(sample)
-    local label = ui.newTTFLabel({
+    local label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = sample.title,
-        align = ui.TEXT_ALIGNMENT_CENTER,
+        align = cc.ui.TEXT_ALIGNMENT_CENTER,
         color = cc.c3b(144,144,144),
         size = 14,
         font = "Monaco",
@@ -468,9 +478,10 @@ function WelcomeScene:createDemoDescription(sample)
         color = cc.c3b(255,0,0)
     end
 
-    local label = ui.newTTFLabel({
+    local label = cc.ui.UILabel.new({
+		UILabelType = 2,
         text = title,
-        align = ui.TEXT_ALIGNMENT_CENTER,
+        align = cc.ui.TEXT_ALIGNMENT_CENTER,
         color = color,
         size = 12,
     })

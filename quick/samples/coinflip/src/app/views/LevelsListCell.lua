@@ -23,12 +23,13 @@ function LevelsListCell:ctor(size, beginLevelIndex, endLevelIndex, rows, cols)
             icon.levelIndex = levelIndex
             self.buttons[#self.buttons + 1] = icon
 
-            local label = ui.newBMFontLabel({
+            local label = cc.ui.UILabel.new({
+                UILabelType = 1,
                 text  = tostring(levelIndex),
                 font  = "UIFont.fnt",
                 x     = x,
                 y     = y - 4,
-                align = ui.TEXT_ALIGEN_CENTER,
+                align = cc.ui.TEXT_ALIGEN_CENTER,
             })
             self:addChild(label)
 
