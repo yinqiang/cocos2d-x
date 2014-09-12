@@ -42,10 +42,9 @@ function CreateProjectUI:onEnter()
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 55,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 55)
     :addTo(self)
 
     local t = {
@@ -92,10 +91,9 @@ function CreateProjectUI:onEnter()
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 155,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 155)
     :addTo(self)
 
     local packageEditbox = cc.ui.UIInput.new({
@@ -115,10 +113,9 @@ function CreateProjectUI:onEnter()
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 255,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 255)
     :addTo(self)
 
     local portaitCheckBox = 
