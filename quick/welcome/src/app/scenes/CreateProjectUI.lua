@@ -11,7 +11,6 @@ local CreateProjectUI = class("CreateProjectUI", function()
     end)
 
 -- settings
-local font = "Monaco"
 local fontSize = 25
 local images = {
     normal = "#ButtonNormal.png",
@@ -40,7 +39,6 @@ function CreateProjectUI:onEnter()
         UILabelType = 2,
         text = "Choose Project Location:",
         size = fontSize,
-        font = font,
         color = display.COLOR_WHITE,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
@@ -65,7 +63,6 @@ function CreateProjectUI:onEnter()
             UILabelType = 2,
             text = "Select",
             size = fontSize,
-            font = font,
         }))
     :pos(display.right - 170, display.top - 120)
     :addTo(self)
@@ -84,7 +81,6 @@ function CreateProjectUI:onEnter()
         UILabelType = 2,
         text = "Project package name: (etc: com.mycomp.games.mygame)",
         size = fontSize,
-        font = font,
         color = display.COLOR_WHITE,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
@@ -106,7 +102,6 @@ function CreateProjectUI:onEnter()
         UILabelType = 2,
         text = "Screen Direction:",
         size = fontSize,
-        font = font,
         color = display.COLOR_WHITE,
         align = cc.ui.TEXT_ALIGN_LEFT,
         })
@@ -116,8 +111,8 @@ function CreateProjectUI:onEnter()
     local portaitCheckBox = 
     cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Portait", size = fontSize,  color = display.COLOR_WHITE}))
-        :setButtonLabelOffset(70, 0)
-        :setButtonLabelAlignment(display.CENTER)
+        :setButtonLabelOffset(30, 0)
+        :setButtonLabelAlignment(display.LEFT_CENTER)
         :align(display.LEFT_CENTER, 40, display.cy)
         :onButtonClicked(function() self.landscapeCheckBox:setButtonSelected(not self.portaitCheckBox:isButtonSelected()) end)
         :addTo(self)
@@ -125,9 +120,9 @@ function CreateProjectUI:onEnter()
     local landscapeCheckBox = 
     cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Landscape", size = fontSize,  color = display.COLOR_WHITE}))
-        :setButtonLabelOffset(100, 0)
-        :setButtonLabelAlignment(display.CENTER)
-        :align(display.LEFT_CENTER, 200, display.cy)
+        :setButtonLabelOffset(30, 0)
+        :setButtonLabelAlignment(display.LEFT_CENTER)
+        :align(display.LEFT_CENTER, 230, display.cy)
         :onButtonClicked(function() self.portaitCheckBox:setButtonSelected(not self.landscapeCheckBox:isButtonSelected()) end)
         :addTo(self)
 
@@ -145,7 +140,6 @@ function CreateProjectUI:onEnter()
             UILabelType = 2,
             text = "Cancel",
             size = fontSize,
-            font = font,
         }))
     :pos(40, 30)
     :addTo(self)
@@ -161,7 +155,6 @@ function CreateProjectUI:onEnter()
             UILabelType = 2,
             text = "Create Project",
             size = fontSize,
-            font = font,
         }))
     :pos(display.right - 270, 30)
     :addTo(self)
