@@ -4,6 +4,7 @@
 --
 
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
+local EditBoxLite = import(".EditBoxLite")
 
 local OpenProjectUI = class("OpenProjectUI", function()
         return cc.LayerColor:create(cc.c4b(56, 56, 56, 250))
@@ -225,7 +226,7 @@ function OpenProjectUI:createLabelAndEditLineAndButton(holder, labelString, edit
     :addTo(node)
 
     -- edit line
-    local locationEditbox = cc.ui.UIInput.new({
+    local locationEditbox = EditBoxLite.create({
         image = "#ButtonNormal.png",
         size = cc.size(display.width-250, 40),
         x = 40,

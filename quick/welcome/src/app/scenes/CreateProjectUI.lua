@@ -53,13 +53,8 @@ function CreateProjectUI:onEnter()
         x = 40,
         y = display.top - 120,
     }
-    local locationEditbox
-    if device.platform == "windows" then
-        locationEditbox = cc.ui.UIInput.new(t)
-    elseif device.platform == "mac" then
-        locationEditbox = EditBoxLite.new(t)
-    end
 
+    local locationEditbox = EditBoxLite.create(t)
     locationEditbox:setAnchorPoint(0,0)
     self:addChild(locationEditbox)
 
@@ -96,7 +91,7 @@ function CreateProjectUI:onEnter()
     :pos(40, display.top - 155)
     :addTo(self)
 
-    local packageEditbox = cc.ui.UIInput.new({
+    local packageEditbox = EditBoxLite.create({
         image = "#ButtonNormal.png",
         size = cc.size(display.width-250, 40),
         x = 40,

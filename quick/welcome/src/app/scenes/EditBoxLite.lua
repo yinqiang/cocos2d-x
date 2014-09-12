@@ -8,6 +8,16 @@ local EditBoxLite = class("EditBoxLite", function()
         return display.newNode()
     end)
 
+function EditBoxLite.create(params)
+
+    if device.platform == "windows" then
+        return cc.ui.UIInput.new(params)
+    elseif device.platform == "mac" then
+        return EditBoxLite.new(params)
+    end
+
+end
+
 --[[
 
 @param: table params
