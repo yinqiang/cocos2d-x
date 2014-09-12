@@ -998,6 +998,10 @@ function CCSUILoader:calcChildPosByName_(children, name, parentSize)
 	options = child.options
 	layoutParameter = options.layoutParameter
 
+	if not layoutParameter then
+		return
+	end
+
 	if 1 == layoutParameter.type then
 		if 1 == layoutParameter.gravity then
 			-- left
