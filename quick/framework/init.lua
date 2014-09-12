@@ -118,7 +118,6 @@ transition = require(cc.PACKAGE_NAME .. ".transition")
 display    = require(cc.PACKAGE_NAME .. ".display")
 filter     = require(cc.PACKAGE_NAME .. ".filter")
 audio      = require(cc.PACKAGE_NAME .. ".audio")
--- ui         = require(cc.PACKAGE_NAME .. ".ui")
 network    = require(cc.PACKAGE_NAME .. ".network")
 crypto     = require(cc.PACKAGE_NAME .. ".crypto")
 json       = require(cc.PACKAGE_NAME .. ".json")
@@ -134,6 +133,8 @@ end
 require(cc.PACKAGE_NAME .. ".cc.init")
 
 if LOAD_DEPRECATED_API then
+    ui         = require(cc.PACKAGE_NAME .. ".ui")
+
     local dp = cc.PACKAGE_NAME .. ".deprecated."
     require(dp .. "deprecated_functions")
 end
