@@ -278,18 +278,7 @@ function UILabel.newTTFLabel_(params)
 
     if label then
         label:setColor(color)
-
-        function label:realign(x, y)
-            if textAlign == UILabel.TEXT_ALIGN_LEFT then
-                label:setPosition(math.round(x + label:getContentSize().width / 2), y)
-            elseif textAlign == UILabel.TEXT_ALIGN_RIGHT then
-                label:setPosition(x - math.round(label:getContentSize().width / 2), y)
-            else
-                label:setPosition(x, y)
-            end
-        end
-
-        if x and y then label:realign(x, y) end
+        if x and y then label:setPosition(x, y) end
     end
 
     return label
