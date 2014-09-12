@@ -36,15 +36,15 @@ end
 function CreateProjectUI:onEnter()
     
     -- project location:
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = "Choose Project Location:",
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 55,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 55)
     :addTo(self)
 
     local t = {
@@ -55,7 +55,7 @@ function CreateProjectUI:onEnter()
     }
     local locationEditbox
     if device.platform == "windows" then
-        locationEditbox = ui.newEditBox(t)
+        locationEditbox = cc.ui.UIInput.new(t)
     elseif device.platform == "mac" then
         locationEditbox = EditBoxLite.new(t)
     end
@@ -66,7 +66,8 @@ function CreateProjectUI:onEnter()
     local selectButton = cc.ui.UIPushButton.new(images, {scale9 = true})
     selectButton:setAnchorPoint(0,0)
     selectButton:setButtonSize(150, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = "Select",
             size = fontSize,
             font = font,
@@ -84,18 +85,18 @@ function CreateProjectUI:onEnter()
 
     -- package name:
 
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = "Project package name: (etc: com.mycomp.games.mygame)",
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 155,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 155)
     :addTo(self)
 
-    local packageEditbox = ui.newEditBox({
+    local packageEditbox = cc.ui.UIInput.new({
         image = "#ButtonNormal.png",
         size = cc.size(display.width-250, 40),
         x = 40,
@@ -106,15 +107,15 @@ function CreateProjectUI:onEnter()
 
     -- screen direction:
 
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = "Screen Direction:",
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
-        x = 40,
-        y = display.top - 255,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
+    :pos(40, display.top - 255)
     :addTo(self)
 
     local portaitCheckBox = 
@@ -145,7 +146,8 @@ function CreateProjectUI:onEnter()
     local button = cc.ui.UIPushButton.new(images, {scale9 = true})
     button:setAnchorPoint(0,0)
     button:setButtonSize(150, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = "Cancel",
             size = fontSize,
             font = font,
@@ -160,7 +162,8 @@ function CreateProjectUI:onEnter()
     createProjectbutton.currState = 1
     createProjectbutton:setAnchorPoint(0,0)
     createProjectbutton:setButtonSize(250, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = "Create Project",
             size = fontSize,
             font = font,

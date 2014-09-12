@@ -72,14 +72,15 @@ function OpenProjectUI:onEnter()
 
     -- screen direction:
 
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = "Screen Direction:",
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
         x = 40,
         y = display.top - 300,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
     :addTo(self)
 
@@ -104,14 +105,15 @@ function OpenProjectUI:onEnter()
 
     -- Options:
 
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = "Options:",
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
         x = 40,
         y = display.top - 400,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
     :addTo(self)
 
@@ -151,7 +153,8 @@ function OpenProjectUI:createYesOrNoButton()
     local button = cc.ui.UIPushButton.new(images, {scale9 = true})
     button:setAnchorPoint(0,0)
     button:setButtonSize(150, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = "Cancel",
             size = fontSize,
         }))
@@ -164,7 +167,8 @@ function OpenProjectUI:createYesOrNoButton()
     local createProjectbutton = cc.ui.UIPushButton.new(images, {scale9 = true})
     createProjectbutton:setAnchorPoint(0,0)
     createProjectbutton:setButtonSize(250, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = " Open Project ",
             size = fontSize,
         }))
@@ -208,19 +212,20 @@ function OpenProjectUI:createLabelAndEditLineAndButton(holder, labelString, edit
     local node = display.newNode()
 
     -- label:
-    ui.newTTFLabel({
+    cc.ui.UILabel.new({
+        UILabelType = 2,
         text = labelString,
         size = fontSize,
         font = font,
         color = display.COLOR_WHITE,
         x = 40,
         y = display.top - 55,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
         })
     :addTo(node)
 
     -- edit line
-    local locationEditbox = ui.newEditBox({
+    local locationEditbox = cc.ui.UIInput.new({
         image = "#ButtonNormal.png",
         size = cc.size(display.width-250, 40),
         x = 40,
@@ -234,7 +239,8 @@ function OpenProjectUI:createLabelAndEditLineAndButton(holder, labelString, edit
     local selectButton = cc.ui.UIPushButton.new(images, {scale9 = true})
     selectButton:setAnchorPoint(0,0)
     selectButton:setButtonSize(150, 40)
-    :setButtonLabel("normal", ui.newTTFLabel({
+    :setButtonLabel("normal", cc.ui.UILabel.new({
+            UILabelType = 2,
             text = buttonString,
             size = fontSize,
         }))
