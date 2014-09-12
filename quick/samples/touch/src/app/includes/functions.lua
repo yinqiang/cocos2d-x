@@ -5,7 +5,10 @@ function createTouchableSprite(p)
 
     local cs = sprite:getContentSize()
     local label = cc.ui.UILabel.new({
-            UILabelType = 2,text = p.label, color = p.labelColor})
+            UILabelType = 2,
+            text = p.label,
+            color = p.labelColor})
+    label:align(display.CENTER)
     label:setPosition(cs.width / 2, label:getContentSize().height)
     sprite:addChild(label)
     sprite.label = label

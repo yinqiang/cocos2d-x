@@ -26,7 +26,7 @@ function PlayLevelScene:ctor(levelIndex)
         font  = "UIFont.fnt",
         x     = display.left + 10,
         y     = display.bottom + 120,
-        align = ui.TEXT_ALIGN_LEFT,
+        align = cc.ui.TEXT_ALIGN_LEFT,
     })
     self:addChild(label)
 

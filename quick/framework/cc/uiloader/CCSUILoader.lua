@@ -514,15 +514,9 @@ function CCSUILoader:createBMFontLabel(options)
 		UILabelType = 1,
 		text = options.text,
 		font = options.fileNameData.path,
-		textAlign = cc.ui.TEXT_ALIGN_CENTER,
-		x = options.x,
-		y = options.y})
-	if 1 == options.anchorPointY then
-		node:setAlignment(cc.ui.TEXT_ALIGN_RIGHT)
-	elseif 0.5 == options.anchorPointY then
-	else
-		node:setAlignment(cc.ui.TEXT_ALIGN_RIGHT)
-	end
+		textAlign = cc.ui.TEXT_ALIGN_CENTER})
+	node:align(self:getAnchorType(options.anchorPointX or 0.5, options.anchorPointY or 0.5),
+		options.x or 0, options.y or 0)
 
 	return node
 end

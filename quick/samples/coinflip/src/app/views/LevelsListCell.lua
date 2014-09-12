@@ -26,11 +26,9 @@ function LevelsListCell:ctor(size, beginLevelIndex, endLevelIndex, rows, cols)
             local label = cc.ui.UILabel.new({
                 UILabelType = 1,
                 text  = tostring(levelIndex),
-                font  = "UIFont.fnt",
-                x     = x,
-                y     = y - 4,
-                align = cc.ui.TEXT_ALIGEN_CENTER,
+                font  = "UIFont.fnt"
             })
+            :align(cc.ui.TEXT_ALIGN_CENTER, x, y - 4)
             self:addChild(label)
 
             x = x + colWidth

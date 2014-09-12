@@ -74,7 +74,8 @@ UILabel构建函数
 function UILabel:ctor(options)
     makeUIControl_(self)
     self:setLayoutSizePolicy(display.FIXED_SIZE, display.FIXED_SIZE)
-    self:align(display.LEFT_CENTER)
+
+    self:align(self:getAlign(options) or display.LEFT_CENTER)
 end
 
 --[[--
@@ -94,6 +95,48 @@ end
 
 
 -- private
+
+function UILabel:getAlign(options)
+    if not options then
+        return
+    end
+
+    if 1 == options.UILabelType then
+        if UILabel.TEXT_ALIGN_CENTER == options.align then
+            return display.CENTER
+        elseif UILabel.TEXT_ALIGN_LEFT == options.align then
+            return display.LEFT_CENTER
+        else
+            return display.RIGHT_CENTER
+        end
+    else
+        if UILabel.TEXT_ALIGN_RIGHT == options.align then
+            if UILabel.TEXT_VALIGN_TOP == options.valign then
+                return display.RIGHT_TOP
+            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
+                return display.RIGHT_BOTTOM
+            else
+                return display.RIGHT_CENTER
+            end
+        elseif UILabel.TEXT_ALIGN_CENTER == options.align then
+            if UILabel.TEXT_VALIGN_TOP == options.valign then
+                return display.CENTER_TOP
+            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
+                return display.CENTER_BOTTOM
+            else
+                return display.CENTER
+            end
+        else
+            if UILabel.TEXT_VALIGN_TOP == options.valign then
+                return display.LEFT_TOP
+            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
+                return display.LEFT_BOTTOM
+            else
+                return display.LEFT_CENTER
+            end
+        end
+    end
+end
 
 --[[--
 
