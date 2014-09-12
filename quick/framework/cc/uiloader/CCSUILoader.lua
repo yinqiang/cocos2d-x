@@ -100,8 +100,8 @@ function CCSUILoader:generateUINode(jsonNode, transX, transY, parent)
 	end
 	uiNode:setRotation(options.rotation or 0)
 
-	uiNode:setScaleX(options.scaleX * uiNode:getScaleX() or 1)
-	uiNode:setScaleY(options.scaleY * uiNode:getScaleY() or 1)
+	uiNode:setScaleX((options.scaleX or 1) * uiNode:getScaleX())
+	uiNode:setScaleY((options.scaleY or 1) * uiNode:getScaleY())
 	uiNode:setVisible(options.visible)
 	uiNode:setLocalZOrder(options.ZOrder or 0)
 	-- uiNode:setGlobalZOrder(options.ZOrder or 0)
