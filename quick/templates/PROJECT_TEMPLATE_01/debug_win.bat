@@ -9,7 +9,7 @@ if not exist "BIN" set BIN=%QUICK_V3_ROOT%quick\player\proj.win32\Release\player
 if not exist "BIN" set BIN=%QUICK_V3_ROOT%quick\player\proj.win32\Debug\player3.exe
 
 set ARG=-debugger-codeide -workdir %DIR%
-set SIZE=-portrait
+set SIZE=-__SCREEN_ORIENTATION_L__
 
 %BIN% %ARG% %SIZE%
 
