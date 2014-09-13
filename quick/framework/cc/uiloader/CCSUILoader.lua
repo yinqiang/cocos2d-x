@@ -528,6 +528,7 @@ function CCSUILoader:createLabel(options)
 		color = cc.c3b(options.colorR, options.colorG, options.colorB),
 		align = options.hAlignment,
 		valign = options.vAlignment,
+		dimensions = cc.size(options.areaWidth, options.areaHeight),
 		x = options.x, y = options.y})
 	if not options.ignoreSize then
 		node:setLayoutSize(options.areaWidth, options.areaHeight)
