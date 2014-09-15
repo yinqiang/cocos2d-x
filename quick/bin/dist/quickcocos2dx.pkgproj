@@ -25,7 +25,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/cocos</string>
+											<string>../../../dist_workdir/dist/cocos</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -41,7 +41,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/docs</string>
+											<string>../../../dist_workdir/dist/docs</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -57,7 +57,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/extensions</string>
+											<string>../../../dist_workdir/dist/extensions</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -73,7 +73,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/external</string>
+											<string>../../../dist_workdir/dist/external</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -89,7 +89,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/licenses</string>
+											<string>../../../dist_workdir/dist/licenses</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -105,7 +105,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/player3.app</string>
+											<string>../../../dist_workdir/dist/player3.app</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -121,7 +121,23 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/player3.exe</string>
+											<string>../../../dist_workdir/dist/quick</string>
+											<key>PATH_TYPE</key>
+											<integer>1</integer>
+											<key>PERMISSIONS</key>
+											<integer>493</integer>
+											<key>TYPE</key>
+											<integer>3</integer>
+											<key>UID</key>
+											<integer>0</integer>
+										</dict>
+										<dict>
+											<key>CHILDREN</key>
+											<array/>
+											<key>GID</key>
+											<integer>80</integer>
+											<key>PATH</key>
+											<string>../../../dist_workdir/dist/README.md</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -137,7 +153,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/quick</string>
+											<string>../../../dist_workdir/dist/setup_mac.sh</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -153,7 +169,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/README.md</string>
+											<string>../../../dist_workdir/dist/setup_win.bat</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -169,23 +185,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/setup_mac.sh</string>
-											<key>PATH_TYPE</key>
-											<integer>1</integer>
-											<key>PERMISSIONS</key>
-											<integer>493</integer>
-											<key>TYPE</key>
-											<integer>3</integer>
-											<key>UID</key>
-											<integer>0</integer>
-										</dict>
-										<dict>
-											<key>CHILDREN</key>
-											<array/>
-											<key>GID</key>
-											<integer>80</integer>
-											<key>PATH</key>
-											<string>../../dist_workdir/quickcocos2dx/setup_win.bat</string>
+											<string>../../../dist_workdir/dist/VERSION</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -653,7 +653,7 @@
 				<key>POSTINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>../../dist_workdir/quickcocos2dx/setup_mac.sh</string>
+					<string>../../../dist_workdir/dist/setup_mac.sh</string>
 					<key>PATH_TYPE</key>
 					<integer>1</integer>
 				</dict>

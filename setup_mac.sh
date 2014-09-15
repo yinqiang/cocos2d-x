@@ -9,13 +9,15 @@ elif [ "$BASENAME" = "bin" ]; then
     DIR=`dirname "$DIR"`
 fi
 
-VERSION=`cat $DIR/VERSION`
-LOG_FILENAME=/tmp/quick-cocos2d-x-${VERSION}-setup.log
-
 if [ ! "$2" == "" ]; then
     CALL_BY_PKG=YES
     DIR=$2
 fi;
+
+VERSION=`cat $DIR/VERSION`
+LOG_FILENAME=/tmp/quick-cocos2d-x-${VERSION}-setup.log
+echo "quick-cocos2d-x-${VERSION} setup log" > "$LOG_FILENAME"
+echo "================================" >> "$LOG_FILENAME"
 
 QUICK_V3_ROOT="$DIR"
 
@@ -71,7 +73,7 @@ export QUICK_V3_ROOT=`cat ~/.QUICK_V3_ROOT`
 
 if [ "$CALL_BY_PKG" != "" ]; then
 
-    $QUICK_V3_ROOT/quick/bin/install_luajit.sh > "$LOG_FILENAME"
+    $QUICK_V3_ROOT/quick/bin/install_luajit.sh >> "$LOG_FILENAME"
 
 else
 
@@ -94,3 +96,10 @@ echo "done."
 echo "done." >> "$LOG_FILENAME"
 echo ""
 echo "" >> "$LOG_FILENAME"
+
+if [ "$CALL_BY_PKG" != "" ]; then
+
+    open -g -e "$LOG_FILENAME"
+    open -g -R "$QUICK_V3_ROOT/player3.app"
+
+fi
