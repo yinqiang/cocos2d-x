@@ -443,6 +443,10 @@ function CCSUILoader:createButton(options)
 	local node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
 		{scale9 = not options.ignoreSize})
 
+	if options.opacity then
+		node:setCascadeOpacityEnabled(true)
+		node:setOpacity(options.opacity)
+	end
 	if options.text then
 		node:setButtonLabel(
 			cc.ui.UILabel.new({text = options.text,
