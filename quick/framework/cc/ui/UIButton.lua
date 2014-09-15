@@ -428,8 +428,10 @@ function UIButton:updateButtonImage_()
                         self.sprite_[i] = display.newSprite(v)
                     end
                     self:addChild(self.sprite_[i], UIButton.IMAGE_ZORDER)
-                    self.sprite_[i]:setFlippedX(self.flipX_ or false)
-                    self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                    if self.sprite_[i].setFlippedX then
+                        self.sprite_[i]:setFlippedX(self.flipX_ or false)
+                        self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                    end
                 end
             else
                 if self.scale9_ then
@@ -443,8 +445,10 @@ function UIButton:updateButtonImage_()
                 else
                     self.sprite_[1] = display.newSprite(image)
                 end
-                self.sprite_[1]:setFlippedX(self.flipX_ or false)
-                self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                if self.sprite_[1].setFlippedX then
+                    self.sprite_[1]:setFlippedX(self.flipX_ or false)
+                    self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                end
                 self:addChild(self.sprite_[1], UIButton.IMAGE_ZORDER)
             end
         end
