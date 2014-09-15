@@ -11,6 +11,7 @@ echo ""
 echo Install LuaJIT, please enter your password.
 echo ""
 sudo make install
+sudo make clean
 echo ""
 echo "DONE."
 echo ""
