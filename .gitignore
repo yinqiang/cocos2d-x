@@ -42,7 +42,7 @@ ipch/
 
 # Ignore files build by ndk and eclipse
 libs/
-bin/
+proj.android/bin/
 obj/
 gen/
 assets/

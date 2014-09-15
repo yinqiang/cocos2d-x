@@ -2,6 +2,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DIR="`dirname $DIR`"
 DIR="`dirname $DIR`"
+DIR="`dirname $DIR`"
 
 QUICK_V3_ROOT=$DIR
 
@@ -24,6 +25,7 @@ cd quick/player/proj.mac
 
 xcodebuild -configuration Debug \
     CODE_SIGN_IDENTITY="Developer ID Application: CocoaChina (U7E7529TA5)" \
+    QUICK_V3_ROOT="$QUICK_V3_ROOT" \
     -workspace player3.xcworkspace \
     -scheme player3 \
     -archivePath ./build \
