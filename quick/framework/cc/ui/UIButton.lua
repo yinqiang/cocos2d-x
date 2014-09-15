@@ -73,6 +73,8 @@ function UIButton:ctor(events, initialState, options)
     self.images_ = {}
     self.sprite_ = {}
     self.scale9_ = options and options.scale9
+    self.flipX_ = options and options.flipX
+    self.flipY_ = options and options.flipY
     self.scale9Size_ = nil
     self.labels_ = {}
     self.labelOffset_ = {0, 0}
@@ -80,6 +82,13 @@ function UIButton:ctor(events, initialState, options)
     self.initialState_ = initialState
 
     display.align(self, display.CENTER)
+
+    if "boolean" ~= type(self.flipX_) then
+        self.flipX_ = false
+    end
+    if "boolean" ~= type(self.flipY_) then
+        self.flipY_ = false
+    end
 
     self:addNodeEventListener(cc.NODE_EVENT, function(event)
         if event.name == "enter" then
@@ -419,6 +428,8 @@ function UIButton:updateButtonImage_()
                         self.sprite_[i] = display.newSprite(v)
                     end
                     self:addChild(self.sprite_[i], UIButton.IMAGE_ZORDER)
+                    self.sprite_[i]:flipX(self.flipX_ or false)
+                    self.sprite_[i]:flipY(self.flipY_ or false)
                 end
             else
                 if self.scale9_ then
@@ -432,6 +443,8 @@ function UIButton:updateButtonImage_()
                 else
                     self.sprite_[1] = display.newSprite(image)
                 end
+                self.sprite_[1]:flipX(self.flipX_ or false)
+                self.sprite_[1]:flipY(self.flipY_ or false)
                 self:addChild(self.sprite_[1], UIButton.IMAGE_ZORDER)
             end
         end
