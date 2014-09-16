@@ -210,6 +210,31 @@ function WelcomeScene:createTabWidget(node)
     self:createButtons(node)
     self:createSamples(node)
     self:createHeaders(node)
+
+    function self.tabWidget.setCurrentIndex(index)
+        self.tabWidget.currentWidget.header:setButtonSelected(false)
+        if self.tabWidget.currentWidget.widget then
+            self.tabWidget.currentWidget.widget:setVisible(false)
+        end
+
+        self.tabWidget.currentWidget = {
+            index = index,
+            header = self.tabWidget.headers_[index],
+            widget = self.tabWidget.widgets_[index],
+        }
+
+        self.tabWidget.currentWidget.header:setButtonSelected(true)
+        if self.tabWidget.currentWidget.widget then
+            if self.tabWidget.currentWidget.widget.hasItemLoaded == false then
+                self:loadSampleItems()
+                self.tabWidget.currentWidget.widget.hasItemLoaded = true
+            end
+            self.tabWidget.currentWidget.widget:setVisible(true)
+        end
+    end
+
+    local index = (#cc.player.settings.PLAYER_OPEN_RECENTS < 1 and 2) or 1
+    self.tabWidget.setCurrentIndex(index)
 end
 
 function WelcomeScene:createOpenRecents(recents, node)
@@ -261,7 +286,7 @@ function WelcomeScene:createHeaders(node)
         off = "#TabButtonNormal.png",
     }
 
-    local headers = {{title="我的项目",widget=self.localProjectListView_}, {title="示例",widget=self.lvGrid}, {title="帮助"}}
+    local headers = {{title="我的项目",widget=self.localProjectListView_}, {title="示例",widget=self.lvGrid}}
     for i,v in ipairs(headers) do
 
         local header =
@@ -274,29 +299,7 @@ function WelcomeScene:createHeaders(node)
         header.index = i
         header.widget = v.widget
         header:onButtonClicked(function()
-            if self.tabWidget then
-
-                self.tabWidget.currentWidget.header:setButtonSelected(false)
-                if self.tabWidget.currentWidget.widget then
-                    self.tabWidget.currentWidget.widget:setVisible(false)
-                end
-
-                self.tabWidget.currentWidget = {
-                    index = header.index,
-                    header = self.tabWidget.headers_[header.index],
-                    widget = self.tabWidget.widgets_[header.index],
-                }
-
-                self.tabWidget.currentWidget.header:setButtonSelected(true)
-                if self.tabWidget.currentWidget.widget then
-                    if self.tabWidget.currentWidget.widget.hasItemLoaded == false then
-                        self:loadSampleItems()
-                        self.tabWidget.currentWidget.widget.hasItemLoaded = true
-                    end
-                    self.tabWidget.currentWidget.widget:setVisible(true)
-                end
-            end
-
+            self.tabWidget.setCurrentIndex(header.index)
         end)
 
         node:addChild(header)
