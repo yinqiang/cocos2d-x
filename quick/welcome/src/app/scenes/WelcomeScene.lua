@@ -8,7 +8,7 @@ function WelcomeScene:ctor()
     local bg = cc.LayerColor:create(cc.c4b(56, 56, 56, 255))
     self:addChild(bg)
 
-    self:createTitleBar(bg)
+    -- self:createTitleBar(bg)
     self:createLogo(bg)
     self:createTabWidget(bg)
     self:createCopyright(bg)
@@ -92,21 +92,6 @@ function WelcomeScene:createButtons(node)
     end)
 
     top = top - 68
-    cc.ui.UIPushButton.new(images, {scale9 = true})
-    :setButtonSize(buttonWidth, buttonHeight)
-    :setButtonLabel("normal", cc.ui.UILabel.new({
-		    UILabelType = 2,
-            text = "打包",
-            size = 18,
-        }))
-    :pos(display.width-padding, top)
-    :addTo(node)
-    :setButtonEnabled(false)
-    :onButtonClicked(function()
-        print("[[TODO]]")
-    end)
-
-    top = top - 68
     cc.ui.UIPushButton.new({normal="#RedButtonNormal.png", pressed="#RedButtonPressed.png", disabled = "#ButtonDisabled.png",}, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
     :setButtonLabel("normal", cc.ui.UILabel.new({
@@ -131,7 +116,7 @@ function WelcomeScene:createButtons(node)
     end)
 
 
-    top = top - 180
+    top = top - 180-68
     cc.ui.UIPushButton.new(images, {scale9 = true})
     :setButtonSize(buttonWidth, buttonHeight)
     :setButtonLabel("normal", cc.ui.UILabel.new({
