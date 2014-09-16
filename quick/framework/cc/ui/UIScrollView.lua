@@ -34,6 +34,7 @@ local UIScrollView = class("UIScrollView", function()
 end)
 
 UIScrollView.BG_ZORDER 				= -100
+UIScrollView.TOUCH_ZORDER 			= -99
 
 UIScrollView.DIRECTION_BOTH			= 0
 UIScrollView.DIRECTION_VERTICAL		= 1
@@ -83,6 +84,10 @@ function UIScrollView:ctor(params)
 	if params.scrollbarImgV then
 		self.sbV = display.newScale9Sprite(params.scrollbarImgV, 100):addTo(self)
 	end
+
+	-- touchOnContent true:当触摸在滚动内容上才有效 false:当触摸在显示区域(viewRect_)就有效
+	-- 当内容小于显示区域时，两者就有区别了
+	self:setTouchType(params.touchOnContent or true)
 
 	self:addBgColorIf(params)
 	self:addBgGradientColorIf(params)
@@ -229,6 +234,24 @@ end
 
 --[[--
 
+设置触摸响应方式
+true:当触摸在滚动内容上才有效 false:当触摸在显示区域(viewRect_)就有效
+内容大于显示区域时，两者无差别
+内容小于显示区域时，true:在空白区域触摸无效,false:在空白区域触摸也可滚动内容
+
+@param boolean bTouchOnContent 是否触控到滚动内容上才有效
+
+@return UIScrollView
+
+]]
+function UIScrollView:setTouchType(bTouchOnContent)
+	self.touchOnContent = bTouchOnContent
+
+	return self
+end
+
+--[[--
+
 重置位置,主要用在纵向滚动时
 
 ]]
@@ -295,14 +318,15 @@ function UIScrollView:addScrollNode(node)
 		self.viewRect_ = self.scrollNode:getCascadeBoundingBox()
 		self:setViewRect(self.viewRect_)
 	end
-	node:setTouchSwallowEnabled(true)
-	node:setTouchEnabled(true)
-	node:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (event)
-        return self:onTouch_(event)
-    end)
-    node:addNodeEventListener(cc.NODE_TOUCH_CAPTURE_EVENT, function (event)
-        return self:onTouchCapture_(event)
-    end)
+	-- node:setTouchSwallowEnabled(true)
+	-- node:setTouchEnabled(true)
+	-- node:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (event)
+ --        return self:onTouch_(event)
+ --    end)
+ --    node:addNodeEventListener(cc.NODE_TOUCH_CAPTURE_EVENT, function (event)
+ --        return self:onTouchCapture_(event)
+ --    end)
+	self:addTouchNode()
 
     return self
 end
@@ -363,6 +387,13 @@ function UIScrollView:onTouch_(event)
 	if "began" == event.name and not self:isTouchInViewRect(event) then
 		printInfo("UIScrollView - touch didn't in viewRect")
 		return false
+	end
+
+	if "began" == event.name and self.touchOnContent then
+		local cascadeBound = self.scrollNode:getCascadeBoundingBox()
+		if not cc.rectContainsPoint(cascadeBound, cc.p(event.x, event.y)) then
+			return false
+		end
 	end
 
 	if "began" == event.name then
@@ -737,6 +768,39 @@ function UIScrollView:scaleToParent_()
 	end
 
 	return scale
+end
+
+--[[--
+
+加一个大小为viewRect的touch node
+
+]]
+function UIScrollView:addTouchNode()
+	local node
+
+	if self.touchNode_ then
+		node = self.touchNode_
+	else
+		node = display.newNode()
+		self.touchNode_ = node
+
+		node:setLocalZOrder(UIScrollView.TOUCH_ZORDER)
+		node:setTouchSwallowEnabled(true)
+		node:setTouchEnabled(true)
+		node:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (event)
+	        return self:onTouch_(event)
+	    end)
+	    node:addNodeEventListener(cc.NODE_TOUCH_CAPTURE_EVENT, function (event)
+	        return self:onTouchCapture_(event)
+	    end)
+
+	    self:addChild(node)
+	end
+
+	node:setContentSize(self.viewRect_.width, self.viewRect_.height)
+	node:setPosition(self.viewRect_.x, self.viewRect_.y)
+
+    return self
 end
 
 --[[--
