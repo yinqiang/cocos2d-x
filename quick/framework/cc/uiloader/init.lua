@@ -31,6 +31,7 @@ cc.uiloader 可以将CCS导出的json文件用quick的纯lua控件构建出UI布
 
 ]]
 
+local UILoaderUtilitys = import(".UILoaderUtilitys")
 local uiloader = class("uiloader")
 local CCSUILoader = import(".CCSUILoader")
 local CCSSceneLoader = import(".CCSSceneLoader")
@@ -189,6 +190,10 @@ end
 function uiloader:loadFile_(jsonFile)
 	local fileUtil = cc.FileUtils:getInstance()
 	local fullPath = fileUtil:fullPathForFilename(jsonFile)
+
+	local pathinfo  = io.pathinfo(fullPath)
+	UILoaderUtilitys.addSearchPathIf(pathinfo.dirname)
+
 	local jsonStr = fileUtil:getStringFromFile(fullPath)
 	local jsonVal = json.decode(jsonStr)
 
