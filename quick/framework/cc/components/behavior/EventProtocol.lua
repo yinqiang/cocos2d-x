@@ -67,16 +67,7 @@ function EventProtocol:dispatchEvent(event)
     return self.target_
 end
 
-function EventProtocol:removeEventListener(handleToRemove, key1, key2)
-    if key2 then
-        PRINT_DEPRECATED("EventProtocol:removeEventListener(eventName, method, target) is deprecated, please use EventProtocol:removeEventListener(handle)")
-        printLog("WARN", "EventProtocol:removeEventListener(eventName, method, target) cannot remove listener")
-        return self.target_
-    elseif key1 then
-        PRINT_DEPRECATED("EventProtocol:removeEventListener(eventName, handle) is deprecated, please use EventProtocol:removeEventListener(handle)")
-        handleToRemove = key1
-    end
-
+function EventProtocol:removeEventListener(handleToRemove)
     for eventName, listenersForEvent in pairs(self.listeners_) do
         for handle, _ in pairs(listenersForEvent) do
             if handle == handleToRemove then
