@@ -125,6 +125,6 @@ elif [ "$CALL_BY_CONTAINER" == "PKG" ]; then
     echo "done." >> "$LOG_FILENAME"
     echo "" >> "$LOG_FILENAME"
 
-    open -g -e "$LOG_FILENAME"
-    open -g -R "$QUICK_V3_ROOT/player3.app"
+    open -g "$QUICK_V3_ROOT/README.html"
+    open -R "$QUICK_V3_ROOT/player3.app"
 fi
