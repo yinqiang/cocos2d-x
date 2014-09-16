@@ -9,10 +9,18 @@ elif [ "$BASENAME" = "bin" ]; then
     DIR=`dirname "$DIR"`
 fi
 
-if [ "$2" != "" ]; then
+if [ ! "$2" == "" ]; then
     CALL_BY_PKG=YES
     DIR=$2
 fi;
+
+VERSION=`cat $DIR/VERSION`
+LOG_FILENAME=/tmp/quick-cocos2d-x-${VERSION}-setup.log
+
+if [ "$CALL_BY_PKG" != "" ]; then
+    echo "quick-cocos2d-x-${VERSION} setup log" > "$LOG_FILENAME"
+    echo "================================" >> "$LOG_FILENAME"
+fi
 
 QUICK_V3_ROOT="$DIR"
 
@@ -20,17 +28,28 @@ echo ""
 echo "QUICK_V3_ROOT = \"$QUICK_V3_ROOT\""
 echo ""
 
+if [ "$CALL_BY_PKG" != "" ]; then
+    echo "" >> "$LOG_FILENAME"
+    echo "QUICK_V3_ROOT = \"$QUICK_V3_ROOT\"" >> "$LOG_FILENAME"
+    echo "" >> "$LOG_FILENAME"
+fi
+
 # set Xcode
 defaults write com.apple.dt.Xcode IDEApplicationwideBuildSettings -dict-add QUICK_V3_ROOT "$QUICK_V3_ROOT"
 defaults write com.apple.dt.Xcode IDESourceTreeDisplayNames -dict-add QUICK_V3_ROOT QUICK_V3_ROOT
 IDEApplicationwideBuildSettings=`defaults read com.apple.dt.Xcode IDEApplicationwideBuildSettings`
 IDESourceTreeDisplayNames=`defaults read com.apple.dt.Xcode IDESourceTreeDisplayNames`
 
-echo "> Xcode settings updated."
+echo "> Xcode settings updated." 
 
 # set quick player
 defaults write org.cocos.quick.player QUICK_V3_ROOT "$QUICK_V3_ROOT"
 echo "> quick player settings updated."
+
+if [ "$CALL_BY_PKG" != "" ]; then
+    echo "> Xcode settings updated." >> "$LOG_FILENAME"
+    echo "> quick player settings updated." >> "$LOG_FILENAME"
+fi
 
 # set .bash_profile or .profile
 if [ -f ~/.bash_profile ]; then
@@ -51,16 +70,22 @@ cp $PROFILE_NAME.tmp $PROFILE_NAME
 rm $PROFILE_NAME.tmp
 
 echo "> $PROFILE_NAME updated."
+
 echo "$QUICK_V3_ROOT" > ~/.QUICK_V3_ROOT
 echo "> ~/.QUICK_V3_ROOT updated."
 echo ""
+
+if [ "$CALL_BY_PKG" != "" ]; then
+    echo "> $PROFILE_NAME updated." >> "$LOG_FILENAME"
+    echo "> ~/.QUICK_V3_ROOT updated." >> "$LOG_FILENAME"
+    echo "" >> "$LOG_FILENAME"
+fi
 
 export QUICK_V3_ROOT=`cat ~/.QUICK_V3_ROOT`
 
 if [ "$CALL_BY_PKG" != "" ]; then
 
-    $QUICK_V3_ROOT/quick/bin/install_luajit.sh
-    ln -s $QUICK_V3_ROOT/quick/player/mac/player.app $QUICK_V3_ROOT/quick/player.app
+    $QUICK_V3_ROOT/quick/bin/install_luajit.sh >> "$LOG_FILENAME"
 
 else
 
@@ -81,3 +106,13 @@ echo ""
 echo "done."
 echo ""
 
+if [ "$CALL_BY_PKG" != "" ]; then
+
+    echo "" >> "$LOG_FILENAME"
+    echo "done." >> "$LOG_FILENAME"
+    echo "" >> "$LOG_FILENAME"
+
+    open -g -e "$LOG_FILENAME"
+    open -g -R "$QUICK_V3_ROOT/player3.app"
+
+fi
