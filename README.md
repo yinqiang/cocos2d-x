@@ -53,7 +53,7 @@ quick-cocos2d-x 中带有一个名为 player 的工具。
 
 ~
 
-### 更进一步
+### 使用指南
 
 -    [player 使用说明](docs/howto/player-user-manual/zh.html)
 -    [在 Code IDE 中调试 quick 工程](docs/howto/use-codeide/zh.html)
@@ -61,6 +61,14 @@ quick-cocos2d-x 中带有一个名为 player 的工具。
 -    [在 Windows Phone 8 中运行 quick](docs/howto/run-on-wp8/zh.html)
 -    [编译 player 执行文件](docs/howto/compile-player/zh.html)
 -    [编译 Android 工程](docs/howto/compile-android/zh.html)
+-    [升级到 quick-cocos2d-x 最新版](docs/howto/upgrade/zh.html)
+
+~
+
+### 参考手册
+
+-    [quick 中的事件](docs/manual/events/zh.html)
+-    [quick 中的触摸事件](docs/manual/touch-events/zh.html)
 
 ~
 
