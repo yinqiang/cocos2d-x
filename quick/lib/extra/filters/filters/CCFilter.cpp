@@ -67,10 +67,9 @@ void Filter::initProgram()
 	if (nullptr == __pProgram)
 	{
 		__pProgram = loadShader();
-        
+
         if (nullptr != shaderName) {
             GLProgramCache::getInstance()->addGLProgram(__pProgram, this->shaderName);
-            __pProgram->release();
         }
 	}
 

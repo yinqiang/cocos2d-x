@@ -439,6 +439,11 @@ function CCSUILoader:createImage(options)
 	node:setAnchorPoint(
 		cc.p(options.anchorPointX or 0.5, options.anchorPointY or 0.5))
 
+	if options.touchAble then
+		node:setTouchEnabled(true)
+		node:setTouchSwallowEnabled(true)
+	end
+
 	return node
 end
 
