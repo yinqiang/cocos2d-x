@@ -816,8 +816,8 @@ scrollView的填充方法，可以自动把一个table里的node有序的填充�
     for i = 1, 100 do
       local png  = cc.ui.UIImage.new("box_bai.png")
       t[#t+1] = png
-      cc.ui.UILabel.new({text = i, size = 24, color = ccc3(100,100,100)})
-      :align(display.CENTER, png:getContentSize().width/, png:getContentSize().height/2):addTo(png)
+      cc.ui.UILabel.new({text = i, size = 24, color = cc.c3b(100,100,100)})
+      :align(display.CENTER, png:getContentSize().width/2, png:getContentSize().height/2):addTo(png)
     end
 --填充scrollview，参数itemSize为填充项的大小(填充项大小必须相同)
     view:fill(t,{itemSize=cc.size((t[#t]):getContentSize())})
@@ -914,6 +914,12 @@ function UIScrollView:fill(nodes,params)
       n:addTo(innerContainer)
 
     end
+
+    local x, y = innerContainer:getPosition()
+	local size = innerContainer:getContentSize()
+	local disY = self.viewRect_.height - size.height
+	y = y + disY
+	S_XY(innerContainer, x, y)
     --如果是横向布局
     --  elseif(self.direction==cc.ui.UIScrollView.DIRECTION_HORIZONTAL) then
   else

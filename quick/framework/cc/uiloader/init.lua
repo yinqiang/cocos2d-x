@@ -143,6 +143,20 @@ function uiloader:seekNodeByName(parent, name)
 		end
 
 		if parent then
+			if name == parent.name then
+				return parent
+			end
+		end
+	end
+
+	for i=1, childCount do
+		if "table" == type(children) then
+			parent = children[i]
+		elseif "userdata" == type(children) then
+			parent = children:objectAtIndex(i - 1)
+		end
+
+		if parent then
 			findNode = self:seekNodeByName(parent, name)
 			if findNode then
 				return findNode
@@ -151,6 +165,36 @@ function uiloader:seekNodeByName(parent, name)
 	end
 
 	return
+end
+
+--[[--
+
+按name查找布局中的结点
+
+@param node parent 要查找布局的结点
+@param string path 要查找的path
+
+@return node
+
+]]
+function uiloader:seekNodeByPath(parent, path)
+	if not parent then
+		return
+	end
+
+	local names = string.split(path, '/')
+	dump(names, "names:")
+
+	for i,v in ipairs(names) do
+		parent = self:seekNodeByName(parent, v)
+		if not parent then
+			return
+		end
+		print("findNode:" .. tostring(parent))
+		print("v:" .. v)
+	end
+
+	return parent
 end
 
 --[[--
