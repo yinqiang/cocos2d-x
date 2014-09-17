@@ -28,7 +28,7 @@ function CCSUILoader:load(json, params)
 	end
 end
 
-function CCSUILoader:loadFile(jsonFile)
+function CCSUILoader:loadFile(jsonFile, params)
 	local fileUtil = cc.FileUtils:getInstance()
 	local fullPath = fileUtil:fullPathForFilename(jsonFile)
 	local jsonStr = fileUtil:getStringFromFile(fullPath)
@@ -36,7 +36,7 @@ function CCSUILoader:loadFile(jsonFile)
 
 	UILoaderUtilitys.addSearchPathIf(io.pathinfo(fullPath).dirname)
 
-	return self:load(jsonVal)
+	return self:load(jsonVal, params)
 end
 
 function CCSUILoader:parserJson(jsonVal)
