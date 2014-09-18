@@ -75,7 +75,7 @@ function UILabel:ctor(options)
     makeUIControl_(self)
     self:setLayoutSizePolicy(display.FIXED_SIZE, display.FIXED_SIZE)
 
-    self:align(self:getAlign(options) or display.LEFT_CENTER)
+    self:align(display.LEFT_CENTER)
 end
 
 --[[--
@@ -95,48 +95,6 @@ end
 
 
 -- private
-
-function UILabel:getAlign(options)
-    if not options then
-        return
-    end
-
-    if 1 == options.UILabelType then
-        if UILabel.TEXT_ALIGN_CENTER == options.align then
-            return display.CENTER
-        elseif UILabel.TEXT_ALIGN_LEFT == options.align then
-            return display.LEFT_CENTER
-        else
-            return display.RIGHT_CENTER
-        end
-    else
-        if UILabel.TEXT_ALIGN_RIGHT == options.align then
-            if UILabel.TEXT_VALIGN_TOP == options.valign then
-                return display.RIGHT_TOP
-            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
-                return display.RIGHT_BOTTOM
-            else
-                return display.RIGHT_CENTER
-            end
-        elseif UILabel.TEXT_ALIGN_CENTER == options.align then
-            if UILabel.TEXT_VALIGN_TOP == options.valign then
-                return display.CENTER_TOP
-            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
-                return display.CENTER_BOTTOM
-            else
-                return display.CENTER
-            end
-        else
-            if UILabel.TEXT_VALIGN_TOP == options.valign then
-                return display.LEFT_TOP
-            elseif UILabel.TEXT_VALIGN_BOTTOM == options.valign then
-                return display.LEFT_BOTTOM
-            else
-                return display.LEFT_CENTER
-            end
-        end
-    end
-end
 
 --[[--
 
@@ -166,31 +124,7 @@ local label = UILabel:newBMFontLabel({
 
 ]]
 function UILabel.newBMFontLabel_(params)
-    assert(type(params) == "table",
-           "[framework.cc.ui.UILabel] newBMFontLabel_() invalid params")
-
-    local text      = tostring(params.text)
-    local font      = params.font
-    local textAlign = params.align or UILabel.TEXT_ALIGN_CENTER
-    local x, y      = params.x, params.y
-    assert(font ~= nil, "framework.cc.ui.UILabel.newBMFontLabel_() - not set font")
-
-    local label = cc.LabelBMFont:create(text, font, cc.LABEL_AUTOMATIC_WIDTH, textAlign)
-    if not label then return end
-
-    if type(x) == "number" and type(y) == "number" then
-        label:setPosition(x, y)
-    end
-
-    if textAlign == UILabel.TEXT_ALIGN_LEFT then
-        label:align(display.LEFT_CENTER)
-    elseif textAlign == UILabel.TEXT_ALIGN_RIGHT then
-        label:align(display.RIGHT_CENTER)
-    else
-        label:align(display.CENTER)
-    end
-
-    return label
+    return display.newBMFontLabel(params)
 end
 
 --[[--
@@ -246,42 +180,7 @@ local label = UILabel:newTTFLabel({
 
 ]]
 function UILabel.newTTFLabel_(params)
-    assert(type(params) == "table",
-           "[framework.cc.ui.UILabel] newTTFLabel_() invalid params")
-
-    local text       = tostring(params.text)
-    local font       = params.font or UILabel.DEFAULT_TTF_FONT
-    local size       = params.size or UILabel.DEFAULT_TTF_FONT_SIZE
-    local color      = params.color or display.COLOR_WHITE
-    local textAlign  = params.align or UILabel.TEXT_ALIGN_LEFT
-    local textValign = params.valign or UILabel.TEXT_VALIGN_CENTER
-    local x, y       = params.x, params.y
-    local dimensions = params.dimensions
-
-    assert(type(size) == "number",
-           "[framework.cc.ui.UILabel] newTTFLabel_() invalid params.size")
-
-    local label
-    if cc.FileUtils:getInstance():isFileExist(font) then
-        if dimensions then
-            label = cc.Label:createWithTTF(text, font, size, dimensions, textAlign, textValign)
-        else
-            label = cc.Label:createWithTTF(text, font, size)
-        end
-    else
-        if dimensions then
-            label = cc.LabelTTF:create(text, font, size, dimensions, textAlign, textValign)
-        else
-            label = cc.LabelTTF:create(text, font, size)
-        end
-    end
-
-    if label then
-        label:setColor(color)
-        if x and y then label:setPosition(x, y) end
-    end
-
-    return label
+    return display.newTTFLabel(params)
 end
 
 --[[--
@@ -309,14 +208,14 @@ function UILabel.newTTFLabelWithShadow_(params)
     params.size = params.size
     params.color = shadowColor
     params.x, params.y = 0, 0
-    g.shadow1 = self:newTTFLabel(params)
+    g.shadow1 = UILabel.newTTFLabel_(params)
     local offset = 1 / (display.widthInPixels / display.width)
-    g.shadow1:realign(offset, -offset)
+    g.shadow1:setPosition(offset, -offset)
     g:addChild(g.shadow1)
 
     params.color = color
-    g.label = self:newTTFLabel(params)
-    g.label:realign(0, 0)
+    g.label = UILabel.newTTFLabel_(params)
+    g.label:setPosition(0, 0)
     g:addChild(g.label)
 
     function g:setString(text)
@@ -377,22 +276,22 @@ function UILabel.newTTFLabelWithOutline_(params)
     params.size  = params.size
     params.color = outlineColor
     params.x, params.y = 0, 0
-    g.shadow1 = self:newTTFLabel(params)
-    g.shadow1:realign(1, 0)
+    g.shadow1 = UILabel.newTTFLabel_(params)
+    g.shadow1:setPosition(1, 0)
     g:addChild(g.shadow1)
-    g.shadow2 = self:newTTFLabel(params)
-    g.shadow2:realign(-1, 0)
+    g.shadow2 = UILabel.newTTFLabel_(params)
+    g.shadow2:setPosition(-1, 0)
     g:addChild(g.shadow2)
-    g.shadow3 = self:newTTFLabel(params)
-    g.shadow3:realign(0, -1)
+    g.shadow3 = UILabel.newTTFLabel_(params)
+    g.shadow3:setPosition(0, -1)
     g:addChild(g.shadow3)
-    g.shadow4 = self:newTTFLabel(params)
-    g.shadow4:realign(0, 1)
+    g.shadow4 = UILabel.newTTFLabel_(params)
+    g.shadow4:setPosition(0, 1)
     g:addChild(g.shadow4)
 
     params.color = color
-    g.label = self:newTTFLabel(params)
-    g.label:realign(0, 0)
+    g.label = UILabel.newTTFLabel_(params)
+    g.label:setPosition(0, 0)
     g:addChild(g.label)
 
     function g:setString(text)

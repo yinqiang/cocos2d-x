@@ -183,15 +183,12 @@ function uiloader:seekNodeByPath(parent, path)
 	end
 
 	local names = string.split(path, '/')
-	dump(names, "names:")
 
 	for i,v in ipairs(names) do
 		parent = self:seekNodeByName(parent, v)
 		if not parent then
 			return
 		end
-		print("findNode:" .. tostring(parent))
-		print("v:" .. v)
 	end
 
 	return parent
