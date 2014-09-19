@@ -990,7 +990,7 @@ function display.newLine(points, params)
     if not params then
         borderColor = cc.c4f(0,0,0,1)
         radius = 0.5
-        scale ＝ 1.0
+        scale = 1.0
     else
         borderColor = params.borderColor or cc.c4f(0,0,0,1)
         radius = (params.borderWidth and params.borderWidth/2) or 0.5
