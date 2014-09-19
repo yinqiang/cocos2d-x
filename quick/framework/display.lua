@@ -968,7 +968,7 @@ shape = display.newLine(point表, [参数])
 ~~~ lua
 
 -- 创建一个线宽为2，颜色为红色，从(10,10)到(100,100)的线段
-local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
+local shape3 = display.newLine({(10, 10), (100,100)},
     {borderColor = cc.c4f(1.0, 0.0, 0.0, 1.0),
     borderWidth = 1})
 
@@ -985,13 +985,16 @@ local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
 function display.newLine(points, params)
     local radius
     local borderColor
+    local scale
 
     if not params then
         borderColor = cc.c4f(0,0,0,1)
         radius = 0.5
+        scale = 1.0
     else
         borderColor = params.borderColor or cc.c4f(0,0,0,1)
         radius = (params.borderWidth and params.borderWidth/2) or 0.5
+        scale = checknumber(params.scale or 1.0)
     end
 
     for i, p in ipairs(points) do
@@ -1406,7 +1409,7 @@ local sprite = display.newSprite("#Yes.png")
 local frameNo = display.newSpriteFrame("No.png")
 
 -- 在需要时，修改 Sprite 的显示内容
-sprite:setDisplayFrame(frameNo)
+sprite:setSpriteFrame(frameNo)
 
 ~~~
 
@@ -1496,7 +1499,7 @@ function display.newAnimation(frames, time)
     return cc.Animation:createWithSpriteFrames(frames, time)
 end
 
---[[
+--[[--
 
 以指定名字缓存创建好的动画对象，以便后续反复使用。
 
