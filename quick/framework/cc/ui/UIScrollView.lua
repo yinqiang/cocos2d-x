@@ -807,7 +807,7 @@ scrollView的填充方法，可以自动把一个table里的node有序的填充�
 ~~~ lua
 
 --填充100个相同大小的图片。
-    local view =  cc.ui.UIScrollView.new({viewRect=CCRect(0,0,display.width,display.height),direction=2})
+    local view =  cc.ui.UIScrollView.new({viewRect=cc.rect(0,0,display.width,display.height),direction=2})
     self:addChild(view)
     local t = {}
     for i = 1, 100 do
