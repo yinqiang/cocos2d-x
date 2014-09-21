@@ -324,6 +324,24 @@
 
 
             <tr>
+              <td class="name" nowrap colspan="2"><a href="#anchor_display_newBMFontLabel">display.newBMFontLabel(params)</a></td>
+            </tr>
+
+            <tr>
+              <td class="summary" colspan="2">用位图字体创建文本显示对象，并返回 Label 对象。</td>
+            </tr>
+
+
+            <tr>
+              <td class="name" nowrap colspan="2"><a href="#anchor_display_newTTFLabel">display.newTTFLabel(params)</a></td>
+            </tr>
+
+            <tr>
+              <td class="summary" colspan="2">使用 TTF 字体创建文字显示对象，并返回 Label 对象。</td>
+            </tr>
+
+
+            <tr>
               <td class="name" nowrap colspan="2"><a href="#anchor_display_align">display.align(target,&nbsp;anchorPoint,&nbsp;x,&nbsp;y)</a></td>
             </tr>
 
@@ -401,6 +419,15 @@
 
             <tr>
               <td class="summary" colspan="2">以包含图像帧的数组创建一个动画对象。</td>
+            </tr>
+
+
+            <tr>
+              <td class="name" nowrap colspan="2"><a href="#anchor_display_setAnimationCache">display.setAnimationCache(name,&nbsp;animation)</a></td>
+            </tr>
+
+            <tr>
+              <td class="summary" colspan="2">以指定名字缓存创建好的动画对象，以便后续反复使用。</td>
             </tr>
 
 
@@ -1328,7 +1355,7 @@ local shape4 = display.newRect(cc.rect(100, 100, 40, 40),
 <p>shape = display.newLine(point表, [参数])</p>
 
 <pre><code class="lua"><br />-- 创建一个线宽为2，颜色为红色，从(10,10)到(100,100)的线段
-local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
+local shape3 = display.newLine({(10, 10), (100,100)},
     {borderColor = cc.c4f(1.0, 0.0, 0.0, 1.0),
     borderWidth = 1})
 
@@ -1392,6 +1419,136 @@ local polygon = display.newPolygon(points)
 </ul>
 
 <p>@see DrawNode</p>
+
+            </dd>
+
+
+<!--            <dt class="--><!--">-->
+<!--              --><!--<a name="--><!--"></a>-->
+<!--              <h3>--><!--</h3>-->
+<!--            </dt>-->
+
+            <a name="anchor_display_newBMFontLabel"></a>
+
+            <dd class="">
+
+<h3>display.newBMFontLabel()</h3>
+
+<blockquote>
+  <p>display.newBMFontLabel(params)</p>
+</blockquote>
+
+<p>用位图字体创建文本显示对象，并返回 Label 对象。</p>
+
+<p>BMFont 通常用于显示英文内容，因为英文字母加数字和常用符号也不多，生成的 BMFont 文件较小。如果是中文，应该用 TTFLabel。</p>
+
+<p>可用参数：</p>
+
+<ul>
+<li>text: 要显示的文本</li>
+<li>font: 字体文件名</li>
+<li>align: 文字的水平对齐方式（可选）</li>
+<li>maxLineWidth: 最大行宽（可选）</li>
+<li>offsetX: 图像的X偏移量（可选）</li>
+<li>offsetY: 图像的Y偏移量（可选）</li>
+<li>x, y: 坐标（可选）</li>
+</ul>
+
+<pre><code class="lua"><br />local label = display.newBMFontLabel({
+    text = "Hello",
+    font = "UIFont.fnt",
+})
+
+</code></pre>
+
+<h4>Parameters</h4>
+
+<ul>
+<li>table <strong>params</strong> 参数表格对象</li>
+</ul>
+
+<h4>Returns</h4>
+
+<ul>
+<li>Label Label对象</li>
+</ul>
+
+            </dd>
+
+
+<!--            <dt class="--><!--">-->
+<!--              --><!--<a name="--><!--"></a>-->
+<!--              <h3>--><!--</h3>-->
+<!--            </dt>-->
+
+            <a name="anchor_display_newTTFLabel"></a>
+
+            <dd class="">
+
+<h3>display.newTTFLabel()</h3>
+
+<blockquote>
+  <p>display.newTTFLabel(params)</p>
+</blockquote>
+
+<p>使用 TTF 字体创建文字显示对象，并返回 Label 对象。</p>
+
+<p>可用参数：</p>
+
+<ul>
+<li>text: 要显示的文本</li>
+<li>font: 字体名，如果是非系统自带的 TTF 字体，那么指定为字体文件名</li>
+<li>size: 文字尺寸，因为是 TTF 字体，所以可以任意指定尺寸</li>
+<li>color: 文字颜色（可选），用 cc.c3b() 指定，默认为白色</li>
+<li>align: 文字的水平对齐方式（可选）</li>
+<li>valign: 文字的垂直对齐方式（可选），仅在指定了 dimensions 参数时有效</li>
+<li>dimensions: 文字显示对象的尺寸（可选），使用 cc.size() 指定</li>
+<li>x, y: 坐标（可选）</li>
+</ul>
+
+<p>align 和 valign 参数可用的值：</p>
+
+<ul>
+<li>cc.TEXT_ALIGNMENT_LEFT 左对齐</li>
+<li>cc.TEXT_ALIGNMENT_CENTER 水平居中对齐</li>
+<li>cc.TEXT_ALIGNMENT_RIGHT 右对齐</li>
+<li>cc.VERTICAL_TEXT_ALIGNMENT_TOP 垂直顶部对齐</li>
+<li>cc.VERTICAL_TEXT_ALIGNMENT_CENTER 垂直居中对齐</li>
+<li>cc.VERTICAL_TEXT_ALIGNMENT_BOTTOM 垂直底部对齐</li>
+</ul>
+
+<pre><code class="lua"><br />-- 创建一个居中对齐的文字显示对象
+local label = display.newTTFLabel({
+    text = "Hello, World",
+    font = "Marker Felt",
+    size = 64,
+    align = cc.TEXT_ALIGNMENT_CENTER -- 文字内部居中对齐
+})
+
+-- 左对齐，并且多行文字顶部对齐
+local label = display.newTTFLabel({
+    text = "Hello, World\n您好，世界",
+    font = "Arial",
+    size = 64,
+    color = cc.c3b(255, 0, 0), -- 使用纯红色
+    align = cc.TEXT_ALIGNMENT_LEFT,
+    valign = cc.VERTICAL_TEXT_ALIGNMENT_TOP,
+    dimensions = cc.size(400, 200)
+})
+
+</code></pre>
+
+<h4>Parameters</h4>
+
+<ul>
+<li>table <strong>params</strong> 参数表格对象</li>
+</ul>
+
+<h4>Returns</h4>
+
+<ul>
+<li>UILabel UILabel对象</li>
+</ul>
 
             </dd>
 
@@ -1672,7 +1829,7 @@ local sprite = display.newSprite("#Yes.png")
 local frameNo = display.newSpriteFrame("No.png")
 
 -- 在需要时，修改 Sprite 的显示内容
-sprite:setDisplayFrame(frameNo)
+sprite:setSpriteFrame(frameNo)
 
 </code></pre>
 
@@ -1768,6 +1925,42 @@ sprite:playAnimationOnce(animation) -- 播放一次动画
 
 <ul>
 <li>Animation Animation对象</li>
+</ul>
+
+            </dd>
+
+
+<!--            <dt class="--><!--">-->
+<!--              --><!--<a name="--><!--"></a>-->
+<!--              <h3>--><!--</h3>-->
+<!--            </dt>-->
+
+            <a name="anchor_display_setAnimationCache"></a>
+
+            <dd class="">
+
+<h3>display.setAnimationCache()</h3>
+
+<blockquote>
+  <p>display.setAnimationCache(name, animation)</p>
+</blockquote>
+
+<p>以指定名字缓存创建好的动画对象，以便后续反复使用。</p>
+
+<pre><code class="lua"><br />local frames = display.newFrames("Walk%04d.png", 1, 8)
+local animation = display.newAnimation(frames, 0.5 / 8) -- 0.5 秒播放 8 桢
+display.setAnimationCache("Walk", animation)
+
+-- 在需要使用 Walk 动画的地方
+sprite:playAnimationOnce(display.getAnimationCache("Walk")) -- 播放一次动画
+
+</code></pre>
+
+<h4>Parameters</h4>
+
+<ul>
+<li>string <strong>name</strong> 名字</li>
+<li>Animation <strong>animation</strong> 动画对象</li>
 </ul>
 
             </dd>
@@ -1951,7 +2144,7 @@ local sp = display.printscreen(node, {})
     </table> <!-- id="main" -->
 
     <div id="about">
-      <i>update: 2014-09-17 15:36:45, generated by <a href="http://github.com/dualface/luadocx">luadocx 1.3</a></i>
+      <i>update: 2014-09-19 16:07:27, generated by <a href="http://github.com/dualface/luadocx">luadocx 1.3</a></i>
     </div> <!-- id="about" -->
 
   </div> <!-- id="container" -->
