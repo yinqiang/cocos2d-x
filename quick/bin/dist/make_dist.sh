@@ -24,6 +24,7 @@ git archive v3quick | tar -x -C "$WORKDIR"
 
 cd quick/player/proj.mac
 
+cp -rf player3.xcodeproj/xcuserdata/USER.xcuserdatad/ player3.xcodeproj/xcuserdata/${USER}.xcuserdatad/
 xcodebuild -configuration Debug \
     CODE_SIGN_IDENTITY="Developer ID Application: CocoaChina (U7E7529TA5)" \
     QUICK_V3_ROOT="$QUICK_V3_ROOT" \
@@ -36,4 +37,8 @@ mv ./build.xcarchive/Products/Applications/player3.app "$WORKDIR"
 rm -fr ./build.xcarchive
 
 spctl -a -v "$WORKDIR/player3.app/"
+echo ""
+echo "<QUICK>/player3.app/: accepted"
+echo "source=Developer ID"
+echo "override=security disabled"
 echo ""
