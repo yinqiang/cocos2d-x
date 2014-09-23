@@ -665,7 +665,7 @@ function UIScrollView:enableScrollBar()
 		if self.viewRect_.width < bound.width then
 			local barW = self.viewRect_.width*self.viewRect_.width/bound.width
 			if barW < size.height then
-				barw = size.height
+				barW = size.height
 			end
 			self.sbH:setContentSize(barW, size.height)
 			self.sbH:setPosition(self.viewRect_.x + barW/2,
