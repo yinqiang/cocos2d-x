@@ -807,16 +807,19 @@ scrollView的填充方法，可以自动把一个table里的node有序的填充�
 ~~~ lua
 
 --填充100个相同大小的图片。
-    local view =  cc.ui.UIScrollView.new({viewRect=cc.rect(100,100,display.width,display.height),direction=2});
-    print(view:getContentSize().height)
+    local view =  cc.ui.UIScrollView.new(
+        {viewRect = cc.rect(100,100, 400, 400), direction = 2})
     self:addChild(view);
-    local t = {};
+
+    local t = {}
     for i = 1, 100 do
-        local png  = cc.ui.UIImage.new("box_bai.png");
-        t[#t+1] = png;
-        cc.ui.UILabel.new({text = i, size = 24, color = cc.c3b(100,100,100)}):align(display.CENTER, W(png)/2, H(png)/2):addTo(png);
+        local png  = cc.ui.UIImage.new("GreenButton.png")
+        t[#t+1] = png
+        cc.ui.UILabel.new({text = i, size = 24, color = cc.c3b(100,100,100)})
+            :align(display.CENTER, png:getContentSize().width/2, png:getContentSize().height/2)
+            :addTo(png)
     end
-    view:fill(t,{itemSize=SIZE(t[#t])});
+    view:fill(t, {itemSize = (t[#t]):getContentSize()})
 ~~~
 
 注意：参数nodes 是table结构，且一定要是{node1,node2,node3,...}不能是{a=node1,b=node2,c=node3,...}
