@@ -179,25 +179,6 @@ void PlayerWin::openProjectWithProjectConfig(const ProjectConfig &config)
     quit();
 }
 
-void PlayerWin::trackEvent(const char *eventName)
-{
-    cocos2d::extra::HTTPRequest *request = cocos2d::extra::HTTPRequest::createWithUrl(NULL,
-                    "http://www.google-analytics.com/collect",
-                    kCCHTTPRequestMethodPOST);
-    request->addPOSTValue("v", "1");
-    request->addPOSTValue("tid", "UA-52790340-1");
-    request->addPOSTValue("cid", getUserGUID().c_str());
-    request->addPOSTValue("t", "event");
-
-    request->addPOSTValue("an", "player");
-    request->addPOSTValue("av", cocos2dVersion());
-
-    request->addPOSTValue("ec", "win");
-    request->addPOSTValue("ea", eventName);
-
-    request->start();
-}
-
 void PlayerWin::loadLuaConfig()
 {
     LuaEngine* pEngine = LuaEngine::getInstance();

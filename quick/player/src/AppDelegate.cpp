@@ -7,10 +7,12 @@
 #include "codeIDE/runtime/Runtime.h"
 #include "codeIDE/ConfigParser.h"
 
+#include "native/CCNative.h"
 #include "network/CCHTTPRequest.h"
 #include "PlayerProtocol.h"
 
 using namespace CocosDenshion;
+USING_NS_CC_EXTRA;
 
 AppDelegate::AppDelegate()
 {
@@ -164,9 +166,36 @@ void StartupCall::startup()
     trackLaunchEvent();
 }
 
+void StartupCall::trackEvent(const char *eventName)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	const char *platform = "win";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+	const char *platform = "mac";
+#else
+	const char *platform = "UNKNOWN";
+#endif
+    
+    HTTPRequest *request = HTTPRequest::createWithUrl(NULL,
+                                                      "http://www.google-analytics.com/collect",
+                                                      kCCHTTPRequestMethodPOST);
+    request->addPOSTValue("v", "1");
+    request->addPOSTValue("tid", "UA-55061270-1");
+    request->addPOSTValue("cid", Native::getOpenUDID().c_str());
+    request->addPOSTValue("t", "event");
+    
+    request->addPOSTValue("an", "player");
+    request->addPOSTValue("av", cocos2dVersion());
+    
+    request->addPOSTValue("ec", platform);
+    request->addPOSTValue("ea", eventName);
+    
+    request->start();
+}
+
 void StartupCall::trackLaunchEvent()
 {
-    player::PlayerProtocol::getInstance()->trackEvent("launch");
+    trackEvent("launch");
 
     const char *trackUrl = nullptr;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -177,8 +206,7 @@ void StartupCall::trackLaunchEvent()
     
     if (trackUrl)
     {
-        cocos2d::extra::HTTPRequest *request = cocos2d::extra::HTTPRequest::createWithUrl(NULL, trackUrl,
-                                                                                          kCCHTTPRequestMethodGET);
+        HTTPRequest *request = HTTPRequest::createWithUrl(NULL, trackUrl, kCCHTTPRequestMethodGET);
         request->start();
     }
 }

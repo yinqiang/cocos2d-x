@@ -35,7 +35,6 @@ public:
     virtual void openNewPlayer();
     virtual void openNewPlayerWithProjectConfig(const ProjectConfig &config);
     virtual void openProjectWithProjectConfig(const ProjectConfig &config);
-    virtual void trackEvent(const char *eventName);
 
 protected:
     PlayerWin();

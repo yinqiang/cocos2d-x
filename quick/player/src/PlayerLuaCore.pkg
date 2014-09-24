@@ -114,7 +114,6 @@ class PlayerProtocol
     void openNewPlayer();
     void openNewPlayerWithProjectConfig(ProjectConfig config);
     void openProjectWithProjectConfig(ProjectConfig config);
-    void trackEvent(const char *eventName);
 };
 
 class PlayerFileDialogServiceProtocol : public PlayerServiceProtocol

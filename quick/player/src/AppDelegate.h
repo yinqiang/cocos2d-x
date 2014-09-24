@@ -59,6 +59,7 @@ public:
     void startup();
     
 private:
+    void trackEvent(const char *eventName);
     void trackLaunchEvent();
     
 private:
