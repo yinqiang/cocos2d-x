@@ -1212,6 +1212,9 @@
     <ClCompile Include="..\..\..\extensions\GUI\CCTextField\UITextField.cpp">
       <Filter>extensions\GUI\CCTextField</Filter>
     </ClCompile>
+    <ClCompile Include="..\lua_bindings\manual\snapshot.c">
+      <Filter>libquick\lua_bindings\manual</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(QUICK_V3_ROOT)cocos\physics\CCPhysicsBody.h">
@@ -2380,6 +2383,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\extensions\GUI\CCTextField\UITextField.h">
       <Filter>extensions\GUI\CCTextField</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua_bindings\manual\snapshot.h">
+      <Filter>libquick\lua_bindings\manual</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

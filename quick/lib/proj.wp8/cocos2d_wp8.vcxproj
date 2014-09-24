@@ -1333,6 +1333,14 @@
     <ClCompile Include="..\extra\filters\nodes\CCFilteredSprite.cpp" />
     <ClCompile Include="..\extra\filters\shaders\ccFilterShaders.cpp" />
     <ClCompile Include="..\extra\filters\shaders\FilterShaders.cpp" />
+    <ClCompile Include="..\lua_bindings\manual\snapshot.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\ProjectConfig\ProjectConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1724,6 +1732,7 @@
     <ClInclude Include="..\extra\filters\shaders\ccFilterShader_vblur_vert.h" />
     <ClInclude Include="..\extra\filters\shaders\ccFilterShader_zoom_blur_frag.h" />
     <ClInclude Include="..\extra\filters\shaders\FilterShaders.h" />
+    <ClInclude Include="..\lua_bindings\manual\snapshot.h" />
     <ClInclude Include="..\ProjectConfig\ProjectConfig.h" />
   </ItemGroup>
   <ItemGroup>
