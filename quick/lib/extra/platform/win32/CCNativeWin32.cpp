@@ -1,10 +1,14 @@
 
 #include "platform/win32/CCNativeWin32.h"
-#include "platform/win32/CCNativeWin32def.h"
+#include "platform/win32/CCNativeWin32def.h"\
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_QT)
-#include <QInputDialog>
-#endif
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
+#include "glfw3native.h"
+// for mac address
+#include <WinSock2.h>
+#include <Iphlpapi.h>
+#pragma comment(lib,"Iphlpapi.lib")
 
 NativeWin32* NativeWin32::s_sharedInstance = NULL;
 
@@ -65,7 +69,7 @@ void NativeWin32::showAlertViewWithDelegate(AlertViewDelegate *delegate)
         MultiByteToWideChar(CP_UTF8, 0, m_alertViewTitle.c_str(), -1, wszTitleBuf, titleBufLen);
         MultiByteToWideChar(CP_UTF8, 0, m_alertViewMessage.c_str(),-1, wszMessageBuf, messageBufLen);
 
-        int button = MessageBox(NULL,wszMessageBuf, wszTitleBuf, MB_OKCANCEL);
+        int button = MessageBoxW(NULL, wszMessageBuf, wszTitleBuf, MB_OKCANCEL);
 
         delete [] wszTitleBuf;
         delete [] wszMessageBuf;
@@ -112,7 +116,7 @@ void NativeWin32::showAlertViewWithLuaListener(LUA_FUNCTION listener)
         MultiByteToWideChar(CP_UTF8, 0, m_alertViewTitle.c_str(), -1, wszTitleBuf, titleBufLen);
         MultiByteToWideChar(CP_UTF8, 0, m_alertViewMessage.c_str(),-1, wszMessageBuf, messageBufLen);
 
-        int button = MessageBox(NULL,wszMessageBuf, wszTitleBuf, MB_OKCANCEL);
+        int button = MessageBoxW(NULL, wszMessageBuf, wszTitleBuf, MB_OKCANCEL);
 
         delete [] wszTitleBuf;
         delete [] wszMessageBuf;
@@ -129,7 +133,7 @@ void NativeWin32::showAlertViewWithLuaListener(LUA_FUNCTION listener)
 	}
 
 	LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
-	stack->pushCCLuaValueDict(event);
+	stack->pushLuaValueDict(event);
     stack->executeFunctionByHandler(listener, 1);
 }
 
@@ -140,17 +144,7 @@ void NativeWin32::removeAlertViewLuaListener(void)
 
 const string NativeWin32::getInputText(const char* title, const char* message, const char* defaultValue)
 {
-#if (CC_TARGET_PLATFORM==CC_PLATFORM_QT)
-    bool ok;
-    QString retText = QInputDialog::getText(0
-                                            , title ? title : "INPUT TEXT"
-                                            , message ? message : "INPUT TEXT, PRESS ENTER"
-                                            , QLineEdit::Normal
-                                            , QString::fromUtf8(defaultValue ? defaultValue : "")
-                                            , &ok);
-    return retText.toStdString();
-#else
-	HWND handle = CCEGLView::sharedOpenGLView()->getHWnd();
+    HWND handle = glfwGetWin32Window(Director::getInstance()->getOpenGLView()->getWindow());
 
 	NativeWin32InputBoxStruct inputbox;
 	inputbox.title = string(title ? title : "INPUT TEXT");
@@ -158,5 +152,71 @@ const string NativeWin32::getInputText(const char* title, const char* message, c
 	inputbox.value = string(defaultValue ? defaultValue : "");
 	SendMessage(handle, WM_CUT, 998, (LPARAM)&inputbox);
 	return inputbox.value;
-#endif
+}
+
+// 
+//
+static bool getMacAddress(string& macstring)
+{
+    bool ret = false;
+    ULONG ulOutBufLen = sizeof(IP_ADAPTER_INFO);
+    PIP_ADAPTER_INFO pAdapterInfo = (IP_ADAPTER_INFO *)malloc(ulOutBufLen);
+    if (pAdapterInfo == NULL)
+    {
+        return false;
+    }
+
+    if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW)
+    {
+        free(pAdapterInfo);
+        pAdapterInfo = (IP_ADAPTER_INFO *)malloc(ulOutBufLen);
+        if (pAdapterInfo == NULL)
+        {
+            return false;
+        }
+    }
+
+    if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == NO_ERROR)
+    {
+        for (PIP_ADAPTER_INFO pAdapter = pAdapterInfo; pAdapter != NULL; pAdapter = pAdapter->Next)
+        {
+            if (pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+            {
+                continue;
+            }
+
+            if (pAdapter->AddressLength != 6)
+            {
+                continue;
+            }
+
+            char macBuf[32];
+            sprintf(macBuf, "%02X-%02X-%02X-%02X-%02X-%02X",
+                int(pAdapter->Address[0]),
+                int(pAdapter->Address[1]),
+                int(pAdapter->Address[2]),
+                int(pAdapter->Address[3]),
+                int(pAdapter->Address[4]),
+                int(pAdapter->Address[5]));
+            macstring = macBuf;
+            ret = true;
+            break;
+        }
+    }
+
+    free(pAdapterInfo);
+    return ret;
+}
+
+const string NativeWin32::getUDID()
+{
+    if (m_macAddress.length() <= 0)
+    {
+        if (!getMacAddress(m_macAddress))
+        {
+            m_macAddress = "udid-fixed-1234567890";
+        }
+    }
+
+    return m_macAddress;
 }

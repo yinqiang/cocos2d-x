@@ -53,7 +53,7 @@ void Native::cancelAlert(void)
 
 const std::string Native::getOpenUDID(void)
 {
-	return "";
+    return NativeWin32::sharedInstance()->getUDID();
 }
 
 void Native::openURL(const char* url)

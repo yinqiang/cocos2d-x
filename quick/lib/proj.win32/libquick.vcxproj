@@ -961,6 +961,8 @@
     <ClCompile Include="..\extra\network\CCHTTPRequest.cpp" />
     <ClCompile Include="..\extra\network\CCNetwork.cpp" />
     <ClCompile Include="..\extra\platform\win32\CCCryptoWin32.cpp" />
+    <ClCompile Include="..\extra\platform\win32\CCNative.cpp" />
+    <ClCompile Include="..\extra\platform\win32\CCNativeWin32.cpp" />
     <ClCompile Include="..\extra\platform\win32\CCNetworkWin32.cpp" />
     <ClCompile Include="..\extra\platform\win32\CCStorePaymentTransactionWrapper.cpp" />
     <ClCompile Include="..\lua_bindings\auto\lua_cocos2dx_auto.cpp" />

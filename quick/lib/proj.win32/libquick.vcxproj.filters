@@ -2993,6 +2993,12 @@
     <ClCompile Include="..\lua_bindings\manual\snapshot.c">
       <Filter>libquick\lua_bindings\manual</Filter>
     </ClCompile>
+    <ClCompile Include="..\extra\platform\win32\CCNative.cpp">
+      <Filter>libquick\extra\platform\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extra\platform\win32\CCNativeWin32.cpp">
+      <Filter>libquick\extra\platform\win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\cocos\3d\CCAnimationCurve.inl">
