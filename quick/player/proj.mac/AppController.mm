@@ -350,6 +350,12 @@ std::string getCurAppPath(void)
             [self writeDebugLogToFile:_project.getDebugLogFilePath()];
         }
     }
+    
+    // set framework path
+    if (!_project.isLoadPrecompiledFramework())
+    {
+        FileUtils::getInstance()->addSearchPath(SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/");
+    }
 
     const string writablePath = _project.getWritableRealPath();
     if (writablePath.length())

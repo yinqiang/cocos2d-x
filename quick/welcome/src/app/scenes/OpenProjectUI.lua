@@ -42,6 +42,7 @@ function OpenProjectUI:onEnter()
             local directory = filedialog:openDirectory("Choose Localtion", "")
             if string.len(directory) > 0 then
                 self.location:setText(directory)
+                self:updatePanelInfo()
             end
         end)
         :addTo(self)
@@ -136,7 +137,7 @@ function OpenProjectUI:onEnter()
         :setButtonLabelAlignment(display.CENTER_LEFT)
         :align(display.LEFT_CENTER, 40, display.cy-170)
         :addTo(self)
-        :setButtonSelected(true)
+        :setButtonSelected(false)
 
     --
     self:createYesOrNoButton()
@@ -241,6 +242,38 @@ function OpenProjectUI:createLabelAndEditLineAndButton(holder, labelString, edit
 
     self[holder] = locationEditbox
     return node
+end
+
+function OpenProjectUI:updatePanelInfo()
+    local configPath = self.location:getText() .. '/src/config.lua'
+
+    if cc.FileUtils:getInstance():isFileExist(configPath) then
+        local data = ""
+        for line in io.lines(configPath) do
+            if string.find(line, "CONFIG_SCREEN_WIDTH") then
+                data = data .. line .. ',\n'
+            elseif string.find(line, "CONFIG_SCREEN_HEIGHT") then
+                data = data .. line .. ',\n'
+            elseif string.find(line, "CONFIG_SCREEN_ORIENTATION") then
+                data = data .. line .. ',\n'
+            end
+        end
+
+        local config = assert(loadstring("local settings = {" .. data .. "} return settings"))()
+
+        local with = tonumber(config.CONFIG_SCREEN_WIDTH)
+        local height = tonumber(config.CONFIG_SCREEN_HEIGHT)
+
+        -- screen direction
+        if config.CONFIG_SCREEN_ORIENTATION == "portrait" then
+            self.portaitCheckBox:setButtonSelected(true)
+            self.landscapeCheckBox:setButtonSelected(false)
+        elseif config.CONFIG_SCREEN_ORIENTATION == "landscape" then
+            self.landscapeCheckBox:setButtonSelected(true)
+            self.portaitCheckBox:setButtonSelected(false)
+        end
+    end
+
 end
 
 return OpenProjectUI

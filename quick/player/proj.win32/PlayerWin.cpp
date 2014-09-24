@@ -279,6 +279,12 @@ int PlayerWin::run()
         _project.resetToWelcome();
     }
 
+    // set framework path
+    if (!_project.isLoadPrecompiledFramework())
+    {
+        FileUtils::getInstance()->addSearchPath(SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/");
+    }
+
     // create the application instance
     _app = new AppDelegate();
     _app->setProjectConfig(_project);

@@ -57,6 +57,16 @@ function string:splitBySep(sep)
     return fields
 end
 
+-- cjson
+local cjson
+local function safeLoad()
+    cjson = require("cjson")
+end
+
+if not pcall(safeLoad) then 
+    cjson = nil
+end
+
 --
 -- save player setting to ~/.quick_player.lua
 --
@@ -218,23 +228,11 @@ function player:registerEventHandler()
     -- for app event
     local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
     local event = function(e)
-        if self.json == nil then self.json = require('framework.json') end
-
-        local data = self.json.decode(e:getDataString())
-        if data == nil then return end
+        local status, data = pcall(cjson.decode, e:getDataString())
+        if not status then return end
 
         if data.name == "close" then
-            eventDispatcher:dispatchEvent(cc.EventCustom:new("WELCOME_APP_HIDE"))
             cc.Director:getInstance():endToLua()
-        elseif data.name == "resize" then
-            -- <code here> t.w,t.h
-        elseif data.name == "focusIn" then
-            -- cc.Director:getInstance():resume()
-        elseif data.name == "focusOut" then
-            -- cc.Director:getInstance():pause()
-        elseif data.name == "keyPress" then
-            -- t.key = "tab"
-            -- t.key = "return"
         elseif data.name == "menuClicked" then
             self:onMenuClicked(data)
         end
