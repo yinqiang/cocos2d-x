@@ -233,6 +233,7 @@
 				F456ECBD15EE018E00FCF3E2 /* Sources */,
 				F456ECBE15EE018E00FCF3E2 /* Frameworks */,
 				F456ECBF15EE018E00FCF3E2 /* Resources */,
+				F457E79119D19824004128D3 /* ShellScript */,
 			);
 			buildRules = (
 			);
