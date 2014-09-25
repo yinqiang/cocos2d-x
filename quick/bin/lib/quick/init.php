@@ -6,7 +6,7 @@ define('BIN_DIR', rtrim(dirname(dirname(__DIR__)), '/\\'));
 if (DS == '/')
 {
     define('LUAJIT_BIN', 'luajit');
-    define('LUA_BIN', 'luac');
+    define('LUA_BIN', BIN_DIR . '/mac/luac');
 }
 else
 {
