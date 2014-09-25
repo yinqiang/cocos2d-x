@@ -8,7 +8,7 @@
 			<key>PACKAGE_FILES</key>
 			<dict>
 				<key>DEFAULT_INSTALL_LOCATION</key>
-				<string>/Documents/quick-3.2rc0</string>
+				<string>/Documents/quick-__QUICK_VERSION__</string>
 				<key>HIERARCHY</key>
 				<dict>
 					<key>CHILDREN</key>
@@ -58,7 +58,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/cocos</string>
+											<string>quick-__QUICK_VERSION__/cocos</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -74,7 +74,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/docs</string>
+											<string>quick-__QUICK_VERSION__/docs</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -90,7 +90,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/extensions</string>
+											<string>quick-__QUICK_VERSION__/extensions</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -106,7 +106,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/external</string>
+											<string>quick-__QUICK_VERSION__/external</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -122,7 +122,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/licenses</string>
+											<string>quick-__QUICK_VERSION__/licenses</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -138,7 +138,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/player3.app</string>
+											<string>quick-__QUICK_VERSION__/player3.app</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -154,7 +154,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/quick</string>
+											<string>quick-__QUICK_VERSION__/quick</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -170,7 +170,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/README.html</string>
+											<string>quick-__QUICK_VERSION__/README.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -186,7 +186,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/README.md</string>
+											<string>quick-__QUICK_VERSION__/README.md</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -202,7 +202,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/setup_mac.app</string>
+											<string>quick-__QUICK_VERSION__/setup_mac.app</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -218,7 +218,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/setup_mac.sh</string>
+											<string>quick-__QUICK_VERSION__/setup_mac.sh</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -234,7 +234,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/setup_win.bat</string>
+											<string>quick-__QUICK_VERSION__/setup_win.bat</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -250,7 +250,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../dist_workdir/quick-3.2rc0/VERSION</string>
+											<string>quick-__QUICK_VERSION__/VERSION</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -264,7 +264,7 @@
 									<key>GID</key>
 									<integer>80</integer>
 									<key>PATH</key>
-									<string>quick-3.2rc0</string>
+									<string>quick-__QUICK_VERSION__</string>
 									<key>PATH_TYPE</key>
 									<integer>0</integer>
 									<key>PERMISSIONS</key>
@@ -702,7 +702,7 @@
 				<key>POSTINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>../../../setup_mac.sh</string>
+					<string>quick-__QUICK_VERSION__/setup_mac.sh</string>
 					<key>PATH_TYPE</key>
 					<integer>1</integer>
 				</dict>
@@ -726,7 +726,7 @@
 				<key>RELOCATABLE</key>
 				<false/>
 				<key>VERSION</key>
-				<string>3.2rc0</string>
+				<string>__QUICK_VERSION__</string>
 			</dict>
 			<key>UUID</key>
 			<string>7B0AD20B-F54F-4E0F-B741-CFC1D6DD493E</string>
@@ -896,7 +896,7 @@
 						<key>LANGUAGE</key>
 						<string>English</string>
 						<key>VALUE</key>
-						<string>quick-cocos2d-x 3.2rc0</string>
+						<string>quick-cocos2d-x __QUICK_VERSION__</string>
 					</dict>
 				</array>
 			</dict>
@@ -1099,7 +1099,7 @@
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>quick-cocos2d-x-3.2rc0</string>
+			<string>quick-cocos2d-x-__QUICK_VERSION__</string>
 		</dict>
 	</dict>
 	<key>TYPE</key>
