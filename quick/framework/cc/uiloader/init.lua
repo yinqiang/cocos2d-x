@@ -64,6 +64,8 @@ function uiloader:load(jsonFile, params)
 		node, w, h = CCSUILoader:load(json, params)
 	end
 
+	UILoaderUtilitys.clearPath()
+
 	return node, w, h
 end
 
