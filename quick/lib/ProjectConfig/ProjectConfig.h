@@ -36,7 +36,7 @@ public:
     static const int DEFAULT_WIDTH = 640;
     static const int DEFAULT_HEIGHT = 960;
 
-    bool isWelcome();
+    bool isWelcome() const;
     void resetToWelcome();
     void resetToCreator();
 

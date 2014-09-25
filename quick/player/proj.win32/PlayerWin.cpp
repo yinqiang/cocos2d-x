@@ -138,8 +138,12 @@ void PlayerWin::openNewPlayerWithProjectConfig(const ProjectConfig &config)
 
     string commandLine;
     commandLine.append(getApplicationExePath());
-    commandLine.append(" ");
-    commandLine.append(config.makeCommandLine());
+    if (!config.isWelcome())
+    {
+        commandLine.append(" ");
+        commandLine.append(config.makeCommandLine());
+    }
+    
     CCLOG("PlayerWin::openNewPlayerWithProjectConfig(): %s", commandLine.c_str());
 
     // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
@@ -625,6 +629,14 @@ LRESULT CALLBACK PlayerWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
                 event.setDataString(buf.str());
                 Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
             }
+        }
+        break;
+    }
+    case WM_KEYDOWN:
+    {
+        if (wParam == VK_F5)
+        {
+            PlayerProtocol::getInstance()->relaunch();
         }
         break;
     }

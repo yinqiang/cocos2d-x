@@ -35,7 +35,7 @@ ProjectConfig::ProjectConfig()
     normalize();
 }
 
-bool ProjectConfig::isWelcome()
+bool ProjectConfig::isWelcome() const
 {
     return _isWelcome;
 }
