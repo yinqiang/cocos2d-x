@@ -31,6 +31,12 @@ echo "UPDATE lib/framework_precompiled/framework_precompiled_wp8.zip"
 #     cp lib/framework_precompiled/framework_precompiled_wp8.zip $dest
 # done
 
+#
+cp lib/framework_precompiled/framework_precompiled_wp8.zip \
+	templates/PROJECT_TEMPLATE_01/proj.wp8/__PROJECT_PACKAGE_LAST_NAME_L__/Assets/Resources/res/framework_precompiled_wp8.zip
+echo ""
+echo "UPDATE templates/PROJECT_TEMPLATE_01/proj.wp8/__PROJECT_PACKAGE_LAST_NAME_L__/Assets/Resources/res/framework_precompiled_wp8.zip"
+
 echo ""
 echo "DONE"
 echo ""

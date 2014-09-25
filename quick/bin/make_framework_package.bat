@@ -3,7 +3,7 @@ set DIR=%~dp0
 cd "%DIR%.."
 :: wp8
 call %DIR%compile_scripts.bat -i framework -o lib\framework_precompiled\framework_precompiled_wp8.zip -p framework -m zip -luac
-echo UPDATE lib\framework_precompiled\framework_precompiled.zip
+echo UPDATE lib\framework_precompiled\framework_precompiled_wp8.zip
 
 rem echo.
 rem echo updating all framework_precompiled_wp8.zip
@@ -18,9 +18,13 @@ rem )
 
 rem del ___tmp___
 
+:: update templates
+copy lib\framework_precompiled\framework_precompiled_wp8.zip templates\PROJECT_TEMPLATE_01\proj.wp8\__PROJECT_PACKAGE_LAST_NAME_L__\Assets\Resources\res\framework_precompiled_wp8.zip > NUL
+echo UPDATE templates\PROJECT_TEMPLATE_01\proj.wp8\__PROJECT_PACKAGE_LAST_NAME_L__\Assets\Resources\res\framework_precompiled_wp8.zip
+
 :: other platforms
 call %DIR%compile_scripts.bat -i framework -o lib\framework_precompiled\framework_precompiled.zip -p framework -m zip
-echo UPDATE lib\framework_precompiled\framework_precompiled_wp8.zip
+echo UPDATE lib\framework_precompiled\framework_precompiled.zip
 
 rem echo.
 rem echo ### UPDATING ###
