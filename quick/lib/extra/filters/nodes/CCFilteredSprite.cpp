@@ -162,7 +162,9 @@ FilteredSpriteWithOne* FilteredSpriteWithOne::createWithSpriteFrame(SpriteFrame*
 			__sp->visit();
 			__rTex->end();
 			Texture2D* __newTex = new Texture2D();
-			__newTex->initWithImage(__rTex->newImage(true));
+            Image *pNewImage = __rTex->newImage(true);
+			__newTex->initWithImage(pNewImage);
+            delete pNewImage;
 			__newTex->autorelease();
 			pobSprite->initWithTexture(__newTex);
 			//CCLOG("==== FilteredSprite::initWithTexture, rotated true texture wh(%f,%f)", __newTex->getContentSize().width, __newTex->getContentSize().height);
@@ -425,7 +427,9 @@ void FilteredSpriteWithMulti::update(float delta) {
         Texture2D *texture = nullptr;
         texture = new Texture2D();
         texture->autorelease();
-        texture->initWithImage(_pRenderTextureCompound->newImage(true));
+        Image *pNewImage = _pRenderTextureCompound->newImage(true);
+        texture->initWithImage(pNewImage);
+        delete pNewImage;
         initWithTexture(texture);
 
         _pFilterSpiteCompound->release();
@@ -450,7 +454,10 @@ void FilteredSpriteWithMulti::update(float delta) {
         Texture2D *texture = nullptr;
         texture = new Texture2D();
         texture->autorelease();
-        texture->initWithImage(_pRenderTextureCompound->newImage(true));
+        Image * pNewImage = _pRenderTextureCompound->newImage(true);
+        texture->initWithImage(pNewImage);
+        delete pNewImage;
+        
         _pFilterSpiteCompound = FilteredSpriteWithOne::createWithTexture(texture);
     }
     _pFilterSpiteCompound->retain();
