@@ -9,14 +9,15 @@ function UILoaderUtilitys.loadTexture(plist, png)
 	local fileUtil
 	fileUtil = cc.FileUtils:getInstance()
 	local fullPath = fileUtil:fullPathForFilename(plist)
-	UILoaderUtilitys.addSearchPathIf(io.pathinfo(fullPath).dirname, fileUtil)
+	local fullPng = fileUtil:fullPathForFilename(png)
+	-- UILoaderUtilitys.addSearchPathIf(io.pathinfo(fullPath).dirname, fileUtil)
 	local spCache
 	spCache = cc.SpriteFrameCache:getInstance()
 	-- print("UILoaderUtilitys - loadTexture plist:" .. plist)
 	if png then
-		spCache:addSpriteFrames(plist, png)
+		spCache:addSpriteFrames(fullPath, fullPng)
 	else
-		spCache:addSpriteFrames(plist)
+		spCache:addSpriteFrames(fullPath)
 	end
 end
 
@@ -52,6 +53,30 @@ function UILoaderUtilitys.isSearchExist(dir)
 	end
 
 	return bExist
+end
+
+function UILoaderUtilitys.clearPath(fileUtil)
+	if not UILoaderUtilitys.searchDirs then
+		return
+	end
+
+	fileUtil = fileUtil or cc.FileUtils:getInstance()
+	local paths = fileUtil:getSearchPaths()
+	local removeIdxTabel
+
+	local luaSearchCount = #UILoaderUtilitys.searchDirs
+
+	for i=luaSearchCount, 1, -1 do
+		for key, path in ipairs(paths) do
+			if path == UILoaderUtilitys.searchDirs[i] then
+				table.remove(paths, key)
+				break
+			end
+		end
+		table.remove(UILoaderUtilitys.searchDirs, i)
+	end
+
+	fileUtil:setSearchPaths(paths)
 end
 
 return UILoaderUtilitys
