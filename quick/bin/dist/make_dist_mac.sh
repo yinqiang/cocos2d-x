@@ -46,7 +46,7 @@ echo "override=security disabled"
 echo ""
 
 rm -fr $DIST_WORKDIR/build/
-sed 's/__QUICK_VERSION__/3.2rc0/' < $QUICK_V3_ROOT/quick/bin/dist/quickcocos2dx.pkgproj > $DIST_WORKDIR/quickcocos2dx.pkgproj
+sed "s/__QUICK_VERSION__/$VERSION/" < $QUICK_V3_ROOT/quick/bin/dist/quickcocos2dx.pkgproj > $DIST_WORKDIR/quickcocos2dx.pkgproj
 packagesbuild -v $DIST_WORKDIR/quickcocos2dx.pkgproj
 
 du -h -d 1 $DIST_WORKDIR/build
