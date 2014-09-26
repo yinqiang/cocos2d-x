@@ -107,6 +107,9 @@ else
 
 fi
 
+echo "INSTALLING QUICK FRAMEWORK"
+$QUICK_V3_ROOT/quick/bin/make_framework_package.sh
+
 echo ""
 echo ""
 
