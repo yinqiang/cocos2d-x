@@ -10,7 +10,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/WebSocket.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../.. \
-					$(LOCAL_PATH)/.. \
+                    $(LOCAL_PATH)/.. \
+                    $(LOCAL_PATH)/../../external/websockets/include/android \
                     $(LOCAL_PATH)/../platform/android \
 				    $(QUICK_V3_LIB)
 
