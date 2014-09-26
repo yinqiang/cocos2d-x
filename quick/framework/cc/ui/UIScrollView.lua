@@ -894,7 +894,10 @@ function UIScrollView:fill(nodes,params)
 
     --填充量
     params.rowCount = math.ceil(#nodes / params.cellCount)
-    S_SIZE(innerContainer , self.viewRect_.width , (params.itemSize.height + params.heightGap) * params.rowCount + params.heightGap)
+    --避免动态尺寸少于设计尺寸
+    local v_h = (params.itemSize.height + params.heightGap) * params.rowCount + params.heightGap
+    if v_h < self.viewRect_.height then v_h = self.viewRect_.height end
+    S_SIZE(innerContainer , self.viewRect_.width , v_h)
 
     for i = 1 , #nodes do
 
@@ -925,7 +928,10 @@ function UIScrollView:fill(nodes,params)
     end
 
     params.cellCount = math.ceil(#nodes / params.rowCount)
-    S_SIZE(innerContainer ,(params.itemSize.width + params.widthGap) * params.cellCount + params.widthGap ,self.viewRect_.height)
+    --避免动态尺寸少于设计尺寸。
+    local v_w = (params.itemSize.width + params.widthGap) * params.cellCount + params.widthGap
+    if v_w < self.viewRect_.width then v_h = self.viewRect_.width end
+    S_SIZE(innerContainer , v_w ,self.viewRect_.height)
 
     for i = 1, #nodes do
 

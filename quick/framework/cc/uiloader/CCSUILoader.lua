@@ -36,7 +36,11 @@ function CCSUILoader:loadFile(jsonFile, params)
 
 	UILoaderUtilitys.addSearchPathIf(io.pathinfo(fullPath).dirname)
 
-	return self:load(jsonVal, params)
+	local node, w, h = self:load(jsonVal, params)
+
+	UILoaderUtilitys.clearPath()
+
+	return node, w, h
 end
 
 function CCSUILoader:parserJson(jsonVal)

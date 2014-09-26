@@ -86,26 +86,8 @@ fi
 
 export QUICK_V3_ROOT=`cat ~/.QUICK_V3_ROOT`
 
-if [ "$CALL_BY_CONTAINER" == "APP" ]; then
-
-    "$QUICK_V3_ROOT/quick/bin/install_luajit.sh"
-
-elif [ "$CALL_BY_CONTAINER" == "PKG" ]; then
-
-    "$QUICK_V3_ROOT/quick/bin/install_luajit.sh" >> "$LOG_FILENAME"
-
-else
-
-    while true; do
-        read -p "Do you wish to install LuaJIT (Y/N) ? " yn
-        case $yn in
-            [Yy]* ) echo ""; $QUICK_V3_ROOT/quick/bin/install_luajit.sh; break;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer yes or no.";;
-        esac
-    done
-
-fi
+echo "INSTALLING QUICK FRAMEWORK"
+$QUICK_V3_ROOT/quick/bin/make_framework_package.sh
 
 echo ""
 echo ""
