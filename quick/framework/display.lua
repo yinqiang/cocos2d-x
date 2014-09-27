@@ -576,7 +576,7 @@ function display.newSprite(filename, x, y, params)
             if display.TEXTURES_PIXEL_FORMAT[filename] then
                 cc.Texture2D:setDefaultAlphaPixelFormat(display.TEXTURES_PIXEL_FORMAT[filename])
                 sprite = spriteClass:create(filename)
-                cc.Texture2D:setDefaultAlphaPixelFormat(cc.TEXTURE2_D_PIXEL_FORMAT_RGB_A8888)
+                cc.Texture2D:setDefaultAlphaPixelFormat(cc.TEXTURE2D_PIXEL_FORMAT_RGBA8888)
             else
                 if params and params.capInsets then
                     sprite = spriteClass:create(params.capInsets, filename)
