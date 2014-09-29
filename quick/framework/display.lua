@@ -1544,7 +1544,7 @@ end
 
 ]]
 function display.removeAnimationCache(name)
-    sharedAnimationCache:removeAnimationByName(name)
+    sharedAnimationCache:removeAnimation(name)
 end
 
 --[[--
