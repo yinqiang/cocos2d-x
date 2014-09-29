@@ -79,6 +79,7 @@ static NativeMac *s_sharedInstance;
 
     CCLOG("Native::showAlertViewWithDelegate()");
     int buttonIndex = (int)[alertView_ runModal];
+    buttonIndex = [self processButtonId:buttonIndex];
     if (delegate)
     {
         delegate->alertViewClickedButtonAtIndex(buttonIndex);
@@ -125,10 +126,11 @@ static NativeMac *s_sharedInstance;
     
     CCLOG("Native::showAlertViewWithLuaListener()");
     int buttonIndex = (int)[alertView_ runModal];
+    buttonIndex = [self processButtonId:buttonIndex];
     
     LuaValueDict event;
     event["action"] = LuaValue::stringValue("clicked");
-    event["buttonIndex"] = LuaValue::intValue(buttonIndex + 1);
+    event["buttonIndex"] = LuaValue::intValue(buttonIndex);
     
     LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
     stack->pushLuaValueDict(event);
@@ -167,6 +169,15 @@ static NativeMac *s_sharedInstance;
     {
         return [textField stringValue];
     }
+}
+
+- (int) processButtonId:(int) buttonIndex
+{
+    if (buttonIndex != NSAlertDefaultReturn)
+    {
+        buttonIndex = buttonIndex - NSAlertFirstButtonReturn + 1;
+    }
+    return buttonIndex;
 }
 
 @end
