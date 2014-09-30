@@ -30,7 +30,7 @@ Title: 在 Code IDE 中调试 quick 工程
 
 ## 从命令行启动 player 进行调试（仅能调试 Lua 代码）
 
-目前版本（quick 3.2rc0）中，只能从命令行启动 player 的调试功能：
+目前版本（quick 3.2rc1）中，只能从命令行启动 player 的调试功能：
 
 -   在命令行窗口中进入要调试的项目所在目录
 -   Mac 环境执行 debug_mac.sh，Windows 环境执行 debug_win.bat
