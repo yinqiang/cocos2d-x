@@ -450,8 +450,8 @@
 				ARCHS = armv7;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -469,22 +469,33 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"$(QUICK_V3_ROOT)",
 					"$(QUICK_V3_ROOT)/cocos",
+					"$(QUICK_V3_ROOT)/cocos/audio/include",
+					"$(QUICK_V3_ROOT)/cocos/platform/ios",
 					"$(QUICK_V3_ROOT)/extensions",
 					"$(QUICK_V3_ROOT)/external",
 					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
-					"$(QUICK_V3_ROOT)/cocos/audio/include",
-					"$(QUICK_V3_ROOT)/quick/lib/extra",
+					"$(QUICK_V3_ROOT)/external/curl/include/ios",
+					"$(QUICK_V3_ROOT)/external/freetype2/include/ios",
+					"$(QUICK_V3_ROOT)/external/glfw3/include/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/include/ios",
+					"$(QUICK_V3_ROOT)/external/png/include/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/include/ios",
+					"$(QUICK_V3_ROOT)/external/unzip",
+					"$(QUICK_V3_ROOT)/external/webp/include/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/include/ios",
 					"$(QUICK_V3_ROOT)/quick/lib",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
-					"\"$(QUICK_V3_ROOT)/cocos/platform/ios\"",
+					"$(QUICK_V3_ROOT)/quick/lib/extra",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/auto",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/include",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/tolua",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(QUICK_V3_ROOT)/quick/lib/proj.ios/build/Debug-iphoneos";
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lz",
@@ -506,8 +517,8 @@
 				ARCHS = armv7;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -523,22 +534,33 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"$(QUICK_V3_ROOT)",
 					"$(QUICK_V3_ROOT)/cocos",
+					"$(QUICK_V3_ROOT)/cocos/audio/include",
+					"$(QUICK_V3_ROOT)/cocos/platform/ios",
 					"$(QUICK_V3_ROOT)/extensions",
 					"$(QUICK_V3_ROOT)/external",
 					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
-					"$(QUICK_V3_ROOT)/cocos/audio/include",
-					"$(QUICK_V3_ROOT)/quick/lib/extra",
+					"$(QUICK_V3_ROOT)/external/curl/include/ios",
+					"$(QUICK_V3_ROOT)/external/freetype2/include/ios",
+					"$(QUICK_V3_ROOT)/external/glfw3/include/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/include/ios",
+					"$(QUICK_V3_ROOT)/external/png/include/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/include/ios",
+					"$(QUICK_V3_ROOT)/external/unzip",
+					"$(QUICK_V3_ROOT)/external/webp/include/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/include/ios",
 					"$(QUICK_V3_ROOT)/quick/lib",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
-					"\"$(QUICK_V3_ROOT)/cocos/platform/ios\"",
+					"$(QUICK_V3_ROOT)/quick/lib/extra",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/auto",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/include",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/tolua",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(QUICK_V3_ROOT)/quick/lib/proj.ios/build/Debug-iphoneos";
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lz",
