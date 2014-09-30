@@ -1,6 +1,6 @@
 
 #include "platform/win32/CCNativeWin32.h"
-#include "platform/win32/CCNativeWin32def.h"\
+#include "platform/win32/CCNativeWin32def.h"
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
@@ -73,7 +73,7 @@ void NativeWin32::showAlertViewWithDelegate(AlertViewDelegate *delegate)
 
         delete [] wszTitleBuf;
         delete [] wszMessageBuf;
-        
+
 	if (button == IDOK || button == IDYES)
 	{
 		delegate->alertViewClickedButtonAtIndex(0);
@@ -120,7 +120,7 @@ void NativeWin32::showAlertViewWithLuaListener(LUA_FUNCTION listener)
 
         delete [] wszTitleBuf;
         delete [] wszMessageBuf;
-    
+
     LuaValueDict event;
     event["action"] = LuaValue::stringValue("clicked");
 	if (button == IDOK || button == IDYES)
@@ -154,7 +154,7 @@ const string NativeWin32::getInputText(const char* title, const char* message, c
 	return inputbox.value;
 }
 
-// 
+//
 //
 static bool getMacAddress(string& macstring)
 {
