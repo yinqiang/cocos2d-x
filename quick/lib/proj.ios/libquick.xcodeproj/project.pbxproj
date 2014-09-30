@@ -2132,7 +2132,7 @@
 				4949C33619AD9F6B00113896 /* UITextField.h */,
 			);
 			name = CCTextField;
-			path = "../../extensions/GUI/CCTextField";
+			path = ../../extensions/GUI/CCTextField;
 			sourceTree = "<group>";
 		};
 		49BCFA461982699900F48FF6 /* filters */ = {
@@ -4202,6 +4202,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "../../../cocos/cocos2d-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4223,43 +4224,42 @@
 					"$(QUICK_V3_ROOT)/cocos",
 					"$(QUICK_V3_ROOT)/cocos/audio/include",
 					"$(QUICK_V3_ROOT)/cocos/platform/ios",
+					"$(QUICK_V3_ROOT)/cocos/editor-support",
+					"$(QUICK_V3_ROOT)/extensions",
 					"$(QUICK_V3_ROOT)/external",
+					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
+					"$(QUICK_V3_ROOT)/external/curl/include/ios",
 					"$(QUICK_V3_ROOT)/external/freetype2/include/ios",
 					"$(QUICK_V3_ROOT)/external/glfw3/include/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/include/ios",
+					"$(QUICK_V3_ROOT)/external/png/include/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/include/ios",
 					"$(QUICK_V3_ROOT)/external/unzip",
-					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
+					"$(QUICK_V3_ROOT)/external/webp/include/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/include/ios",
 					"$(QUICK_V3_ROOT)/quick/lib",
 					"$(QUICK_V3_ROOT)/quick/lib/extra",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/auto",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/include",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/tolua",
-					"$(QUICK_V3_ROOT)/extensions",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/png/prebuilt/ios",
-					"$(SRCROOT)/../../../external/jpeg/prebuilt/ios",
-					"$(SRCROOT)/../../../external/tiff/prebuilt/ios",
-					"$(SRCROOT)/../../../external/webp/prebuilt/ios",
-					"$(SRCROOT)/../../../external/freetype2/prebuilt/ios",
-					"$(SRCROOT)/../../../external/websockets/prebuilt/ios",
-					"$(SRCROOT)/../../../external/curl/prebuilt/ios",
-					"$(SRCROOT)/../../../quick/lib/lua_bindings/luajit/ios",
-				);
-				"OTHER_LDFLAGS[arch=arm64]" = (
-					"-lcurl_arm64",
-					"-ljpeg_arm64",
-					"-lpng_arm64",
-					"-ltiff_arm64",
-					"-lwebp_arm64",
-					"-lwebsockets_arm64",
-					"-lfreetype_arm64",
+					"$(QUICK_V3_ROOT)/external/curl/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/freetype2/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/png/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/webp/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/ios",
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/websockets/include/ios $(SRCROOT)/../../../external/freetype2/include/ios $(SRCROOT)/../../../external/curl/include/ios $(SRCROOT)/../../../external/webp/include/ios $(SRCROOT)/../../../external/tiff/include/ios $(SRCROOT)/../../../external/jpeg/include/ios $(SRCROOT)/../../../external/png/include/ios $(SRCROOT)/../../../external/unzip";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -4267,6 +4267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "../../../cocos/cocos2d-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4289,43 +4290,42 @@
 					"$(QUICK_V3_ROOT)/cocos",
 					"$(QUICK_V3_ROOT)/cocos/audio/include",
 					"$(QUICK_V3_ROOT)/cocos/platform/ios",
+					"$(QUICK_V3_ROOT)/cocos/editor-support",
+					"$(QUICK_V3_ROOT)/extensions",
 					"$(QUICK_V3_ROOT)/external",
+					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
+					"$(QUICK_V3_ROOT)/external/curl/include/ios",
 					"$(QUICK_V3_ROOT)/external/freetype2/include/ios",
 					"$(QUICK_V3_ROOT)/external/glfw3/include/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/include/ios",
+					"$(QUICK_V3_ROOT)/external/png/include/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/include/ios",
 					"$(QUICK_V3_ROOT)/external/unzip",
-					"$(QUICK_V3_ROOT)/external/chipmunk/include/chipmunk",
+					"$(QUICK_V3_ROOT)/external/webp/include/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/include/ios",
 					"$(QUICK_V3_ROOT)/quick/lib",
 					"$(QUICK_V3_ROOT)/quick/lib/extra",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/auto",
-					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/include",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/manual",
 					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/tolua",
-					"$(QUICK_V3_ROOT)/extensions",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_extensions",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/png/prebuilt/ios",
-					"$(SRCROOT)/../../../external/jpeg/prebuilt/ios",
-					"$(SRCROOT)/../../../external/tiff/prebuilt/ios",
-					"$(SRCROOT)/../../../external/webp/prebuilt/ios",
-					"$(SRCROOT)/../../../external/freetype2/prebuilt/ios",
-					"$(SRCROOT)/../../../external/websockets/prebuilt/ios",
-					"$(SRCROOT)/../../../external/curl/prebuilt/ios",
-					"$(SRCROOT)/../../../quick/lib/lua_bindings/luajit/ios",
-				);
-				"OTHER_LDFLAGS[arch=arm64]" = (
-					"-lcurl_arm64",
-					"-ljpeg_arm64",
-					"-lpng_arm64",
-					"-ltiff_arm64",
-					"-lwebp_arm64",
-					"-lwebsockets_arm64",
-					"-lfreetype_arm64",
+					"$(QUICK_V3_ROOT)/external/curl/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/freetype2/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/jpeg/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/png/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/tiff/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/webp/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/external/websockets/prebuilt/ios",
+					"$(QUICK_V3_ROOT)/quick/lib/lua_bindings/luajit/ios",
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../external/websockets/include/ios $(SRCROOT)/../../../external/freetype2/include/ios $(SRCROOT)/../../../external/curl/include/ios $(SRCROOT)/../../../external/webp/include/ios $(SRCROOT)/../../../external/tiff/include/ios $(SRCROOT)/../../../external/jpeg/include/ios $(SRCROOT)/../../../external/png/include/ios $(SRCROOT)/../../../external/unzip";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
