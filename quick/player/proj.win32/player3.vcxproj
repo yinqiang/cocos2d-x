@@ -79,6 +79,9 @@ copy $(QUICK_V3_ROOT)\external\websockets\prebuilt\win32\*.dll $(OutDir)
 copy $(QUICK_V3_ROOT)\external\win32-specific\gles\prebuilt\*.dll $(OutDir)
 copy $(QUICK_V3_ROOT)\external\win32-specific\icon\prebuilt\*.dll $(OutDir)
 copy $(QUICK_V3_ROOT)\external\win32-specific\zlib\prebuilt\*.dll $(OutDir)
+
+copy $(OutDir)*.dll $(OutDir)..\bin\
+copy $(OutDir)*.exe $(OutDir)..\bin\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
