@@ -9,7 +9,7 @@ player 使用说明
 
 player 依赖一些特定的环境设置才能正常工作，所以如果你不确定你的环境设置是否正常，可以按照以下步骤操作：
 
--   Mac 平台下运行 setup_mac.app
+-   Mac 平台下运行 setup_mac.sh
 -   Windows 平台下运行 setup_win.bat
 
 设置完成后重新启动 player 即可。
