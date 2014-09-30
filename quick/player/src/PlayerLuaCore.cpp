@@ -1,6 +1,6 @@
 /*
 ** Lua binding: PlayerLuaCore
-** Generated automatically by tolua++-1.0.92 on Thu Sep  4 17:44:15 2014.
+** Generated automatically by tolua++-1.0.92 on Tue Sep 30 18:34:47 2014.
 */
 
 #include "PlayerLuaCore.h"
@@ -3891,6 +3891,39 @@ static int tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFontColor00(lua_S
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setFormator of class  PlayerEditBoxServiceProtocol */
+#ifndef TOLUA_DISABLE_tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFormator00
+static int tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFormator00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"PlayerEditBoxServiceProtocol",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  PlayerEditBoxServiceProtocol* self = (PlayerEditBoxServiceProtocol*)  tolua_tousertype(tolua_S,1,0);
+  int formator = ((int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFormator'", NULL);
+#endif
+  {
+   self->setFormator(formator);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setFormator'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: registerHandler of class  PlayerEditBoxServiceProtocol */
 #ifndef TOLUA_DISABLE_tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_registerHandler00
 static int tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_registerHandler00(lua_State* tolua_S)
@@ -4093,6 +4126,7 @@ TOLUA_API int tolua_PlayerLuaCore_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setText",tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setText00);
    tolua_function(tolua_S,"setFont",tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFont00);
    tolua_function(tolua_S,"setFontColor",tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFontColor00);
+   tolua_function(tolua_S,"setFormator",tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_setFormator00);
    tolua_function(tolua_S,"registerHandler",tolua_PlayerLuaCore_PlayerEditBoxServiceProtocol_registerHandler00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);

@@ -38,6 +38,7 @@
 		9F3BF739194E91D10072B3D0 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3BF738194E91D10072B3D0 /* OpenAL.framework */; };
 		9F3BF73B194E91D70072B3D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3BF73A194E91D70072B3D0 /* QuartzCore.framework */; };
 		9F3BF73D194E91E10072B3D0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3BF73C194E91E10072B3D0 /* OpenGL.framework */; };
+		9F6667CC19D9663000B5DA44 /* NumberFormater.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F6667CB19D9663000B5DA44 /* NumberFormater.m */; };
 		9F6D88E61959647800B36BA2 /* player3.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F1C8D2F194DE61E0068C99B /* player3.app */; };
 		9FCDC2BB196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDC2B9196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm */; };
 		DAB2BFC619595AE800ADD4E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB2BFC519595AE800ADD4E0 /* SystemConfiguration.framework */; };
@@ -122,6 +123,8 @@
 		9F3BF738194E91D10072B3D0 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		9F3BF73A194E91D70072B3D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9F3BF73C194E91E10072B3D0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		9F6667CA19D9663000B5DA44 /* NumberFormater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumberFormater.h; sourceTree = SOURCE_ROOT; };
+		9F6667CB19D9663000B5DA44 /* NumberFormater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumberFormater.m; sourceTree = SOURCE_ROOT; };
 		9FCDC2B7196D2C7D005CB55E /* PlayerEditBoxServiceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerEditBoxServiceProtocol.h; sourceTree = "<group>"; };
 		9FCDC2B9196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayerEditBoxServiceMac.mm; sourceTree = SOURCE_ROOT; };
 		9FCDC2BC196D2E08005CB55E /* PlayerEditBoxServiceMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerEditBoxServiceMac.h; sourceTree = SOURCE_ROOT; };
@@ -213,6 +216,8 @@
 				9F05A109194EF988003CFA1F /* NSApplication+SheetAdditions.m */,
 				9FCDC2BC196D2E08005CB55E /* PlayerEditBoxServiceMac.h */,
 				9FCDC2B9196D2DD9005CB55E /* PlayerEditBoxServiceMac.mm */,
+				9F6667CA19D9663000B5DA44 /* NumberFormater.h */,
+				9F6667CB19D9663000B5DA44 /* NumberFormater.m */,
 				9F1C8D9D194DEFE40068C99B /* PlayerFileDialogServiceMac.h */,
 				9F1C8D9E194DEFE40068C99B /* PlayerFileDialogServiceMac.mm */,
 				9F1C8D9F194DEFE40068C99B /* PlayerMac.h */,
@@ -373,6 +378,7 @@
 				9F1C8D7D194DECD70068C99B /* AppController.mm in Sources */,
 				9F3BF72C194E91380072B3D0 /* AppDelegate.cpp in Sources */,
 				9F1C8D9C194DEE040068C99B /* PlayerServiceProtocol.cpp in Sources */,
+				9F6667CC19D9663000B5DA44 /* NumberFormater.m in Sources */,
 				9F3078BB19A58E9F007B7B03 /* PlayerTaskServiceMac.mm in Sources */,
 				9F05A102194EF319003CFA1F /* ConsoleWindowController.m in Sources */,
 				9F3078BE19A59879007B7B03 /* PlayerLuaCore.cpp in Sources */,

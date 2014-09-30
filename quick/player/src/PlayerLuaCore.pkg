@@ -223,5 +223,6 @@ class PlayerEditBoxServiceProtocol : public PlayerServiceProtocol
     void setText(const std::string &text);
     void setFont(const std::string &name, int size);
     void setFontColor(const cocos2d::Color3B &color);
+    void setFormator(int formator);
     void registerHandler(LUA_FUNCTION handler);
 }
