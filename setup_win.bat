@@ -12,4 +12,6 @@ echo.
 
 echo.
 
+call %QUICK_V3_ROOT%quick\bin\make_framework_package.bat
+
 pause
