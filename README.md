@@ -55,21 +55,21 @@ quick-cocos2d-x 中带有一个名为 player 的工具。
 
 ### 使用指南
 
--    [player 使用说明](docs/howto/player-user-manual/zh.html)
--    [在 Code IDE 中调试 quick 工程](docs/howto/use-codeide/zh.html)
--    [用 CCSLoader 读取 Cocos Studio 输出的场景/UI 文件](docs/howto/use-ccsloader/zh.html)
--    [在 Windows Phone 8 中运行 quick](docs/howto/run-on-wp8/zh.html)
--    [编译 player 执行文件](docs/howto/compile-player/zh.html)
--    [编译 Android 工程](docs/howto/compile-android/zh.html)
--    [升级到 quick-cocos2d-x 最新版](docs/howto/upgrade/zh.html)
+-    [player 使用说明](docs/howto/player-user-manual/zh.md)
+-    [在 Code IDE 中调试 quick 工程](docs/howto/use-codeide/zh.md)
+-    [用 CCSLoader 读取 Cocos Studio 输出的场景/UI 文件](docs/howto/use-ccsloader/zh.md)
+-    [在 Windows Phone 8 中运行 quick](docs/howto/run-on-wp8/zh.md)
+-    [编译 player 执行文件](docs/howto/compile-player/zh.md)
+-    [编译 Android 工程](docs/howto/compile-android/zh.md)
+-    [升级到 quick-cocos2d-x 最新版](docs/howto/upgrade/zh.md)
 
 ~
 
 ### 参考手册
 
--    [quick 中的事件](docs/manual/events/zh.html)
--    [quick 中的触摸事件](docs/manual/touch-events/zh.html)
--    [API 文档](docs/api/index.html)
+-    [quick 中的事件](docs/manual/events/zh.md)
+-    [quick 中的触摸事件](docs/manual/touch-events/zh.md)
+-    [API 文档](docs/api/index.md)
 
 ~
 
