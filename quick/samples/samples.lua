@@ -2,6 +2,13 @@
 local data =
 {
     {
+        title       = "Drag Test",
+        description = "一个拖拽演示",
+        path        = "samples/drag",
+        image       = "drag_ss.png"
+    },
+
+    {
         title       = "CCS UI Importer Test",
         description = "CCS UI Importer演示",
         path        = "samples/ccsloader",
