@@ -33,7 +33,9 @@ public class QuickHTTPInterface {
         try {
             url = new URL(strURL);
             urlConnection = (HttpURLConnection)url.openConnection();
-            urlConnection .setRequestProperty("Accept-Encoding", "identity");
+            urlConnection.setRequestProperty("Accept-Encoding", "identity");
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
         } catch (Exception e) {
             Log.e("QuickHTTPInterface", e.toString());
             return null;
