@@ -3,12 +3,14 @@ require("config")
 require("framework.init")
 require("framework.shortcodes")
 require("framework.cc.init")
+require("framework.utilitys")
 
 local UIDemoApp = class("UIDemoApp", cc.mvc.AppBase)
 
 function UIDemoApp:ctor()
     UIDemoApp.super.ctor(self)
     self.scenes_ = {
+    "TestUIListViewScene",
         "TestUIPageViewScene",
         "TestUIListViewScene",
         "TestUIScrollViewScene",
