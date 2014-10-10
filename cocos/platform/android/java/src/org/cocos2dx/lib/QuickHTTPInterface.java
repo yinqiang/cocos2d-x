@@ -77,14 +77,17 @@ public class QuickHTTPInterface {
         return nSuc;
     }
 
-    static void postContent(HttpURLConnection http, String name, String value) {
+    static void postContent(HttpURLConnection http, String name, String value, boolean bNeedConnectSym) {
         try {
             DataOutputStream out = new DataOutputStream(http.getOutputStream());
             String content = null;
             if (null == name || 0 == name.length()) {
-                content = value + "&";
+                content = value;
             } else {
-                content = name + "=" + value + "&";
+                content = name + "=" + value;
+            }
+            if (bNeedConnectSym) {
+                content = "&" + content;
             }
             out.writeBytes(content);
             out.flush();

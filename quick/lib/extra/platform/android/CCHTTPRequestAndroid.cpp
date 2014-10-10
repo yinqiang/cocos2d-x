@@ -374,9 +374,11 @@ void HTTPRequest::onRequest(void)
     if (0 == nSuc) {
         if (m_postFields.size() > 0)
         {
+            bool bNeedConnectSym = false;
             for (Fields::iterator it = m_postFields.begin(); it != m_postFields.end(); ++it)
             {
-                postContentJava(it->first.c_str(), it->second.c_str());
+                postContentJava(it->first.c_str(), it->second.c_str(), bNeedConnectSym);
+                bNeedConnectSym = true;
             }
         }
 
@@ -648,17 +650,17 @@ int HTTPRequest::connectJava() {
     return nSuc;
 }
 
-void HTTPRequest::postContentJava(const char* key, const char* value) {
+void HTTPRequest::postContentJava(const char* key, const char* value, bool bConnectSym) {
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
         "postContent",
-        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;)V"))
+        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;Z)V"))
     {
         jstring jstrKey = methodInfo.env->NewStringUTF(key);
         jstring jstrVal = methodInfo.env->NewStringUTF(value);
         methodInfo.env->CallStaticVoidMethod(
-            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal);
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal, bConnectSym);
         methodInfo.env->DeleteLocalRef(jstrKey);
         methodInfo.env->DeleteLocalRef(jstrVal);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
