@@ -47,9 +47,9 @@ function EditBoxLite:ctor(params)
                         :addTo(self)
 
     self.bg_:setTouchEnabled(true)
-    self.bg_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(e) 
+    self.bg_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(e)
         local ed = PlayerProtocol:getInstance():getEditBoxService()
-        ed:registerHandler(function(e) 
+        ed:registerHandler(function(e)
                 self.label_:setVisible(true)
                 self.label_:setString(e)
             end)
@@ -70,7 +70,7 @@ function EditBoxLite:ctor(params)
     cc.ui.UILabel.new({
         text = text,
         size = fontSize,
-        font = fontName, 
+        font = fontName,
     })
     self.label_:setAnchorPoint(0,0)
     self.label_:addTo(self.clipnode_)

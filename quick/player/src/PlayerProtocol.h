@@ -40,6 +40,9 @@ public:
     virtual void openNewPlayerWithProjectConfig(const ProjectConfig &config) = 0;
     virtual void openProjectWithProjectConfig(const ProjectConfig &config) = 0;
     
+    // register event
+    void registerGLFWEvents();
+    
 protected:
     PlayerProtocol(); // avoid create instance from outside
 

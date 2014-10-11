@@ -154,7 +154,7 @@ void PlayerTaskMac::update(float dt)
 
 void PlayerTaskMac::appendOutput(const char *data)
 {
-    _outputStream.append(data);
+    _output.append(data);
 }
 
 void PlayerTaskMac::cleanup()
@@ -166,11 +166,11 @@ void PlayerTaskMac::cleanup()
     [_taskPrivate.buildTask interrupt];
     
     _resultCode = _taskPrivate.exitCode;
-    _outputStream.append(_taskPrivate.output.UTF8String);
+    _output.append(_taskPrivate.output.UTF8String);
     
     [_taskPrivate release];
     _taskPrivate = nil;
-    CCLOG("\nCMD: (exit code: %d) %s", _resultCode, _outputStream.c_str());
+    CCLOG("\nCMD: (exit code: %d) %s", _resultCode, _output.c_str());
     
     cocos2d::Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(_name);
 }

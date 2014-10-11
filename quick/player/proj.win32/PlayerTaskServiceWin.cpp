@@ -146,7 +146,7 @@ void PlayerTaskWin::update(float dt)
         {
             ZeroMemory(_outputBuff, BUFF_SIZE + 1);
             WideCharToMultiByte(CP_UTF8, 0, _outputBuffWide, chars, _outputBuff, BUFF_SIZE + 1, 0, NULL);
-            _outputStream.append(_outputBuff);
+            _output.append(_outputBuff);
         }
     }
 
@@ -190,7 +190,7 @@ void PlayerTaskWin::cleanup()
 
     _state = STATE_COMPLETED;
 
-    CCLOG("CMD: %s", _outputStream.c_str());
+    CCLOG("CMD: %s", _output.c_str());
 
     cocos2d::Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(_name);
 }
