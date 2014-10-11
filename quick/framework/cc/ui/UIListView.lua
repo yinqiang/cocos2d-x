@@ -565,7 +565,7 @@ function UIListView:update_(dt)
 	UIListView.super.update_(self, dt)
 
 	self:checkItemsInStatus_()
-	self:increaseOrReduceItem_()
+	-- self:increaseOrReduceItem_()
 end
 
 function UIListView:checkItemsInStatus_()

@@ -457,7 +457,7 @@ end
 
 function CCSUILoader:createButton(options)
 	local node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
-		{scale9 = not options.ignoreSize,
+		{scale9 = options.scale9Enable,
 		flipX = options.flipX,
 		flipY = options.flipY})
 
@@ -504,8 +504,11 @@ end
 function CCSUILoader:createSlider(options)
 	local node = cc.ui.UISlider.new(display.LEFT_TO_RIGHT,
 		{bar = self:transResName(options.barFileNameData),
-		button = self:transResName(options.ballNormalData)},
-		{scale9 = not options.ignoreSize})
+		barfg = self:transResName(options.progressBarData),
+		button = self:transResName(options.ballNormalData),
+		button_pressed = self:transResName(options.ballPressedData),
+		button_disabled = self:transResName(options.ballDisabledData),},
+		{scale9 = options.scale9Enable})
 
 	if not options.ignoreSize then
 		node:setSliderSize(options.width, options.height)
