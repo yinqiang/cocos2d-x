@@ -6,10 +6,11 @@ end)
 function TestUIListViewScene:ctor()
     app:createGrid(self)
 
-    -- self:createListView5()
-    -- self:createListView6()
-    -- self:createListView7()
-    self:createListView8()
+    self:createListView5()
+    self:createListView6()
+    self:createListView7()
+    -- self:createListView8()
+    -- self:createListView9()
 
     app:createTitle(self, "Test UIListView")
     app:createNextButton(self)
@@ -250,7 +251,7 @@ function TestUIListViewScene:createListView8()
         bg = "sunset.png",
         bgScale9 = true,
         async = true,
-        viewRect = cc.rect(200, 200, 120, 200),
+        viewRect = cc.rect(200, 200, 120, 400),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
         scrollbarImgV = "bar.png"}
         :onTouch(handler(self, self.touchListener))
@@ -264,70 +265,54 @@ function TestUIListViewScene:createListView8()
 end
 
 function TestUIListViewScene:sourceDelegate(listView, tag, idx)
-    print(string.format("TestUIListViewScene tag:%s, idx:%s", tostring(tag), tostring(idx)))
+    -- print(string.format("TestUIListViewScene tag:%s, idx:%s", tostring(tag), tostring(idx)))
     if cc.ui.UIListView.COUNT_TAG == tag then
-        return 20
+        return 7
     elseif cc.ui.UIListView.CELL_TAG == tag then
-        local item = self.lv:newItem()
+        local item
         local content
-        idx = idx + 10
-        if 1 == idx then
-            content = cc.ui.UILabel.new(
-                    {text = "item"..i,
-                    size = 20,
-                    align = cc.ui.TEXT_ALIGN_CENTER,
-                    color = display.COLOR_BLACK})
-        elseif 2 == idx then
-            content = cc.ui.UIPushButton.new("GreenButton.png", {scale9 = true})
-                :setButtonSize(120, 40)
-                :setButtonLabel(cc.ui.UILabel.new({text = "点击大小改变" .. i, size = 16, color = display.COLOR_BLUE}))
-                :onButtonPressed(function(event)
-                    event.target:getButtonLabel():setColor(display.COLOR_RED)
-                end)
-                :onButtonRelease(function(event)
-                    event.target:getButtonLabel():setColor(display.COLOR_BLUE)
-                end)
-                :onButtonClicked(function(event)
-                    if not self.lv:isItemInViewRect(item) then
-                        print("TestUIListViewScene item not in view rect")
-                        return
-                    end
 
-                    print("TestUIListViewScene buttonclicked")
-                    local _,h = item:getItemSize()
-                    if 40 == h then
-                        item:setItemSize(120, 80)
-                    else
-                        item:setItemSize(120, 40)
-                    end
-                end)
-        elseif 3 == idx then
-            content = cc.ui.UILabel.new(
-                    {text = "点击删除它"..i,
-                    size = 20,
-                    align = cc.ui.TEXT_ALIGN_CENTER,
-                    color = display.COLOR_BLACK})
-        elseif 4 == idx then
-            content = cc.ui.UILabel.new(
-                    {text = "有背景图"..i,
-                    size = 20,
-                    align = cc.ui.TEXT_ALIGN_CENTER,
-                    color = display.COLOR_BLACK})
-            item:setBg("YellowBlock.png")
-        else
+        item = self.lv:dequeueItem()
+        if not item then
+            item = self.lv:newItem()
             content = cc.ui.UILabel.new(
                     {text = "item"..idx,
                     size = 20,
                     align = cc.ui.TEXT_ALIGN_CENTER,
-                    color = display.COLOR_BLACK})
-            -- content = display.newSprite("GreenButton.png")
+                    color = display.COLOR_WHITE})
+            item:addContent(content)
+        else
+            content = item:getContent()
         end
-        item:addContent(content)
+        content:setString("item:" .. idx)
         item:setItemSize(120, 80)
 
         return item
     else
     end
+end
+
+function TestUIListViewScene:createListView9()
+    cc.ui.UILabel.new(
+        {text = "horizontal listView",
+        size = 24,
+        color = display.COLOR_BLACK})
+        :align(display.CENTER, 400, 520)
+        :addTo(self)
+    self.lv = cc.ui.UIListView.new {
+        -- bgColor = cc.c4b(200, 200, 200, 120),
+        bg = "sunset.png",
+        bgScale9 = true,
+        async = true,
+        viewRect = cc.rect(500, 300, 400, 80),
+        direction = cc.ui.UIScrollView.DIRECTION_HORIZONTAL,
+        scrollbarImgV = "barH.png"}
+        :onTouch(handler(self, self.touchListener))
+        :addTo(self)
+
+    self.lv:setDelegate(handler(self, self.sourceDelegate))
+
+    self.lv:reload()
 end
 
 return TestUIListViewScene
