@@ -344,7 +344,7 @@ function CCSUILoader:transResName(fileData)
 	if 1 == fileData.resourceType then
 		return "#" .. name
 	else
-		return name
+		return UILoaderUtilitys.getFileFullName(name)
 	end
 
 	-- -- local pathInfo = io.pathinfo(path)
