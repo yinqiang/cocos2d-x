@@ -315,7 +315,27 @@ void HTTPRequest::checkCURLState(float dt)
 
 void HTTPRequest::update(float dt)
 {
-    if (m_state == kCCHTTPRequestStateInProgress) { return; }
+    if (m_state == kCCHTTPRequestStateInProgress)
+    {
+#if CC_LUA_ENGINE_ENABLED > 0
+        if (m_listener)
+        {
+            LuaValueDict dict;
+
+            dict["name"] = LuaValue::stringValue("progress");
+            dict["total"] = LuaValue::intValue(m_ultotal);
+            dict["dltotal"] = LuaValue::intValue(m_dltotal);
+            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
+
+            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
+            stack->clean();
+            stack->pushLuaValueDict(dict);
+            stack->executeFunctionByHandler(m_listener, 1);
+        }
+#endif
+        return;
+    }
+
     Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
     if (m_curlState != kCCHTTPRequestCURLStateIdle)
     {
@@ -490,26 +510,10 @@ size_t HTTPRequest::onWriteHeader(void *buffer, size_t bytes)
 
 int HTTPRequest::onProgress(double dltotal, double dlnow, double ultotal, double ulnow)
 {
-#if CC_LUA_ENGINE_ENABLED > 0
-    if (m_listener)
-    {
-        if (m_state == kCCHTTPRequestStateInProgress) {
-            LuaValueDict dict;
-
-            dict["name"] = LuaValue::stringValue("progress");
-            dict["total"] = LuaValue::intValue(ultotal);
-            dict["dltotal"] = LuaValue::intValue(dltotal);
-            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
-
-            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
-            stack->clean();
-            stack->pushLuaValueDict(dict);
-            stack->executeFunctionByHandler(m_listener, 1);
-        } else {
-            CCLOG("HTTPRequest - onProgress state wrong:%d", m_state);
-        }
-    }
-#endif
+    m_dltotal = dltotal;
+    m_dlnow = dlnow;
+    m_ultotal = ultotal;
+    m_ulnow = ulnow;
 
     return m_state == kCCHTTPRequestStateCancelled ? 1: 0;
 }
