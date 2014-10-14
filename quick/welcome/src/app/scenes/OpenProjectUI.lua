@@ -33,6 +33,38 @@ function OpenProjectUI:ctor()
         end)
 end
 
+function OpenProjectUI:updatePanelInfo()
+    local configPath = self.location:getText() .. '/src/config.lua'
+
+    if cc.FileUtils:getInstance():isFileExist(configPath) then
+        local data = ""
+        for line in io.lines(configPath) do
+            if string.find(line, "CONFIG_SCREEN_WIDTH") then
+                data = data .. line .. ',\n'
+            elseif string.find(line, "CONFIG_SCREEN_HEIGHT") then
+                data = data .. line .. ',\n'
+            elseif string.find(line, "CONFIG_SCREEN_ORIENTATION") then
+                data = data .. line .. ',\n'
+            end
+        end
+
+        local config = assert(loadstring("local settings = {" .. data .. "} return settings"))()
+
+        local with = tonumber(config.CONFIG_SCREEN_WIDTH)
+        local height = tonumber(config.CONFIG_SCREEN_HEIGHT)
+
+        -- screen direction
+        if config.CONFIG_SCREEN_ORIENTATION == "portrait" then
+            self.portaitCheckBox:setButtonSelected(true)
+            self.landscapeCheckBox:setButtonSelected(false)
+        elseif config.CONFIG_SCREEN_ORIENTATION == "landscape" then
+            self.landscapeCheckBox:setButtonSelected(true)
+            self.portaitCheckBox:setButtonSelected(false)
+        end
+    end
+
+end
+
 function OpenProjectUI:onEnter()
     
     local y = 0

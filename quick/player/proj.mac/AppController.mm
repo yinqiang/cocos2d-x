@@ -178,6 +178,8 @@ std::string getCurAppPath(void)
     ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
 
     luaopen_PlayerLuaCore(pEngine->getLuaStack()->getLuaState());
+    luaopen_PlayerLuaCore_Manual(pEngine->getLuaStack()->getLuaState());
+    
 
     NSMutableString *path = [NSMutableString stringWithString:NSHomeDirectory()];
     [path appendString:@"/"];
@@ -287,7 +289,7 @@ std::string getCurAppPath(void)
 
 - (IBAction) onFileClose:(id)sender
 {
-    EventCustom event("APP.EVENT");
+    EventCustom event("APP.WINDOW_CLOSE_EVENT");
     event.setDataString("{\"name\":\"close\"}");
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }

@@ -63,7 +63,7 @@ local function safeLoad()
     cjson = require("cjson")
 end
 
-if not pcall(safeLoad) then 
+if not pcall(safeLoad) then
     cjson = nil
 end
 
@@ -231,9 +231,7 @@ function player:registerEventHandler()
         local status, data = pcall(cjson.decode, e:getDataString())
         if not status then return end
 
-        if data.name == "close" then
-            cc.Director:getInstance():endToLua()
-        elseif data.name == "menuClicked" then
+        if data.name == "menuClicked" then
             self:onMenuClicked(data)
         end
 

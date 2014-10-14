@@ -49,7 +49,6 @@ protected:
     void cleanup();
     std::u16string makeCommandLine() const;
     
-    std::string _outputStream;
     PlayerTaskPrivate  *_taskPrivate;
 };
 

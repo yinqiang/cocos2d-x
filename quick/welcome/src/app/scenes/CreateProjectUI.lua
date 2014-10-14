@@ -24,16 +24,16 @@ local checkboxImages = {
 
 --
 function CreateProjectUI:ctor()
-    self:addNodeEventListener(cc.NODE_EVENT, function(e) 
-            if e.name == "enter" then self:onEnter() 
-            elseif e.name == "exit" then 
+    self:addNodeEventListener(cc.NODE_EVENT, function(e)
+            if e.name == "enter" then self:onEnter()
+            elseif e.name == "exit" then
                 eventDispatcher:removeEventListener(self.eventListenerCustom_)
-            end 
+            end
         end)
 end
 
 function CreateProjectUI:onEnter()
-    
+
     -- project location:
     cc.ui.UILabel.new({
         UILabelType = 2,
@@ -105,7 +105,7 @@ function CreateProjectUI:onEnter()
     :align(display.LEFT_CENTER, 40, display.top - 255)
     :addTo(self)
 
-    local portaitCheckBox = 
+    local portaitCheckBox =
     cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Portait", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(30, 0)
@@ -114,7 +114,7 @@ function CreateProjectUI:onEnter()
         :onButtonClicked(function() self.landscapeCheckBox:setButtonSelected(not self.portaitCheckBox:isButtonSelected()) end)
         :addTo(self)
 
-    local landscapeCheckBox = 
+    local landscapeCheckBox =
     cc.ui.UICheckBoxButton.new(checkboxImages)
         :setButtonLabel(cc.ui.UILabel.new({text = "Landscape", size = fontSize,  color = display.COLOR_WHITE}))
         :setButtonLabelOffset(30, 0)
@@ -157,7 +157,8 @@ function CreateProjectUI:onEnter()
     :addTo(self)
     :onButtonClicked(function()
         if createProjectbutton.currState == 1 then
-            if locationEditbox:getText() and packageEditbox:getText() then
+            if string.len(locationEditbox:getText()) > 0 and string.len(packageEditbox:getText()) > 0 then
+                createProjectbutton:setButtonLabelString("normal", "Processing ...")
                 local t = packageEditbox:getText():splitBySep('.')
                 self.projectFolder = locationEditbox:getText() .. '/' .. t[#t]
 
@@ -179,13 +180,17 @@ function CreateProjectUI:onEnter()
                 local arguments = " -p " .. packageEditbox:getText() .. " -f " .. " -o " .. self.projectFolder .. screenDirection
                 local taskId = tostring(os.time())
                 local task = PlayerProtocol:getInstance():getTaskService():createTask(taskId, scriptPath, arguments)
-                eventDispatcher:addEventListenerWithFixedPriority(cc.EventListenerCustom:create(taskId, 
+                eventDispatcher:addEventListenerWithFixedPriority(cc.EventListenerCustom:create(taskId,
                             function()
                                 if task:getResultCode() == 0 then
                                     createProjectbutton:setButtonLabelString("normal", "Open ...")
                                     createProjectbutton.currState = 2
+                                else
+                                    createProjectbutton:setButtonLabelString("normal", "Create Project")
+                                    local messageBox = PlayerProtocol:getInstance():getMessageBoxService()
+                                    messageBox:showMessageBox("player v3", task:getOutput())
                                 end
-                            end), 
+                            end),
                            1)
                 task:run()
             else

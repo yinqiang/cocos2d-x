@@ -76,6 +76,9 @@
     <ClInclude Include="..\src\PlayerLuaCore.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\PlayerLuaCoreManual.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\PlayerProtocol.cpp">
@@ -121,6 +124,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\PlayerLuaCore.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerLuaCoreManual.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

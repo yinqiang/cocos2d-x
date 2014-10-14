@@ -11,6 +11,7 @@
 #include "PlayerTaskServiceMac.h"
 
 #include "PlayerLuaCore.h"
+#include "PlayerLuaCoreManual.hpp"
 #include "PlayerUtils.h"
 
 #include "ProjectConfig/ProjectConfig.h"
