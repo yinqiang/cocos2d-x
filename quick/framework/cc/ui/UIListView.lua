@@ -200,45 +200,60 @@ end
 function UIListView:scrollListener(event)
 	if "clicked" == event.name then
 		local nodePoint = self.container:convertToNodeSpace(cc.p(event.x, event.y))
-		nodePoint.x = nodePoint.x - self.viewRect_.x
-		nodePoint.y = nodePoint.y - self.viewRect_.y
-
-		local width, height = 0, self.size.height
-		local itemW, itemH = 0, 0
 		local pos
-		if UIScrollView.DIRECTION_VERTICAL == self.direction then
-			for i,v in ipairs(self.items_) do
-				itemW, itemH = v:getItemSize()
+		local idx
 
-				if nodePoint.y < height and nodePoint.y > height - itemH then
+		if self.bAsyncLoad then
+			local itemRect
+			for i,v in ipairs(self.items_) do
+				local posX, posY = v:getPosition()
+				local itemW, itemH = v:getItemSize()
+				itemRect = cc.rect(posX, posY, itemW, itemH)
+				if cc.rectContainsPoint(itemRect, nodePoint) then
+					idx = v.idx_
 					pos = i
-					nodePoint.y = nodePoint.y - (height - itemH)
 					break
 				end
-				height = height - itemH
 			end
 		else
-			for i,v in ipairs(self.items_) do
-				itemW, itemH = v:getItemSize()
+			nodePoint.x = nodePoint.x - self.viewRect_.x
+			nodePoint.y = nodePoint.y - self.viewRect_.y
 
-				if nodePoint.x > width and nodePoint.x < width + itemW then
-					pos = i
-					break
+			local width, height = 0, self.size.height
+			local itemW, itemH = 0, 0
+
+			if UIScrollView.DIRECTION_VERTICAL == self.direction then
+				for i,v in ipairs(self.items_) do
+					itemW, itemH = v:getItemSize()
+
+					if nodePoint.y < height and nodePoint.y > height - itemH then
+						pos = i
+						idx = pos
+						nodePoint.y = nodePoint.y - (height - itemH)
+						break
+					end
+					height = height - itemH
 				end
-				width = width + itemW
+			else
+				for i,v in ipairs(self.items_) do
+					itemW, itemH = v:getItemSize()
+
+					if nodePoint.x > width and nodePoint.x < width + itemW then
+						pos = i
+						idx = pos
+						break
+					end
+					width = width + itemW
+				end
 			end
 		end
 
 		self:notifyListener_{name = "clicked",
-			listView = self, itemPos = pos, item = self.items_[pos],
+			listView = self, itemPos = idx, item = self.items_[pos],
 			point = nodePoint}
 
 		self.bTest2 = true
 	else
-		if "moved" == event.name then
-			-- self:increaseOrReduceItem_()
-		end
-
 		event.scrollView = nil
 		event.listView = self
 		self:notifyListener_(event)
@@ -280,6 +295,8 @@ end
 
 ]]
 function UIListView:removeItem(listItem, bAni)
+	assert(not self.bAsyncLoad, "UIListView:removeItem() - syncload not support remove")
+
 	local itemW, itemH = listItem:getItemSize()
 	self.container:removeChild(listItem)
 
@@ -569,7 +586,7 @@ function UIListView:update_(dt)
 
 	self:checkItemsInStatus_()
 	if self.bAsyncLoad then
-		-- self:increaseOrReduceItem_()
+		self:increaseOrReduceItem_()
 	end
 end
 
@@ -833,7 +850,13 @@ function UIListView:asyncLoad_()
 		end
 	end
 
-	self.container:setPosition(self.viewRect_.x, self.viewRect_.y)
+	-- self.container:setPosition(self.viewRect_.x, self.viewRect_.y)
+	if UIScrollView.DIRECTION_VERTICAL == self.direction then
+		self.container:setPosition(self.viewRect_.x,
+			self.viewRect_.y + self.viewRect_.height)
+	else
+		self.container:setPosition(self.viewRect_.x, self.viewRect_.y)
+	end
 
 	return self
 end
@@ -933,7 +956,7 @@ function UIListView:loadOneItem_(originPoint, idx, bBefore)
 		content = item:getContent()
 		content:setAnchorPoint(0.5, 0.5)
 		self:setPositionByAlignment_(content, itemW, itemH, item:getMargin())
-		item:setPosition(self.viewRect_.x, posY)
+		item:setPosition(0, posY)
 
 		containerH = containerH + itemH
 	else

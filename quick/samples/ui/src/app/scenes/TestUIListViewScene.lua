@@ -9,8 +9,8 @@ function TestUIListViewScene:ctor()
     self:createListView5()
     self:createListView6()
     self:createListView7()
-    -- self:createListView8()
-    -- self:createListView9()
+    self:createListView8()
+    self:createListView9()
 
     app:createTitle(self, "Test UIListView")
     app:createNextButton(self)
@@ -54,8 +54,13 @@ function TestUIListViewScene:createListView5()
                     event.target:getButtonLabel():setColor(display.COLOR_BLUE)
                 end)
                 :onButtonClicked(function(event)
-                    if not self.lv:isItemInViewRect(item) then
-                        print("TestUIListViewScene item not in view rect")
+                    -- if not self.lv:isItemInViewRect(item) then
+                    --     print("TestUIListViewScene item not in view rect")
+                    --     return
+                    -- end
+
+                    if self.bListViewMove then
+                        print("TestUIListViewScene is scroll, not click")
                         return
                     end
 
@@ -67,6 +72,7 @@ function TestUIListViewScene:createListView5()
                         item:setItemSize(120, 40)
                     end
                 end)
+            content:setTouchSwallowEnabled(false)
         elseif 3 == i then
             content = cc.ui.UILabel.new(
                     {text = "点击删除它"..i,
@@ -104,6 +110,12 @@ function TestUIListViewScene:touchListener(event)
         else
             -- event.item:setItemSize(120, 80)
         end
+    elseif "moved" == event.name then
+        self.bListViewMove = true
+    elseif "ended" == event.name then
+        self.bListViewMove = false
+    else
+        print("event name:" .. event.name)
     end
 end
 
@@ -112,12 +124,12 @@ function TestUIListViewScene:createListView6()
         {text = "horizontal listView",
         size = 24,
         color = display.COLOR_BLACK})
-        :align(display.CENTER, 640, 180)
+        :align(display.CENTER, 640, 260)
         :addTo(self)
     self.lvH = cc.ui.UIListView.new {
         bgColor = cc.c4b(200, 200, 200, 120),
         -- bg = "sunset.png",
-        viewRect = cc.rect(320, 80, 560, 80),
+        viewRect = cc.rect(360, 160, 560, 80),
         direction = cc.ui.UIScrollView.DIRECTION_HORIZONTAL,
         scrollbarImgH = "barH.png"}
         :onTouch(handler(self, self.touchListener))
@@ -185,12 +197,12 @@ function TestUIListViewScene:createListView7()
         {text = "grid in fact it's a listView",
         size = 24,
         color = display.COLOR_BLACK})
-        :align(display.CENTER, 680, 520)
+        :align(display.CENTER, 680, 560)
         :addTo(self)
     self.lvGrid = cc.ui.UIListView.new {
         -- bgColor = cc.c4b(200, 200, 200, 120),
         -- bg = "sunset.png",
-        viewRect = cc.rect(560, 240, 240, 240),
+        viewRect = cc.rect(560, 280, 240, 240),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL}
         :onTouch(handler(self, self.touchListener7))
         :addTo(self)
@@ -239,6 +251,7 @@ function TestUIListViewScene:touchListener7(event)
     end
 end
 
+--这是一个listview的异步加载方式
 function TestUIListViewScene:createListView8()
     cc.ui.UILabel.new(
         {text = "vertical listView",
@@ -250,24 +263,22 @@ function TestUIListViewScene:createListView8()
         -- bgColor = cc.c4b(200, 200, 200, 120),
         bg = "sunset.png",
         bgScale9 = true,
-        async = true,
-        viewRect = cc.rect(200, 200, 120, 400),
+        async = true, --异步加载
+        viewRect = cc.rect(200, 80, 120, 400),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
         scrollbarImgV = "bar.png"}
-        :onTouch(handler(self, self.touchListener))
+        :onTouch(handler(self, self.touchListener8))
         :addTo(self)
 
     self.lv:setDelegate(handler(self, self.sourceDelegate))
 
     self.lv:reload()
-
-    -- dumpUITree(self.lv.container)
 end
 
 function TestUIListViewScene:sourceDelegate(listView, tag, idx)
     -- print(string.format("TestUIListViewScene tag:%s, idx:%s", tostring(tag), tostring(idx)))
     if cc.ui.UIListView.COUNT_TAG == tag then
-        return 7
+        return 50
     elseif cc.ui.UIListView.CELL_TAG == tag then
         local item
         local content
@@ -292,22 +303,23 @@ function TestUIListViewScene:sourceDelegate(listView, tag, idx)
     end
 end
 
+function TestUIListViewScene:touchListener8(event)
+    local listView = event.listView
+    if "clicked" == event.name then
+        print("async list view clicked idx:" .. event.itemPos)
+    end
+end
+
 function TestUIListViewScene:createListView9()
-    cc.ui.UILabel.new(
-        {text = "horizontal listView",
-        size = 24,
-        color = display.COLOR_BLACK})
-        :align(display.CENTER, 400, 520)
-        :addTo(self)
     self.lv = cc.ui.UIListView.new {
         -- bgColor = cc.c4b(200, 200, 200, 120),
         bg = "sunset.png",
         bgScale9 = true,
         async = true,
-        viewRect = cc.rect(500, 300, 400, 80),
+        viewRect = cc.rect(360, 40, 400, 80),
         direction = cc.ui.UIScrollView.DIRECTION_HORIZONTAL,
         scrollbarImgV = "barH.png"}
-        :onTouch(handler(self, self.touchListener))
+        :onTouch(handler(self, self.touchListener8))
         :addTo(self)
 
     self.lv:setDelegate(handler(self, self.sourceDelegate))
