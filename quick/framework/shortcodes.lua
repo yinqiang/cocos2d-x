@@ -39,7 +39,7 @@ local Node = c.Node
 @param number zorder 要加入结点的Z值
 @param number tag 要加入结点的tag
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:add(child, zorder, tag)
@@ -55,7 +55,7 @@ end
 @param number zorder 当前结点的Z值
 @param number tag 当前结点的tag
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:addTo(target, zorder, tag)
@@ -67,7 +67,7 @@ end
 
 显示当前结点,让当前结点可显示
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:show()
@@ -79,7 +79,7 @@ end
 
 隐藏当前结点,让当前结点不可显示
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:hide()
@@ -94,7 +94,7 @@ end
 @param number x X值
 @param number y Y值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:pos(x, y)
@@ -106,7 +106,7 @@ end
 
 设置当前结点的锚点在它的中心
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:center()
@@ -120,7 +120,7 @@ end
 
 @param number scale 要缩放的值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:scale(scale)
@@ -134,7 +134,7 @@ end
 
 @param number r 旋转角度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:rotation(r)
@@ -149,7 +149,7 @@ end
 @param mixed width 宽度或cc.size表
 @param number height 高度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:size(width, height)
@@ -167,7 +167,7 @@ end
 
 @param number opacity 透明度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:opacity(opacity)
@@ -181,7 +181,7 @@ end
 
 @param number z z值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:zorder(z)
@@ -353,7 +353,7 @@ end
 
 停止结点的所有动作
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:stop()
@@ -367,7 +367,7 @@ end
 
 @param number time 渐显时间
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:fadeIn(time)
@@ -381,7 +381,7 @@ end
 
 @param number time 渐隐时间
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:fadeOut(time)
@@ -396,7 +396,7 @@ end
 @param number time 渐变时间
 @param number opacity 最终的透明度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:fadeTo(time, opacity)
@@ -412,7 +412,7 @@ end
 @param number x 要移动到的X点
 @param number y 要移动到的Y点
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:moveTo(time, x, y)
@@ -428,7 +428,7 @@ end
 @param number x 要移动的相对X值
 @param number y 要移动的相对Y值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:moveBy(time, x, y)
@@ -443,7 +443,7 @@ end
 @param number time 移动时间
 @param number rotation 旋转的角度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:rotateTo(time, rotation)
@@ -458,7 +458,7 @@ end
 @param number time 移动时间
 @param number rotation 旋转的相对角度
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:rotateBy(time, rotation)
@@ -473,7 +473,7 @@ end
 @param number time 移动时间
 @param number scale 缩放的值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:scaleTo(time, scale)
@@ -488,7 +488,7 @@ end
 @param number time 移动时间
 @param number scale 相对缩放的值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:scaleBy(time, scale)
@@ -504,7 +504,7 @@ end
 @param number sx 倾斜的X值
 @param number sy 倾斜的Y值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:skewTo(time, sx, sy)
@@ -520,7 +520,7 @@ end
 @param number sx 倾斜的相对X值
 @param number sy 倾斜的相对Y值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:skewBy(time, sx, sy)
@@ -537,7 +537,7 @@ end
 @param number g 染色的G值
 @param number b 染色的B值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:tintTo(time, r, g, b)
@@ -555,7 +555,7 @@ end
 @param number g 染色的相对G值
 @param number b 染色的相对B值
 
-@return node 当前结点
+@return Node 当前结点
 
 ]]
 function Node:tintBy(time, r, g, b)

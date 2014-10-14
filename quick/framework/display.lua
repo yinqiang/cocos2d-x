@@ -1615,7 +1615,7 @@ local sp = display.printscreen(node, {})
 @param node A node to print.
 @param args
 
-@return An instance of Sprite or FilteredSprite.
+@return FilteredSprite   An instance of Sprite or FilteredSprite.
 
 ]]
 function display.printscreen(node, args)

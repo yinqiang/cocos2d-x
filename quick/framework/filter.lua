@@ -46,7 +46,7 @@ GAUSSIAN_BLUR = {},
 @param string __filterName 滤镜名称
 @param table __param
 
-@return Filter的子类
+@return Filter   Filter的子类
 
 ]]
 function filter.newFilter(__filterName, __param)
@@ -86,7 +86,7 @@ end
 @param table __filterNames 滤镜名称数组
 @param table __params 对应参数数组
 
-@return Filter数组
+@return table  Filter数组
 
 ]]
 function filter.newFilters(__filterNames, __params)
