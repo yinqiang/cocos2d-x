@@ -439,8 +439,12 @@ function UIButton:updateButtonImage_()
                     end
                     self:addChild(self.sprite_[i], UIButton.IMAGE_ZORDER)
                     if self.sprite_[i].setFlippedX then
-                        self.sprite_[i]:setFlippedX(self.flipX_ or false)
-                        self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                        if self.flipX_ then
+                            self.sprite_[i]:setFlippedX(self.flipX_ or false)
+                        end
+                        if self.flipY_ then
+                            self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                        end
                     end
                 end
             else
@@ -456,8 +460,12 @@ function UIButton:updateButtonImage_()
                     self.sprite_[1] = display.newSprite(image)
                 end
                 if self.sprite_[1].setFlippedX then
-                    self.sprite_[1]:setFlippedX(self.flipX_ or false)
-                    self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                    if self.flipX_ then
+                        self.sprite_[1]:setFlippedX(self.flipX_ or false)
+                    end
+                    if self.flipY_ then
+                        self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                    end
                 end
                 self:addChild(self.sprite_[1], UIButton.IMAGE_ZORDER)
             end

@@ -86,6 +86,12 @@ function CCSUILoader:generateUINode(jsonNode, transX, transY, parent)
 
 	uiNode.name = options.name or "unknow node"
 
+	--for seek
+	uiNode.subChildren = {}
+	if parent then
+		parent.subChildren[uiNode.name] = uiNode
+	end
+
 	-- print("CCSUILoader set node params:" .. uiNode.name)
 
 	if options.fileName then

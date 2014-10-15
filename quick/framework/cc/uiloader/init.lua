@@ -172,6 +172,46 @@ end
 --[[--
 
 按name查找布局中的结点
+与seekNodeByName不同之处在于它是通过node的下子结点表来查询,效率更快
+
+@param node parent 要查找布局的结点
+@param string name 要查找的name
+
+@return node
+
+]]
+function uiloader:seekNodeByNameFast(parent, name)
+	if not parent then
+		return
+	end
+
+	if not parent.subChildren then
+		return
+	end
+
+	if name == parent.name then
+		return parent
+	end
+
+	local findNode = parent.subChildren[name]
+	if findNode then
+		-- find
+		return findNode
+	end
+
+	for i,v in ipairs(parent.subChildren) do
+		findNode = self:seekNodeByName(v, name)
+		if findNode then
+			return findNode
+		end
+	end
+
+	return
+end
+
+--[[--
+
+按name查找布局中的结点
 
 @param node parent 要查找布局的结点
 @param string path 要查找的path
