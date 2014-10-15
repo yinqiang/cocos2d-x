@@ -251,8 +251,6 @@ function UIListView:scrollListener(event)
 		self:notifyListener_{name = "clicked",
 			listView = self, itemPos = idx, item = self.items_[pos],
 			point = nodePoint}
-
-		self.bTest2 = true
 	else
 		event.scrollView = nil
 		event.listView = self
@@ -279,7 +277,7 @@ function UIListView:addItem(listItem, pos)
 	else
 		table.insert(self.items_, listItem)
 	end
-	self.container:addChild(listItem, 100)
+	self.container:addChild(listItem)
 
 	return self
 end
