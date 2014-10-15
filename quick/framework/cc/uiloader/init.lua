@@ -211,7 +211,7 @@ end
 
 --[[--
 
-按name查找布局中的结点
+根据路径来查找布局中的结点
 
 @param node parent 要查找布局的结点
 @param string path 要查找的path
@@ -227,7 +227,7 @@ function uiloader:seekNodeByPath(parent, path)
 	local names = string.split(path, '/')
 
 	for i,v in ipairs(names) do
-		parent = self:seekNodeByName(parent, v)
+		parent = self:seekNodeByNameFast(parent, v)
 		if not parent then
 			return
 		end
