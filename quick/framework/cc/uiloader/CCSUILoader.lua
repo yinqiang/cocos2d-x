@@ -498,6 +498,7 @@ function CCSUILoader:createLoadingBar(options)
 
 	local node = cc.ui.UILoadingBar.new(params)
 
+	node:setDirction(options.direction)
 	node:setPositionX(options.x or 0)
 	node:setPositionY(options.y or 0)
 	node:setContentSize(options.width, options.height)
