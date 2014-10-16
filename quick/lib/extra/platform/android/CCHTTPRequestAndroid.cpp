@@ -315,7 +315,27 @@ void HTTPRequest::checkCURLState(float dt)
 
 void HTTPRequest::update(float dt)
 {
-    if (m_state == kCCHTTPRequestStateInProgress) { return; }
+    if (m_state == kCCHTTPRequestStateInProgress)
+    {
+#if CC_LUA_ENGINE_ENABLED > 0
+        if (m_listener)
+        {
+            LuaValueDict dict;
+
+            dict["name"] = LuaValue::stringValue("progress");
+            dict["total"] = LuaValue::intValue(m_ultotal);
+            dict["dltotal"] = LuaValue::intValue(m_dltotal);
+            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
+
+            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
+            stack->clean();
+            stack->pushLuaValueDict(dict);
+            stack->executeFunctionByHandler(m_listener, 1);
+        }
+#endif
+        return;
+    }
+
     Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
     if (m_curlState != kCCHTTPRequestCURLStateIdle)
     {
@@ -374,9 +394,11 @@ void HTTPRequest::onRequest(void)
     if (0 == nSuc) {
         if (m_postFields.size() > 0)
         {
+            bool bNeedConnectSym = false;
             for (Fields::iterator it = m_postFields.begin(); it != m_postFields.end(); ++it)
             {
-                postContentJava(it->first.c_str(), it->second.c_str());
+                postContentJava(it->first.c_str(), it->second.c_str(), bNeedConnectSym);
+                bNeedConnectSym = true;
             }
         }
 
@@ -488,26 +510,10 @@ size_t HTTPRequest::onWriteHeader(void *buffer, size_t bytes)
 
 int HTTPRequest::onProgress(double dltotal, double dlnow, double ultotal, double ulnow)
 {
-#if CC_LUA_ENGINE_ENABLED > 0
-    if (m_listener)
-    {
-        if (m_state == kCCHTTPRequestStateInProgress) {
-            LuaValueDict dict;
-
-            dict["name"] = LuaValue::stringValue("progress");
-            dict["total"] = LuaValue::intValue(ultotal);
-            dict["dltotal"] = LuaValue::intValue(dltotal);
-            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
-
-            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
-            stack->clean();
-            stack->pushLuaValueDict(dict);
-            stack->executeFunctionByHandler(m_listener, 1);
-        } else {
-            CCLOG("HTTPRequest - onProgress state wrong:%d", m_state);
-        }
-    }
-#endif
+    m_dltotal = dltotal;
+    m_dlnow = dlnow;
+    m_ultotal = ultotal;
+    m_ulnow = ulnow;
 
     return m_state == kCCHTTPRequestStateCancelled ? 1: 0;
 }
@@ -648,17 +654,17 @@ int HTTPRequest::connectJava() {
     return nSuc;
 }
 
-void HTTPRequest::postContentJava(const char* key, const char* value) {
+void HTTPRequest::postContentJava(const char* key, const char* value, bool bConnectSym) {
     JniMethodInfo methodInfo;
     if (JniHelper::getStaticMethodInfo(methodInfo,
         "org/cocos2dx/lib/QuickHTTPInterface",
         "postContent",
-        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;)V"))
+        "(Ljava/net/HttpURLConnection;Ljava/lang/String;Ljava/lang/String;Z)V"))
     {
         jstring jstrKey = methodInfo.env->NewStringUTF(key);
         jstring jstrVal = methodInfo.env->NewStringUTF(value);
         methodInfo.env->CallStaticVoidMethod(
-            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal);
+            methodInfo.classID, methodInfo.methodID, m_httpConnect, jstrKey, jstrVal, bConnectSym);
         methodInfo.env->DeleteLocalRef(jstrKey);
         methodInfo.env->DeleteLocalRef(jstrVal);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);

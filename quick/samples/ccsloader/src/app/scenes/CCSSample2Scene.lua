@@ -12,13 +12,14 @@ function CCSSample2Scene:ctor()
 
 	-- register function on node
 	-- path为传入除要结点node名字外的路径
-	local loginNode = cc.uiloader:seekNodeByPath(self, "Panel/login_Button")
+	local ccsNode = self:getChildByTag(101)
+	local loginNode = cc.uiloader:seekNodeByPath(ccsNode, "Panel/login_Button")
 	loginNode:onButtonClicked(function(event)
 		print("CCSSample2Scene login button clicked")
 		-- dump(event, "login button:")
 	end)
 
-	local editBox = cc.uiloader:seekNodeByName(self, "name_TextField")
+	local editBox = cc.uiloader:seekNodeByNameFast(ccsNode, "name_TextField")
 	editBox:addEventListener(function(editbox, eventType)
 		print("CCSSample2Scene editbox input")
 	end)

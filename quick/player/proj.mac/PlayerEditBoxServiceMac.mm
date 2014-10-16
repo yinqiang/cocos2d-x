@@ -5,6 +5,8 @@
 #include "CCLuaEngine.h"
 #include "glfw3native.h"
 
+#import "NumberFormater.h"
+
 // internal
 
 @implementation EditBoxServiceImplMac
@@ -135,7 +137,6 @@
 {
 }
 
-
 - (BOOL) control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
 {
     if( commandSelector == @selector(insertTab:) ){
@@ -231,6 +232,19 @@ void PlayerEditBoxServiceMac::show()
 {
     [_sysEdit.textField setHidden:NO];
     [_sysEdit openKeyboard];
+}
+
+void PlayerEditBoxServiceMac::setFormator(int formator)
+{
+    if (formator == FORMAT_NUMBER)
+    {
+        [_sysEdit.textField setFormatter:[NumberFormater formater]];
+    }
+    else
+    {
+        [_sysEdit.textField setFormatter:nil];
+    }
+
 }
 
 PLAYER_NS_END;

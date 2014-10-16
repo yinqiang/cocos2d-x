@@ -90,4 +90,9 @@ void PlayerEditBoxServiceWin::removeFont()
     _hfont = NULL;
 }
 
+void PlayerEditBoxServiceWin::setFormator(int /*formator*/ )
+{
+
+}
+
 PLAYER_NS_END

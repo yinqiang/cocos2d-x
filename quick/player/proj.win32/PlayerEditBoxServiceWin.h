@@ -21,6 +21,7 @@ public:
     virtual void setFont(const std::string &name, int size);
     virtual void setFontColor(const cocos2d::Color3B &color);
 
+    virtual void setFormator(int formator);
 protected:
     HWND _hwnd;
     HWND _hwndSingle;

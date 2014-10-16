@@ -107,6 +107,7 @@ copy $(OutDir)*.exe $(OutDir)..\bin\
     <ClInclude Include="..\src\PlayerEditBoxServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerFileDialogServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerLuaCore.h" />
+    <ClInclude Include="..\src\PlayerLuaCoreManual.hpp" />
     <ClInclude Include="..\src\PlayerMacros.h" />
     <ClInclude Include="..\src\PlayerMenuServiceProtocol.h" />
     <ClInclude Include="..\src\PlayerMessageBoxServiceProtocol.h" />
@@ -128,6 +129,7 @@ copy $(OutDir)*.exe $(OutDir)..\bin\
   <ItemGroup>
     <ClCompile Include="..\src\AppDelegate.cpp" />
     <ClCompile Include="..\src\PlayerLuaCore.cpp" />
+    <ClCompile Include="..\src\PlayerLuaCoreManual.cpp" />
     <ClCompile Include="..\src\PlayerMenuServiceProtocol.cpp" />
     <ClCompile Include="..\src\PlayerProtocol.cpp" />
     <ClCompile Include="..\src\PlayerServiceProtocol.cpp" />

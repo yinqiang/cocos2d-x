@@ -69,6 +69,7 @@ function MyApp:loadCCSJsonFile(scene, jsonFile)
     height = height or display.height
     if node then
         node:setPosition((display.width - width)/2, (display.height - height)/2)
+        node:setTag(101)
         scene:addChild(node)
     end
 end

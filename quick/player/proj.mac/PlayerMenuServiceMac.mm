@@ -146,10 +146,14 @@ void PlayerMenuItemMac::setTitle(const std::string &title)
     {
         _menu.title = _menuItem.title;
     }
+    
+    _title = title;
 }
 
 void PlayerMenuItemMac::setEnabled(bool enabled)
 {
+    _isEnabled = enabled;
+    
     if (enabled)
     {
         [_menuItem setAction:@selector(onClicked:)];
@@ -162,11 +166,13 @@ void PlayerMenuItemMac::setEnabled(bool enabled)
 
 void PlayerMenuItemMac::setChecked(bool checked)
 {
+    _isChecked = checked;
     [_menuItem setState:checked ? NSOnState : NSOffState];
 }
 
 void PlayerMenuItemMac::setShortcut(const std::string &shortcut)
 {
+    _shortcut = shortcut;
     [_menuItem setShortcut:shortcut];
 }
 
@@ -221,6 +227,7 @@ PlayerMenuItem* PlayerMenuServiceMac::addItem(const std::string &menuId, const s
         NSMenu *nsmenu = [[NSMenu alloc] initWithTitle:[parent->_menuItem title]];
         [parent->_parent->_menu setSubmenu:nsmenu forItem:parent->_menuItem];
         parent->_menu = nsmenu;
+        parent->_isGroup = true;
     }
 
 

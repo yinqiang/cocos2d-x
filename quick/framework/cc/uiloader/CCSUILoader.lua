@@ -86,6 +86,12 @@ function CCSUILoader:generateUINode(jsonNode, transX, transY, parent)
 
 	uiNode.name = options.name or "unknow node"
 
+	--for seek
+	uiNode.subChildren = {}
+	if parent then
+		parent.subChildren[uiNode.name] = uiNode
+	end
+
 	-- print("CCSUILoader set node params:" .. uiNode.name)
 
 	if options.fileName then
@@ -344,7 +350,7 @@ function CCSUILoader:transResName(fileData)
 	if 1 == fileData.resourceType then
 		return "#" .. name
 	else
-		return name
+		return UILoaderUtilitys.getFileFullName(name)
 	end
 
 	-- -- local pathInfo = io.pathinfo(path)
@@ -457,7 +463,7 @@ end
 
 function CCSUILoader:createButton(options)
 	local node = cc.ui.UIPushButton.new(self:getButtonStateImages(options),
-		{scale9 = not options.ignoreSize,
+		{scale9 = options.scale9Enable,
 		flipX = options.flipX,
 		flipY = options.flipY})
 
@@ -492,6 +498,7 @@ function CCSUILoader:createLoadingBar(options)
 
 	local node = cc.ui.UILoadingBar.new(params)
 
+	node:setDirction(options.direction)
 	node:setPositionX(options.x or 0)
 	node:setPositionY(options.y or 0)
 	node:setContentSize(options.width, options.height)
@@ -504,8 +511,11 @@ end
 function CCSUILoader:createSlider(options)
 	local node = cc.ui.UISlider.new(display.LEFT_TO_RIGHT,
 		{bar = self:transResName(options.barFileNameData),
-		button = self:transResName(options.ballNormalData)},
-		{scale9 = not options.ignoreSize})
+		barfg = self:transResName(options.progressBarData),
+		button = self:transResName(options.ballNormalData),
+		button_pressed = self:transResName(options.ballPressedData),
+		button_disabled = self:transResName(options.ballDisabledData),},
+		{scale9 = options.scale9Enable})
 
 	if not options.ignoreSize then
 		node:setSliderSize(options.width, options.height)

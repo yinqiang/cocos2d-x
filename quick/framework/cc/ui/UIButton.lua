@@ -273,10 +273,20 @@ end
 
 ]]
 function UIButton:setButtonSize(width, height)
-    assert(self.scale9_, "UIButton:setButtonSize() - can't change size for non-scale9 button")
+    -- assert(self.scale9_, "UIButton:setButtonSize() - can't change size for non-scale9 button")
     self.scale9Size_ = {width, height}
     for i,v in ipairs(self.sprite_) do
-        v:setContentSize(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+        if self.scale9_ then
+            v:setContentSize(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+        else
+            local size = v:getContentSize()
+            local scaleX = v:getScaleX()
+            local scaleY = v:getScaleY()
+            scaleX = scaleX * self.scale9Size_[1]/size.width
+            scaleY = scaleY * self.scale9Size_[2]/size.height
+            v:setScaleX(scaleX)
+            v:setScaleY(scaleY)
+        end
     end
     return self
 end
@@ -429,8 +439,12 @@ function UIButton:updateButtonImage_()
                     end
                     self:addChild(self.sprite_[i], UIButton.IMAGE_ZORDER)
                     if self.sprite_[i].setFlippedX then
-                        self.sprite_[i]:setFlippedX(self.flipX_ or false)
-                        self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                        if self.flipX_ then
+                            self.sprite_[i]:setFlippedX(self.flipX_ or false)
+                        end
+                        if self.flipY_ then
+                            self.sprite_[i]:setFlippedY(self.flipY_ or false)
+                        end
                     end
                 end
             else
@@ -446,8 +460,12 @@ function UIButton:updateButtonImage_()
                     self.sprite_[1] = display.newSprite(image)
                 end
                 if self.sprite_[1].setFlippedX then
-                    self.sprite_[1]:setFlippedX(self.flipX_ or false)
-                    self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                    if self.flipX_ then
+                        self.sprite_[1]:setFlippedX(self.flipX_ or false)
+                    end
+                    if self.flipY_ then
+                        self.sprite_[1]:setFlippedY(self.flipY_ or false)
+                    end
                 end
                 self:addChild(self.sprite_[1], UIButton.IMAGE_ZORDER)
             end

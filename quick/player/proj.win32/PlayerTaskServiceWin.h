@@ -40,7 +40,6 @@ protected:
     static const size_t BUFF_SIZE = 4096;
     CHAR *_outputBuff;
     WCHAR *_outputBuffWide;
-    std::string _outputStream;
 };
 
 class PlayerTaskServiceWin : public PlayerTaskServiceProtocol

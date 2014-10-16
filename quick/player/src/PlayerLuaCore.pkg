@@ -49,8 +49,6 @@ class ProjectConfig
     void addPackagePath(const string &packagePath);
     vector<string> getPackagePathArray() const;
 
-    cocos2d::Size getFrameSize() const;
-    void setFrameSize(cocos2d::Size frameSize);
     bool isLandscapeFrame() const;
     bool isPortraitFrame() const;
     void changeFrameOrientation();
@@ -216,12 +214,11 @@ class PlayerTaskServiceProtocol : public PlayerServiceProtocol
 
 class PlayerEditBoxServiceProtocol : public PlayerServiceProtocol
 {
-    void showSingleLineEditBox(const cocos2d::Rect &rect);
-    void showMultiLineEditBox(const cocos2d::Rect &rect);
     void hide();
 
     void setText(const std::string &text);
     void setFont(const std::string &name, int size);
-    void setFontColor(const cocos2d::Color3B &color);
+    //void setFontColor(const cocos2d::Color3B &color);
+    void setFormator(int formator);
     void registerHandler(LUA_FUNCTION handler);
 }

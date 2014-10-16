@@ -76,7 +76,15 @@ function UILoaderUtilitys.clearPath(fileUtil)
 		table.remove(UILoaderUtilitys.searchDirs, i)
 	end
 
+	paths = table.unique(paths)
+
 	fileUtil:setSearchPaths(paths)
+end
+
+function UILoaderUtilitys.getFileFullName(filename)
+	local fileUtil = fileUtil or cc.FileUtils:getInstance()
+
+	return fileUtil:fullPathForFilename(filename)
 end
 
 return UILoaderUtilitys

@@ -2,10 +2,10 @@
 #ifndef __PLAYER_MessageBoxServiceMac_h
 #define __PLAYER_MessageBoxServiceMac_h
 
+#include <vector>
+
 #include "PlayerMacros.h"
 #include "PlayerMessageBoxServiceProtocol.h"
-#include <vector>
-#include <string>
 
 PLAYER_NS_BEGIN
 
@@ -15,10 +15,13 @@ public:
     virtual int showMessageBox(const std::string &title,
                                const std::string &message,
                                int buttonsType = BUTTONS_OK);
-    
-private:
-    std::vector<std::string> getTitles(int buttons);
-    
+protected:
+    struct MessageBoxInfo
+    {
+        std::string title;
+        const int   buttonId;
+    };
+    std::vector<MessageBoxInfo> getTitles(int buttons);
 };
 
 PLAYER_NS_END

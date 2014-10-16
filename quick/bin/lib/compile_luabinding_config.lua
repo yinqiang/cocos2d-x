@@ -254,6 +254,9 @@ local CCObjectTypes = {
     "Waves",
     "Waves3D",
     "WavesTiles3D",
+    "HTTPRequest",
+    "PlayerMenuItem",
+    "PlayerTask",
 }
 
 function string.split(str, delimiter)
