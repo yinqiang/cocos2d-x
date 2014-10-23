@@ -60,6 +60,7 @@
 #include "base/CCConfiguration.h"
 #include "2d/CCScene.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCCommon.h"
 #include "renderer/CCTextureCache.h"
 #include "CCGLView.h"
 #include "base/base64.h"
@@ -1017,6 +1018,9 @@ void Console::log(const char* buf)
         _DebugStrings.push_back(buf);
         _DebugStringsMutex.unlock();
     }
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+    SendLogToWindow(buf);
+#endif
 }
 
 //

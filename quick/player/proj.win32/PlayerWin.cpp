@@ -267,7 +267,7 @@ int PlayerWin::run()
     }
 
     // set framework path
-    if (!_project.isLoadPrecompiledFramework())
+    if (_project.isLoadPrecompiledFramework())
     {
         FileUtils::getInstance()->addSearchPath(SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/");
     }
@@ -296,6 +296,16 @@ int PlayerWin::run()
 
             HMENU hmenu = GetSystemMenu(_hwndConsole, FALSE);
             if (hmenu != NULL) DeleteMenu(hmenu, SC_CLOSE, MF_BYCOMMAND);
+        }
+    }
+
+    if (_project.isWriteDebugLogToFile())
+    {
+        const string debugLogFilePath = _project.getDebugLogFilePath();
+        _writeDebugLogFile = fopen(debugLogFilePath.c_str(), "w");
+        if (!_writeDebugLogFile)
+        {
+            CCLOG("Cannot create debug log file %s", debugLogFilePath.c_str());
         }
     }
 
@@ -350,6 +360,11 @@ int PlayerWin::run()
     const bool isResize = _project.isResizeWindow();
     auto glview = GLView::createWithRect("quick-cocos2d-x", frameRect, frameScale, isResize, false, true);
     _hwnd = glfwGetWin32Window(glview->getWindow());
+
+    // set hwnd into application for write debug log
+    _app->setHWND(_hwnd);
+    glfwSetWin32WindowProc(&PlayerWin::windowProc);
+
     SendMessage(_hwnd, WM_SETICON, ICON_BIG, (LPARAM)icon);
     SendMessage(_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)icon);
     FreeResource(icon);
@@ -383,8 +398,6 @@ int PlayerWin::run()
 
     // prepare
     _project.dump();
-    auto app = Application::getInstance();
-    glfwSetWin32WindowProc(&PlayerWin::windowProc);
 
     HWND hwnd = _hwnd;
     HWND hwndConsole = _hwndConsole;
@@ -406,7 +419,7 @@ int PlayerWin::run()
     ShowWindow(_hwnd, SW_MINIMIZE);
 
     // startup message loop
-    return app->run();
+    return _app->run();
 }
 
 // services
@@ -462,7 +475,10 @@ void PlayerWin::setZoom(float frameScale)
 // debug log
 void PlayerWin::writeDebugLog(const char *log)
 {
+    if (!_writeDebugLogFile) return;
 
+    fputs(log, _writeDebugLogFile);
+    fflush(_writeDebugLogFile);
 }
 
 
@@ -641,6 +657,16 @@ LRESULT CALLBACK PlayerWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
             PlayerProtocol::getInstance()->relaunch();
         }
         break;
+    }
+    case WM_COPYDATA:
+    {
+        PCOPYDATASTRUCT pMyCDS = (PCOPYDATASTRUCT)lParam;
+        if (pMyCDS->dwData == CCLOG_STRING)
+        {
+            const char *szBuf = (const char*)(pMyCDS->lpData);
+            _instance->writeDebugLog(szBuf);
+            break;
+        }
     }
     }
     return 0;

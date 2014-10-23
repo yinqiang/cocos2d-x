@@ -30,6 +30,8 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+#define CCLOG_STRING 1
+
 /**
  * @addtogroup platform
  * @{
@@ -39,6 +41,8 @@ NS_CC_BEGIN
 @brief Pop out a message box
 */
 void CC_DLL MessageBox(const char * msg, const char * title);
+
+void SendLogToWindow(const char *log);
 
 /**
 @brief Enum the language type supported now
