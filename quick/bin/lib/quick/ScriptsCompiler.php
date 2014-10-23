@@ -8,6 +8,7 @@ class ScriptsCompiler
     const COMPILE_ZIP = 'zip';
     const COMPILE_FILES = 'files';
     const COMPILE_C = 'c';
+    const COMPILE_CSRC = 'csrc';
     const ENCRYPT_XXTEA_ZIP = 'xxtea_zip';
     const ENCRYPT_XXTEA_CHUNK = 'xxtea_chunk';
     const ENCRYPT_XXTEA_DEFAULT_SIGN = 'XXTEA';
@@ -62,7 +63,8 @@ class ScriptsCompiler
 
         if ($this->config['compile'] != self::COMPILE_ZIP
             && $this->config['compile'] != self::COMPILE_FILES
-            && $this->config['compile'] != self::COMPILE_C)
+            && $this->config['compile'] != self::COMPILE_C
+            && $this->config['compile'] != self::COMPILE_CSRC)
         {
             printf("ERR: invalid compile mode %s\n", $this->config['compile']);
             return false;
@@ -258,7 +260,14 @@ class ScriptsCompiler
         $modulesBytes = array();
         foreach ($modules as $path => $module)
         {
-            $bytes = getScriptFileBytecodes($path, $module['tempFilePath'], $this->config['luac']);
+            if ($this->config['compile'] == self::COMPILE_CSRC)
+            {
+                $bytes = file_get_contents($path, false);
+            }
+            else
+            {
+                $bytes = getScriptFileBytecodes($path, $module['tempFilePath'], $this->config['luac']);
+            }
             if ($xxtea)
             {
                 $bytes = $sign . $xxtea->encrypt($bytes);
@@ -459,6 +468,159 @@ EOT;
         return true;
     }
 
+    protected function createOutputCSrc(array $modules, array $bytes)
+    {
+        // create C source file
+        $cfile = $this->config['output'];
+        if (!$this->config['quiet'])
+        {
+            printf("create C source file: %s\n", $cfile);
+        }
+
+        $path = $this->config['output'];
+        $pi = pathinfo($path);
+        $hfile = $pi['dirname'] . DS . $pi['filename'] . '.h';
+        $outputSourceBasename = $pi['filename'];
+        $outputHeaderFilename = $outputSourceBasename . '.h';
+        $outputSourceFilename = $pi['basename'];
+
+        // create source file
+        $contents = array();
+        $contents[] = <<<EOT
+
+/* ${outputSourceFilename} */
+
+#if __cplusplus
+extern "C" {
+#endif
+
+#include "lua.h"
+#include "lauxlib.h"
+#include "${outputHeaderFilename}"
+
+EOT;
+
+        foreach ($modules as $path => $module)
+        {
+            $contents[] = sprintf('/* %s */', $module['moduleName']);
+            $contents[] = sprintf('static const char %s[] = {', $module['bytesName']);
+            $contents[] = $this->encodeBytesToString($bytes[$path] . "\0");
+            $contents[] = '};';
+            $contents[] = '';
+        }
+
+        $contents[] = '';
+
+        foreach ($modules as $module)
+        {
+            $functionName = 'luaopen_' . $module['bytesName'];
+            $bytesName = $module['bytesName'];
+            $moduleName = $module['moduleName'];
+
+            $contents[] = <<<EOT
+
+int ${functionName}(lua_State *L) {
+    luaL_loadstring(L, ${bytesName});
+    return 1;
+}
+
+EOT;
+        }
+
+        $contents[] = '';
+        $contents[] = "static luaL_Reg ${outputSourceBasename}_modules[] = {";
+
+        foreach ($modules as $module)
+        {
+            $contents[] = sprintf('    {"%s", %s},', $module["moduleName"], 'luaopen_' . $module['bytesName']);
+        }
+
+        $contents[] = <<<EOT
+    {NULL, NULL}
+};
+
+void luaopen_${outputSourceBasename}(lua_State* L)
+{
+    luaL_Reg* lib = ${outputSourceBasename}_modules;
+    lua_getglobal(L, "package");
+    lua_getfield(L, -1, "preload");
+    for (; lib->func; lib++)
+    {
+        lib->func(L);
+        lua_setfield(L, -2, lib->name);
+    }
+    lua_pop(L, 2);
+}
+
+#if __cplusplus
+}
+#endif
+
+EOT;
+
+        if (!file_put_contents($cfile, implode("\n", $contents)))
+        {
+            return false;
+        }
+
+
+        // create header file
+        if (!$this->config['quiet'])
+        {
+            printf("create C header file: %s\n", $hfile);
+        }
+
+        $headerSign = '__LUA_MODULES_' . strtoupper(md5($outputSourceBasename . time())) . '_H_';
+        $outputHeaderFilename = basename($outputHeaderFilename);
+
+        $contents = array();
+        $contents[] = <<<EOT
+
+/* ${outputHeaderFilename}.h */
+
+#ifndef ${headerSign}
+#define ${headerSign}
+
+#if __cplusplus
+extern "C" {
+#endif
+
+#include "lua.h"
+
+void luaopen_${outputSourceBasename}(lua_State* L);
+
+EOT;
+
+        $contents[] = '/*';
+        foreach ($modules as $module)
+        {
+            $contents[] = sprintf('int %s(lua_State* L);', 'luaopen_' . $module['bytesName']);
+        }
+        $contents[] = '*/';
+
+        $contents[] = <<<EOT
+
+#if __cplusplus
+}
+#endif
+
+#endif /* ${headerSign} */
+
+EOT;
+
+        if (!file_put_contents($hfile, implode("\n", $contents)))
+        {
+            return false;
+        }
+
+
+        if (!$this->config['quiet'])
+        {
+            printf("done.\n\n");
+        }
+        return true;
+    }
+
     protected function createOutputFiles(array $modules, array $bytes)
     {
         foreach ($modules as $module)
@@ -482,6 +644,10 @@ EOT;
         else if ($this->config['compile'] == self::COMPILE_C)
         {
             return $this->createOutputC($modules, $bytes);
+        }
+        else if ($this->config['compile'] == self::COMPILE_CSRC)
+        {
+            return $this->createOutputCSrc($modules, $bytes);
         }
         else if ($this->config['compile'] == self::COMPILE_FILES)
         {
@@ -517,6 +683,20 @@ EOT;
         }
 
         return implode("\n", $contents);
+    }
+
+    private function encodeSourceToString($source)
+    {
+        $source = str_replace("\r", '', $source);
+        $source = explode("\n", $source);
+        $count = count($source);
+        for ($i = 0; $i < $count; $i++)
+        {
+            $line = $source[$i];
+            $line = str_replace('\\', '\\\\', $line);
+            $source[$i] = '"' . str_replace('"', '\\"', $line) . '\\n"';
+        }
+        return implode("\n", $source) . ";";
     }
 
     private function encodeBytesToStringBlock($buffer)
