@@ -94,12 +94,16 @@ public:
         return _startupScriptFilename;
     }
 
+	inline void setHWND(HWND hwnd) { _hwnd = hwnd; }
+	inline HWND getHWND() { return _hwnd; }
+
 protected:
     HINSTANCE           _instance;
     HACCEL              _accelTable;
     LARGE_INTEGER       _animationInterval;
     std::string         _resourceRootPath;
     std::string         _startupScriptFilename;
+	HWND                _hwnd;
 
     static Application * sm_pSharedApplication;
 };
