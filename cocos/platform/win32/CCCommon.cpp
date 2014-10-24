@@ -44,15 +44,15 @@ void MessageBox(const char * pszMsg, const char * pszTitle)
 void SendLogToWindow(const char *log)
 {
 	// Send data as a message
-	COPYDATATSTRUT myCDS;
-	myCDS.dwData = CCLOG_STRING;
-	myCDS.cbData = (DWORD)strlen(log) + 1;
-	myCDS.lpData = (PVOID)log;
-	HWND hwnd = Application::getInstance()->getHWND();
-	SendMessage(hwnd,
-		WM_COPYDATA,
-		(WPARAM)(HWND)hwnd,
-		(LPARAM)(LPVOID)&myCDS);
+    COPYDATASTRUCT myCDS;
+    myCDS.dwData = CCLOG_STRING;
+    myCDS.cbData = (DWORD)strlen(log) + 1;
+    myCDS.lpData = (PVOID)log;
+    HWND hwnd = Application::getInstance()->getHWND();
+    SendMessage(hwnd,
+        WM_COPYDATA,
+        (WPARAM)(HWND)hwnd,
+        (LPARAM)(LPVOID)&myCDS);
 }
 
 NS_CC_END
