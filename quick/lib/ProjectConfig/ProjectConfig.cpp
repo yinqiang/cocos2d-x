@@ -24,7 +24,7 @@ ProjectConfig::ProjectConfig()
     , _frameSize(960, 640)
     , _frameScale(1.0f)
     , _showConsole(true)
-    , _loadPrecompiledFramework(false)
+    , _loadPrecompiledFramework(true)
     , _writeDebugLogToFile(true)
     , _windowOffset(0, 0)
     , _debuggerType(kCCLuaDebuggerNone)
@@ -52,7 +52,7 @@ void ProjectConfig::resetToWelcome()
     setScriptFile("$(PROJDIR)/src/main.lua");
     setFrameSize(cocos2d::Size(960, 640));
     setFrameScale(1.0f);
-    setLoadPrecompiledFramework(false);
+    setLoadPrecompiledFramework(true);
     setPackagePath("");
     setShowConsole(false);
     setWindowOffset(cocos2d::Vec2::ZERO);
@@ -73,7 +73,7 @@ void ProjectConfig::resetToCreator()
     setScriptFile("$(PROJDIR)/src/main.lua");
     setFrameSize(cocos2d::Size(960, 640));
     setFrameScale(1.0f);
-    setLoadPrecompiledFramework(false);
+    setLoadPrecompiledFramework(true);
     setPackagePath("");
     setShowConsole(false);
     setWindowOffset(cocos2d::Vec2::ZERO);

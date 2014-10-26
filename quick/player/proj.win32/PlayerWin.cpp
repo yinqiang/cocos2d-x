@@ -267,7 +267,7 @@ int PlayerWin::run()
     }
 
     // set framework path
-    if (!_project.isLoadPrecompiledFramework())
+    if (_project.isLoadPrecompiledFramework())
     {
         FileUtils::getInstance()->addSearchPath(SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/");
     }

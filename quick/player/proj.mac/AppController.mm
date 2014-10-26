@@ -354,7 +354,7 @@ std::string getCurAppPath(void)
     }
     
     // set framework path
-    if (!_project.isLoadPrecompiledFramework())
+    if (_project.isLoadPrecompiledFramework())
     {
         FileUtils::getInstance()->addSearchPath(SimulatorConfig::getInstance()->getQuickCocos2dxRootPath() + "quick/");
     }
